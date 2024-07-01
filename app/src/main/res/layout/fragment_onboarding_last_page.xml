@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true"
+    tools:context=".onboarding.LastPageFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_thanx"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:src="@mipmap/iv_thanx" />
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_thanx"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-50dp"
+            android:text="@string/aliv_app_requirement"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_24sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginTop="@dimen/twenty_five"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_marginRight="@dimen/ten_dp">
+
+                <LinearLayout
+                    android:id="@+id/linCentral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/ten"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgBT"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="@dimen/_12dp"
+                            android:src="@mipmap/iv_bluetooth" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/imgBT"
+                            android:text="@string/bluetooth"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/eighteen_sp" />
+
+                        <TextView
+                            android:id="@+id/tvBluetoothState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:drawableLeft="@drawable/onboarding_state_green"
+                            android:drawablePadding="@dimen/_12dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/eighteen_sp"
+                            android:visibility="gone" />
+
+                        <ToggleButton
+                            android:id="@+id/ble_switch"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/switch_bg_state"
+                            android:checked="true"
+                            android:clickable="false"
+                            android:textOff=" "
+                            android:textOn=" " />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgGPS"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="@dimen/_12dp"
+                            android:src="@mipmap/iv_gps" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/imgGPS"
+                            android:text="@string/gps_location"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/twenty_sp" />
+
+                        <TextView
+                            android:id="@+id/tvGPSState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:drawableLeft="@drawable/onboarding_state_green"
+                            android:drawablePadding="@dimen/_12dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/eighteen_sp"
+                            android:visibility="gone" />
+
+                        <ToggleButton
+                            android:id="@+id/gps_switch"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/switch_bg_state"
+                            android:checked="true"
+                            android:clickable="false"
+                            android:textOff=" "
+                            android:textOn=" " />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imgBGMode"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginRight="@dimen/_12dp"
+                            android:src="@mipmap/iv_bg_mode" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/imgBGMode"
+                            android:text="@string/bg_mode"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/eighteen_sp" />
+
+                        <TextView
+                            android:id="@+id/tvBGModeState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:drawableLeft="@drawable/onboarding_state_green"
+                            android:drawablePadding="@dimen/_12dp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/eighteen_sp"
+                            android:visibility="gone" />
+
+                        <ToggleButton
+                            android:id="@+id/bg_switch"
+                            android:layout_width="50dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/switch_bg_state"
+                            android:checked="true"
+                            android:clickable="false"
+                            android:textOff=" "
+                            android:textOn=" " />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/Viewline"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/linCentral"
+                    android:layout_marginTop="@dimen/eight"
+                    android:background="@color/White" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/note"
+                    android:textColor="@color/bg_login_unpress"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/fourty_sp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_marginRight="@dimen/fourty_sp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:text="@string/we_highly_recommended"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sp" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_tap_here"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/twenty_five"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/tap_here"
+                android:textColor="@color/orange_text_heading"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible"
+                app:tabBackground="@drawable/onboarding_page_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp"
+                app:tabMaxWidth="@dimen/_12dp"
+                app:tabRippleColor="@null" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/twenty_five"
+            android:layout_marginBottom="@dimen/fifteen_dp">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/fourty_sp"
+                android:layout_marginRight="@dimen/fourty_sp"
+                android:layout_marginBottom="@dimen/twelve_sp"
+                android:background="@drawable/green_bg"
+                android:text="@string/lets_get_started"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_32dp"
+                android:paddingTop="@dimen/twenty_dp"
+                android:paddingBottom="@dimen/twenty_dp"
+                android:text="@string/skip"
+                android:textColor="@color/white"
+                android:textSize="@dimen/twenty_sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imgNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/twenty_sp"
+                android:background="@drawable/onboarding_next_button_bg"
+                android:padding="@dimen/_12dp"
+                android:src="@drawable/next_24dp"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

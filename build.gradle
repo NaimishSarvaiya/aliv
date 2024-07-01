@@ -1,0 +1,55 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.getSecretProperty = { key, defaultValue ->
+        def value = System.getenv(key)
+
+        if (value == null) {
+            Properties properties = new Properties()
+            if (project.rootProject.file('local.properties').exists()) {
+                properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                value = properties.getProperty(key)
+            }
+        }
+
+        if (value == null) {
+            value = defaultValue
+        }
+
+        return value
+    }
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+        mavenLocal()
+//        maven {
+//            url 'https://maven.fabric.io/public'
+//        }
+    }
+
+    dependencies {
+        //do not update because of twillo SDK, if you update twillo call will be crash into the release build
+        classpath 'com.android.tools.build:gradle:4.0.2'
+        classpath 'com.google.gms:google-services:4.3.15'  // Google Services plugin
+//        classpath 'io.fabric.tools:gradle:1.31.2'  // Crashlytics plugin
+//        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.6.1'
+    }
+
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenLocal()
+        maven { url 'https://jitpack.io' }
+//        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

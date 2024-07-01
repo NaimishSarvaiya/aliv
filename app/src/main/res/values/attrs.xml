@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircularLayout">
+        <attr name="item_count" format="integer" />
+        <attr name="item_icons" format="reference" />
+        <attr name="item_titles" format="reference" />
+        <attr name="item_colors" format="reference" />
+        <attr name="center_color" format="reference" />
+        <attr name="center_icon" format="reference" />
+        <attr name="inner_radius" format="dimension" />
+        <attr name="outer_radius" format="dimension" />
+        <attr name="title_color" format="reference" />
+        <attr name="title_size" format="dimension" />
+        <attr name="title_padding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RippleBackground">
+        <attr name="rb_color" format="color" />
+        <attr name="rb_strokeWidth" format="dimension" />
+        <attr name="rb_radius" format="dimension" />
+        <attr name="rb_duration" format="integer" />
+        <attr name="rb_rippleAmount" format="integer" />
+        <attr name="rb_scale" format="float" />
+        <attr name="rb_type" format="enum">
+            <enum name="fillRipple" value="0" />
+            <enum name="strokeRipple" value="1" />
+        </attr>
+    </declare-styleable>
+    <attr name="overlaySurface" format="boolean" />
+
+</resources>

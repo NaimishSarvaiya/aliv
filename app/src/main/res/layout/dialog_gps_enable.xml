@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_border_blue_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/five_dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Alert!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/light_blue"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/ble_requires_gps_text"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/btn_cancel_enable_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/five_dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:text="CANCEL"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"/>
+
+        <Button
+            android:id="@+id/btn_ok_enable_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/five_dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg"
+            android:text="   OK   "
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

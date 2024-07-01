@@ -1,0 +1,274 @@
+<resources>
+    <!--
+        <string name="app_name">IOT SMART</string>
+    -->
+    <string name="app_name">ALiv</string>
+    <string name="forgot_password">Forgot password ?</string>
+    <string name="password">Password</string>
+    <string name="dont_havent_account">Don\'t have an account? </string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="user_name">Username</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="gender">Gender</string>
+    <string name="terms_of_use">Terms of Use</string>
+    <string name="please_wait">Please wait</string>
+    <string name="dummy_name">User Name</string>
+    <string name="home">Home</string>
+    <string name="my_account">My Account</string>
+    <string name="notification">Notification</string>
+    <string name="payment">Payment</string>
+    <string name="help">Help</string>
+    <string name="about_us">About us</string>
+    <string name="Video_intercom">Video intercom</string>
+    <string name="market_place">Market Place</string>
+    <string name="enrollment">Enrollment</string>
+    <string name="please_click_on_plus">Please click on + to\nenroll your face.</string>
+    <string name="please_click_on_image">Please click on image to\nenroll your face.</string>
+    <string name="submit">Submit</string>
+    <string name="face_enroll_successfully">Your face is successfully enrolled.</string>
+    <string name="dummy_date">30.11.1993 17:30 PM</string>
+    <string name="guest_one">Guest 1</string>
+    <string name="create">Create</string>
+    <string name="add_guest">Add Guest</string>
+    <string name="guest_name">Guest Name</string>
+    <string name="select_device">Select Device</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="start_date_time"><![CDATA[Start Date & Time]]></string>
+    <string name="end_date_time"><![CDATA[End Date & Time]]></string>
+    <string name="change_password">Change Password</string>
+    <string name="face_registration">Face Registration</string>
+    <string name="payment_help">Payment Help</string>
+    <string name="about_us_text">ALiv Smart Community is an International IoT Platform using IoT Protocol catered for commercial and residential applications. It is a full solution which consists of IoT Devices such as IoT Access, IoT Intercom, IoT Facial AI, IoT gateways, IoT Sensors and much more. It aims to promote healthy life smart living in a community through technology.</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="open_door_remotely">Open Door Remotely</string>
+    <string name="rewards_and_offers">Rewards And Offers</string>
+    <string name="dummy_offers">Gabby offers</string>
+    <string name="description">Description</string>
+    <string name="description_text">Existing customers who took advantage of this offer within the prior term between 1st July 2017 and 30th June 2018, will continue with current support plan until their anniversary date. After anniversary or renewing EA Enrollment, the following will occur:</string>
+    <string name="context_menu_title">Select image from</string>
+    <string name="txt_gallary">Gallery</string>
+    <string name="txt_camera">Camera</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="guest_list">Guest List</string>
+    <string name="book_service">Book Service</string>
+    <string name="address_here">Address here...</string>
+    <string name="Service_description">Service Description</string>
+    <string name="new_fault">New Fault</string>
+    <string name="fault_description">Fault Description</string>
+    <string name="add_product">Add Product</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_description">Product Description</string>
+    <string name="upload_images">Upload Images</string>
+    <string name="add_card">Add Card</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_holder_name">Card Holder Name</string>
+    <string name="exp_date">Exp Date</string>
+    <string name="cvv">cvv</string>
+    <string name="live_video">Live video</string>
+    <string name="open_door">Open Door</string>
+    <string name="user_name_login">Username</string>
+    <string name="forgot_pass_login">Forgot Password?</string>
+    <string name="email">Email ID</string>
+    <string name="sign_in">Sign In</string>
+    <string name="password_change_successfully">Password change successfully</string>
+    <string name="version_name">Version 1.0</string>
+    <string name="copyright_text">Copyright@2024 ALiv Smart Community</string>
+    <string name="offer_image">Offer image</string>
+    <string name="my_card">My Card</string>
+    <string name="services_maintenance">Services + Maintenance</string>
+    <string name="service_id">Service ID</string>
+    <string name="service_detail">Service Detail</string>
+    <string name="device_detail">Device Details</string>
+    <string name="device_list">Device List</string>
+    <string name="refresh">Refresh</string>
+    <string name="sign_up_underline"><u>SIGN UP</u></string>
+    <string name="device_1">Device1</string>
+    <string name="qr_code">QR CODE</string>
+    <string name="offer_details">Offer Details</string>
+    <string name="more_details">More Details</string>
+    <string name="message">Message</string>
+    <string name="scanning3dot">Scanning...</string>
+    <string name="scan_again">Scan Again</string>
+    <string name="find_device">Find Device</string>
+    <string name="key_manager">Key Manager</string>
+    <string name="device_setting">Device Setting</string>
+    <string name="visitor_authorization">Visitor Authorization</string>
+    <string name="card_manager">Card Manager</string>
+
+    <string name="verify_num_wrong">Verify number is wrong</string>
+    <string name="failed_create_account">Failed to create the account</string>
+    <string name="account_had_registed">The account had registered</string>
+    <string name="failed_register_unknow">Failed to register</string>
+    <string name="check_network">Please Check NetWork</string>
+
+    <!--Spinner Items-->
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="empty_user_name">Please Enter Username.</string>
+    <string name="empty_email_id">Please Enter Email ID.</string>
+    <string name="valid_email_id">Please Enter Valid Email ID.</string>
+    <string name="empty_password">Please Enter Password.</string>
+    <string name="valid_password">Password should be of min 8 and max 15 characters.</string>
+    <string name="empty_confirm_password">Please Enter Confirm Password.</string>
+    <string name="password_and_confirm_password_doesnt_match">Password and Confirm password should be same.</string>
+
+    <!--alivtest0710@gmail.com-->
+    <!--    <string name="facebook_app_id">1786278924838665</string>-->
+    <string name="facebook_app_id">1870476906658161</string>
+    <!--    <string name="fb_login_protocol_scheme">fb1786278924838665</string>-->
+    <string name="fb_login_protocol_scheme">fb1870476906658161</string>
+    <!--    <string name="fb_client_token">f9a0418061289cdfba721e46bb7c8734</string>-->
+
+    <!--
+
+    Facbook login ON:
+    testcanopus22@gmail.com
+    app id 308465003145200
+
+        <string name="facebook_app_id">308465003145200</string>
+        <string name="fb_login_protocol_scheme">fb308465003145200</string>
+    -->
+
+
+    <!--    <string name="server_client_id">349296759539-sj23vnaoq1162b7hvqsvhkfm0kmuhhk8.apps.googleusercontent.com</string>-->
+    <!--
+        <string name="server_client_id">349296759539-clrj5f43mmujfp1iba52hcrmub678l66.apps.googleusercontent.com</string>
+    -->
+    <!--   <string name="facebook_app_id">365338814017257</string>
+       <string name="fb_login_protocol_scheme">fb365338814017257</string>
+   -->
+    <string name="no_internet_available">Internet gone</string>
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+         from https://console.developers.google.com/ -->
+
+
+    <string name="account_cannot_be_empty">Account cannot be empty!</string>
+    <string name="password_cannot_be_empty">Password cannot be empty!</string>
+    <string name="call_account_cannot_be_empty">Call account cannot be empty！</string>
+    <string name="type_is_wrong">Account type error！</string>
+    <string name="caller_cannot_be_empty">caller cannot be empty！</string>
+    <string name="calling_progress">Calling in progress…</string>
+    <string name="calling">Calling…</string>
+
+    <string name="status_connected">Registered</string>
+    <string name="status_not_connected">Not registered</string>
+    <string name="status_in_progress">Registration in progress</string>
+    <string name="status_error">Registration failed</string>
+
+
+    <string name="not_available">Not available</string>
+    <string name="server_not_available">Server error</string>
+    <string name="error_msg">Password must be contain at least one lower, one upper and a numeric digit.</string>
+    <string name="error_retrieving_access_token">Error retrieving token</string>
+    <string name="permissions_needed">Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.</string>
+    <string name="settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="codec_title">Set your preferred audio and video codec. Not all codecs are supported with Group rooms. The media server will fallback to OPUS or VP8 if a preferred codec is not supported.</string>
+    <string name="pref_title_audio_codec">Audio Codec</string>
+    <string name="pref_title_video_codec">Video Codec</string>
+    <string name="sender_bandwidth_constraints">Set sender bandwidth constraints. Zero represents the WebRTC default value which varies by codec.</string>
+    <string name="max_audio_bitrate">Max Audio Bitrate (bits per second)</string>
+    <string name="max_video_bitrate">Max Video Bitrate (bits per second)</string>
+    <string name="turn_speaker_on">Speaker ON</string>
+    <string name="vp8_simulcast">VP8 Simulcast</string>
+    <string name="room_status">status</string>
+    <!--    <string name="server_client_id">349296759539-sj23vnaoq1162b7hvqsvhkfm0kmuhhk8.apps.googleusercontent.com</string>-->
+    <!--    <string name="server_client_id">823613802779-vihgbv0r09cc11jjse2hbdu8npjkbcol.apps.googleusercontent.com</string>-->
+    <string name="server_client_id">823613802779-q7rs0r03cfdckkstuq5c3hvhlioeidvh.apps.googleusercontent.com</string>
+    <string name="instructor">Instructor</string>
+    <string name="select_community">Select community</string>
+    <string name="instructor_mobile_number">Instructor mobile number</string>
+    <string name="name_of_instructor">Name of instructor</string>
+    <string name="activity">Activity</string>
+    <string name="company">Company</string>
+    <string name="start_date">Start Date:</string>
+    <string name="end_date">End Date:</string>
+    <string name="start_time">Start Time:</string>
+    <string name="end_time">End Time:</string>
+    <string name="occupied">Occupied</string>
+    <string name="status">Status:</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_time">Select Time</string>
+    <string name="exclude_weekends">Exclude weekends</string>
+    <string name="search">Search</string>
+    <string name="select_room">Select Room</string>
+    <string name="book">Book</string>
+    <string name="done">Done</string>
+    <string name="select_time_slot">Select Time Slot</string>
+    <string name="you_have_successfully_booked_your_room">You have successfully booked your room.</string>
+
+    <string name="enhanced_event_and_visitor_management">Enhanced Visitor Management</string>
+    <string name="event_title">Event Title</string>
+    <string name="event_location">Event Location</string>
+    <string name="pin_usage_limit">Pin Usage Limit</string>
+    <string name="enter_limit_0_for_unlimited_time">Enter limit 0 for unlimited time</string>
+    <string name="event_start_date">Event Start Date</string>
+    <string name="event_end_date">Event End Date</string>
+    <string name="start_time_">Start Time</string>
+    <string name="end_time_">End Time</string>
+    <string name="purpose">Purpose</string>
+    <string name="single_visitor">Single Visitor</string>
+    <string name="groups_of_visitors">Groups of Visitors</string>
+    <string name="select_visitor">Select Visitor</string>
+    <string name="select_group">Select Group</string>
+    <string name="add_new_visitor">Add New Visitor</string>
+    <string name="assign_visitors">Assign Visitors</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="home_automation">Home Automation</string>
+    <string name="view_time_slot">View time slot</string>
+    <string name="start_date_">Start Date</string>
+    <string name="end_date_">End Date</string>
+    <string name="create_schedules">Create schedule</string>
+    <string name="skip">Skip</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="onboarding_page1_title">Enable background mode</string>
+    <string name="onboarding_page2_title">Enable Bluetooth</string>
+    <string name="onboarding_page3_title">Enable GPS location</string>
+    <string name="onboarding_page1_desc">After enabling the background mode, you can SHAKE to open the doors.</string>
+    <string name="onboarding_page2_desc">We scan nearby IoT devices via bluetooth, enable it to have a connection.</string>
+    <string name="onboarding_page3_desc">Switch On the GPS if you have difficulties on controlling the doors.</string>
+    <string name="note">Note</string>
+    <string name="we_highly_recommended">We highly recommend you to allow access to all of the above requirements to have an easy way to access your doors.</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="gps_location">GPS location</string>
+    <string name="bg_mode">Background Mode</string>
+    <string name="disabled">Disabled</string>
+    <string name="enabled">Enabled</string>
+    <string name="aliv_app_requirement">ALiv App Requirement</string>
+    <string name="privacy_policy"><u>Privacy Policy</u></string>
+    <string name="by_allowing_these_permission">By allowing these permissions, we do"\n"not access your personal data of any form"\n"and is purely for technical functionality"\n"purposes.</string>
+    <string name="permissions">Permissions</string>
+    <string name="slide_to_continue">Slide to Continue</string>
+    <string name="the_following_standard_android_permissions_need_to_be_granted_to_enjoy_alive_app">The following standard Android"\n"permissions need to be granted to enjoy"\n"the ALiv app</string>
+    <string name="tap_here"><u>Tap Here</u></string>
+    <string name="lets_get_started">Let\'s get started</string>
+    <string name="background_shake">Background Shake</string>
+    <string name="shake_service">Shake service</string>
+    <string name="always_enabled_the_background_service">"Always enabled the background shake"\n"service can cause the battery drain of"\n"your phone. You can disable/enable the"\n"background shake service from the"\n"app settings screen. "</string>
+    <string name="next">Next ⇢</string>
+    <string name="ble_requires_gps_text">Recent updates to the Google Android API affecting Bluetooth LE technology requires location permissions to be granted in order to use the app.</string>
+
+    <!-- Strings related to Community Broadcast -->
+    <string name="tab1">Messages</string>
+    <string name="tab2">Events</string>
+    <string name="action_chat">Chat</string>
+    <string name="action_new_group">New Group</string>
+    <string name="action_new_broadcast">New broadcast</string>
+    <string name="action_whatsapp_web">WhatsApp Web</string>
+    <string name="action_starred_messages">Starred messages</string>
+    <string name="action_clear_call_log">Clear call log</string>
+    <string name="action_calls">Calls</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

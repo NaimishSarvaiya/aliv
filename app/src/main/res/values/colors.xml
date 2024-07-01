@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#011121</color>
+    <color name="colorPrimaryDark">#011121</color>
+    <color name="colorAccent">#2eb925</color>
+    <color name="colorBlack">#000000</color>
+    <color name="lightGray">#a9a9a9</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Orange">#FF9900</color>
+    <color name="OrangeRed">#FF4500</color>
+    <color name="Red">#FF0000</color>
+    <color name="LightCyan">#E0FFFF</color>
+    <color name="gray">#808080</color>
+    <color name="Black">#000000</color>
+    <color name="colorDarkBlue">#011121</color>
+    <color name="colorTransparentBlue">#e9071c2d</color>
+    <color name="BlackTrans">#43000000</color>
+    <color name="WhiteTrans">#60ffffff</color>
+    <color name="Blue_bg">#73091420</color>
+    <color name="Orangebtn">#ff9649</color>
+    <color name="light_blue">#2c3d4b</color>
+    <color name="blue_dark">#062032</color>
+    <color name="transparent">#00000000</color>
+    <color name="orange">#ff8b40</color>
+    <color name="green">#2ab122</color>
+
+    <color name="orange_text_heading">#ff9c5c</color>
+
+    <!-- Custom color -->
+    <color name="Yellow">#ffdd00</color>
+
+    <!-- Color Dialog Time Picker-->
+    <color name="CyanWater">#09b6b3</color>
+    <color name="getstarted_button">#41D48F</color>
+</resources>
+
+

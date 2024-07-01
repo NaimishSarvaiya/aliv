@@ -1,0 +1,20 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_device_list.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_dm_call_incoming.xml" value="0.1" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_dm_call_outgoing.xml" value="0.1" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_main.xml" value="0.1431159420289855" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_open_door.xml" value="0.1431159420289855" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_open_door_remotely.xml" value="0.1431159420289855" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/activity_video.xml" value="0.1585144927536232" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/circle_menu_item.xml" value="0.1431159420289855" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/group_row_layout.xml" value="0.1" />
+        <entry key="..\:/Users/Administrator/StudioProjects/android-app/app/src/main/res/layout/home_fragment.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" default="true" project-jdk-name="zulu-15" project-jdk-type="JavaSDK" />
+</project>

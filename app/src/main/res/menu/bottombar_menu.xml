@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/add_card"
+        android:icon="@drawable/ic_add_nav"
+        android:title="Add Card"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/delete_card"
+        android:icon="@drawable/ic_delete_nav"
+        android:title="Delete Card"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/delete_all_card"
+        android:icon="@drawable/ic_delete_nav"
+        android:title="Clear All Card"
+        app:showAsAction="ifRoom" />
+
+</menu>

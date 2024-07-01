@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_item_show"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/five_dp"
+    android:clickable="true"
+    android:longClickable="true"
+    android:paddingLeft="@dimen/thirty_sp"
+    android:paddingTop="@dimen/ten"
+    android:paddingRight="@dimen/thirty_sp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_back"
+        android:padding="@dimen/ten">
+
+        <TextView
+            android:id="@+id/tv_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/guest_one"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/eighteen_sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/ten"
+            android:layout_toLeftOf="@+id/img_forward"
+            android:layout_toRightOf="@dimen/ten"
+            android:text="@string/device_1"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/eighteen_sp" />
+
+        <ImageView
+            android:id="@+id/img_forward"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_forward" />
+
+    </RelativeLayout>
+</RelativeLayout>

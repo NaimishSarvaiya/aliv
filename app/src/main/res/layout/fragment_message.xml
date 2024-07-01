@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/ic_bg_back"
+    tools:context=".fragments.MessageFragment">
+
+    <RelativeLayout
+        android:id="@+id/rel_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_dark"
+        android:padding="@dimen/twenty_sp">
+
+        <RelativeLayout
+            android:id="@+id/rel_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:background="@mipmap/ic_user" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_sp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_toRightOf="@id/rel_img">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name1"
+                android:textColor="@color/White"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_name"
+                android:text="Content of the message"
+                android:textColor="@color/White"
+                android:textSize="@dimen/fifteen_dp" />
+        </RelativeLayout>
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/twenty_five"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textSize="@dimen/fifteen_dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/re_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rel_one"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@color/blue_dark"
+        android:padding="@dimen/twenty_sp">
+
+        <RelativeLayout
+            android:id="@+id/rel_imgs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:background="@mipmap/ic_user" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_sp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_toRightOf="@id/rel_imgs">
+
+            <TextView
+                android:id="@+id/tv_names"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name1"
+                android:textColor="@color/White"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_names"
+                android:text="Content of the message"
+                android:textColor="@color/White"
+                android:textSize="@dimen/fifteen_dp" />
+        </RelativeLayout>
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/twenty_five"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textSize="@dimen/fifteen_dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/re_two"
+        android:layout_marginTop="@dimen/five_dp"
+        android:background="@color/blue_dark"
+        android:padding="@dimen/twenty_sp">
+
+        <RelativeLayout
+            android:id="@+id/rel_img1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten"
+                android:background="@mipmap/ic_user" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/twenty_sp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_toRightOf="@id/rel_img1">
+
+            <TextView
+                android:id="@+id/tv_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name1"
+                android:textColor="@color/White"
+                android:textSize="@dimen/twenty_sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_name1"
+                android:text="Content of the message"
+                android:textColor="@color/White"
+                android:textSize="@dimen/fifteen_dp" />
+        </RelativeLayout>
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/twenty_five"
+            android:singleLine="true"
+            android:textColor="@color/White"
+            android:textSize="@dimen/fifteen_dp" />
+    </RelativeLayout>
+</RelativeLayout>

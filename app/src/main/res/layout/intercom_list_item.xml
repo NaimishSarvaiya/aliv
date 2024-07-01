@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_item_show"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/edit_back"
+    android:clickable="true"
+    android:longClickable="true"
+    android:padding="@dimen/ten"
+    android:paddingTop="@dimen/twenty_dp"
+    android:paddingBottom="@dimen/twenty_dp">
+
+    <RelativeLayout
+        android:id="@+id/main_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/tv_guest"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_intercom" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tv_guest"
+            android:layout_toRightOf="@+id/tv_guest"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_iot_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:layout_toRightOf="@+id/tv_guest"
+                android:text="Device Name "
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_internet_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/ten_dp"
+                android:text="Sn No."
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/eighteen_sp" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_lay"
+        android:layout_marginTop="12dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/remotely_open_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/dialog_round"
+            android:padding="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:src="@drawable/ic_open_exit_door"
+            android:tint="@color/Orangebtn" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white" />
+
+        <ImageView
+            android:id="@+id/call_btn"
+            android:layout_width="40dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_height="40dp"
+            android:background="@drawable/dialog_round"
+            android:src="@drawable/ic_video_call_white_24dp"
+            android:tint="@color/Orangebtn" />
+    </LinearLayout>
+</RelativeLayout>

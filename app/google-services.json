@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "823613802779",
+    "project_id": "aliv-iot",
+    "storage_bucket": "aliv-iot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823613802779:android:fc669a5f872f1692a6abbe",
+        "android_client_info": {
+          "package_name": "com.iotsmartaliv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823613802779-vihgbv0r09cc11jjse2hbdu8npjkbcol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iotsmartaliv",
+            "certificate_hash": "14e01a8b421df7540c8a8903323c251d15c8b706"
+          }
+        },
+        {
+          "client_id": "823613802779-lk527018dt665k9djr9bp5b924dm6pes.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsY5ch9pVJbcmSqlqmVzw1CKwiXlk-anw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823613802779-lk527018dt665k9djr9bp5b924dm6pes.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "823613802779-a6mvv0mglaptjkq1t7o2jsat6chf451g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.newdvr.alivapp",
+                "app_store_id": "1479285425"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

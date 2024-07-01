@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.booking.ShowBookedRoomFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/eight"
+        android:layout_marginRight="@dimen/eight" />
+
+    <TextView
+        android:id="@+id/item_not_found_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/eight"
+        android:layout_marginRight="@dimen/eight"
+        android:gravity="center"
+        android:text="Sorry!\nYou did not book the Room."
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/orange"
+        android:visibility="gone" />
+
+</FrameLayout>

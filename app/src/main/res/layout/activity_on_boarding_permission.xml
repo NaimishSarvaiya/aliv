@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".onboarding.OnBoardingPermissionActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/imgBack"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.1"
+            android:background="#00000000"
+            android:clickable="true"
+            android:contentDescription="back"
+            android:focusable="true"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@color/White"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/permissions"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/twenty_sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:enabled="false"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_permission"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        android:layout_below="@+id/linToolbar">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:tabBackground="@drawable/auto_slide_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="12dp"
+            app:tabRippleColor="@null" />
+        <!--   <com.rd.PageIndicatorView
+               android:id="@+id/indicator"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentBottom="true"
+               android:layout_centerHorizontal="true"
+               android:layout_marginBottom="8dp"
+               android:background="@drawable/auto_slide_selector"
+               app:piv_animationDuration="200"
+               app:piv_animationType="slide"
+               app:piv_interactiveAnimation="true" />-->
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scroll_linHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_permission"
+        android:layout_marginTop="@dimen/twenty_five"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/rl_bottom">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:paddingLeft="@dimen/_12dp"
+                android:paddingTop="@dimen/_12dp"
+                android:paddingRight="@dimen/_12dp"
+                android:text="@string/the_following_standard_android_permissions_need_to_be_granted_to_enjoy_alive_app"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                android:paddingLeft="@dimen/_12dp"
+                android:paddingTop="@dimen/fifteen_dp"
+                android:paddingRight="@dimen/_12dp"
+                android:text="@string/by_allowing_these_permission"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twenty_dp"
+                android:layout_marginBottom="@dimen/twenty_dp"
+                android:onClick="onPrivacyPolicyClick"
+                android:padding="@dimen/_12dp"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/orange_text_heading"
+                android:textSize="@dimen/_16sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linPage2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/imgNext"
+        android:layout_below="@id/scroll_linHeader"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="3">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight=".945"
+            android:src="@mipmap/location_alert" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/eight"
+            android:layout_weight=".945"
+            android:src="@mipmap/audio_alert" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/eight"
+            android:layout_weight="1.11"
+            android:src="@mipmap/files_alert" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linPage1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/imgNext"
+        android:layout_below="@+id/scroll_linHeader"
+        android:layout_marginTop="@dimen/_12dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="10">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="4.5"
+            android:src="@mipmap/picture_alert" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_12dp"
+            android:layout_weight="4.5"
+            android:src="@mipmap/phone_alert" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/twenty_sp"
+        android:background="@drawable/onboarding_next_button_bg"
+        android:onClick="onNextButtonClick"
+        android:padding="@dimen/_12dp"
+        android:src="@drawable/next_24dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/twenty_sp"
+        android:background="@color/Orangebtn"
+        android:onClick="onNextButtonClick"
+        android:text="Start"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/fourty_sp"
+        android:layout_marginRight="@dimen/fourty_sp"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        >
+
+        <com.ncorti.slidetoact.SlideToActView
+            android:id="@+id/slide_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:icon_margin="10dp"
+            app:outer_color="@color/getstarted_button"
+            app:slider_height="50dp"
+            app:slider_icon="@drawable/right_arrow"
+            app:slider_icon_color="@color/orange_text_heading"
+            app:text="@string/slide_to_continue"
+            app:text_style="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

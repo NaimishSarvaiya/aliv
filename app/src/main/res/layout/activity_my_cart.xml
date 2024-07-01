@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/ic_bg_back"
+    tools:context=".activity.MyCartActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/mycart_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/White"
+        >
+
+        <ImageView
+            android:id="@+id/go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back"
+            android:padding="10dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="My Cart"
+            android:textColor="@color/Black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/ten"/>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/shade"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/five_dp"
+        android:layout_below="@id/mycart_header"
+        android:background="@drawable/shadow" />
+
+    <ListView
+        android:id="@+id/list_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rv_three"
+        android:layout_below="@id/shade"
+        android:layout_marginLeft="@dimen/fifteen_dp"
+        android:layout_marginTop="@dimen/fifteen_dp"
+        android:layout_marginRight="@dimen/fifteen_dp" />
+
+    <RelativeLayout
+        android:id="@+id/rv_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/White"
+        android:padding="@dimen/ten">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/thirty_sp"
+            android:text="Total $5000"
+            android:textColor="@color/Black"
+            android:textSize="@dimen/twenty_sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/thirty_sp"
+            android:background="@drawable/btn_bg"
+            android:text="Order"
+            android:textColor="@color/White"
+            android:textSize="@dimen/twenty_sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

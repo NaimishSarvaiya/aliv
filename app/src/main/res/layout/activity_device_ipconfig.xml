@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/ic_background"
+    android:fitsSystemWindows="true"
+    tool:context=".activity.DeviceIPConfigActivity">
+
+    <RelativeLayout
+        android:id="@+id/config_wifi_title"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/White"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_back_open_door"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:onClick="goBack"
+            android:padding="@dimen/ten_dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="@dimen/ten_dp"
+            android:text="IP Config"
+            android:textColor="@color/colorDarkBlue"
+            android:textSize="@dimen/twenty_dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/config_wifi_title">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="Config Your Server IP"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/ed_server_ip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_back"
+            android:digits="0123456789."
+            android:hint="Server IP"
+            android:imeOptions="actionNext"
+            android:inputType="number|numberDecimal"
+            android:padding="@dimen/twelve_sp"
+            android:singleLine="true"
+            android:text="43.229.85.122"
+            android:textColor="@color/White"
+            android:textColorHint="@color/gray"
+            android:textSize="18dp" />
+
+
+        <EditText
+            android:id="@+id/ed_port"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/ten"
+            android:background="@drawable/edit_back"
+            android:hint="PORT"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:padding="@dimen/twelve_sp"
+            android:singleLine="true"
+            android:text="8089"
+            android:textColor="@color/White"
+            android:textColorHint="@color/gray"
+            android:textCursorDrawable="@null"
+            android:textSize="18dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/btn_bg"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:onClick="configClick"
+            android:padding="@dimen/ten"
+            android:text="Config"
+            android:textAllCaps="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/eighteen_dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edt_password"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/edt_password" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

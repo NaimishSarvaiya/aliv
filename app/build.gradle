@@ -1,0 +1,227 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+
+//apply plugin: 'com.google.firebase.crashlytics'
+//
+//plugins {
+//    id 'com.google.firebase.crashlytics'
+//}
+
+android {
+
+    signingConfigs {
+        config {
+            keyAlias 'iotsmart'
+            keyPassword '123456'
+            storeFile file('iotsmart.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion 33
+    buildToolsVersion "30.0.2"
+    defaultConfig {
+        applicationId 'com.iotsmartaliv'
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 33
+        versionName "1.9.0" //Latest August Update
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "rap9lBHjN68HcxSq3RMzy",
+                GETUI_APP_KEY   : "UtbLcyLN8KAeRKIWjRk4V2",
+                GETUI_APP_SECRET: "Hr1D386MJD79ks7MoivWy7",
+                HUAWEI_APPID    : "10869475",
+                MEIZU_APP_ID    : "111619",
+                MEIZU_APP_KEY   : "06a53f6fe9fb4860a6eb89306d5a5687",
+                MIPUSH_APP_ID   : "2882303761517570637",
+                MIPUSH_APP_KEY  : "5101757026637",
+                PACKAGE_NAME    : "com.iotsmart"
+        ]
+
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+
+
+        /*   manifestPlaceholders = [
+                //公司个推
+                //GETUI_APP_ID : "EbV8ULfDRC9XkdOryI5gZA",
+                //GETUI_APP_KEY : "EM9ku9Yanw5ynuAdJRX5C",
+                //GETUI_APP_SECRET : "GA4zzysaOa854SyRy4qOA9",
+                //个人个推
+//                GETUI_APP_ID    : "d2BSQnEL7dAGF6Gn9u2eS9",
+//                GETUI_APP_KEY   : "pVscocVLz56baD9qSBveN8",
+//                GETUI_APP_SECRET: "rZku5KKhXmATUJUHcgd959",
+//
+//                HUAWEI_APPID    : "100308457",
+//                MEIZU_APP_ID    : "",
+//                MEIZU_APP_KEY   : "",
+//                MIPUSH_APP_ID   : "2882303761517811975",
+//                MIPUSH_APP_KEY  : "5531781183975",
+//                PACKAGE_NAME    : appPackageName,
+
+
+                GETUI_APP_ID    : "rap9lBHjN68HcxSq3RMzy",
+                GETUI_APP_KEY   : "UtbLcyLN8KAeRKIWjRk4V2",
+                GETUI_APP_SECRET: "Hr1D386MJD79ks7MoivWy7",
+                HUAWEI_APPID    : "10869475",
+                MEIZU_APP_ID    : "111619",
+                MEIZU_APP_KEY   : "06a53f6fe9fb4860a6eb89306d5a5687",
+                MIPUSH_APP_ID   : "2882303761517570637",
+                MIPUSH_APP_KEY  : "5101757026637",
+                PACKAGE_NAME    : appPackageName
+        ]
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a '
+        }*/
+
+
+
+        buildConfigField("String",
+                "TWILIO_ACCESS_TOKEN",
+                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN", "TWILIO_ACCESS_TOKEN")}\"")
+        buildConfigField("String",
+                "TWILIO_ACCESS_TOKEN_SERVER",
+                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN_SERVER", "http://localhost:3000")}\"")
+        buildConfigField("boolean",
+                "USE_TOKEN_SERVER",
+                "${getSecretProperty("USE_TOKEN_SERVER", false)}")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.okhttp:okhttp:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    implementation 'com.facebook.android:facebook-login:4.42.0'
+    //  implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
+
+    // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('libs/ChangeServertools1.3.jar')
+    implementation files('libs\\DoormasterSDKV2.4.8.jar')
+    androidTestImplementation 'junit:junit:4.12'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.romandanylyk:pageindicatorview:1.0.2'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+    // Dependency for Google Sign-In
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
+
+    //This Dependency's use for video call on intercom device.doormaster-vphone-sdk-V2.5.5-thinmoo.aar
+//    implementation(name: 'doormaster-vphone-sdk-V2.5.9-thinmoo_nopush', ext: 'aar')
+//    implementation(name: 'doormaster-vphone-sdk-V3.6.0-thinmoo-no-push', ext: 'aar')
+
+    implementation(name: 'doormaster-vphone-sdk-V3.6.7-thinmoo-no-push', ext: 'aar')
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //  implementation 'com.meizu.flyme.internet:push-internal:3.4.2@aar'
+    ///  implementation 'com.getui:sdk:2.13.0.0'
+
+    //This dependency use for expandable view --see https://github.com/AAkira/ExpandableLayout
+    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
+    //This dependency use for debug bridge help of this we can see api response and database  --see https://github.com/facebook/stetho
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+    implementation 'com.facebook.android:facebook-login:latest.release'
+    //This dependency use for dialog box --see https://github.com/eminsr/AwesomeDialog
+    implementation 'com.github.eminsr:AwesomeDialog:master-SNAPSHOT'
+
+    implementation 'androidx.room:room-runtime:2.0.0'
+    annotationProcessor 'androidx.room:room-compiler:2.0.0'
+    testImplementation 'androidx.room:room-testing:2.0.0'
+
+    // Check for v11.4.2 or higher
+    implementation 'com.google.firebase:firebase-core:18.0.3'
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
+    // Add dependency
+//    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation "com.twilio:video-android:4.2.0"
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation "com.koushikdutta.ion:ion:2.1.7"
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+    implementation 'com.google.firebase:firebase-crashlytics:18.4.1'
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
+
+    implementation 'com.google.firebase:firebase-core:18.0.3'
+    implementation 'com.google.firebase:firebase-ml-vision:18.0.1' exclude group: 'com.google.firebase', module: 'firebase-iid'
+    implementation 'com.google.firebase:firebase-ml-vision-image-label-model:17.0.2' exclude group: 'com.google.firebase', module: 'firebase-iid'
+    implementation 'com.google.firebase:firebase-ml-model-interpreter:16.2.3' exclude group: 'com.google.firebase', module: 'firebase-iid'
+    implementation 'com.google.firebase:firebase-ml-vision-face-model:17.0.2' exclude group: 'com.google.firebase', module: 'firebase-iid'
+    implementation 'jp.wasabeef:blurry:3.0.0'
+    implementation 'com.github.judemanutd:autostarter:1.0.5'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation "com.ncorti:slidetoact:0.9.0"
+
+    implementation 'com.bugfender.sdk:android:3.+'
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+ 
+    implementation 'com.sun.mail:android-mail:1.6.0'
+    implementation 'com.sun.mail:android-activation:1.6.0'
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    // Lifecycle runtime
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+    // Annotation processor
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.3.1"
+}
+
+apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin
