@@ -190,8 +190,8 @@ public class Constant {
 
     public interface UrlPath {
 
-//        String BASEURL = "https://aliv.com.sg/"; // Live server.
-      String BASEURL = "https://live.aliv.com.sg/"; // Alpha server
+        String BASEURL = "https://aliv.com.sg/"; // Live server.
+//      String BASEURL = "https://live.aliv.com.sg/"; // Alpha server
         String PATH = "alivapp/";                  // Here is the path path of API.
         String SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
 

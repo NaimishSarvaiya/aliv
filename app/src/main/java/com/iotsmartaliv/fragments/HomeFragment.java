@@ -242,23 +242,25 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                             if (device.getDeviceSnoWithoutAlphabet().equalsIgnoreCase(devSn)) {
                                 device.setRssi(rssi.get(i));
                                 commanDevice = devSn;
-                                if (device.getAccessStarttime() != null &&
-                                               device.getAccessEndtime() != null
-                                && !device.getAccessStarttime().isEmpty() && !device.getAccessEndtime().isEmpty()){
-                                    Date startTime = sgtToUtc(device.getAccessStarttime());
-                                    Date endTime = sgtToUtc(device.getAccessEndtime());
-                                    goInsideToOpenDoor = accessWithinRange(device.getIsAccessTimeEnabled(), startTime, endTime, serverDate);
-                                }else {
-                                    goInsideToOpenDoor = false;
+                                if (device.getIsAccessTimeEnabled().equals("1")) {
+                                    if (device.getAccessStarttime() != null &&
+                                            device.getAccessEndtime() != null
+                                            && !device.getAccessStarttime().isEmpty() && !device.getAccessEndtime().isEmpty()) {
+                                        Date startTime = sgtToUtc(device.getAccessStarttime());
+                                        Date endTime = sgtToUtc(device.getAccessEndtime());
+                                        goInsideToOpenDoor = accessWithinRange(device.getIsAccessTimeEnabled(), startTime, endTime, serverDate);
+                                    }
+                                } else {
+                                    goInsideToOpenDoor = true;
                                 }
 
                             }
                         }
                     }
+
                     if (!commanDevice.equalsIgnoreCase("")) {
                         if (goInsideToOpenDoor) {
                             Gson gson = new Gson();
-
                             String deviceObjectListJson = gson.toJson(deviceLIST);
                             String scanDeviceObjectJson = gson.toJson(deviceList);
                             Bugfender.d("CanoHomeFragment", " USER DEVICE LIST --> " + deviceObjectListJson);
@@ -557,20 +559,20 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 //            } else {
 //                goInsideToOpenDoor = true;
 //                Log.e("UNLOCK FIRST", "TRUE");
-                if (!isBluetoothEnabled()) {
-                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 2);
-                            return;
-                        }
+            if (!isBluetoothEnabled()) {
+                if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 2);
+                        return;
                     }
-
-                    Intent eintent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(eintent, 1);
-                } else {
-//                    Toast.makeText(OnBoardingActivity.this, "Already Enabled", Toast.LENGTH_SHORT).show();
-                    callGetServerAPI();
                 }
+
+                Intent eintent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(eintent, 1);
+            } else {
+//                    Toast.makeText(OnBoardingActivity.this, "Already Enabled", Toast.LENGTH_SHORT).show();
+                callGetServerAPI();
+            }
 
 //            }
         } catch (Exception e) {
@@ -642,16 +644,16 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
         try {
 //            if (goInsideToOpenDoor) {
-                pressed = true;
-                progress.show();
-                int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-                //Naimish
-                if (ret1 != 0) {
-                    Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
-                    pressed = false;
-                    progress.dismiss();
-                }
-                // startActivity(new Intent(getActivity(), OpenDoorActivity.class));
+            pressed = true;
+            progress.show();
+            int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
+            //Naimish
+            if (ret1 != 0) {
+                Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
+                pressed = false;
+                progress.dismiss();
+            }
+            // startActivity(new Intent(getActivity(), OpenDoorActivity.class));
 //                }
 //            } else {
 //                int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door

@@ -117,8 +117,15 @@ public class MVDPApplication extends Application {
             public void onResponse(Call<VoIpModel> call, retrofit2.Response<VoIpModel> response) {
 
                 VoIpModel voIpModel = response.body();
-                 ip = voIpModel.getData().getIp();
-                 port = voIpModel.getData().getPort();
+                if (voIpModel.getData().getIp() != null) {
+                    ip = voIpModel.getData().getIp();
+                }else {
+                    ip = "113.197.36.196";
+                }
+                if (voIpModel.getData().getPort() != null) {
+                    port = voIpModel.getData().getPort();
+                    port = "5061";
+                }
                  configure(ip,port);
 
 
