@@ -20,6 +20,8 @@ import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.models.TimeSlot;
+import com.iotsmartaliv.apiCalling.models.VideoDeviceData;
+import com.iotsmartaliv.apiCalling.models.VideoDeviceListModel;
 import com.iotsmartaliv.apiCalling.utils.HttpUtil;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.AutomationRoomsResponse;
@@ -28,6 +30,8 @@ import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.model.CheckBookingRequest;
 import com.iotsmartaliv.model.InstructorInductionDataResponse;
 import com.iotsmartaliv.model.InstructorListResponse;
+import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
+import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorData;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
@@ -344,22 +348,23 @@ public class ApiServiceProvider<context> extends RetrofitBase {
      *
      * @param appuser_ID this is app user id field.
      */
-    public void callForVideoDeviceList(String appuser_ID, final RetrofitListener<SuccessDeviceListResponse> retrofitArrayListener) {
-        Call<SuccessDeviceListResponse> call = apiServices.getVideoDeviceList(appuser_ID);
-        call.enqueue(new CallBackWithProgress<SuccessDeviceListResponse>(context) {
+    public void callForVideoDeviceList(String appuser_ID, final RetrofitListener<VideoDeviceListModel> retrofitArrayListener) {
+        Call<VideoDeviceListModel> call = apiServices.getVideoDeviceList(appuser_ID);
+        call.enqueue(new CallBackWithProgress<VideoDeviceListModel>(context) {
             @Override
-            public void onResponse(Call<SuccessDeviceListResponse> call, Response<SuccessDeviceListResponse> response) {
+            public void onResponse(Call<VideoDeviceListModel> call, Response<VideoDeviceListModel> response) {
                 super.onResponse(call, response);
                 validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_VIDEO_LIST_API);
             }
 
             @Override
-            public void onFailure(Call<SuccessDeviceListResponse> call, Throwable t) {
+            public void onFailure(Call<VideoDeviceListModel> call, Throwable t) {
                 super.onFailure(call, t);
                 retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_VIDEO_LIST_API);
             }
         });
     }
+
 
     /**
      * This method use to call api for join community.
@@ -1428,6 +1433,23 @@ public class ApiServiceProvider<context> extends RetrofitBase {
 
             @Override
             public void onFailure(Call<SuccessDeviceListResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void openVideoDeviceRelay(OpenVideoDeviceRelayRequest relayRequest, RetrofitListener<SuccessResponseModel> retrofitListener) {
+        Call<SuccessResponseModel> dataResponseCall = apiServices.openRelay(relayRequest);
+        dataResponseCall.enqueue(new CallBackWithProgress<SuccessResponseModel>(context) {
+            @Override
+            public void onResponse(Call<SuccessResponseModel> call, Response<SuccessResponseModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponseModel> call, Throwable t) {
                 super.onFailure(call, t);
                 retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
             }

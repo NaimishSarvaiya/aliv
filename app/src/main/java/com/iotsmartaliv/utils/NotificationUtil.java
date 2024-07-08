@@ -89,7 +89,6 @@ public class NotificationUtil {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Long timeInMillis = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(SCHEDULE_TIME);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeInMillis, getReceiver(context,isLockScreen,callerName));
-
     }
 
     private PendingIntent getReceiver(Context context,Boolean isLockScreen, String callerName) {

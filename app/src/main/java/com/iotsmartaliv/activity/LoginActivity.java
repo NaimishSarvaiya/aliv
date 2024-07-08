@@ -1,7 +1,9 @@
 package com.iotsmartaliv.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -839,6 +841,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SharePreference.getInstance(LoginActivity.this).putBoolean(Constant.IS_LOGIN, true);
 //                    Intent service = new Intent(LoginActivity.this, DeviceLogSyncService.class);
 //                    startService(service);
+                    SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editShared = sharePreferenceNew.edit();
+                    editShared.putString("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
+                    editShared.apply();
                     Intent intent1;
                     if (LOGIN_DETAIL.getLoginStatus().equalsIgnoreCase("1")) {
                         intent1 = new Intent(LoginActivity.this, MainActivity.class);

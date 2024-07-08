@@ -11,12 +11,16 @@ import com.iotsmartaliv.apiCalling.models.SearchBookingResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
+import com.iotsmartaliv.apiCalling.models.VideoDeviceData;
+import com.iotsmartaliv.apiCalling.models.VideoDeviceListModel;
 import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.model.BookRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.model.CheckBookingRequest;
 import com.iotsmartaliv.model.InstructorInductionDataResponse;
 import com.iotsmartaliv.model.InstructorListResponse;
+import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
+import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
 import com.iotsmartaliv.modules.cardManager.CardUserListModel;
@@ -74,6 +78,7 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.INSTRUCTOR_INDUCTION_H
 import static com.iotsmartaliv.constants.Constant.UrlPath.INSTRUCTOR_LIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.JOIN_COMMUNITY_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.LOGIN_API;
+import static com.iotsmartaliv.constants.Constant.UrlPath.OPEN_VIDEO_DEVICE_RELAY;
 import static com.iotsmartaliv.constants.Constant.UrlPath.POST_ACCESS_LOG;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ROOM_CANCELLATION;
 import static com.iotsmartaliv.constants.Constant.UrlPath.SEARCH_BOOKING;
@@ -125,7 +130,7 @@ public interface ApiServices {
     Call<SuccessResponse> getCommunityDeviceList(@Query("appuser_ID") String userId, @Query("community_ID") String community_ID);
 
     @GET(DEVICE_VIDEO_LIST_API)
-    Call<SuccessDeviceListResponse> getVideoDeviceList(@Query("appuser_ID") String userId);
+    Call<VideoDeviceListModel> getVideoDeviceList(@Query("appuser_ID") String userId);
 
     @FormUrlEncoded
     @POST(POST_ACCESS_LOG)
@@ -284,6 +289,9 @@ public interface ApiServices {
 
     @POST(CHECK_DEVICE_BOOKINGS)
     Call<SuccessDeviceListResponse> checkDeviceBookings(@Body CheckBookingRequest bookingRequest);
+
+    @POST(OPEN_VIDEO_DEVICE_RELAY)
+    Call<SuccessResponseModel> openRelay(@Body OpenVideoDeviceRelayRequest openRelayRequest);
 }
 
 

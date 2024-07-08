@@ -124,10 +124,11 @@ public class MVDPApplication extends Application {
                 }
                 if (voIpModel.getData().getPort() != null) {
                     port = voIpModel.getData().getPort();
+
+                }else {
                     port = "5061";
                 }
                  configure(ip,port);
-
 
             }
 

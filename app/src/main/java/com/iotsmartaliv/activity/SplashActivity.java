@@ -49,25 +49,6 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-
-
-
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED)
-//        {
-//
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 2);
-//                return;
-//
-//        }
-
-
-//        Intent service = new Intent(this, DeviceLogSyncService.class);
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            startForegroundService(service);
-//        } else {
-//            startService(service);
-//        }
         hasOnBoardingShown = SharePreference.getInstance(SplashActivity.this).getBoolean(Constant.HAS_ON_BOARDING_SHOWN);
         onboardingPermission = new Intent(this, OnBoardingPermissionActivity.class);
 
@@ -116,7 +97,6 @@ public class SplashActivity extends AppCompatActivity {
         int recordaudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int bluetoothPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);
-
         List<String> listPermissionsNeeded = new ArrayList<>();
 
         if (camerapermission != PackageManager.PERMISSION_GRANTED) {
@@ -137,7 +117,6 @@ public class SplashActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
-
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R && permissionLocation != PackageManager.PERMISSION_GRANTED) {

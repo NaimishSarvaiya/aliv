@@ -54,8 +54,30 @@
 
 
     </RelativeLayout>
-
     <LinearLayout
+        android:id="@+id/ll_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_lay"
+        android:layout_marginTop="12dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/img_option"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/dialog_round"
+            android:padding="8dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:src="@drawable/intercom_option" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_callAndOpenDoor"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main_lay"

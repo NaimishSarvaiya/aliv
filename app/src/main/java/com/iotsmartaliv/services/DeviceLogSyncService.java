@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.util.Log;
 
@@ -39,32 +40,24 @@ import java.util.List;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
 
-/**
- * This class is used for package monitor that is manage package install and uninstall.
- *
- * @author CanopusInfoSystems
- * @version 1.0
- * @since 30 Nov,2018
- */
-
-
 public class DeviceLogSyncService extends Service {
 
-    public static final String UPDATE_APPS_PACKAGE = "com.iotsmart.services.UPDATE_DEVICE_SYNC";
-    DeviceDao deviceDao;
-    ApiServiceProvider apiServiceProvider;
-    String userId;
-    private BroadcastReceiver broadcastReceiverPkgMoniter, connectivityChnageBroadcast;
+    public static final String UPDATE_APPS_PACKAGE = "com.iotsmartaliv.services.UPDATE_DEVICE_SYNC";
+    private DeviceDao deviceDao;
+    private ApiServiceProvider apiServiceProvider;
+    private String userId;
+    private BroadcastReceiver broadcastReceiverPkgMoniter, connectivityChangeBroadcast;
     private String TAG = DeviceLogSyncService.class.getName();
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
-    NotificationChannel notificationChannel;
-    NotificationManager mNotifyManager;
-    NotificationCompat.Builder mBuilder;
+    private NotificationChannel notificationChannel;
+    private NotificationManager mNotifyManager;
+    private NotificationCompat.Builder mBuilder;
 
     @Override
     public void onCreate() {
@@ -72,15 +65,16 @@ public class DeviceLogSyncService extends Service {
         deviceDao = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().deviceDao();
         apiServiceProvider = ApiServiceProvider.getInstance(this);
 
-        connectivityChnageBroadcast = new BroadcastReceiver() {
+        connectivityChangeBroadcast = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 try {
                     if (isOnline(context)) {
-                        Intent localIntent = new Intent(DeviceLogSyncService.UPDATE_APPS_PACKAGE);
-                        context.sendBroadcast(localIntent);
+                        Intent localIntent = new Intent(context, DeviceLogSyncService.class);
+                        localIntent.setAction(DeviceLogSyncService.UPDATE_APPS_PACKAGE);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
                     } else {
-                        Log.e("NetworkChangeReceiver", "Conectivity Failure !!! ");
+                        Log.e("NetworkChangeReceiver", "Connectivity Failure !!! ");
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -88,7 +82,7 @@ public class DeviceLogSyncService extends Service {
             }
         };
 
-        this.broadcastReceiverPkgMoniter = new BroadcastReceiver() {
+        broadcastReceiverPkgMoniter = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (!isOnline(DeviceLogSyncService.this)) {
@@ -103,40 +97,36 @@ public class DeviceLogSyncService extends Service {
                 }
                 List<AccessLogModel> list = deviceDao.getAllDeviceLog();
                 for (AccessLogModel accessLogModel : list) {
-//                    if (Util.checkInternet(context)) {
-                        Util.checkInternet(context, new Util.NetworkCheckCallback() {
-                            @Override
-                            public void onNetworkCheckComplete(boolean isAvailable) {
-                                if (isAvailable){
-                                    apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
+                    Util.checkInternet(context, new Util.NetworkCheckCallback() {
+                        @Override
+                        public void onNetworkCheckComplete(boolean isAvailable) {
+                            if (isAvailable){
+                                apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
 
-                                        @Override
-                                        public void onResponseSuccess(AccessLogModel accessLogModel1, String apiFlag) {
-                                            switch (apiFlag) {
-                                                case Constant.UrlPath.POST_ACCESS_LOG:
-                                                    new DeleteAccessLogTask(DeviceLogSyncService.this, accessLogModel1).execute();
-                                                    break;
-                                            }
+                                    @Override
+                                    public void onResponseSuccess(AccessLogModel accessLogModel1, String apiFlag) {
+                                        if (Constant.UrlPath.POST_ACCESS_LOG.equals(apiFlag)) {
+                                            new DeleteAccessLogTask(DeviceLogSyncService.this, accessLogModel1).execute();
                                         }
+                                    }
 
-                                        @Override
-                                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                            Util.firebaseEvent(Constant.APIERROR, DeviceLogSyncService.this,Constant.UrlPath.SERVER_URL+apiFlag, LOGIN_DETAIL.getUsername(),LOGIN_DETAIL.getAppuserID(),errorObject.getStatus());
-                                        }
-                                    });
-                                }
+                                    @Override
+                                    public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                                        Util.firebaseEvent(Constant.APIERROR, DeviceLogSyncService.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                                    }
+                                });
                             }
-                        });
-
-//                    }
+                        }
+                    });
                 }
             }
         };
+
         IntentFilter intentFilterNetwork = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChnageBroadcast, intentFilterNetwork);
-        final IntentFilter theFilter = new IntentFilter();
+        registerReceiver(connectivityChangeBroadcast, intentFilterNetwork);
+        IntentFilter theFilter = new IntentFilter();
         theFilter.addAction(UPDATE_APPS_PACKAGE);
-        registerReceiver(this.broadcastReceiverPkgMoniter, theFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverPkgMoniter, theFilter);
 
         Bitmap IconLg = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
 
@@ -149,14 +139,12 @@ public class DeviceLogSyncService extends Service {
                 .setLargeIcon(IconLg)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setVibrate(new long[]{1000})
-//                .setVisibility(Notification.VISIBILITY_PUBLIC)
                 .setOngoing(true)
                 .setAutoCancel(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = new NotificationChannel("30", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
 
-            // Configure the notification channel.
             notificationChannel.setDescription("Channel description");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
@@ -170,20 +158,17 @@ public class DeviceLogSyncService extends Service {
         }
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(this.broadcastReceiverPkgMoniter);
-        unregisterReceiver(connectivityChnageBroadcast);
-
+        unregisterReceiver(connectivityChangeBroadcast);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiverPkgMoniter);
     }
 
     private boolean isOnline(Context context) {
         try {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
-            //should check null because in airplane mode it will be null
             return (netInfo != null && netInfo.isConnected());
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -192,14 +177,12 @@ public class DeviceLogSyncService extends Service {
     }
 
     public class DeleteAccessLogTask extends AsyncTask<Void, Void, Void> {
-
         private Context context;
         private AccessLogModel accessLogModel;
 
         public DeleteAccessLogTask(Context context, AccessLogModel accessLogModel) {
             this.context = context;
             this.accessLogModel = accessLogModel;
-
         }
 
         @Override
@@ -208,7 +191,6 @@ public class DeviceLogSyncService extends Service {
                     .deviceDao()
                     .deleteAccessLog(accessLogModel);
             Log.d("DeleteAccessLogTask", "doInBackground: " + accessLogModel.getDevice_SN() + ":Time:- " + accessLogModel.getEvent_time());
-
             return null;
         }
 

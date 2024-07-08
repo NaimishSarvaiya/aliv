@@ -208,6 +208,7 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
         int location = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int recordaudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
         int bluetothpermission = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             bluetothpermission = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT);

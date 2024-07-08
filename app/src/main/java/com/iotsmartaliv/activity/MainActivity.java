@@ -2,6 +2,7 @@ package com.iotsmartaliv.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,8 +14,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
@@ -88,9 +91,12 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
     public ImageView imgDraweHeader;
     ApiServiceProvider apiServiceProvider;
     /*
+
         SwipeRefreshLayout pullToRefresh;
     */
     private ImageView imgDrawer;
+    private static final int REQUEST_SCHEDULE_EXACT_ALARM_PERMISSION = 100;
+
     private Fragment fragment;
     private String manufacturer = "";
 
@@ -120,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
 
             }
-
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -138,7 +143,12 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
             }
         }
-
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+//                // Request the permission
+//                requestPermissions(new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, REQUEST_SCHEDULE_EXACT_ALARM_PERMISSION);
+//            }
+//        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
@@ -194,17 +204,17 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             }
         }
 
-        if (LOGIN_DETAIL.getAppuserID() != null) {
-            SharePreference.getInstance(this).putString("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
-            Log.e("APPUSERID", LOGIN_DETAIL.getAppuserID());
-        }
-
-//        Log.e("APPUSERID", LOGIN_DETAIL.getAppuserID());
-
-        SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editShared = sharePreferenceNew.edit();
-        editShared.putString("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
-        editShared.apply();
+//        if (LOGIN_DETAIL.getAppuserID() != null) {
+//            SharePreference.getInstance(this).putString("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
+//            Log.e("APPUSERID", LOGIN_DETAIL.getAppuserID());
+//        }
+//
+////        Log.e("APPUSERID", LOGIN_DETAIL.getAppuserID());
+//
+//        SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editShared = sharePreferenceNew.edit();
+//        editShared.putString("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
+//        editShared.apply();
 
 
 //        Log.e("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
@@ -278,12 +288,18 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 //        }
 //    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkAndPromptExactAlarmPermission();
+    }
     void listApicall() {
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
                     showLoader(MainActivity.this);
+                    Log.e("UserId",LOGIN_DETAIL.getAppuserID() );
                     apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), MainActivity.this);
 
                 } else {
@@ -475,5 +491,46 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         if (currentFragment instanceof HomeFragment)
             ((HomeFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_SCHEDULE_EXACT_ALARM_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                // Permission granted, schedule the exact alarm
+                Toast.makeText(this, " alarm permission Granted", Toast.LENGTH_SHORT).show();
+
+            } else {
+                showPermissionDialog();
+                // Permission denied, show a message to the user
+//                Toast.makeText(this, "Exact alarm permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void checkAndPromptExactAlarmPermission() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                showPermissionDialog();
+            }
+        }
+    }
+    private void showPermissionDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Permission Required")
+                .setMessage("This app needs permission to schedule exact alarms. Please grant the permission in settings.")
+                .setPositiveButton("Go to Settings", (dialog, which) -> {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                    intent.setData(Uri.fromParts("package", getPackageName(), null));
+                    startActivity(intent);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    Toast.makeText(this, "Exact alarm permission denied", Toast.LENGTH_SHORT).show();
+                })
+                .show();
     }
 }

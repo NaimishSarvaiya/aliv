@@ -316,6 +316,7 @@ public class Constant {
         String UPDATE_CARD_SYNC_DATA = "updateCardSyncData";
         String GET_CURRENT_TIME = "getCurrentTime";
         String CHECK_DEVICE_BOOKINGS = "checkDeviceBookings";
+        String OPEN_VIDEO_DEVICE_RELAY = "openVideoDeviceRelay";
 
 
         /**
