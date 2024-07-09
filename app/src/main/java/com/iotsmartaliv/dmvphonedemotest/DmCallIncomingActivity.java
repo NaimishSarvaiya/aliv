@@ -124,7 +124,7 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
         super.onResume();
         instance = this;
         DMVPhoneModel.addCallStateListener(mListener);
-        if (!DMVPhoneModel.hasIncomingCall()) {
+        if(!DMVPhoneModel.hasIncomingCall()) {
             Log.e("CallOutGoingActivity", "Couldn't find outgoing call");
             finish();
         }

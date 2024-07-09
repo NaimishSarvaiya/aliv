@@ -342,6 +342,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
     }
 
     private void callOpenDoor(String device_sn){
+        dialog.dismiss();
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -531,7 +532,6 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
                     DMVPhoneModel.callAccount(deviceSno, 2, VideoIntercomActivity.this, LOGIN_DETAIL.getUserEmail());
-
                 }
             }
         });

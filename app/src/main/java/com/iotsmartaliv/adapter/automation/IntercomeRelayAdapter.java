@@ -48,7 +48,7 @@ public class IntercomeRelayAdapter extends RecyclerView.Adapter<IntercomeRelayAd
 //        }else {
 //            holder.lineView.setVisibility(View.VISIBLE);
 //        }
-        holder.tv_rely.setText( "Relay -"+ relayItem.getRelayName());
+        holder.tv_rely.setText( relayItem.getRelayName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

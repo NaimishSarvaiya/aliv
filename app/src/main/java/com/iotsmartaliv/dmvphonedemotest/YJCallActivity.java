@@ -5,7 +5,9 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,11 +15,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -34,26 +40,36 @@ import com.doormaster.vphone.inter.DMPhoneMsgListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.DeviceDetailActivity;
+import com.iotsmartaliv.activity.VideoIntercomActivity;
 import com.iotsmartaliv.activity.VisitorAuthorizationActivity;
+import com.iotsmartaliv.adapter.automation.IntercomeRelayAdapter;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
+import com.iotsmartaliv.apiCalling.models.IntercomRelayData;
+import com.iotsmartaliv.apiCalling.models.VideoDeviceData;
+import com.iotsmartaliv.apiCalling.models.VideoDeviceListModel;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.interfaces.VideoIntercomItemClick;
+import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
+import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.utils.NetworkAvailability;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import okhttp3.ResponseBody;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+import static com.iotsmartaliv.constants.Constant.hideLoader;
 import static com.iotsmartaliv.utils.CommanUtils.accessWithinRange;
 import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
 
-public class YJCallActivity extends Activity implements View.OnClickListener {
+public class YJCallActivity extends Activity implements View.OnClickListener, VideoIntercomItemClick {
 
     private static String TAG = "DmCallActivity";
 
@@ -71,7 +87,10 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
     private ApiServiceProvider apiServiceProvider;
     //    private String serverDate = "";
     private boolean goInsideToOpenDoor = false;
-
+    private ArrayList<VideoDeviceData> videoIntercomArrayList = new ArrayList<>();
+    VideoDeviceData matchedDevice = null;
+    private AlertDialog dialog;
+    String deviceSN;
     DMCallStateListener callStateListener = new DMCallStateListener() {
         @Override
         public void callState(DMCallState state, String message) {
@@ -107,6 +126,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
         } else {
             iv_speaker.setImageResource(R.drawable.muted_speaker);
         }
+
     }
 
     @Override
@@ -116,6 +136,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
         DMVPhoneModel.onVideoResume();
         DMVPhoneModel.addCallStateListener(callStateListener);
         String displayName = DMVPhoneModel.getDisplayName(this);
+        deviceSN = DMVPhoneModel.getCurConnDevice().dev_sn;
         tv_title.setText(displayName);
         super.onResume();
 //        if (!DMVPhoneModel.hasCurrentCall()) {
@@ -185,7 +206,50 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
         });
 
         setUpNotification();
+        getVideoDevice();
 
+    }
+
+    public void getVideoDevice() {
+        SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+        String userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
+        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider.callForVideoDeviceWithoutProgres(userIdApp, new RetrofitListener<VideoDeviceListModel>() {
+            @Override
+            public void onResponseSuccess(VideoDeviceListModel sucessRespnse, String apiFlag) {
+                videoIntercomArrayList.clear();
+                if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
+                    if (!sucessRespnse.getData().isEmpty()) {
+                        videoIntercomArrayList.addAll(sucessRespnse.getData());
+                        for (VideoDeviceData device : videoIntercomArrayList) {
+                            if (device.getDeviceSno().equals(deviceSN)) {
+                                matchedDevice = device;
+                                break;
+                            }
+                        }
+                        //    Toast.makeText(this, "Video Device" + successDeviceListRes   ponse.getData().size(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(YJCallActivity.this, "Video Device List Empty", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(YJCallActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
+                }
+//
+            }
+
+            @Override
+            public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+//                                Util.firebaseEvent(Constant.APIERROR, VideoIntercomActivity.this,Constant.UrlPath.SERVER_URL+apiFlag, LOGIN_DETAIL.getUsername(),LOGIN_DETAIL.getAppuserID(),errorObject.getStatus());
+//                                Toast.makeText(VideoIntercomActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Util.firebaseEvent(Constant.APIERROR, YJCallActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+
+                try {
+                    Toast.makeText(YJCallActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(YJCallActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -201,6 +265,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
         stopCountDownTimer();
         super.onDestroy();
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -244,18 +309,19 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
                 switchSpeaker();
                 break;
             case R.id.iv_opendoor:
+                    if (matchedDevice!=null) {
+                        intercomeOptionDialog(matchedDevice);
+                    }else {
+                        String isAcessible = SharePreference.getInstance(this).getString("isAccessable");
 
-                String isAcessible = SharePreference.getInstance(this).getString("isAccessable");
+                        if (isAcessible.equals("1")) {
+                            callGetServerAPI();
+                        } else {
+                            DMVPhoneModel.openDoor();
+                            Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
 
-                if (isAcessible.equals("1")) {
-
-                    callGetServerAPI();
-                } else {
-
-                    DMVPhoneModel.openDoor();
-                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-
-                }
+                        }
+                    }
 
                 // DMVPhoneModel.openDoor();
 
@@ -294,6 +360,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
 
                                 if (goInsideToOpenDoor) {
                                     DMVPhoneModel.openDoor();
+                                    dialog.dismiss();
                                     Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
                                 }
                                 //callOpenDoor();
@@ -341,6 +408,8 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
         }
         time = null;
     }
+
+
 
 
     private class TimeCount extends CountDownTimer {
@@ -419,6 +488,110 @@ public class YJCallActivity extends Activity implements View.OnClickListener {
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.notify(1221, mBuilder.build());
+    }
+
+    public void intercomeOptionDialog(VideoDeviceData deviceData) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        // ...Irrelevant code for customizing the buttons and title
+
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        View dialogView = inflater.inflate(R.layout.intercome_options_dialog, null);
+        dialogBuilder.setView(dialogView);
+        ImageView openDoor = (ImageView) dialogView.findViewById(R.id.img_openDoor);
+        ImageView videoCall = (ImageView) dialogView.findViewById(R.id.img_videocall);
+        RecyclerView recyclerView = (RecyclerView) dialogView.findViewById(R.id.rv_relaysforIntercom);
+        TextView tvDeviceTitle = (TextView) dialogView.findViewById(R.id.tv_deviceTitle);
+        View viewLine = (View) dialogView.findViewById(R.id.view_verticale_line);
+        dialog = dialogBuilder.create();
+        videoCall.setVisibility(View.GONE);
+        viewLine.setVisibility(View.GONE);
+//        videoCall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                activeCallDevice = deviceData;
+//                call(deviceData.getDeviceSno());
+//            }
+//        });
+
+        openDoor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String isAcessible = matchedDevice.getIsAccessTimeEnabled();
+
+                if (isAcessible.equals("1")) {
+                    callGetServerAPI();
+                } else {
+                    DMVPhoneModel.openDoor();
+                    dialog.dismiss();
+                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        if (deviceData.getCdeviceName().length() > 0) {
+            tvDeviceTitle.setText(deviceData.getCdeviceName());
+        } else {
+            tvDeviceTitle.setText(deviceData.getDeviceName());
+        }
+
+        IntercomeRelayAdapter relayAdapter = new IntercomeRelayAdapter(this, deviceData.getRelayData(),this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(relayAdapter);
+
+
+        dialog.show();
+    }
+    @Override
+    public void onClickIntercomDevice(VideoDeviceData videoIntercomModel) {
+
+    }
+
+    @Override
+    public void onRemotelyOpenDoor(String device_Sn) {
+
+    }
+
+    @Override
+    public void onOptionClickIntercomeDevice(VideoDeviceData videoDeviceData) {
+
+    }
+
+    @Override
+    public void onRelayClick(IntercomRelayData relayItem) {
+        openVideoDeviceRelay(relayItem);
+    }
+
+    public void openVideoDeviceRelay(IntercomRelayData relayItem){
+        Util.checkInternet(this, new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+
+                if (isAvailable) {
+                    apiServiceProvider = ApiServiceProvider.getInstance(YJCallActivity.this);
+                    OpenVideoDeviceRelayRequest relayRequest = new OpenVideoDeviceRelayRequest( relayItem.getAutomationDeviceID(),String.valueOf(relayItem.getAttachedRelay()));
+                    apiServiceProvider.openVideoDeviceRelay(relayRequest, new RetrofitListener<SuccessResponseModel>() {
+                        @Override
+                        public void onResponseSuccess(SuccessResponseModel sucessRespnse, String apiFlag) {
+                            dialog.dismiss();
+                            Toast.makeText(YJCallActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            dialog.dismiss();
+                            Toast.makeText(YJCallActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+//                chagefailSatus(isOnline);
+                        }
+                    });
+                } else {
+                    hideLoader();
+                }
+            }
+        });
     }
 
 }

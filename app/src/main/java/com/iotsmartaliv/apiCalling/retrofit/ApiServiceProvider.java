@@ -365,6 +365,22 @@ public class ApiServiceProvider<context> extends RetrofitBase {
         });
     }
 
+    public void callForVideoDeviceWithoutProgres(String appuser_ID, final RetrofitListener<VideoDeviceListModel> retrofitArrayListener){
+
+        Call<VideoDeviceListModel> call = apiServices.getVideoDeviceList(appuser_ID);
+        call.enqueue(new Callback<VideoDeviceListModel>() {
+            @Override
+            public void onResponse(Call<VideoDeviceListModel> call, Response<VideoDeviceListModel> response) {
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_VIDEO_LIST_API);
+            }
+
+            @Override
+                public void onFailure(Call<VideoDeviceListModel> call, Throwable throwable) {
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), throwable, Constant.UrlPath.DEVICE_VIDEO_LIST_API);
+            }
+        });
+    }
+
 
     /**
      * This method use to call api for join community.
@@ -526,12 +542,7 @@ public class ApiServiceProvider<context> extends RetrofitBase {
         });
     }
 
-    /**
-     * This method use to call api for open door remotely.
-     *
-     * @param hashMap
-     * @param dev_sn  This is device serial number.
-     */
+
     public void taskOpenDoorRemotely(HashMap<String, String> hashMap,  final RetrofitListener<SuccessResponse> retrofitListener) {
         Call<SuccessResponse> call = apiServices.callForOpenDoor(hashMap);
         call.enqueue(new CallBackWithProgress<SuccessResponse>(context) {
