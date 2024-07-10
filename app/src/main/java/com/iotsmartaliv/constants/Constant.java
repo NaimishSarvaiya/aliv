@@ -318,7 +318,6 @@ public class Constant {
         String CHECK_DEVICE_BOOKINGS = "checkDeviceBookings";
         String OPEN_VIDEO_DEVICE_RELAY = "openVideoDeviceRelay";
 
-
         /**
          * API call for video intercom server to update the firebase token video intercom calling.
          * <p>
@@ -336,8 +335,6 @@ public class Constant {
          */
         String FCM_TOKEN_UPDATE_SERVICE_URL = "http://43.229.85.122:8099/doormaster/vphone/login/";
         String FCM_TOKEN_UPDATE_SERVICE_ENDPOINT = "info";
-
-
 
     }
 

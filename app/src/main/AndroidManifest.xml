@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.iotsmartaliv">
 
-    <uses-feature
-        android:name="android.hardware.bluetooth_le"
-        android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.bluetooth_le"

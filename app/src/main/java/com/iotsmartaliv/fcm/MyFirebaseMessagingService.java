@@ -59,11 +59,6 @@ import static com.iotsmartaliv.twilio.activity.VideoActivity.isCallActive;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
 
-    /**
-     * Called when message is received.
-     *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
-     */
     // [START receive_message]
 /*
     Message data payload: {message={"access_token":"",
@@ -116,7 +111,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if (notification_type.equalsIgnoreCase("incoming call")) {
                     jsonObject.getString("access_token");
                     jsonObject.getString("room_name");
-
                     if (!isCallActive) {
                         startActivity(new Intent(this, VideoActivity.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
