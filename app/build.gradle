@@ -24,8 +24,8 @@ android {
         applicationId 'com.iotsmartaliv'
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 37
-        versionName "2.3.0" //Latest August Update
+        versionCode 39
+        versionName "2.3.2" //Latest August Update
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -80,15 +80,15 @@ android {
 
 
 
-        buildConfigField("String",
-                "TWILIO_ACCESS_TOKEN",
-                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN", "TWILIO_ACCESS_TOKEN")}\"")
-        buildConfigField("String",
-                "TWILIO_ACCESS_TOKEN_SERVER",
-                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN_SERVER", "http://localhost:3000")}\"")
-        buildConfigField("boolean",
-                "USE_TOKEN_SERVER",
-                "${getSecretProperty("USE_TOKEN_SERVER", false)}")
+//        buildConfigField("String",
+//                "TWILIO_ACCESS_TOKEN",
+//                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN", "TWILIO_ACCESS_TOKEN")}\"")
+//        buildConfigField("String",
+//                "TWILIO_ACCESS_TOKEN_SERVER",
+//                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN_SERVER", "http://localhost:3000")}\"")
+//        buildConfigField("boolean",
+//                "USE_TOKEN_SERVER",
+//                "${getSecretProperty("USE_TOKEN_SERVER", false)}")
     }
     buildTypes {
         release {
@@ -189,7 +189,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:23.2.1'
     // Add dependency
 //    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation "com.twilio:video-android:4.2.0"
+//    implementation "com.twilio:video-android:4.2.0"
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation "com.koushikdutta.ion:ion:2.1.7"
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
@@ -222,6 +222,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
     // Annotation processor
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.3.1"
+
+    implementation 'org.jsoup:jsoup:1.10.2'
+
+    implementation 'com.google.android.play:app-update:2.1.0'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin

@@ -91,6 +91,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
     VideoDeviceData matchedDevice = null;
     private AlertDialog dialog;
     String deviceSN;
+    String callType;
     DMCallStateListener callStateListener = new DMCallStateListener() {
         @Override
         public void callState(DMCallState state, String message) {
@@ -171,7 +172,9 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                 Toast.makeText(YJCallActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
-
+        if (getIntent().getStringExtra(Constant.CALL_PATH) != null) {
+            callType = getIntent().getStringExtra(Constant.CALL_PATH);
+        }
         mVideoView = findViewById(R.id.videoSurface);
         mCaptureView = findViewById(R.id.videoCaptureSurface);
         mCaptureView.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -183,6 +186,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         iv_hungup.setOnClickListener(this);
         iv_speaker.setOnClickListener(this);
         iv_opendoor.setOnClickListener(this);
+
 
         time = new TimeCount(60000, 1000);
         initView();
@@ -309,10 +313,16 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                 switchSpeaker();
                 break;
             case R.id.iv_opendoor:
-                    if (matchedDevice!=null) {
-                        intercomeOptionDialog(matchedDevice);
-                    }else {
-                        String isAcessible = SharePreference.getInstance(this).getString("isAccessable");
+                if (callType.equalsIgnoreCase(Constant.ICOMING_CALL)) {
+                    if (matchedDevice.getRelayData() != null) {
+                        String isAcessible = matchedDevice.getIsAccessTimeEnabled();
+                        if (isAcessible.equals("1")) {
+                            callGetServerAPI();
+                        }else {
+                            intercomeOptionDialog(matchedDevice);
+                        }
+                    } else {
+                        String isAcessible = matchedDevice.getIsAccessTimeEnabled();
 
                         if (isAcessible.equals("1")) {
                             callGetServerAPI();
@@ -322,7 +332,26 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
 
                         }
                     }
+                } else {
+                    String isAcessible = matchedDevice.getIsAccessTimeEnabled();
 
+                    if (isAcessible.equals("1")) {
+                        callGetServerAPI();
+                    } else {
+                        DMVPhoneModel.openDoor();
+                        Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+
+                    }
+//                    String isAcessible = SharePreference.getInstance(this).getString("isAccessable");
+//
+//                    if (isAcessible.equals("1")) {
+//                        callGetServerAPI();
+////                    } else {
+//                    DMVPhoneModel.openDoor();
+//                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+
+//                    }
+                }
                 // DMVPhoneModel.openDoor();
 
                 break;
@@ -343,13 +372,26 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                                 JSONObject jsonObject = new JSONObject(sucessRespnse.string());
                                 String dateTime = jsonObject.optString("date");
                                 Date serverDate = utcToLocalTimeZone(dateTime);
-                                String isAcessible = SharePreference.getInstance(YJCallActivity.this).getString("isAccessable");
+                                String isAcessible = matchedDevice.getIsAccessTimeEnabled();
 
-                                if (!SharePreference.getInstance(YJCallActivity.this).getString("deviceStartTime").equalsIgnoreCase("")
-                                        && !SharePreference.getInstance(YJCallActivity.this).getString("deviceEndTime").equalsIgnoreCase("")) {
+                                if (matchedDevice.getAccessStarttime() != null && !matchedDevice.getAccessStarttime().equalsIgnoreCase("")
+                                        && matchedDevice.getAccessEndtime() != null && matchedDevice.getAccessEndtime().equalsIgnoreCase("")) {
 
-                                    Date startTime = utcToLocalTimeZone(SharePreference.getInstance(YJCallActivity.this).getString("deviceStartTime"));
-                                    Date endTime = utcToLocalTimeZone(SharePreference.getInstance(YJCallActivity.this).getString("deviceEndTime"));
+                                    Date startTime = utcToLocalTimeZone(matchedDevice.getAccessStarttime());
+                                    Date endTime = utcToLocalTimeZone(matchedDevice.getAccessEndtime());
+
+//                                    goToOpenDoor = accessWithinRange(isAcessible, startTime, endTime, serverDate);
+////                    SharePreference.getInstance(getActivity()).putString(getResources().getString(R.string.server_current_time), dateTime);
+//                                    Log.d("EndTimeeCheck: ", serverDate + " EndTime:" + endTime + " StartTime:" + startTime);
+//                                } else {
+//                                    goToOpenDoor = true;
+//                                }
+//
+//                                if (!SharePreference.getInstance(YJCallActivity.this).getString("deviceStartTime").equalsIgnoreCase("")
+//                                        && !SharePreference.getInstance(YJCallActivity.this).getString("deviceEndTime").equalsIgnoreCase("")) {
+//
+//                                    Date startTime = utcToLocalTimeZone(SharePreference.getInstance(YJCallActivity.this).getString("deviceStartTime"));
+//                                    Date endTime = utcToLocalTimeZone(SharePreference.getInstance(YJCallActivity.this).getString("deviceEndTime"));
 
                                     goInsideToOpenDoor = accessWithinRange(isAcessible, startTime, endTime, serverDate);
 //                    SharePreference.getInstance(getActivity()).putString(getResources().getString(R.string.server_current_time), dateTime);
@@ -359,13 +401,17 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                                 }
 
                                 if (goInsideToOpenDoor) {
-                                    DMVPhoneModel.openDoor();
-                                    dialog.dismiss();
-                                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-                                }
-                                //callOpenDoor();
+                                    if (matchedDevice.getRelayData() != null) {
+                                        intercomeOptionDialog(matchedDevice);
+                                    } else {
+                                        DMVPhoneModel.openDoor();
+                                        dialog.dismiss();
+                                        Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
 
-                                else {
+                                    }
+                                    //callOpenDoor();
+
+                                }else {
                                     Toast.makeText(YJCallActivity.this, "User can not access at this time", Toast.LENGTH_SHORT).show();
                                 }
                             } catch (Exception e) {
@@ -408,8 +454,6 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         }
         time = null;
     }
-
-
 
 
     private class TimeCount extends CountDownTimer {
@@ -492,13 +536,14 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
 
     public void intercomeOptionDialog(VideoDeviceData deviceData) {
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this,R.style.CustomDialogTheme);
 
         // ...Irrelevant code for customizing the buttons and title
 
         LayoutInflater inflater = this.getLayoutInflater();
 
         View dialogView = inflater.inflate(R.layout.intercome_options_dialog, null);
+        dialogView.setBackgroundResource(R.drawable.intercome_white_border_blue_bg);
         dialogBuilder.setView(dialogView);
         ImageView openDoor = (ImageView) dialogView.findViewById(R.id.img_openDoor);
         ImageView videoCall = (ImageView) dialogView.findViewById(R.id.img_videocall);
@@ -519,15 +564,14 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         openDoor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String isAcessible = matchedDevice.getIsAccessTimeEnabled();
-
-                if (isAcessible.equals("1")) {
-                    callGetServerAPI();
-                } else {
-                    DMVPhoneModel.openDoor();
-                    dialog.dismiss();
-                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-                }
+//                String isAcessible = matchedDevice.getIsAccessTimeEnabled();
+//                if (isAcessible.equals("1")) {
+//                    callGetServerAPI();
+//                } else {
+                DMVPhoneModel.openDoor();
+                dialog.dismiss();
+                Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 
@@ -537,7 +581,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
             tvDeviceTitle.setText(deviceData.getDeviceName());
         }
 
-        IntercomeRelayAdapter relayAdapter = new IntercomeRelayAdapter(this, deviceData.getRelayData(),this);
+        IntercomeRelayAdapter relayAdapter = new IntercomeRelayAdapter(this, deviceData.getRelayData(), this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -546,6 +590,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
 
         dialog.show();
     }
+
     @Override
     public void onClickIntercomDevice(VideoDeviceData videoIntercomModel) {
 
@@ -566,20 +611,21 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         openVideoDeviceRelay(relayItem);
     }
 
-    public void openVideoDeviceRelay(IntercomRelayData relayItem){
+    public void openVideoDeviceRelay(IntercomRelayData relayItem) {
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
 
                 if (isAvailable) {
                     apiServiceProvider = ApiServiceProvider.getInstance(YJCallActivity.this);
-                    OpenVideoDeviceRelayRequest relayRequest = new OpenVideoDeviceRelayRequest( relayItem.getAutomationDeviceID(),String.valueOf(relayItem.getAttachedRelay()));
+                    OpenVideoDeviceRelayRequest relayRequest = new OpenVideoDeviceRelayRequest(relayItem.getAutomationDeviceID(), String.valueOf(relayItem.getAttachedRelay()));
                     apiServiceProvider.openVideoDeviceRelay(relayRequest, new RetrofitListener<SuccessResponseModel>() {
                         @Override
                         public void onResponseSuccess(SuccessResponseModel sucessRespnse, String apiFlag) {
                             dialog.dismiss();
                             Toast.makeText(YJCallActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
                         }
+
                         @Override
                         public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
                             dialog.dismiss();

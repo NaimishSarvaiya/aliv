@@ -37,6 +37,7 @@ import com.doormaster.vphone.config.DMCallState;
 import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.constants.Constant;
 
 import jp.wasabeef.blurry.Blurry;
 
@@ -93,6 +94,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
                 if (DMCallState.Connected == state) {
                     // LogUtils.i(TAG, "-----------电话被接听了");
                     Intent intent = new Intent(DmCallOutgoingActivity.this, YJCallActivity.class);
+                    intent.putExtra(Constant.CALL_PATH, Constant.OUTGOING_CALL);
                     startActivity(intent);
                     finish();
                 }

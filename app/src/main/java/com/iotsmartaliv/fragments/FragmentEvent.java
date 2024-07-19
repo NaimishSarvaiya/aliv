@@ -200,6 +200,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
     SimpleDateFormat dateFormatValidation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    String addLicensePlate;
 
     @Nullable
     @Override
@@ -254,15 +255,15 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                         rlSelectCommunity.setVisibility(View.GONE);
                                         communityID = successArrayResponse.getData().get(0).getCommunityID();
 
-                                            Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                                                @Override
-                                                public void onNetworkCheckComplete(boolean isAvailable) {
-                                                    if (isAvailable){
-                                                        apiServiceProvider.callForCommunityDeviceList(LOGIN_DETAIL.getAppuserID(), communityID, FragmentEvent.this);
+                                        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+                                            @Override
+                                            public void onNetworkCheckComplete(boolean isAvailable) {
+                                                if (isAvailable) {
+                                                    apiServiceProvider.callForCommunityDeviceList(LOGIN_DETAIL.getAppuserID(), communityID, FragmentEvent.this);
 
-                                                    }
                                                 }
-                                            });
+                                            }
+                                        });
                                         if (successArrayResponse.getData().get(0).getVisitorManagement().equalsIgnoreCase("1")) {
                                             rlCheckbox.setVisibility(View.VISIBLE);
                                         } else {
@@ -272,16 +273,17 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                         CommunityDialogAdapter dataAdapter = new CommunityDialogAdapter(successArrayResponse.getData(), data -> {
                                             communityID = data.getCommunityID();
                                             tvCommunity.setText(data.getCommunityName());
+                                            addLicensePlate = data.getAddLicensePlate();
                                             cbEnableEnhance.setChecked(false);
-                                                Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                                                    @Override
-                                                    public void onNetworkCheckComplete(boolean isAvailable) {
-                                                        if (isAvailable){
-                                                            apiServiceProvider.callForCommunityDeviceList(LOGIN_DETAIL.getAppuserID(), communityID, FragmentEvent.this);
+                                            Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+                                                @Override
+                                                public void onNetworkCheckComplete(boolean isAvailable) {
+                                                    if (isAvailable) {
+                                                        apiServiceProvider.callForCommunityDeviceList(LOGIN_DETAIL.getAppuserID(), communityID, FragmentEvent.this);
 
-                                                        }
                                                     }
-                                                });
+                                                }
+                                            });
                                             if (data.getVisitorManagement().equalsIgnoreCase("1")) {
                                                 rlCheckbox.setVisibility(View.VISIBLE);
                                             } else {
@@ -448,77 +450,77 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
 
                 break;
             case R.id.rl_select_group:
-                    Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                        @Override
-                        public void onNetworkCheckComplete(boolean isAvailable) {
-                            if (isAvailable){
-                                apiServiceProvider.callForListOfGroup(LOGIN_DETAIL.getAppuserID(), new RetrofitListener<GroupResponse>() {
-                                    @Override
-                                    public void onResponseSuccess(GroupResponse sucessRespnse, String apiFlag) {
-                                        GroupListAdapter groupListAdapter = new GroupListAdapter(sucessRespnse.getData(), data -> {
-                                            tvGroupName.setText(data.getGroupName());
-                                            selectedGroup = data;
-                                            if (selectedVisitorListAdapter != null) {
-                                                selectedVisitorListAdapter.updateItem(new ArrayList<>());
-                                            }
-                                            groupListDialog.dismiss();
+                Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+                    @Override
+                    public void onNetworkCheckComplete(boolean isAvailable) {
+                        if (isAvailable) {
+                            apiServiceProvider.callForListOfGroup(LOGIN_DETAIL.getAppuserID(), new RetrofitListener<GroupResponse>() {
+                                @Override
+                                public void onResponseSuccess(GroupResponse sucessRespnse, String apiFlag) {
+                                    GroupListAdapter groupListAdapter = new GroupListAdapter(sucessRespnse.getData(), data -> {
+                                        tvGroupName.setText(data.getGroupName());
+                                        selectedGroup = data;
+                                        if (selectedVisitorListAdapter != null) {
+                                            selectedVisitorListAdapter.updateItem(new ArrayList<>());
+                                        }
+                                        groupListDialog.dismiss();
 
-                                        });
-                                        groupListAdapter.addItem(sucessRespnse.getData());
-                                        groupListDialog = new GroupListDialog(getActivity(), groupListAdapter, sucessRespnse.getData());
-                                        groupListDialog.show();
-                                    }
+                                    });
+                                    groupListAdapter.addItem(sucessRespnse.getData());
+                                    groupListDialog = new GroupListDialog(getActivity(), groupListAdapter, sucessRespnse.getData());
+                                    groupListDialog.show();
+                                }
 
-                                    @Override
-                                    public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                        Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                                @Override
+                                public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                                    Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
 
-                                        Toast.makeText(getContext(), errorObject.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
+                                    Toast.makeText(getContext(), errorObject.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
-                    });
+                    }
+                });
 
                 break;
             case R.id.rl_select_visitor:
                 if (selectedGroup != null) {
                     Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                            @Override
-                            public void onNetworkCheckComplete(boolean isAvailable) {
-                                if (isAvailable) {
-                                    apiServiceProvider.getAssignVisitorsInGroup(LOGIN_DETAIL.getAppuserID(), selectedGroup.getVgroupID(), new RetrofitListener<VisitorsListDataResponse>() {
-                                        @Override
-                                        public void onResponseSuccess(VisitorsListDataResponse sucessRespnse, String apiFlag) {
-                                            if (sucessRespnse.getData().size() > 0) {
-                                                multiSelectVisitorDailog = new MultiSelectVisitorDailog(getActivity(), new MultiSelectVisitorAdapter(sucessRespnse.getData(), selectedVisitorListAdapter.getVisitors()), sucessRespnse.getData(), new MultiSelectVisitorDailog.SelectItemListener() {
-                                                    @Override
-                                                    public void getSelectedItem(List<VisitorData> mDataset) {
-                                                        recyclerViewSelectedMultipleVisitor.setVisibility(View.VISIBLE);
-                                                        selectedVisitorListAdapter = new SelectedVisitorListAdapter(new ArrayList<>(), () -> selectedVisitorListAdapter.notifyDataSetChanged());
-                                                        recyclerViewSelectedMultipleVisitor.setLayoutManager(new LinearLayoutManager(getContext()));
-                                                        recyclerViewSelectedMultipleVisitor.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-                                                        recyclerViewSelectedMultipleVisitor.setAdapter(selectedVisitorListAdapter);
-                                                        selectedVisitorListAdapter.updateItem(mDataset);
-                                                        multiSelectVisitorDailog.setCanceledOnTouchOutside(false);
-                                                    }
-                                                });
-                                                multiSelectVisitorDailog.show();
-                                            } else {
-                                                Toast.makeText(getContext(), "No Visitors assign to Group", Toast.LENGTH_LONG).show();
-                                            }
+                        @Override
+                        public void onNetworkCheckComplete(boolean isAvailable) {
+                            if (isAvailable) {
+                                apiServiceProvider.getAssignVisitorsInGroup(LOGIN_DETAIL.getAppuserID(), selectedGroup.getVgroupID(), new RetrofitListener<VisitorsListDataResponse>() {
+                                    @Override
+                                    public void onResponseSuccess(VisitorsListDataResponse sucessRespnse, String apiFlag) {
+                                        if (sucessRespnse.getData().size() > 0) {
+                                            multiSelectVisitorDailog = new MultiSelectVisitorDailog(getActivity(), new MultiSelectVisitorAdapter(sucessRespnse.getData(), selectedVisitorListAdapter.getVisitors()), sucessRespnse.getData(), new MultiSelectVisitorDailog.SelectItemListener() {
+                                                @Override
+                                                public void getSelectedItem(List<VisitorData> mDataset) {
+                                                    recyclerViewSelectedMultipleVisitor.setVisibility(View.VISIBLE);
+                                                    selectedVisitorListAdapter = new SelectedVisitorListAdapter(new ArrayList<>(), () -> selectedVisitorListAdapter.notifyDataSetChanged());
+                                                    recyclerViewSelectedMultipleVisitor.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                    recyclerViewSelectedMultipleVisitor.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+                                                    recyclerViewSelectedMultipleVisitor.setAdapter(selectedVisitorListAdapter);
+                                                    selectedVisitorListAdapter.updateItem(mDataset);
+                                                    multiSelectVisitorDailog.setCanceledOnTouchOutside(false);
+                                                }
+                                            });
+                                            multiSelectVisitorDailog.show();
+                                        } else {
+                                            Toast.makeText(getContext(), "No Visitors assign to Group", Toast.LENGTH_LONG).show();
                                         }
+                                    }
 
-                                        @Override
-                                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                            Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
-                                            Toast.makeText(getContext(), errorObject.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                    @Override
+                                    public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                                        Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                                        Toast.makeText(getContext(), errorObject.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
-                                }
                             }
-                        });
+                        }
+                    });
 
                 } else {
                     Toast.makeText(getContext(), "Please Select Group.", Toast.LENGTH_SHORT).show();
@@ -528,35 +530,35 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             case R.id.rl_select_visitorSingle:
                 int count = radioSingleAddNewVisitorAdapter.getItemCount() + singleSelectedVisitorAdapter.getItemCount();
                 if (count < 1) {
-                        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                            @Override
-                            public void onNetworkCheckComplete(boolean isAvailable) {
-                                if (isAvailable){
-                                    apiServiceProvider.callForListOfVisitor(LOGIN_DETAIL.getAppuserID(), new RetrofitListener<VisitorsListDataResponse>() {
-                                        @Override
-                                        public void onResponseSuccess(VisitorsListDataResponse sucessRespnse, String apiFlag) {
-                                            SingleSelectVisitorAdapter selectVisitorAdapter = new SingleSelectVisitorAdapter(sucessRespnse.getData(), data -> {
-                                                List<VisitorData> visitorData = new ArrayList<>();
-                                                visitorData.add(data);
-                                                singleSelectedVisitorAdapter.updateItem(visitorData);
-                                                singleSelectVisitorDialog.dismiss();
-                                            });
-                                            selectVisitorAdapter.addItem(sucessRespnse.getData());
-                                            singleSelectVisitorDialog = new SingleSelectVisitorDialog(getActivity(), selectVisitorAdapter, sucessRespnse.getData());
-                                            singleSelectVisitorDialog.show();
-                                        }
+                    Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+                        @Override
+                        public void onNetworkCheckComplete(boolean isAvailable) {
+                            if (isAvailable) {
+                                apiServiceProvider.callForListOfVisitor(LOGIN_DETAIL.getAppuserID(), new RetrofitListener<VisitorsListDataResponse>() {
+                                    @Override
+                                    public void onResponseSuccess(VisitorsListDataResponse sucessRespnse, String apiFlag) {
+                                        SingleSelectVisitorAdapter selectVisitorAdapter = new SingleSelectVisitorAdapter(sucessRespnse.getData(), data -> {
+                                            List<VisitorData> visitorData = new ArrayList<>();
+                                            visitorData.add(data);
+                                            singleSelectedVisitorAdapter.updateItem(visitorData);
+                                            singleSelectVisitorDialog.dismiss();
+                                        });
+                                        selectVisitorAdapter.addItem(sucessRespnse.getData());
+                                        singleSelectVisitorDialog = new SingleSelectVisitorDialog(getActivity(), selectVisitorAdapter, sucessRespnse.getData());
+                                        singleSelectVisitorDialog.show();
+                                    }
 
-                                        @Override
-                                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                            Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                                    @Override
+                                    public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                                        Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
 
-                                            Toast.makeText(getContext(), errorObject.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                        Toast.makeText(getContext(), errorObject.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
-                                }
                             }
-                        });
+                        }
+                    });
                 } else {
                     Toast.makeText(getContext(), "You can not add more then one Visitor.", Toast.LENGTH_SHORT).show();
                 }
@@ -606,6 +608,11 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         }
         Button buttonSubmit = dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+        if (addLicensePlate.endsWith("1")) {
+            edt_license_plate.setVisibility(View.VISIBLE);
+        } else {
+            edt_license_plate.setVisibility(View.GONE);
+        }
         tv_country_code.setOnClickListener(v -> {
             CountryCodeDialogAdapter countryCodeDialogAdapter = new CountryCodeDialogAdapter(responseDataDevice.getCountry(), data -> {
                 tv_country_code.setText(data.getPhonecode());
@@ -617,21 +624,36 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             customCountryCodeDialog.show();
         });
 
+
         buttonCancel.setOnClickListener(view -> dialogBuilder.dismiss());
         buttonSubmit.setOnClickListener(view -> {
 
-            if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("") ){
-                edt_name.setError("Enter Visitor Name.");
-                edt_name.requestFocus();
-            }else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")){
-                edt_contact_number.setError("Enter Contact Number.");
-                edt_contact_number.requestFocus();
-            }else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")){
-                edt_license_plate.setError("Enter Licence plat");
-                edt_license_plate.requestFocus();
-            }else {
-                addNewVisitorAdapterUncheck.addItem(new AddVisitor(edt_name.getText().toString().trim(), tv_country_code.getText().toString().trim(), edt_contact_number.getText().toString().trim(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
-                dialogBuilder.dismiss();
+            if (addLicensePlate.endsWith("1")) {
+
+                if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
+                    edt_name.setError("Enter Visitor Name.");
+                    edt_name.requestFocus();
+                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                    edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
+                    edt_license_plate.setError("Enter Licence plat");
+                    edt_license_plate.requestFocus();
+                } else {
+                    addNewVisitorAdapterUncheck.addItem(new AddVisitor(edt_name.getText().toString().trim(), tv_country_code.getText().toString().trim(), edt_contact_number.getText().toString().trim(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
+                    dialogBuilder.dismiss();
+                }
+            } else {
+                if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
+                    edt_name.setError("Enter Visitor Name.");
+                    edt_name.requestFocus();
+                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                    edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else {
+                    addNewVisitorAdapterUncheck.addItem(new AddVisitor(edt_name.getText().toString().trim(), tv_country_code.getText().toString().trim(), edt_contact_number.getText().toString().trim(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
+                    dialogBuilder.dismiss();
+                }
             }
 //            if (edt_name.getText().toString().trim().length() > 0) {
 //                if (edt_contact_number.getText().toString().trim().length() > 0) {
@@ -668,8 +690,15 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 break;
             }
         }
+
         Button buttonSubmit = dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+
+        if (addLicensePlate.endsWith("1")){
+            edt_license_plate.setVisibility(View.VISIBLE);
+        }else {
+            edt_license_plate.setVisibility(View.GONE);
+        }
         tv_country_code.setOnClickListener(v -> {
             CountryCodeDialogAdapter countryCodeDialogAdapter = new CountryCodeDialogAdapter(responseDataDevice.getCountry(), data -> {
                 tv_country_code.setText(data.getPhonecode());
@@ -695,19 +724,33 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
 //                edt_name.setError("Enter Visitor Name.");
 //                edt_name.requestFocus();
 //            }
-            if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("") ){
-                edt_name.setError("Enter Visitor Name.");
-                edt_name.requestFocus();
-            }else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")){
-                edt_contact_number.setError("Enter Contact Number.");
-                edt_contact_number.requestFocus();
-            }else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")){
-                edt_license_plate.setError("Enter Licence plat");
-                edt_license_plate.requestFocus();
+            if (addLicensePlate.endsWith("1")) {
+                if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
+                    edt_name.setError("Enter Visitor Name.");
+                    edt_name.requestFocus();
+                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                    edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
+                    edt_license_plate.setError("Enter Licence plat");
+                    edt_license_plate.requestFocus();
+                } else {
+                    radioSingleAddNewVisitorAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
+                    dialogBuilder.dismiss();
+                }
             }else {
-                radioSingleAddNewVisitorAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(),edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
-                dialogBuilder.dismiss();
+                if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
+                    edt_name.setError("Enter Visitor Name.");
+                    edt_name.requestFocus();
+                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                    edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else {
+                    radioSingleAddNewVisitorAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
+                    dialogBuilder.dismiss();
+                }
             }
+
         });
         dialogBuilder.setView(dialogView);
         Window window = dialogBuilder.getWindow();
@@ -844,44 +887,44 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
 
         }
 
-            Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                @Override
-                public void onNetworkCheckComplete(boolean isAvailable) {
-                    if (isAvailable){
-                        apiServiceProvider.submitVisitorEnhanceEvent(hashMap, new RetrofitListener<SuccessResponse>() {
-                            @Override
-                            public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
-                                if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
+        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable) {
+                    apiServiceProvider.submitVisitorEnhanceEvent(hashMap, new RetrofitListener<SuccessResponse>() {
+                        @Override
+                        public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
+                            if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
 //                                    Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
-                                    View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.sucess_dialog_layout, null);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                    builder.setView(dialogView);
-                                    Button buttonOk = dialogView.findViewById(R.id.buttonOk);
-                                    AlertDialog alertDialog = builder.create();
-                                    alertDialog.setCancelable(false);
-                                    alertDialog.show();
-                                    buttonOk.setOnClickListener(v -> {
-                                        alertDialog.dismiss();
-                                        getActivity().finish();
-                                        startActivity(new Intent(getContext(), VisitorActivity.class));
-                                    });
-                                } else {
-                                    Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
-                                }
+                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.sucess_dialog_layout, null);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setView(dialogView);
+                                Button buttonOk = dialogView.findViewById(R.id.buttonOk);
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.setCancelable(false);
+                                alertDialog.show();
+                                buttonOk.setOnClickListener(v -> {
+                                    alertDialog.dismiss();
+                                    getActivity().finish();
+                                    startActivity(new Intent(getContext(), VisitorActivity.class));
+                                });
+                            } else {
+                                Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
                             }
+                        }
 
-                            @Override
-                            public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
 
-                                Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
 
-                            }
-                        });
+                        }
+                    });
 
-                    }
                 }
-            });
+            }
+        });
     }
 
     private void callApiForSubmitBasicEvent() {
@@ -889,11 +932,11 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             Toast.makeText(getContext(), "Select community ID.", Toast.LENGTH_SHORT).show();
             return;
         }
-         if (deviceDialogAdapter != null && deviceDialogAdapter.getSelectItem()!= null ) {
-             if (deviceDialogAdapter.getSelectItem().isEmpty()){
-                 Toast.makeText(getContext(), "Please select device.", Toast.LENGTH_SHORT).show();
-                 return;
-             }
+        if (deviceDialogAdapter != null && deviceDialogAdapter.getSelectItem() != null) {
+            if (deviceDialogAdapter.getSelectItem().isEmpty()) {
+                Toast.makeText(getContext(), "Please select device.", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
         if (edPurpose.getText().toString().trim().length() < 1) {
             edPurpose.setError("Please enter purpose.");
@@ -960,42 +1003,42 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         for (int i = 0; i < deviceDialogAdapter.getSelectItem().size(); i++) {
             hashMap.put("device_SNs[" + i + "]", deviceDialogAdapter.getSelectItem().get(i).getDeviceSno());
         }
-            Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
-                @Override
-                public void onNetworkCheckComplete(boolean isAvailable) {
-                    apiServiceProvider.submitVisitorEvent(hashMap, new RetrofitListener<SuccessResponse>() {
-                        @Override
-                        public void onResponseSuccess(SuccessResponse successResponse, String apiFlag) {
-                            if (successResponse.getStatus().equalsIgnoreCase("OK")) {
-                                Toast.makeText(getContext(), successResponse.getMsg(), Toast.LENGTH_LONG).show();
-                                View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.sucess_dialog_layout, null);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                                builder.setView(dialogView);
-                                Button buttonOk = dialogView.findViewById(R.id.buttonOk);
-                                AlertDialog alertDialog = builder.create();
-                                alertDialog.setCancelable(false);
-                                alertDialog.show();
-                                buttonOk.setOnClickListener(v -> {
-                                    alertDialog.dismiss();
-                                    getActivity().finish();
-                                    startActivity(new Intent(getContext(), VisitorActivity.class));
-                                });
-                            } else {
-                                Toast.makeText(getContext(), successResponse.getMsg(), Toast.LENGTH_LONG).show();
-                            }
+        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                apiServiceProvider.submitVisitorEvent(hashMap, new RetrofitListener<SuccessResponse>() {
+                    @Override
+                    public void onResponseSuccess(SuccessResponse successResponse, String apiFlag) {
+                        if (successResponse.getStatus().equalsIgnoreCase("OK")) {
+//                            Toast.makeText(getContext(), successResponse.getMsg(), Toast.LENGTH_LONG).show();
+                            View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.sucess_dialog_layout, null);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setView(dialogView);
+                            Button buttonOk = dialogView.findViewById(R.id.buttonOk);
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.setCancelable(false);
+                            alertDialog.show();
+                            buttonOk.setOnClickListener(v -> {
+                                alertDialog.dismiss();
+                                getActivity().finish();
+                                startActivity(new Intent(getContext(), VisitorActivity.class));
+                            });
+                        } else {
+                            Toast.makeText(getContext(), successResponse.getMsg(), Toast.LENGTH_LONG).show();
                         }
+                    }
 
-                        @Override
-                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                            Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                    @Override
+                    public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                        Util.firebaseEvent(Constant.APIERROR, requireActivity(), Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
 
-                            Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
 
-                        }
-                    });
+                    }
+                });
 
-                }
-            });
+            }
+        });
     }
 
     private void addVisitor() {
@@ -1016,6 +1059,11 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         }
         Button buttonSubmit = dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+        if (addLicensePlate.endsWith("1")){
+            edt_license_plate.setVisibility(View.VISIBLE);
+        }else {
+            edt_license_plate.setVisibility(View.GONE);
+        }
         tv_country_code.setOnClickListener(v -> {
             CountryCodeDialogAdapter countryCodeDialogAdapter = new CountryCodeDialogAdapter(responseDataDevice.getCountry(), data -> {
                 tv_country_code.setText(data.getPhonecode());
@@ -1042,18 +1090,31 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
 //                edt_name.requestFocus();
 //            }
 
-            if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("") ){
-                edt_name.setError("Enter Visitor Name.");
-                edt_name.requestFocus();
-            }else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")){
-                edt_contact_number.setError("Enter Contact Number.");
-                edt_contact_number.requestFocus();
-            }else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")){
-                edt_license_plate.setError("Enter Licence plat");
-                edt_license_plate.requestFocus();
+            if (addLicensePlate.endsWith("1")) {
+                if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
+                    edt_name.setError("Enter Visitor Name.");
+                    edt_name.requestFocus();
+                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                    edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
+                    edt_license_plate.setError("Enter Licence plat");
+                    edt_license_plate.requestFocus();
+                } else {
+                    visitorListAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
+                    dialogBuilder.dismiss();
+                }
             }else {
-                visitorListAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
-                dialogBuilder.dismiss();
+                if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
+                    edt_name.setError("Enter Visitor Name.");
+                    edt_name.requestFocus();
+                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                    edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else {
+                    visitorListAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
+                    dialogBuilder.dismiss();
+                }
             }
         });
         dialogBuilder.setView(dialogView);
@@ -1100,6 +1161,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         switch (apiFlag) {
             case Constant.UrlPath.COMMUNITY_DEVICE_LIST_API:
                 if (successDeviceListResponse.getStatus().equalsIgnoreCase("OK")) {
+
                     responseDataDevice = successDeviceListResponse.getData();
                     if (successDeviceListResponse.getData().getDevices().size() > 0) {
                         deviceDialogAdapter = new DeviceMultiSelectDialogAdapter(successDeviceListResponse.getData().getDevices());

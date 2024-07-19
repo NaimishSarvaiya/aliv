@@ -29,6 +29,8 @@
         android:hint="Search Country Code"
         android:maxLines="1"
         android:padding="8dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
         android:textColor="@color/white"
         android:textColorHint="@color/yoho_grey" />
 

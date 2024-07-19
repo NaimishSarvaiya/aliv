@@ -61,7 +61,6 @@ public class CommunityDialogAdapter extends RecyclerView.Adapter<CommunityDialog
         @Override
         public void onClick(View v) {
             recyclerViewItemClickListener.clickOnItem(mDataset.get(this.getAdapterPosition()));
-
         }
     }
 }

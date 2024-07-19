@@ -13,7 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.DevicelistAdapter;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
+import com.iotsmartaliv.apiCalling.models.Country;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
@@ -37,6 +42,7 @@ import com.iotsmartaliv.utils.mail.EmailViewModel;
 import com.iotsmartaliv.utils.mail.MailSender;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,6 +69,8 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
     ApiServiceProvider apiServiceProvider;
     private DevicelistAdapter myAdapter;
     EmailViewModel emailViewModel;
+    @BindView(R.id.search_device)
+    EditText searchDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,9 +150,45 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
 //            hideLoader();
 //        }
 
+        searchDevice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // filter your list from your input
+                filter(s.toString());
+                //you can use runnable postDelayed like 500 ms to delay search text
+            }
+        });
 
     }
 
+    private void filter(String text) {
+        List<DeviceObject> device  = new ArrayList<>();
+        for (DeviceObject d : deviceLIST) {
+            if (!d.getCdeviceName().isEmpty()){
+                if (d.getCdeviceName().toLowerCase().contains(text.toLowerCase())) {
+                    device.add(d);
+                }
+            }else {
+                if (d.getDeviceName().toLowerCase().contains(text.toLowerCase()) ) {
+                    device.add(d);
+                }
+            }
+        }
+        myAdapter.updateList(device);
+    }
 
     @OnClick(R.id.floatingActionButton)
     void addDeviceToList() {

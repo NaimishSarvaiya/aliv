@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.activity.DeviceDetailActivity;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
@@ -28,11 +27,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
-import static com.iotsmartaliv.constants.Constant.deviceLIST;
 import static com.iotsmartaliv.utils.CommanUtils.accessWithinRange;
 import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
 
@@ -48,7 +47,7 @@ public class VideoIntercomAdapter extends ArrayAdapter<VideoDeviceData> {
     VideoIntercomItemClick videoIntercomItemClick;
 
     private ArrayList<VideoDeviceData> dataSet;
-    private boolean goToOpenDoor=false;
+    private boolean goToOpenDoor = false;
 
     /**
      * @param data                   is list of device item
@@ -56,16 +55,15 @@ public class VideoIntercomAdapter extends ArrayAdapter<VideoDeviceData> {
      * @param videoIntercomItemClick this is listener for onclick item.
      */
     public VideoIntercomAdapter(ArrayList<VideoDeviceData> data, Context context, VideoIntercomItemClick videoIntercomItemClick) {
-        super(context, R.layout.intercom_list_item,data);
+        super(context, R.layout.intercom_list_item, data);
         this.dataSet = data;
         this.videoIntercomItemClick = videoIntercomItemClick;
         this.mContext = context;
     }
-/*
     @Override
     public int getCount() {
         return dataSet.size();
-    }*/
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -97,10 +95,10 @@ public class VideoIntercomAdapter extends ArrayAdapter<VideoDeviceData> {
             holder.tvIotName.setText(guestList.getDeviceName());
         }
         holder.tvInternetName.setText(guestList.getDeviceSno());
-        if (guestList.getRelayData() != null ){
-         holder.ll_intercomeOption.setVisibility(View.VISIBLE);
-         holder.ll_intercomeCallandOpenDoor.setVisibility(View.GONE);
-        }else {
+        if (guestList.getRelayData() != null) {
+            holder.ll_intercomeOption.setVisibility(View.VISIBLE);
+            holder.ll_intercomeCallandOpenDoor.setVisibility(View.GONE);
+        } else {
             holder.ll_intercomeOption.setVisibility(View.GONE);
             holder.ll_intercomeCallandOpenDoor.setVisibility(View.VISIBLE);
         }
@@ -112,83 +110,101 @@ public class VideoIntercomAdapter extends ArrayAdapter<VideoDeviceData> {
 //            videoIntercomItemClick.onRemotelyOpenDoor(dataSet.get(position).getDeviceSno());
         });
         holder.call_btn.setOnClickListener(view -> videoIntercomItemClick.onClickIntercomDevice(dataSet.get(position)));
-        holder.img_option.setOnClickListener(
-                view ->
-                        videoIntercomItemClick.onOptionClickIntercomeDevice(guestList)
-        );
+        holder.img_option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String isAcessible = dataSet.get(position).getIsAccessTimeEnabled();
 
+                if (isAcessible.equals("1")) {
+
+                    callGetServerAPI(position, 1);
+                } else {
+                    videoIntercomItemClick.onOptionClickIntercomeDevice(guestList);
+                }
+
+            }
+        });
         return row;
+    }
+
+    public void updateList(ArrayList<VideoDeviceData>  dataList) {
+        dataSet = dataList;
+        notifyDataSetChanged();
     }
 
     private void performOpenDoorOperation(int position) {
 
-        String isAcessible = deviceLIST.get(position).getIsAccessTimeEnabled();
+        String isAcessible = dataSet.get(position).getIsAccessTimeEnabled();
 
         if (isAcessible.equals("1")) {
 
-            callGetServerAPI(position);
+            callGetServerAPI(position, 0);
 
         } else {
 
             goToOpenDoor = true;
 
-            callOpenDoor(position);
+            callOpenDoor(position, 0);
 
         }
     }
 
 
-    private void callGetServerAPI(int position) {
+    private void callGetServerAPI(int position, int type) {
         ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(mContext);
-            Util.checkInternet(mContext, new Util.NetworkCheckCallback() {
-                @Override
-                public void onNetworkCheckComplete(boolean isAvailable) {
-                  if (isAvailable){
-                      apiServiceProvider.callGetServerCurrentTime(new RetrofitListener<ResponseBody>() {
-                          @Override
-                          public void onResponseSuccess(ResponseBody sucessRespnse, String apiFlag) {
-                              try {
-                                  JSONObject jsonObject = new JSONObject(sucessRespnse.string());
-                                  String dateTime = jsonObject.optString("date");
-                                  Date serverDate = utcToLocalTimeZone(dateTime);
-                                  String isAcessible = SharePreference.getInstance(mContext).getString("isAccessable");
+        Util.checkInternet(mContext, new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable) {
+                    apiServiceProvider.callGetServerCurrentTime(new RetrofitListener<ResponseBody>() {
+                        @Override
+                        public void onResponseSuccess(ResponseBody sucessRespnse, String apiFlag) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(sucessRespnse.string());
+                                String dateTime = jsonObject.optString("date");
+                                Date serverDate = utcToLocalTimeZone(dateTime);
+                                String isAcessible = dataSet.get(position).getIsAccessTimeEnabled();
 
-                                  if (!SharePreference.getInstance(mContext).getString("deviceStartTime").equalsIgnoreCase("")
-                                          && !SharePreference.getInstance(mContext).getString("deviceEndTime").equalsIgnoreCase("")) {
+                                if (dataSet.get(position).getAccessStarttime() != null && !dataSet.get(position).getAccessStarttime().equalsIgnoreCase("")
+                                        && dataSet.get(position).getAccessEndtime() != null && !dataSet.get(position).getAccessEndtime().equalsIgnoreCase("")) {
 
-                                      Date startTime = utcToLocalTimeZone(SharePreference.getInstance(mContext).getString("deviceStartTime"));
-                                      Date endTime = utcToLocalTimeZone(SharePreference.getInstance(mContext).getString("deviceEndTime"));
+                                    Date startTime = utcToLocalTimeZone(dataSet.get(position).getAccessStarttime());
+                                    Date endTime = utcToLocalTimeZone(dataSet.get(position).getAccessEndtime());
 
-                                      goToOpenDoor = accessWithinRange(isAcessible, startTime, endTime, serverDate);
+                                    goToOpenDoor = accessWithinRange(isAcessible, startTime, endTime, serverDate);
 //                    SharePreference.getInstance(getActivity()).putString(getResources().getString(R.string.server_current_time), dateTime);
-                                      Log.d("EndTimeeCheck: ", serverDate + " EndTime:" + endTime + " StartTime:" + startTime);
-                                  } else {
-                                      goToOpenDoor = true;
-                                  }
-                                  callOpenDoor(position);
-                              } catch (Exception e) {
-                                  e.printStackTrace();
-                              }
-                          }
+                                    Log.d("EndTimeeCheck: ", serverDate + " EndTime:" + endTime + " StartTime:" + startTime);
+                                } else {
+                                    goToOpenDoor = true;
+                                }
+                                callOpenDoor(position, type);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-                          @Override
-                          public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                              Util.firebaseEvent(Constant.APIERROR, mContext,Constant.UrlPath.SERVER_URL+apiFlag, LOGIN_DETAIL.getUsername(),LOGIN_DETAIL.getAppuserID(),errorObject.getStatus());
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            Util.firebaseEvent(Constant.APIERROR, mContext, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
 
 
-                          }
-                      });
+                        }
+                    });
 
-                  }
                 }
-            });
-        }
+            }
+        });
+    }
 
 
-    private void callOpenDoor(int position){
+    private void callOpenDoor(int position, int type) {
         if (goToOpenDoor) {
-            videoIntercomItemClick.onRemotelyOpenDoor(dataSet.get(position).getDeviceSno());
-        }else {
+            if (type == 1) {
+                videoIntercomItemClick.onOptionClickIntercomeDevice(dataSet.get(position));
+            } else {
+                videoIntercomItemClick.onRemotelyOpenDoor(dataSet.get(position).getDeviceSno());
+            }
+        } else {
             Toast.makeText(mContext, "User can not access at this time", Toast.LENGTH_SHORT).show();
         }
 

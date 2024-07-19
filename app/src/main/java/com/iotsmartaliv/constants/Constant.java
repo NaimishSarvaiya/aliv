@@ -84,6 +84,10 @@ public class Constant {
     public static String DEVICEAPIERRO = "iOT_SeverLogin_Error";
     public static String LOGIN = "login";
 
+    public static final String CALL_PATH = "callType";
+    public static final String ICOMING_CALL = "incomingCall";
+    public static final String OUTGOING_CALL = "outgoingCall";
+
     /**
      * This method is used for showing message in snack bar.
      *
@@ -191,9 +195,9 @@ public class Constant {
     public interface UrlPath {
 
         String BASEURL = "https://aliv.com.sg/"; // Live server.
-//      String BASEURL = "https://live.aliv.com.sg/"; // Alpha server
+//      String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
         String PATH = "alivapp/";                  // Here is the path path of API.
-        String SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
+        String  SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
 
         /**
          * This are the End Point list of User Operation API.

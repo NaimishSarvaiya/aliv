@@ -23,14 +23,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.activity.DeviceListActivity;
 import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.SplashActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.services.RefreshDeviceListService;
 import com.iotsmartaliv.services.ShakeOpenService;
-import com.iotsmartaliv.twilio.activity.VideoActivity;
 import com.iotsmartaliv.utils.NotificationUtil;
 import com.iotsmartaliv.utils.SharePreference;
 import com.thinmoo.utils.ChangeServerUtil;
@@ -47,7 +45,7 @@ import java.util.concurrent.ExecutionException;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.VO_IP;
 import static com.iotsmartaliv.constants.Constant.VO_PORT;
-import static com.iotsmartaliv.twilio.activity.VideoActivity.isCallActive;
+//import static com.iotsmartaliv.twilio.activity.VideoActivity.isCallActive;
 
 /**
  * This class is used as
@@ -58,19 +56,6 @@ import static com.iotsmartaliv.twilio.activity.VideoActivity.isCallActive;
  */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
-
-    // [START receive_message]
-/*
-    Message data payload: {message={"access_token":"",
-    "notification_type":"incoming call"
-    ,"room_name":"Room1561470070",
-    "receiver_id":"31",
-    "identity":"name of sender",
-    "sender_id":"32"
-    }}
-
-
-*/
     public void wakeScreen() {
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH
@@ -106,22 +91,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 else {
                     Log.i(TAG, "ybbbonMessageReceived: App Update Notification Not Received");
                 }
-
-//                Log.i(TAG, "onMessageReceived: \n " + jsonObject.toString());
-                if (notification_type.equalsIgnoreCase("incoming call")) {
-                    jsonObject.getString("access_token");
-                    jsonObject.getString("room_name");
-                    if (!isCallActive) {
-                        startActivity(new Intent(this, VideoActivity.class)
-                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                .putExtra("accessToken", jsonObject.getString("access_token"))
-                                .putExtra("senderId", jsonObject.getString("sender_id"))
-                                .putExtra("callerName", jsonObject.getString("identity"))
-                                .putExtra("roomId", jsonObject.getString("room_name")));
-                    } else {
-                        Log.d(TAG, jsonObject.getString("identity") + "Calling You...");
-                    }
-                } else if ((notification_type.equalsIgnoreCase("broadcast updated"))) {
+                    if ((notification_type.equalsIgnoreCase("broadcast updated"))) {
                     broadcastUpdateMessage(remoteMessage);
                 } else if ((notification_type.equalsIgnoreCase("end call"))) {
                     Intent intent = new Intent("custom-event-name");
