@@ -20,7 +20,7 @@ import com.iotsmartaliv.apiCalling.models.DefaultCountryData;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
-import com.iotsmartaliv.model.AddVisitor;
+import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +51,8 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
     VisitorAddedRefresh visitorAddedRefresh;
 
     ApiServiceProvider apiServiceProvider;
+
+    String countryISO = "";
 
     public AddVisitorDialog(Activity activity, VisitorAddedRefresh visitorAddedRefresh, CountryArrayData countryArrayData) {
         super(activity);
@@ -104,7 +106,6 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
     }
 
     private boolean AllFieldsValidation() {
-
         if (edtName.getText().toString().trim().isEmpty() || edtName.getText().toString().equalsIgnoreCase("") ){
             edtName.setError("Enter Visitor Name.");
             edtName.requestFocus();
@@ -113,6 +114,10 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
             edContactNumber.setError("Enter Contact Number.");
             edContactNumber.requestFocus();
             return  false;
+        }else if (!Util.isValidPhoneNumber(edContactNumber.getText().toString(), countryISO)) {
+            edContactNumber.setError("Please enter valid Contact Number.");
+            edContactNumber.requestFocus();
+            return false;
         }else if (edtLinsencePlate.getText().toString().trim().isEmpty() || edtLinsencePlate.getText().toString().equalsIgnoreCase("")){
             edtLinsencePlate.setError("Enter Licence plat");
             edtLinsencePlate.requestFocus();
@@ -121,21 +126,6 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
             return true;
 
         }
-
-//        if (edtName.getText().toString().trim().length() < 1) {
-//            Toast.makeText(activity, "Please enter name", Toast.LENGTH_SHORT).show();
-//            return false;
-//        } else if (tvCountryCode.getText().toString().trim().length() < 1) {
-//            Toast.makeText(activity, "Please enter name", Toast.LENGTH_SHORT).show();
-//            return false;
-//        } else if (edContactNumber.getText().toString().trim().length() < 1) {
-//            Toast.makeText(activity, "Please enter contact number", Toast.LENGTH_SHORT).show();
-//            return false;
-//        } /*else if (edtLinsencePlate.getText().toString().trim().length() < 1) {
-//            Toast.makeText(activity, "Please linsence number", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }*/
-//        return true;
     }
 
 
@@ -155,14 +145,17 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
         if (defaultCountryDataList.size() > 0) {
             tvCountryCode.setText(defaultCountryDataList.get(0).getPhonecode());
             countryId = defaultCountryDataList.get(0).getId();
+            countryISO = defaultCountryDataList.get(0).getIso();
         } else {
             tvCountryCode.setText(countryArrayData.getCountry().get(0).getPhonecode());
             countryId = countryArrayData.getCountry().get(0).getId();
+            countryISO = countryArrayData.getCountry().get(0).getIso();
         }
         tvCountryCode.setOnClickListener(v -> {
             CountryCodeDialogAdapter countryCodeDialogAdapter = new CountryCodeDialogAdapter(countryArrayData.getCountry(), data -> {
                 tvCountryCode.setText(data.getPhonecode());
                 country = data;
+                countryISO = country.getIso();
                 countryId = country.getId();
                 customCountryCodeDialog.dismiss();
             });

@@ -226,6 +226,7 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.10.2'
 
     implementation 'com.google.android.play:app-update:2.1.0'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.50'
 }
 
 apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin

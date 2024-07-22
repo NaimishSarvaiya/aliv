@@ -633,8 +633,13 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                     edt_name.setError("Enter Visitor Name.");
                     edt_name.requestFocus();
-                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                } else if (
+                        edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                }
+                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                    edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
                     edt_license_plate.setError("Enter Licence plat");
@@ -647,8 +652,13 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                     edt_name.setError("Enter Visitor Name.");
                     edt_name.requestFocus();
-                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                } else if (
+                        edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                }
+                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                    edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
                     addNewVisitorAdapterUncheck.addItem(new AddVisitor(edt_name.getText().toString().trim(), tv_country_code.getText().toString().trim(), edt_contact_number.getText().toString().trim(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
@@ -694,9 +704,9 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         Button buttonSubmit = dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
 
-        if (addLicensePlate.endsWith("1")){
+        if (addLicensePlate.endsWith("1")) {
             edt_license_plate.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             edt_license_plate.setVisibility(View.GONE);
         }
         tv_country_code.setOnClickListener(v -> {
@@ -728,8 +738,12 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                     edt_name.setError("Enter Visitor Name.");
                     edt_name.requestFocus();
-                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                } else if (
+                        edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                    edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
                     edt_license_plate.setError("Enter Licence plat");
@@ -738,12 +752,16 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                     radioSingleAddNewVisitorAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
                     dialogBuilder.dismiss();
                 }
-            }else {
+            } else {
                 if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                     edt_name.setError("Enter Visitor Name.");
                     edt_name.requestFocus();
-                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                } else if (
+                        edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                    edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
                     radioSingleAddNewVisitorAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
@@ -1059,9 +1077,9 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         }
         Button buttonSubmit = dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
-        if (addLicensePlate.endsWith("1")){
+        if (addLicensePlate.endsWith("1")) {
             edt_license_plate.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             edt_license_plate.setVisibility(View.GONE);
         }
         tv_country_code.setOnClickListener(v -> {
@@ -1094,8 +1112,13 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                     edt_name.setError("Enter Visitor Name.");
                     edt_name.requestFocus();
-                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+
+                } else if (
+                        edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                    edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
                     edt_license_plate.setError("Enter Licence plat");
@@ -1104,12 +1127,16 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                     visitorListAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
                     dialogBuilder.dismiss();
                 }
-            }else {
+            } else {
                 if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                     edt_name.setError("Enter Visitor Name.");
                     edt_name.requestFocus();
-                } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
+                } else if (
+                        edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
+                    edt_contact_number.requestFocus();
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                    edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
                     visitorListAdapter.addItem(new AddVisitor(edt_name.getText().toString(), tv_country_code.getText().toString(), edt_contact_number.getText().toString(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));

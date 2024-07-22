@@ -135,7 +135,6 @@ public class EnrollmentActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onNetworkCheckComplete(boolean isAvailable) {
                             if (isAvailable) {
-
                                 apiServiceProvider.callAPIForUploadFaceEnrollImg(LOGIN_DETAIL.getAppuserID(), base64String, new RetrofitListener<SuccessResponse>() {
                                     @Override
                                     public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
@@ -157,7 +156,9 @@ public class EnrollmentActivity extends AppCompatActivity implements View.OnClic
 
                                     @Override
                                     public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                        Toast.makeText(EnrollmentActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                        if (throwable.getMessage()!=null) {
+                                            Toast.makeText(EnrollmentActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
                                         Util.firebaseEvent(Constant.APIERROR, EnrollmentActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
 
                                     }
