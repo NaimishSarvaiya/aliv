@@ -24,8 +24,8 @@ android {
         applicationId 'com.iotsmartaliv'
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 39
-        versionName "2.3.2" //Latest August Update
+        versionCode 40
+        versionName "3.0.0" //Latest August Update
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
