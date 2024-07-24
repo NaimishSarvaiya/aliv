@@ -204,7 +204,7 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
 
     private /*boolean*/ void checkAndRequestPermissions() {
         int camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        int phonestate = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+//        int phonestate = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
         int location = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int recordaudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -219,9 +219,9 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
         if (camerapermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
         }
-        if (phonestate != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_PHONE_STATE);
-        }
+//        if (phonestate != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.READ_PHONE_STATE);
+//        }
         if (location != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
@@ -265,14 +265,14 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
 
                 Map<String, Integer> perms = new HashMap<>();
 
                 perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.READ_PHONE_STATE, PackageManager.PERMISSION_GRANTED);
+//                perms.put(Manifest.permission.READ_PHONE_STATE, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
@@ -286,18 +286,18 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
                         perms.put(permissions[i], grantResults[i]);
                     // Check for both permissions
                     if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
+//                            && perms.get(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
 
                     ) {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && perms.get(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && perms.get(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                             checkAndRequestPermissions();
                             Toast.makeText(this, "Please allow required permissions to continue", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) != null && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) != null && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
 
                             Log.d("SplashScreen", "Some permissions are not granted ask again ");
@@ -324,7 +324,7 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
                         // here you can do your logic all Permission Success Call
                         moveToNxtScreen();
 
-                    }  else {
+                    } else {
                         Log.d("SplashScreen", "Some permissions are not granted ask again ");
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             showDialogOK("Some Permissions are required for Open doors",

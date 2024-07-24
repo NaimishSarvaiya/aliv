@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -37,6 +38,13 @@ import com.doormaster.vphone.exception.DMException;
 import com.doormaster.vphone.inter.DMModelCallBack.DMCallback;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 //import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
@@ -52,6 +60,7 @@ import com.iotsmartaliv.services.DeviceLogSyncService;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
@@ -60,6 +69,8 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
 import static com.iotsmartaliv.constants.Constant.showLoader;
+
+import org.jsoup.Jsoup;
 
 /**
  * This activity class is used for main activity with Nav-Drawer.
@@ -99,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     private Fragment fragment;
     private String manufacturer = "";
+    String sCurrentVersion,sLatestVersion;
+    private static final int REQUEST_CODE_UPDATE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +119,6 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         setContentView(R.layout.activity_main);
         manufacturer = Build.MANUFACTURER;
         apiServiceProvider = ApiServiceProvider.getInstance(this);
-         /*try {
-            apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), this);
-        } catch (Exception e) {
-            finish();
-        }*/
 
         Intent service = new Intent(this, DeviceLogSyncService.class);
 
@@ -275,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                 }
             }
         }
+        checkForAppUpdate();
     }
 
 //    @Override
@@ -299,8 +308,15 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
                     showLoader(MainActivity.this);
+                    String userIdApp = "";
+                    SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+//                    if (LOGIN_DETAIL.getAppuser() == null){
+                        userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
+//                    }else {
+//                      userIdApp =   LOGIN_DETAIL.getAppuser();
+//                    }
                     Log.e("UserId",LOGIN_DETAIL.getAppuserID() );
-                    apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), MainActivity.this);
+                    apiServiceProvider.callForDeviceList(userIdApp, MainActivity.this);
 
                 } else {
                     hideLoader();
@@ -485,12 +501,20 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_UPDATE) {
+            if (resultCode != RESULT_OK) {
+                Log.e("MainActivity", "Update flow failed! Result code: " + resultCode);
+                // If the update is cancelled or fails, you can request to start the update again.
+                checkForAppUpdate();
+            }
+        }
+
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.container);//getFragmentManager().findFragmentById(R.id.container);
         if (currentFragment instanceof HomeFragment)
             ((HomeFragment) currentFragment).onActivityResult(requestCode, resultCode, data);
 
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -532,5 +556,114 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                     Toast.makeText(this, "Exact alarm permission denied", Toast.LENGTH_SHORT).show();
                 })
                 .show();
+    }
+
+    private class GetLatestVersion extends AsyncTask<String,Void,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                sLatestVersion= Jsoup
+                        .connect("https://play.google.com//store/apps/details?id="
+                                +getPackageName())
+                        .timeout(30000)
+                        .get()
+                        .select("div.hAyfc:nth-child(4)>"+
+                                "span:nth-child(2) > div:nth-child(1)"+
+                                "> span:nth-child(1)")
+                        .first()
+                        .ownText();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return sLatestVersion;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            // Get current version
+            sCurrentVersion= BuildConfig.VERSION_NAME;
+            // Set current version on Text view
+//            tvCurrentVersion.setText(sCurrentVersion);
+//            // Set latest version on TextView
+//            tvLatestVersion.setText(sLatestVersion);
+
+            if(sLatestVersion != null)
+            {
+                // Version convert to float
+                float cVersion=Float.parseFloat(sCurrentVersion);
+                float lVersion=Float.parseFloat(sLatestVersion);
+
+                // Check condition(latest version is
+                // greater than the current version)
+                if(lVersion > cVersion)
+                {
+                    // Create update AlertDialog
+                    updateAlertDialog();
+                }
+            }
+        }
+    }
+
+    private void updateAlertDialog() {
+        // Initialize AlertDialog
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        // Set title
+        builder.setTitle(getResources().getString(R.string.app_name));
+        // set message
+        builder.setMessage("");
+        // Set non cancelable
+        builder.setCancelable(false);
+
+        // On update
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Open play store
+                startActivity(new Intent(Intent .ACTION_VIEW,
+                        Uri.parse("market://details?id"+getPackageName())));
+                // Dismiss alert dialog
+                dialogInterface.dismiss();
+            }
+        });
+
+        // on cancel
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // cancel alert dialog
+                dialogInterface.cancel();
+            }
+        });
+
+        // show alert dialog
+        builder.show();
+    }
+
+    private void checkForAppUpdate() {
+        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
+
+        // Returns an intent object that you use to check for an update.
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        // Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                // Request the update.
+                try {
+                    appUpdateManager.startUpdateFlowForResult(
+                            appUpdateInfo,
+                            AppUpdateType.IMMEDIATE,
+                            MainActivity.this,
+                            REQUEST_CODE_UPDATE);
+                } catch (IntentSender.SendIntentException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("MainActivity", "Update check failed", e);
+        });
     }
 }

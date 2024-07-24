@@ -239,16 +239,19 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
 
         buttonCancel.setOnClickListener(view -> dialogBuilder.dismiss());
         buttonSubmit.setOnClickListener(view -> {
-            if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("") ){
+            if (edt_name.getText().toString().trim().isEmpty() || edt_name.getText().toString().equalsIgnoreCase("")) {
                 edt_name.setError("Enter Visitor Name.");
                 edt_name.requestFocus();
-            }else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")){
+            } else if (edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                 edt_contact_number.setError("Enter Contact Number.");
                 edt_contact_number.requestFocus();
-            }else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")){
+            } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                edt_contact_number.setError("Please enter valid Contact Number.");
+                edt_contact_number.requestFocus();
+            } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
                 edt_license_plate.setError("Enter Licence plat");
                 edt_license_plate.requestFocus();
-            }else {
+            } else {
                 visitorListAdapter.addItem(new AddVisitor(edt_name.getText().toString().trim(), tv_country_code.getText().toString().trim(), edt_contact_number.getText().toString().trim(), country.getId(), edt_license_plate.getText().toString().isEmpty() ? "" : edt_license_plate.getText().toString()));
                 dialogBuilder.dismiss();
             }

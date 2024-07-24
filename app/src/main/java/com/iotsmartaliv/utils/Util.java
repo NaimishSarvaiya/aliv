@@ -7,6 +7,9 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.utils.faceenroll.ConnectionManager;
 
@@ -45,5 +48,20 @@ public class Util {
         bundle.putString(Constant.USERID,userId );
         bundle.putInt(Constant.ERRORCODE,errorCode );
         mFirebaseAnalytics.logEvent(eventName, bundle);
+    }
+
+    public static boolean isValidPhoneNumber(String phoneNumber, String countryCode) {
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+        try {
+            if (phoneNumber.trim().isEmpty()){
+                return  false;
+            }else {
+            Phonenumber.PhoneNumber numberProto = phoneNumberUtil.parse(phoneNumber, countryCode);
+                return phoneNumberUtil.isValidNumber(numberProto);
+            }
+        } catch (NumberParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.DeviceDetailActivity;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
+import com.iotsmartaliv.apiCalling.models.Country;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
@@ -196,6 +197,11 @@ public class DevicelistAdapter extends BaseAdapter {
 
         });
         return convertView;
+    }
+
+    public void updateList(List<DeviceObject> dataList) {
+        data = dataList;
+        notifyDataSetChanged();
     }
 
     private void performOpenDoorOperation(boolean isOnline, LibDevModel libDev, int position) {

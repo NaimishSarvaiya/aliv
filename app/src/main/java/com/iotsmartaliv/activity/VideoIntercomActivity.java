@@ -13,9 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,12 +69,14 @@ import java.util.List;
 
 import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+import static com.iotsmartaliv.constants.Constant.deviceLIST;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
 import static com.iotsmartaliv.utils.CommanUtils.accessWithinRange;
 import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
 
 import org.json.JSONObject;
 
+import butterknife.BindView;
 import okhttp3.ResponseBody;
 
 /**
@@ -95,6 +100,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
     Boolean internetConnected = false;
     private boolean goToOpenDoor=false;
     private AlertDialog dialog;
+    EditText searchDevice;
 
 
     private DMCallback loginCallback = (errorCode, e) -> {
@@ -154,6 +160,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
         Log.e("INTERCOM", "TRUE");
         SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
         String userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
+
 //        if (Util.checkInternet(this)) {
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
@@ -200,11 +207,34 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
 
         initViews();
         initListeners();
+        searchDevice = findViewById(R.id.search_videoDevice);
         //videoIntercom.setItemsCanFocus(false);
         adapter = new VideoIntercomAdapter(videoIntercomArrayList, this, this);
         videoIntercom.setAdapter(adapter);
         requestPermissiontest();
 //        Constant.showLoader(this);
+
+        searchDevice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // filter your list from your input
+                filter(s.toString());
+                //you can use runnable postDelayed like 500 ms to delay search text
+            }
+        });
 
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
@@ -294,7 +324,26 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
     private void initViews() {
         videoIntercom = findViewById(R.id.list_item_video);
         imgbackIntercom = findViewById(R.id.img_back_intercom);
+
     }
+
+    private void filter(String text) {
+        ArrayList<VideoDeviceData>  device  = new ArrayList<>();
+        for (VideoDeviceData d : videoIntercomArrayList) {
+
+            if (!d.getCdeviceName().isEmpty()){
+                if (d.getCdeviceName().toLowerCase().contains(text.toLowerCase())) {
+                    device.add(d);
+                }
+            }else {
+                if (d.getDeviceName().toLowerCase().contains(text.toLowerCase()) ) {
+                    device.add(d);
+                }
+            }
+        }
+        adapter.updateList(device);
+    }
+
 
     /**
      * Initialize listeners.
@@ -342,7 +391,10 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
     }
 
     private void callOpenDoor(String device_sn){
-        dialog.dismiss();
+//        dialog.dismiss();
+        if (dialog!=null) {
+            dialog.dismiss();
+        }
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -353,7 +405,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
                     apiServiceProvider.taskOpenDoorRemotely(hashMap, new RetrofitListener<SuccessResponse>() {
                         @Override
                         public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
-                            Toast.makeText(VideoIntercomActivity.this, sucessRespnse.getMsg().equalsIgnoreCase("Gate open") ? "Door Open Successfully." : sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VideoIntercomActivity.this,sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -394,14 +446,18 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
                     apiServiceProvider.openVideoDeviceRelay(relayRequest, new RetrofitListener<SuccessResponseModel>() {
                         @Override
                         public void onResponseSuccess(SuccessResponseModel sucessRespnse, String apiFlag) {
-                            dialog.dismiss();
+                            if (dialog!=null) {
+                                dialog.dismiss();
+                            }
                             Toast.makeText(VideoIntercomActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
 
                         }
 
                         @Override
                         public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                            dialog.dismiss();
+                            if (dialog!=null) {
+                                dialog.dismiss();
+                            }
                             Toast.makeText(VideoIntercomActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
 //                chagefailSatus(isOnline);
                         }
@@ -415,13 +471,14 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
 
     public void intercomeOptionDialog(VideoDeviceData deviceData) {
 
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this,R.style.CustomDialogTheme);
 
         // ...Irrelevant code for customizing the buttons and title
 
         LayoutInflater inflater = this.getLayoutInflater();
 
         View dialogView = inflater.inflate(R.layout.intercome_options_dialog, null);
+        dialogView.setBackgroundResource(R.drawable.intercome_white_border_blue_bg);
         dialogBuilder.setView(dialogView);
         ImageView openDoor = (ImageView) dialogView.findViewById(R.id.img_openDoor);
         ImageView videoCall = (ImageView) dialogView.findViewById(R.id.img_videocall);
@@ -527,6 +584,9 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
      * @param deviceSno
      */
     public void call(String deviceSno) {
+        if (dialog!=null){
+        dialog.dismiss();
+        }
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
