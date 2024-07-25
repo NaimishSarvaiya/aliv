@@ -145,17 +145,17 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
         if (defaultCountryDataList.size() > 0) {
             tvCountryCode.setText(defaultCountryDataList.get(0).getPhonecode());
             countryId = defaultCountryDataList.get(0).getId();
-            countryISO = defaultCountryDataList.get(0).getIso();
+            countryISO = defaultCountryDataList.get(0).getCountryCode();
         } else {
             tvCountryCode.setText(countryArrayData.getCountry().get(0).getPhonecode());
             countryId = countryArrayData.getCountry().get(0).getId();
-            countryISO = countryArrayData.getCountry().get(0).getIso();
+            countryISO = countryArrayData.getCountry().get(0).getPhonecode();
         }
         tvCountryCode.setOnClickListener(v -> {
             CountryCodeDialogAdapter countryCodeDialogAdapter = new CountryCodeDialogAdapter(countryArrayData.getCountry(), data -> {
                 tvCountryCode.setText(data.getPhonecode());
                 country = data;
-                countryISO = country.getIso();
+                countryISO = country.getPhonecode();
                 countryId = country.getId();
                 customCountryCodeDialog.dismiss();
             });

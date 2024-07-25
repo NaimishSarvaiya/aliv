@@ -638,7 +638,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
                 }
-                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
@@ -657,7 +657,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
                 }
-                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
@@ -742,7 +742,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
@@ -760,7 +760,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
@@ -1117,7 +1117,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
@@ -1135,7 +1135,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getIso())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {

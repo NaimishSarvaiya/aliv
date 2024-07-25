@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
+import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.DevicelistAdapter;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
@@ -123,7 +124,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {
                     if (isAvailable) {
-                        apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), DeviceListActivity.this);
+                        apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), BuildConfig.VERSION_NAME,DeviceListActivity.this);
                     } else {
                         hideLoader();
                     }
@@ -134,7 +135,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
                     @Override
                     public void onNetworkCheckComplete(boolean isAvailable) {
                         if (isAvailable) {
-                            apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), DeviceListActivity.this);
+                            apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(),  BuildConfig.VERSION_NAME,DeviceListActivity.this);
                         } else {
                             hideLoader();
                         }
@@ -283,7 +284,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable){
-                    apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(), DeviceListActivity.this);
+                    apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(),  BuildConfig.VERSION_NAME,DeviceListActivity.this);
                 }else {
                     hideLoader();
                 }
