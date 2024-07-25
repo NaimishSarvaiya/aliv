@@ -124,7 +124,7 @@ public interface ApiServices {
     Call<SuccessResponse> performUpdateProfile(@FieldMap HashMap<String, String> paramHashMap);
 
     @GET(DEVICE_LIST_API)
-    Call<SuccessDeviceListResponse> getAllDeviceList(@Query("appuser_ID") String userId);
+    Call<SuccessDeviceListResponse> getAllDeviceList(@Query("appuser_ID") String userId,@Query("app_version") String appVersion);
 
     @GET(COMMUNITY_DEVICE_LIST_API)
     Call<SuccessResponse> getCommunityDeviceList(@Query("appuser_ID") String userId, @Query("community_ID") String community_ID);

@@ -279,9 +279,9 @@ public class ApiServiceProvider<context> extends RetrofitBase {
      *
      * @param appuser_ID this is app user id field.
      */
-    public void callForDeviceList(String appuser_ID, final RetrofitListener<SuccessDeviceListResponse> retrofitArrayListener) {
+    public void callForDeviceList(String appuser_ID,String appVersion, final RetrofitListener<SuccessDeviceListResponse> retrofitArrayListener) {
 
-        Call<SuccessDeviceListResponse> call = apiServices.getAllDeviceList(appuser_ID);
+        Call<SuccessDeviceListResponse> call = apiServices.getAllDeviceList(appuser_ID,appVersion);
         call.enqueue(new CallBackWithProgress<SuccessDeviceListResponse>(context) {
             @Override
             public void onResponse(Call<SuccessDeviceListResponse> call, Response<SuccessDeviceListResponse> response) {
@@ -303,8 +303,8 @@ public class ApiServiceProvider<context> extends RetrofitBase {
      *
      * @param appuser_ID this is app user id field.
      */
-    public void callForRefreshDeviceList(String appuser_ID, final RetrofitListener<SuccessDeviceListResponse> retrofitArrayListener) {
-        Call<SuccessDeviceListResponse> call = apiServices.getAllDeviceList(appuser_ID);
+    public void callForRefreshDeviceList(String appuser_ID,String appVersion, final RetrofitListener<SuccessDeviceListResponse> retrofitArrayListener) {
+        Call<SuccessDeviceListResponse> call = apiServices.getAllDeviceList(appuser_ID,appVersion);
         call.enqueue(new Callback<SuccessDeviceListResponse>() {
             @Override
             public void onResponse(Call<SuccessDeviceListResponse> call, Response<SuccessDeviceListResponse> response) {

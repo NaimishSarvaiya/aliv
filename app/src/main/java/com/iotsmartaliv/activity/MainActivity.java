@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 //                      userIdApp =   LOGIN_DETAIL.getAppuser();
 //                    }
                     Log.e("UserId",LOGIN_DETAIL.getAppuserID() );
-                    apiServiceProvider.callForDeviceList(userIdApp, MainActivity.this);
+                    apiServiceProvider.callForDeviceList(userIdApp,BuildConfig.VERSION_NAME.toString(), MainActivity.this);
 
                 } else {
                     hideLoader();
