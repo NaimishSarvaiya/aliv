@@ -56,13 +56,14 @@ import static com.iotsmartaliv.constants.Constant.VO_PORT;
  */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
+
     public void wakeScreen() {
         PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH
                 ? pm.isInteractive()
                 : pm.isScreenOn(); // check if screen is on
         if (!isScreenOn) {
-            PowerManager.WakeLock wl = pm.newWakeLock( PowerManager.ACQUIRE_CAUSES_WAKEUP |
+            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP |
                     PowerManager.ON_AFTER_RELEASE, "appname::Aliv");
             wl.acquire(6000); //set your time in milliseconds
             wl.release();
@@ -82,22 +83,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             try {
                 JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("message"));
                 String notification_type = jsonObject.optString("notification_type");
-                Log.i(TAG, "ybbonMessageReceived: "+notification_type);
+                Log.i(TAG, "ybbonMessageReceived: " + notification_type);
 
-                if (notification_type.equalsIgnoreCase("")){
+                if (notification_type.equalsIgnoreCase("")) {
                     Log.i(TAG, "ybbbonMessageReceived: App Update Notification Received");
                     appUpdateMessage(jsonObject);
-                }
-                else {
+                } else {
                     Log.i(TAG, "ybbbonMessageReceived: App Update Notification Not Received");
                 }
-                    if ((notification_type.equalsIgnoreCase("broadcast updated"))) {
+                if ((notification_type.equalsIgnoreCase("broadcast updated"))) {
                     broadcastUpdateMessage(remoteMessage);
                 } else if ((notification_type.equalsIgnoreCase("end call"))) {
                     Intent intent = new Intent("custom-event-name");
                     LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-                }
-                    else if(notification_type.equalsIgnoreCase("device list updated")){
+                } else if (notification_type.equalsIgnoreCase("Version Update")) {
+                    forground(remoteMessage);
+                } else if (notification_type.equalsIgnoreCase("device list updated")) {
                     forground(remoteMessage);
 //                    JSONObject notification_data = (JSONObject)jsonObject.get("data");
 //                    String notification_title = notification_data.optString("message_title");
@@ -107,7 +108,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                    Intent intent = new Intent(this, RefreshDeviceListService.class);
 //                    startService(intent);
 
-                }else if ((notification_type.equalsIgnoreCase("login in different device"))) {
+                } else if ((notification_type.equalsIgnoreCase("login in different device"))) {
                     LOGIN_DETAIL = null;
                     DMVPhoneModel.exit();
                     stopService(new Intent(this, ShakeOpenService.class));
@@ -116,12 +117,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                    new AsyncTask<Void, Void, Void>() {
 //                        @Override
 //                        protected Void doInBackground(Void... params) {
-                            try {
-                                FirebaseMessaging.getInstance().deleteToken();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Log.d("FCMTOKEN", "doInBackground: " + e.getLocalizedMessage());
-                            }
+                    try {
+                        FirebaseMessaging.getInstance().deleteToken();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("FCMTOKEN", "doInBackground: " + e.getLocalizedMessage());
+                    }
 //                            return null;
 //                        }
 //
@@ -171,18 +172,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     String ip = SharePreference.getInstance(this).getString(VO_IP);
                                     String port = SharePreference.getInstance(this).getString(VO_PORT);
 
-                                    if (ip==null && ip.isEmpty() && ip.equals("")){
+                                    if (ip == null && ip.isEmpty() && ip.equals("")) {
                                         ip = "113.197.36.196";
                                     }
 
-                                    if (port==null && port.isEmpty() && port.equals("")){
+                                    if (port == null && port.isEmpty() && port.equals("")) {
                                         port = "5061";
                                     }
                                     //  DMVPhoneModel.initDMVPhoneSDK(this);
 //                                    ChangeServerUtil.getInstance().initConfig(this);
                                     ServerContainer serverContainer2 = new ServerContainer("43.229.85.122", "8099", "自定义应用服务器");
                                     ChangeServerUtil.getInstance().setAppServer(serverContainer2);
-                                    ServerContainer sipContainer = new ServerContainer(ip, port , "CustomVideoServer");
+                                    ServerContainer sipContainer = new ServerContainer(ip, port, "CustomVideoServer");
                                     ChangeServerUtil.getInstance().setVideoServer(sipContainer);
                                     DMVPhoneModel.initConfig(context);
                                     DMVPhoneModel.initDMVPhoneSDK(context, "DDemo", false, false);
@@ -194,7 +195,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                                    NotificationUtil.getInstance(this).scheduleNotification(this,false,callerName);
+                                    NotificationUtil.getInstance(this).scheduleNotification(this, false, callerName);
                             }
 
                         }
@@ -210,6 +211,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
     }
+
     private void forGroundNotification(String title, String messageBody) {
         // Create an intent that will be fired when the user taps the notification.
         Intent intent = new Intent(this, MainActivity.class);
@@ -238,6 +240,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
     private void broadcastUpdateMessage(RemoteMessage remoteMessage) {
         try {
 
@@ -248,7 +251,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String appuserID = jsonAdditionalParams.optString("appuser_ID");
             String broadcastID = jsonAdditionalParams.optString("broadcast_ID");
 
-            if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")){
+            if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")) {
 
                 sendBroadcastNotification(mTitle, mBody, appuserID, broadcastID);
 
@@ -259,7 +262,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    void forground(RemoteMessage remoteMessage){
+    void forground(RemoteMessage remoteMessage) {
         try {
 
             JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("message"));
@@ -269,7 +272,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //            if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")){
 
-                sendForgroundNotification(mTitle,mBody);
+            sendForgroundNotification(mTitle, mBody);
 
 //            }
 
@@ -281,23 +284,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void appUpdateMessage(JSONObject jsonObject) {
 
         try {
-            JSONObject notification_data = (JSONObject)jsonObject.get("data");
+            JSONObject notification_data = (JSONObject) jsonObject.get("data");
             String notification_title = notification_data.optString("message_title");
             String notification_body = notification_data.optString("body");
 
-            Log.i(TAG, "ybbbappUpdateMessage:\n notification data-> "+notification_data.toString()
-                    +"\n notification Title-> "+notification_title
-                    +"\n notification Body-> "+notification_body);
+            Log.i(TAG, "ybbbappUpdateMessage:\n notification data-> " + notification_data.toString()
+                    + "\n notification Title-> " + notification_title
+                    + "\n notification Body-> " + notification_body);
 
-            if (!notification_title.equalsIgnoreCase("") && !notification_body.equalsIgnoreCase("")){
+            if (!notification_title.equalsIgnoreCase("") && !notification_body.equalsIgnoreCase("")) {
 
-                sendNotification(notification_title,notification_body);
+                sendNotification(notification_title, notification_body);
 
                 Log.e("Called notif", "True");
 
             }
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,7 +344,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);*/
         PendingIntent pendingIntent;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         } else {
@@ -376,19 +377,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 , notificationBuilder.build());
+        notificationManager.notify(0, notificationBuilder.build());
 
         Log.e("SENT", "TRUE");
     }
 
-    void sendForgroundNotification(String strTitle, String strBody){
+    void sendForgroundNotification(String strTitle, String strBody) {
         Intent intent = new Intent(this, RefreshDeviceListService.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
         PendingIntent pendingIntent;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         } else {
@@ -424,17 +425,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
     private void sendBroadcastNotification(String strTitle, String strBody, String appuserID, String broadcastID) {
 
         Intent intent = new Intent(this, BroadcastCommunityActivity.class);
-        intent.putExtra("APP_USER_ID",appuserID);
-        intent.putExtra("BROADCAST_ID",broadcastID);
+        intent.putExtra("APP_USER_ID", appuserID);
+        intent.putExtra("BROADCAST_ID", broadcastID);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
         PendingIntent pendingIntent;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         } else {

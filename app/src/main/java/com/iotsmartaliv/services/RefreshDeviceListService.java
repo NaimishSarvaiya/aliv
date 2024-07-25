@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
@@ -56,7 +57,7 @@ public class RefreshDeviceListService extends Service implements RetrofitListene
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
-                    apiServiceProvider.callForRefreshDeviceList(LOGIN_DETAIL.getAppuserID(), RefreshDeviceListService.this);
+                    apiServiceProvider.callForRefreshDeviceList(LOGIN_DETAIL.getAppuserID(), BuildConfig.VERSION_NAME, RefreshDeviceListService.this);
                 }
             }
         });
