@@ -28,6 +28,7 @@ import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.model.BookRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.model.CheckBookingRequest;
+import com.iotsmartaliv.model.DeleteUserRequest;
 import com.iotsmartaliv.model.InstructorInductionDataResponse;
 import com.iotsmartaliv.model.InstructorListResponse;
 import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
@@ -1452,6 +1453,23 @@ public class ApiServiceProvider<context> extends RetrofitBase {
 
     public void openVideoDeviceRelay(OpenVideoDeviceRelayRequest relayRequest, RetrofitListener<SuccessResponseModel> retrofitListener) {
         Call<SuccessResponseModel> dataResponseCall = apiServices.openRelay(relayRequest);
+        dataResponseCall.enqueue(new CallBackWithProgress<SuccessResponseModel>(context) {
+            @Override
+            public void onResponse(Call<SuccessResponseModel> call, Response<SuccessResponseModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+
+            @Override
+            public void onFailure(Call<SuccessResponseModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void DeleteUser(DeleteUserRequest deleteUserRequest, RetrofitListener<SuccessResponseModel> retrofitListener) {
+        Call<SuccessResponseModel> dataResponseCall = apiServices.deleteUser(deleteUserRequest);
         dataResponseCall.enqueue(new CallBackWithProgress<SuccessResponseModel>(context) {
             @Override
             public void onResponse(Call<SuccessResponseModel> call, Response<SuccessResponseModel> response) {

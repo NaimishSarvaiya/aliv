@@ -17,6 +17,7 @@ import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.model.BookRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.model.CheckBookingRequest;
+import com.iotsmartaliv.model.DeleteUserRequest;
 import com.iotsmartaliv.model.InstructorInductionDataResponse;
 import com.iotsmartaliv.model.InstructorListResponse;
 import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
@@ -55,6 +56,7 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.CHANGE_PASSWORD_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.CHECK_DEVICE_BOOKINGS;
 import static com.iotsmartaliv.constants.Constant.UrlPath.COMMUNITY_DEVICE_LIST_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.COMMUNITY_LIST_API;
+import static com.iotsmartaliv.constants.Constant.UrlPath.DELETE_APPUSER;
 import static com.iotsmartaliv.constants.Constant.UrlPath.DELETE_SCHEDULE;
 import static com.iotsmartaliv.constants.Constant.UrlPath.DEVICE_LIST_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.DEVICE_OPEN_DOOR_REMOTELY;
@@ -292,6 +294,9 @@ public interface ApiServices {
 
     @POST(OPEN_VIDEO_DEVICE_RELAY)
     Call<SuccessResponseModel> openRelay(@Body OpenVideoDeviceRelayRequest openRelayRequest);
+
+    @POST(DELETE_APPUSER)
+    Call<SuccessResponseModel> deleteUser(@Body DeleteUserRequest deleteUserRequest);
 }
 
 

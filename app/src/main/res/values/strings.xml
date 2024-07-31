@@ -38,6 +38,7 @@
     <string name="end_date_time"><![CDATA[End Date & Time]]></string>
     <string name="change_password">Change Password</string>
     <string name="face_registration">Face Registration</string>
+    <string name="delete_account">Delete Account</string>
     <string name="payment_help">Payment Help</string>
     <string name="about_us_text">ALiv Smart Community is an International IoT Platform using IoT Protocol catered for commercial and residential applications. It is a full solution which consists of IoT Devices such as IoT Access, IoT Intercom, IoT Facial AI, IoT gateways, IoT Sensors and much more. It aims to promote healthy life smart living in a community through technology.</string>
     <string name="scan_qr_code">Scan QR Code</string>
@@ -269,6 +270,7 @@
     <string name="action_calls">Calls</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_account_note">This action is irreversible and will permanently remove all your data from our system.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
