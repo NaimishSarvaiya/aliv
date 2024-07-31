@@ -38,6 +38,7 @@ public class Constant {
     public static final String FORGOT_PASSWORD_API = "forgotPassword";
     public static final String USER_NAME = "username";
     public static final String EMAIL_ID = "email_ID";
+    public static final String ACCOUNT_TOKEN_PWD = "accountTokenPwd";
     public static final String PASSWORD = "password";
     public static final String CONFIRM_PASSWORD = "cpassword";
     public static final String OAUTH_PROVIDER = "oauth_provider";
@@ -242,7 +243,7 @@ public class Constant {
          * This are the End Point list of Community API.
          */
         String JOIN_COMMUNITY_API = "joinCommunity";
-        String COMMUNITY_LIST_API = "userCommunities";
+            String COMMUNITY_LIST_API = "userCommunities";
         String SUB_COMMUNITY_LIST_API = "subCommunities";
         String SERVERTIMESYNC = "serverTimeSync";
         String VOIP = "getVoipData";
@@ -321,6 +322,7 @@ public class Constant {
         String GET_CURRENT_TIME = "getCurrentTime";
         String CHECK_DEVICE_BOOKINGS = "checkDeviceBookings";
         String OPEN_VIDEO_DEVICE_RELAY = "openVideoDeviceRelay";
+        String DELETE_APPUSER = "deleteAppuser";
 
         /**
          * API call for video intercom server to update the firebase token video intercom calling.

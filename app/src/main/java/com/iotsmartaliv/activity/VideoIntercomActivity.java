@@ -439,7 +439,6 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
-
                 if (isAvailable) {
                     apiServiceProvider = ApiServiceProvider.getInstance(VideoIntercomActivity.this);
                     OpenVideoDeviceRelayRequest relayRequest = new OpenVideoDeviceRelayRequest( relayItem.getAutomationDeviceID(),String.valueOf(relayItem.getAttachedRelay()));

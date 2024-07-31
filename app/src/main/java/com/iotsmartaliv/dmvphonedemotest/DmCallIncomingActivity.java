@@ -87,16 +87,13 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
         } else {
             isActive = pm.isScreenOn();
         }
-
         final int screenWidth = getResources().getDisplayMetrics().widthPixels;
-
         accept = findViewById(R.id.accept);
         decline = findViewById(R.id.decline);
         tv_title = findViewById(R.id.tv_title);
         blurView = findViewById(R.id.blurView);
         incoming_call_image = findViewById(R.id.incoming_call_image);
         accept.setOnClickListener(this);
-
         decline.setOnClickListener(this);
 
         mListener = new DMCallStateListener() {
@@ -117,7 +114,6 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
         Blurry.with(this).radius(25).sampling(2).from(BitmapFactory.decodeResource(getResources(),
                 R.mipmap.ic_background)).into(blurView);
         Glide.with(this).asGif().load(R.raw.cancel_call).into(incoming_call_image);
-
     }
 
     @Override

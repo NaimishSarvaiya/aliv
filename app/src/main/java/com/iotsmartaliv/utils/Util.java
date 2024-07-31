@@ -14,7 +14,11 @@ import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.CountryPhoneFormat;
 import com.iotsmartaliv.utils.faceenroll.ConnectionManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Util {
@@ -347,4 +351,34 @@ public class Util {
 //            return false;
 //        }
     }
+
+    public static boolean validateTime(String startTime, String endTime, String count) {
+        if (count.equals("")){
+           return true;
+        }else {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Calendar current = Calendar.getInstance();
+            Calendar end = Calendar.getInstance();
+            end.add(Calendar.DAY_OF_YEAR, Integer.parseInt(count));
+
+            try {
+                Date startTimeDate = sdf.parse(startTime);
+                Date endTimeDate = sdf.parse(endTime);
+
+                if (startTimeDate.after(current.getTime()) && startTimeDate.before(end.getTime()) &&
+                        endTimeDate.after(current.getTime()) && endTimeDate.before(end.getTime())) {
+                    return true; // Times are within the valid range
+                } else {
+                    return false; // Times are not within the valid range
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return false; // Invalid date format
+            }
+        }
+    }
+
+    // Example usage
+//
+
 }

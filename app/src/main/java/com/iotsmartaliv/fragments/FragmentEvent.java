@@ -201,6 +201,8 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
     SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
     SimpleDateFormat dateFormatValidation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     String addLicensePlate;
+    String visitorEventValidity;
+
 
     @Nullable
     @Override
@@ -254,7 +256,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                     if (successArrayResponse.getData().size() == 1) {
                                         rlSelectCommunity.setVisibility(View.GONE);
                                         communityID = successArrayResponse.getData().get(0).getCommunityID();
-
+                                        visitorEventValidity =successArrayResponse.getData().get(0).getVisitorEventValidity();
                                         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                                             @Override
                                             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -275,6 +277,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                             tvCommunity.setText(data.getCommunityName());
                                             addLicensePlate = data.getAddLicensePlate();
                                             cbEnableEnhance.setChecked(false);
+                                            visitorEventValidity = data.getVisitorEventValidity();
                                             Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                                                 @Override
                                                 public void onNetworkCheckComplete(boolean isAvailable) {
@@ -403,11 +406,11 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         switch (v.getId()) {
             case R.id.tv_start_date:
                 string = "start date";
-                showDatePicker();
+                showDatePicker(visitorEventValidity);
                 break;
             case R.id.tv_end_date:
                 string = "end date";
-                showDatePicker();
+                showDatePicker(visitorEventValidity);
                 break;
             case R.id.tv_start_time:
                 string = "start time";
@@ -637,8 +640,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                }
-                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
@@ -656,8 +658,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                }
-                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
@@ -777,6 +778,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
     }
 
     private void callApiForSubmitEventEnhanced() {
+
         if (communityID == null) {
             Toast.makeText(getContext(), "Select Community ID.", Toast.LENGTH_SHORT).show();
             return;
@@ -824,6 +826,8 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
 
         String startTime1 = startDate + " " + CommanUtils.convert12To24Time(tvStartTime.getText().toString());
         String endTime1 = endDate + " " + CommanUtils.convert12To24Time(tvEndTime.getText().toString());
+        boolean isVisitorEventValid = Util.validateTime(startTime1, endTime1, visitorEventValidity);
+
         try {
             if (dateFormatValidation.parse(endTime1).before(dateFormatValidation.parse(startTime1))) {
                 Toast.makeText(getContext(), "End time should not be less than to start time.", Toast.LENGTH_SHORT).show();
@@ -834,6 +838,12 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             Toast.makeText(getContext(), "Something is wrong to parse the date.", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (!isVisitorEventValid) {
+            Toast.makeText(requireActivity(), "Times are not within the valid range", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
         boolean isSingleVisitor = radioSingleVisitor.isChecked();
 
         if (isSingleVisitor) {
@@ -991,6 +1001,9 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
 
         String startTime1 = startDate + " " + CommanUtils.convert12To24Time(tvStartTime.getText().toString());
         String endTime1 = endDate + " " + CommanUtils.convert12To24Time(tvEndTime.getText().toString());
+        boolean isVisitorEventValid = Util.validateTime(startTime1, endTime1, visitorEventValidity);
+
+
         try {
             if (dateFormatValidation.parse(endTime1).before(dateFormatValidation.parse(startTime1))) {
                 Toast.makeText(getContext(), "End time should not be less than to start time.", Toast.LENGTH_SHORT).show();
@@ -1002,6 +1015,10 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             return;
         }
 
+        if (!isVisitorEventValid) {
+            Toast.makeText(requireActivity(), "Times are not within the valid range", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("appuser_ID", LOGIN_DETAIL.getAppuserID());
@@ -1150,24 +1167,52 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         dialogBuilder.show();
     }
 
-    public void showDatePicker() {
+    public void showDatePicker(String count) {
         Calendar myCalendar = Calendar.getInstance(TimeZone.getDefault());
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme, (mDatePicker, year, month, dayOfMonth) -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, dayOfMonth);
-            String strDate = outputFormat.format(calendar.getTime());
-            if (string.equalsIgnoreCase("start date")) {
-                startDate = dateFormat.format(calendar.getTime());
-                tvStartDate.setText(strDate);
-            } else if (string.equalsIgnoreCase("end date")) {
-                endDate = dateFormat.format(calendar.getTime());
-                tvEndDate.setText(strDate);
-            }
+        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme,
+                (mDatePicker, year, month, dayOfMonth) -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, dayOfMonth);
+                    String strDate = outputFormat.format(calendar.getTime());
+                    if (string.equalsIgnoreCase("start date")) {
+                        startDate = dateFormat.format(calendar.getTime());
+                        tvStartDate.setText(strDate);
+                    } else if (string.equalsIgnoreCase("end date")) {
+                        endDate = dateFormat.format(calendar.getTime());
+                        tvEndDate.setText(strDate);
+                    }
+                }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
 
-        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+        // Set the minimum selectable date to the current date
         datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+        // Set the maximum selectable date to current date plus count - 1 days
+        Calendar maxCalendar = Calendar.getInstance();
+        if (count!=null && !count.isEmpty()) {
+            maxCalendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(count) - 1);
+            datePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
+        }
+
         datePicker.show();
     }
+//    public void showDatePicker() {
+//        Calendar myCalendar = Calendar.getInstance(TimeZone.getDefault());
+//        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme, (mDatePicker, year, month, dayOfMonth) -> {
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(year, month, dayOfMonth);
+//            String strDate = outputFormat.format(calendar.getTime());
+//            if (string.equalsIgnoreCase("start date")) {
+//                startDate = dateFormat.format(calendar.getTime());
+//                tvStartDate.setText(strDate);
+//            } else if (string.equalsIgnoreCase("end date")) {
+//                endDate = dateFormat.format(calendar.getTime());
+//                tvEndDate.setText(strDate);
+//            }
+//
+//        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+//        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+//        datePicker.show();
+//    }
 
     private void showCustomTimePicker(boolean isStart) {
         new CustomTimePicker(getActivity(), time -> {
