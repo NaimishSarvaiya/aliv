@@ -18,12 +18,13 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 33
+    namespace 'com.iotsmartaliv'
+    compileSdkVersion 34
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId 'com.iotsmartaliv'
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 42
         versionName "3.2.0" //Latest June Update
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -44,6 +45,9 @@ android {
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
+
+
+
 
 
         /*   manifestPlaceholders = [
@@ -90,6 +94,7 @@ android {
 //                "USE_TOKEN_SERVER",
 //                "${getSecretProperty("USE_TOKEN_SERVER", false)}")
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -112,9 +117,14 @@ android {
         abortOnError false
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+
+    viewBinding{
+        enable = true
+    }
+
 }
 
 
@@ -155,8 +165,8 @@ dependencies {
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.romandanylyk:pageindicatorview:1.0.2'
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+//    implementation 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     // Dependency for Google Sign-In
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
