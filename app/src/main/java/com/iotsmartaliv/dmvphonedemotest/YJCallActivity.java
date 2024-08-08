@@ -138,6 +138,8 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         DMVPhoneModel.addCallStateListener(callStateListener);
         String displayName = DMVPhoneModel.getDisplayName(this);
         deviceSN = DMVPhoneModel.getCurConnDevice().dev_sn;
+        String deviceName = DMVPhoneModel.getCurConnDevice().dev_name;
+        Toast.makeText(this, deviceName,Toast.LENGTH_LONG).show();
         tv_title.setText(displayName);
         super.onResume();
 //        if (!DMVPhoneModel.hasCurrentCall()) {
@@ -313,7 +315,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                 switchSpeaker();
                 break;
             case R.id.iv_opendoor:
-                if (callType.equalsIgnoreCase(Constant.ICOMING_CALL)) {
+//                if (callType.equalsIgnoreCase(Constant.ICOMING_CALL)) {
                     if (matchedDevice.getRelayData() != null) {
                         String isAcessible = matchedDevice.getIsAccessTimeEnabled();
                         if (isAcessible.equals("1")) {
@@ -332,26 +334,26 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
 
                         }
                     }
-                } else {
-                    String isAcessible = matchedDevice.getIsAccessTimeEnabled();
-
-                    if (isAcessible.equals("1")) {
-                        callGetServerAPI();
-                    } else {
-                        DMVPhoneModel.openDoor();
-                        Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-
-                    }
-//                    String isAcessible = SharePreference.getInstance(this).getString("isAccessable");
+//                } else {
+//                    String isAcessible = matchedDevice.getIsAccessTimeEnabled();
 //
 //                    if (isAcessible.equals("1")) {
 //                        callGetServerAPI();
-////                    } else {
-//                    DMVPhoneModel.openDoor();
-//                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-
+//                    } else {
+//                        DMVPhoneModel.openDoor();
+//                        Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+//
 //                    }
-                }
+////                    String isAcessible = SharePreference.getInstance(this).getString("isAccessable");
+////
+////                    if (isAcessible.equals("1")) {
+////                        callGetServerAPI();
+//////                    } else {
+////                    DMVPhoneModel.openDoor();
+////                    Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+//
+////                    }
+//                }
                 // DMVPhoneModel.openDoor();
 
                 break;

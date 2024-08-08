@@ -1,21 +1,24 @@
 package com.iotsmartaliv.activity;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
+import com.iotsmartaliv.databinding.ActivityInstructorBinding;
 import com.iotsmartaliv.fragments.instructor.AddNewInstructorFragment;
 import com.iotsmartaliv.fragments.instructor.InstructorInductionFragment;
 import com.iotsmartaliv.fragments.instructor.ListOfInstructorFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -27,28 +30,20 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @since 22/7/19 :July.
  */
 public class InstructorActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
     TabAdapter adapter;
-    TextView toolbarTitle;
     InstructorInductionFragment instructorInductionFragment;
     ListOfInstructorFragment listOfInstructorFragment;
+    ActivityInstructorBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_instructor);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityInstructorBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
-        toolbarTitle = findViewById(R.id.toolbar_title);
         adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new AddNewInstructorFragment(), "Add new Instructor");
         listOfInstructorFragment = new ListOfInstructorFragment();
@@ -59,9 +54,9 @@ public class InstructorActivity extends AppCompatActivity {
                 adapter.addFragment(instructorInductionFragment, "Instructor induction");
             }
         }
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.viewPager.setOffscreenPageLimit(3);
 
     }
 

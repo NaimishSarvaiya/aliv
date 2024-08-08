@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.doormaster.vphone.config.DMCallState;
@@ -126,6 +127,8 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
             finish();
         }
         String displayName = DMVPhoneModel.getDisplayName(this);
+        String deviceName = DMVPhoneModel.getCurConnDevice().dev_name;
+        Toast.makeText(this, deviceName,Toast.LENGTH_LONG).show();
         if (tv_title != null) {
             tv_title.setText("Incoming Call.....\n" + ((displayName == null) ? "" : displayName));
         }

@@ -17,6 +17,7 @@ import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityDeviceDetailBinding;
 import com.iotsmartaliv.modules.cardManager.CardManagerActivity;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 import com.iotsmartaliv.utils.Util;
@@ -25,10 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
 import static com.iotsmartaliv.constants.Constant.COMMUNITY_ID;
@@ -43,35 +40,12 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @since 2019-01-16
  */
 public class DeviceDetailActivity extends AppCompatActivity implements RetrofitListener<String> {
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-    @BindView(R.id.deviceNameValueTv)
-    public TextView tvDeviceName;
-    @BindView(R.id.deviceModelValueTv)
-    public TextView deviceModelValueTv;
-    @BindView(R.id.deviceTypeValueTv)
-    public TextView deviceTypeValueTv;
-    @BindView(R.id.serialNumberTv)
-    public TextView tvSerialNumber;
-    @BindView(R.id.deviceValidity)
-    public TextView tvDeviceValidity;
+
+    ActivityDeviceDetailBinding binding;
+
     ApiServiceProvider apiServiceProvider;
     /* @BindView(R.id.ll_visitor_auth)
      LinearLayout llVisitorAuth;*/
-    @BindView(R.id.ll_time_sync)
-    LinearLayout llTimeSync;
-    @BindView(R.id.ll_card_manager)
-    LinearLayout llCardManager;
-    @BindView(R.id.ll_key_manager)
-    LinearLayout llKeyManager;
-    @BindView(R.id.ll_device_setting)
-    LinearLayout llDeviceSetting;
-    @BindView(R.id.ll_config_read_sector_key)
-    LinearLayout llConfigReadSectorKey;
-    @BindView(R.id.lay_device_ip)
-    LinearLayout layDeviceIp;
-    @BindView(R.id.lay_wiegant)
-    LinearLayout layWiegant;
     String communityId, deviceId;
     ProgressDialog progress;
 
@@ -86,40 +60,6 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
     void clickVisitorAuthorization() {
         startActivity(new Intent(this, VisitorAuthorizationActivity.class));
     }*/
-
-    @OnClick(R.id.ll_card_manager)
-    void clickCardManager() {
-        Intent intent = new Intent(this, CardManagerActivity.class);
-        intent.putExtra(DEVICE_ID, deviceId);
-        intent.putExtra(COMMUNITY_ID, communityId);
-        startActivity(intent);
-        //startActivity(new Intent(this, CardManagerActivity.class));
-    }
-
-    @OnClick(R.id.ll_key_manager)
-    void clickKeyManager() {
-        startActivity(new Intent(this, ManagerKeyActivity.class));
-    }
-
-    @OnClick(R.id.ll_device_setting)
-    void clickDeviceSettings() {
-        startActivity(new Intent(this, DeviceSettingActivity.class));
-    }
-
-    @OnClick(R.id.ll_time_sync)
-    public void onViewClicked() {
-
-            Util.checkInternet(DeviceDetailActivity.this, new Util.NetworkCheckCallback() {
-                @Override
-                public void onNetworkCheckComplete(boolean isAvailable) {
-                    if (isAvailable){
-                        apiServiceProvider.callForGetCurrentServerTime(DeviceDetailActivity.this);
-                    }
-                }
-            });
-
-    }
-
     @Override
     public void onResponseSuccess(String sucessRespnse, String apiFlag) {
         switch (apiFlag) {
@@ -152,31 +92,31 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_detail);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityDeviceDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         apiServiceProvider = ApiServiceProvider.getInstance(this);
-        deviceTypeValueTv.setText(selectDevice.getDeviceType());
-        tvDeviceName.setText(selectDevice.getCdeviceName());
+        binding.deviceTypeValueTv.setText(selectDevice.getDeviceType());
+        binding.deviceNameValueTv.setText(selectDevice.getCdeviceName());
         communityId = getIntent().getStringExtra(Constant.COMMUNITY_ID);
         deviceId = getIntent().getStringExtra(Constant.DEVICE_ID);
         if (selectDevice.getCdeviceName().length() > 0) {
-            tvDeviceName.setText(selectDevice.getCdeviceName());
+            binding.deviceNameValueTv.setText(selectDevice.getCdeviceName());
         } else {
-            tvDeviceName.setText(selectDevice.getDeviceName());
+            binding.deviceNameValueTv.setText(selectDevice.getDeviceName());
         }
-        tvSerialNumber.setText(selectDevice.getDeviceSno());
-        deviceModelValueTv.setText(selectDevice.getDeviceModel());
+        binding.serialNumberTv.setText(selectDevice.getDeviceSno());
+        binding.deviceModelValueTv.setText(selectDevice.getDeviceModel());
 
         if (selectDevice.getIsAccessTimeEnabled().equalsIgnoreCase("1")){
 
-            tvDeviceValidity.setText(convertServerDateToUserTimeZone(selectDevice.getAccessStarttime())
+            binding.deviceValidity.setText(convertServerDateToUserTimeZone(selectDevice.getAccessStarttime())
                     +"\n"+convertServerDateToUserTimeZone(selectDevice.getAccessEndtime()));
 
         }else {
-            tvDeviceValidity.setText("Forever");
+            binding.deviceValidity.setText("Forever");
         }
 
 
@@ -193,24 +133,65 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
             // llDeviceSetting.setVisibility(View.VISIBLE);
             //  llKeyManager.setVisibility(View.VISIBLE);
             if (selectDevice.getNetworking().equalsIgnoreCase("0")) {
-                llTimeSync.setVisibility(View.VISIBLE);
+                binding.llTimeSync.setVisibility(View.VISIBLE);
                 //   llVisitorAuth.setVisibility(View.VISIBLE);
                 if (selectDevice.getDeviceModel().contains("100E")) {
-                    llCardManager.setVisibility(View.VISIBLE);
+                    binding.llCardManager.setVisibility(View.VISIBLE);
                 }
                 //llConfigReadSectorKey.setVisibility(View.VISIBLE);
             } else {
                 //  layWiegant.setVisibility(View.VISIBLE);
-                layDeviceIp.setVisibility(View.VISIBLE);
+                binding.layDeviceIp.setVisibility(View.VISIBLE);
             }
         } else {
             if (selectDevice.getNetworking().equalsIgnoreCase("0")) {
                 // llVisitorAuth.setVisibility(View.VISIBLE);
             }
         }
+
+
+        binding.llCardManager.setOnClickListener(v ->
+            clickCardManager()
+        );
+       binding.llKeyManager.setOnClickListener(v->
+           clickKeyManager()
+       );
+
+       binding.llDeviceSetting.setOnClickListener(v ->
+           clickDeviceSettings()
+       );
+
+       binding.llTimeSync.setOnClickListener(v->
+           Util.checkInternet(DeviceDetailActivity.this, new Util.NetworkCheckCallback() {
+               @Override
+               public void onNetworkCheckComplete(boolean isAvailable) {
+                   if (isAvailable){
+                       apiServiceProvider.callForGetCurrentServerTime(DeviceDetailActivity.this);
+                   }
+               }
+           })
+       );
+
+       binding.layDeviceIp.setOnClickListener(v ->
+               startActivity(new Intent(this, DeviceIPConfigActivity.class)));
+
     }
 
 
+    private void clickCardManager() {
+        Intent intent = new Intent(this, CardManagerActivity.class);
+        intent.putExtra(Constant.DEVICE_ID, deviceId);
+        intent.putExtra(Constant.COMMUNITY_ID, communityId);
+        startActivity(intent);
+    }
+
+    private void clickKeyManager() {
+        startActivity(new Intent(this, ManagerKeyActivity.class));
+    }
+
+    private void clickDeviceSettings() {
+        startActivity(new Intent(this, DeviceSettingActivity.class));
+    }
 
     private String convertServerDateToUserTimeZone(String serverDate) {
         String serverdateFormat = "yyyy-MM-dd HH:mm:ss";
@@ -231,6 +212,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
         }
         return ourdate;
     }
+
 
     public void syncronazationOnCurrentDevice(String time) {
         progress = new ProgressDialog(this);
@@ -257,9 +239,5 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
 
     }
 
-    @OnClick(R.id.lay_device_ip)
-    public void onViewClickedDeviceIP() {
-        startActivity(new Intent(this, DeviceIPConfigActivity.class));
 
-    }
 }

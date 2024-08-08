@@ -19,16 +19,16 @@ import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentCardListBinding;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
+//import butterknife.OnClick;
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
@@ -37,22 +37,18 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * A simple {@link Fragment} subclass.
  */
 public class CardListFragment extends Fragment implements RetrofitListener<CardUserListModel> {
-
-
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
-    //CardModel[] myListData;
     ProgressDialog progress;
     String communityId = "", deviceId = "";
     ApiServiceProvider apiServiceProvider;
     List<CardUserList> cardUserLists = new ArrayList<>();
+    FragmentCardListBinding binding;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_card_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentCardListBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_card_list, container, false);
+
         progress = new ProgressDialog(getContext());
         progress.setMessage("Synchronization on Process.....");
         progress.setCancelable(false);
@@ -63,16 +59,16 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
 
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         apiServiceProvider.callForCardList(communityId, deviceId, LOGIN_DETAIL.getAppuserID(), this);
-        return view;
+        binding.syncBtn.setOnClickListener(v ->onViewClicked() );
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
-    @OnClick(R.id.syncBtn)
     public void onViewClicked() {
         progress.show();
         List<String> addDataList = new ArrayList<String>();
@@ -194,9 +190,9 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
                         Toast.makeText(getContext(), "List is empty", Toast.LENGTH_SHORT).show();
                     }
                     CardListAdapter adapter = new CardListAdapter(cardUserLists);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerView.setAdapter(adapter);
+                    binding.recyclerView.setHasFixedSize(true);
+                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    binding.recyclerView.setAdapter(adapter);
                 } else
                     Log.d("onResponseSuccess", "onResponseSuccess: " + sucessRespnse.getMsg());
                     Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();

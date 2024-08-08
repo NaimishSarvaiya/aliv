@@ -142,6 +142,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             new SaveAccessLogTask(getContext(), new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date()))).execute();
             Toast.makeText(getContext(), "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+            logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date())));
         } else {
             if (result == 48) {
                 Bugfender.d("CanoHomeFragment", "Result Error Time Out");
@@ -798,6 +799,29 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
                 Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
 //                chagefailSatus(isOnline);
+            }
+        });
+    }
+    public void logs(String userId,AccessLogModel accessLogModel){
+        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable){
+                    apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
+
+                        @Override
+                        public void onResponseSuccess(AccessLogModel accessLogModel1, String apiFlag) {
+                            if (Constant.UrlPath.POST_ACCESS_LOG.equals(apiFlag)) {
+//                                new DeviceLogSyncService.DeleteAccessLogTask(DeviceLogSyncService.this, accessLogModel1).execute();
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+//                            Util.firebaseEvent(Constant.APIERROR, DeviceLogSyncService.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                        }
+                    });
+                }
             }
         });
     }

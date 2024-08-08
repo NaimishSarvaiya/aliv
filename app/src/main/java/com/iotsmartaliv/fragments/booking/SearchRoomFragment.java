@@ -28,6 +28,7 @@ import com.iotsmartaliv.apiCalling.models.SearchBookingResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentSearchRoomBinding;
 import com.iotsmartaliv.dialog_box.CustomCommunityDialog;
 import com.iotsmartaliv.dialog_box.CustomTimePicker;
 import com.iotsmartaliv.utils.CommanUtils;
@@ -42,48 +43,33 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 
 public class SearchRoomFragment extends Fragment {
     public static SearchBookingResponse SEARCH_ROOMS;
-    @BindView(R.id.arrow_down)
-    ImageView arrowDown;
-    @BindView(R.id.tv_start)
-    TextView tvStartDate;
-    @BindView(R.id.tv_end_date)
-    TextView tvEndDate;
-    @BindView(R.id.tv_start_time)
-    TextView tvStartTime;
-    @BindView(R.id.tv_end_time)
-    TextView tvEndTime;
-    @BindView(R.id.checkbox_sunday)
-    CheckBox checkboxSunday;
-    @BindView(R.id.search_btn)
-    Button searchBtn;
-    Unbinder unbinder;
     DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
     ApiServiceProvider apiServiceProvider;
-    @BindView(R.id.rl_select_community)
-    RelativeLayout rlSelectCommunity;
     String communityID;
-    @BindView(R.id.communityId)
-    TextView tvCommunityId;
     CustomCommunityDialog customCommunityDialog;
+    FragmentSearchRoomBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentSearchRoomBinding.inflate(inflater,container,false);
         View view = inflater.inflate(R.layout.fragment_search_room, container, false);
-        unbinder = ButterKnife.bind(this, view);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
 
-
-        return view;
+                binding.tvStart.setOnClickListener(this::onViewClicked);
+                binding.tvEndDate.setOnClickListener(this::onViewClicked);
+                binding.tvStartTime.setOnClickListener(this::onViewClicked);
+                binding.tvEndTime.setOnClickListener(this::onViewClicked);
+                binding.searchBtn.setOnClickListener(this::onViewClicked);
+                binding.rlSelectCommunity.setOnClickListener(this::onViewClicked);
+        return binding.getRoot();
     }
 
     void getCommunity(){
@@ -112,7 +98,7 @@ public class SearchRoomFragment extends Fragment {
                                         } else {
                                             CommunityDialogAdapter dataAdapter = new CommunityDialogAdapter(mDataseta, data -> {
                                                 communityID = data.getCommunityID();
-                                                tvCommunityId.setText(data.getCommunityName());
+                                                binding.communityId.setText(data.getCommunityName());
                                                 customCommunityDialog.dismiss();
                                             });
                                             customCommunityDialog = new CustomCommunityDialog(getActivity(), dataAdapter, successArrayResponse.getData());
@@ -162,7 +148,6 @@ public class SearchRoomFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         SEARCH_ROOMS = null;
     }
 
@@ -183,18 +168,18 @@ public class SearchRoomFragment extends Fragment {
         }, delay);
     }
 
-    @OnClick({R.id.tv_start, R.id.tv_end_date, R.id.tv_start_time, R.id.tv_end_time, R.id.search_btn, R.id.rl_select_community})
+
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.search_btn:
 
                 if (communityID != null) {
-                    if (tvStartDate.getText().toString().trim().length() > 0 && tvEndDate.getText().toString().trim().length() > 0 && tvStartTime.getText().toString().trim().length() > 0 && tvEndTime.getText().toString().trim().length() > 0) {
+                    if (binding.tvStart.getText().toString().trim().length() > 0 && binding.tvEndDate.getText().toString().trim().length() > 0 && binding.tvStartTime.getText().toString().trim().length() > 0 && binding.tvEndTime.getText().toString().trim().length() > 0) {
                         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                             @Override
                             public void onNetworkCheckComplete(boolean isAvailable) {
                                 if (isAvailable) {
-                                    apiServiceProvider.searchBookings(communityID, LOGIN_DETAIL.getAppuserID(), tvStartDate.getText().toString(), tvEndDate.getText().toString(), CommanUtils.convert12To24Time(tvStartTime.getText().toString()), CommanUtils.convert12To24Time(tvEndTime.getText().toString()), new RetrofitListener<SearchBookingResponse>() {
+                                    apiServiceProvider.searchBookings(communityID, LOGIN_DETAIL.getAppuserID(), binding.tvStart.getText().toString(), binding.tvEndDate.getText().toString(), CommanUtils.convert12To24Time(binding.tvStartTime.getText().toString()), CommanUtils.convert12To24Time(binding.tvEndTime.getText().toString()), new RetrofitListener<SearchBookingResponse>() {
                                         @Override
                                         public void onResponseSuccess(SearchBookingResponse searchBookingResponse, String apiFlag) {
                                             if (searchBookingResponse.getStatus().equalsIgnoreCase("OK")) {
@@ -203,12 +188,12 @@ public class SearchRoomFragment extends Fragment {
                                                     SEARCH_ROOMS = searchBookingResponse;
                                                     getActivity().startActivityForResult(intent, 121);
                                                     new Handler().postDelayed(() -> {
-                                                        tvStartDate.setText("");
-                                                        tvEndDate.setText("");
-                                                        tvStartTime.setText("");
-                                                        tvEndTime.setText("");
-                                                        if (communityID != null && tvCommunityId.getText().toString().trim().length() > 0) {
-                                                            tvCommunityId.setText("");
+                                                        binding.tvStart.setText("");
+                                                        binding.tvEndDate.setText("");
+                                                        binding.tvStart.setText("");
+                                                        binding.tvEndDate.setText("");
+                                                        if (communityID != null && binding.communityId.getText().toString().trim().length() > 0) {
+                                                            binding.communityId.setText("");
                                                             communityID = null;
                                                         }
                                                     }, 800);
@@ -259,31 +244,58 @@ public class SearchRoomFragment extends Fragment {
         }
     }
 
+    private Calendar startDate = null;
+    private Calendar endDate = null;
+
     public void showDatePicker(boolean isStartDate) {
         Calendar myCalendar = Calendar.getInstance(TimeZone.getDefault());
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme, (mDatePicker, year, month, dayOfMonth) -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, dayOfMonth);
-            String strDate = outputFormat.format(calendar.getTime());
-            if (isStartDate) {
-                tvStartDate.setText(strDate);
-            } else {
-                tvEndDate.setText(strDate);
-            }
 
+        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme, (mDatePicker, year, month, dayOfMonth) -> {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(year, month, dayOfMonth);
+
+            // Validate dates
+            if (isStartDate) {
+                if (endDate != null && selectedDate.after(endDate)) {
+                    // Show error message or handle invalid date
+//                    Toast.makeText(getContext(), "Start date cannot be after end date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                startDate = selectedDate;
+                binding.tvStart.setText(outputFormat.format(selectedDate.getTime()));
+            } else {
+                if (startDate != null && selectedDate.before(startDate)) {
+                    // Show error message or handle invalid date
+//                    Toast.makeText(getContext(), "End date cannot be before start date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                endDate = selectedDate;
+                binding.tvEndDate.setText(outputFormat.format(selectedDate.getTime()));
+            }
         }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+
+        // Set min date to current date
         datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+        // Set max date based on whether it's start or end date
+        if (isStartDate && endDate != null) {
+            datePicker.getDatePicker().setMaxDate(endDate.getTimeInMillis());
+        } else if (!isStartDate && startDate != null) {
+            datePicker.getDatePicker().setMinDate(startDate.getTimeInMillis());
+        }
+
         datePicker.show();
     }
+
 
 
     private void showCustomTimePicker(boolean isStart) {
         new CustomTimePicker(getActivity(), time -> {
             if (isStart) {
-                tvStartTime.setText(time);
+                binding.tvStart.setText(time);
                 showCustomTimePicker(false);
             } else {
-                tvEndTime.setText(time);
+                binding.tvEndDate.setText(time);
             }
 
         }, isStart ? "Start Time" : "End Time").show();

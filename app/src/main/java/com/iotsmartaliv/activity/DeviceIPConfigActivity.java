@@ -10,10 +10,10 @@ import android.widget.Toast;
 import com.intelligoo.sdk.ConstantsUtils;
 import com.intelligoo.sdk.LibDevModel;
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.databinding.ActivityDeviceIpconfigBinding;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
 import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
@@ -27,17 +27,16 @@ import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
  */
 
 public class DeviceIPConfigActivity extends AppCompatActivity {
-    @BindView(R.id.ed_server_ip)
-    EditText edServerIp;
-    @BindView(R.id.ed_port)
-    EditText edPort;
     private ProgressDialog mProgressDialog;
+
+    ActivityDeviceIpconfigBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_ipconfig);
-        ButterKnife.bind(this);
+        binding = ActivityDeviceIpconfigBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Server Ip Config on Process...");
@@ -45,8 +44,8 @@ public class DeviceIPConfigActivity extends AppCompatActivity {
     }
 
     public void configClick(View view) {
-        String serverIP = edServerIp.getText().toString().trim();
-        String serverPORT = edPort.getText().toString().trim();
+        String serverIP = binding.edServerIp.getText().toString().trim();
+        String serverPORT = binding.edPort.getText().toString().trim();
         if (serverIP.length() > 0 || serverPORT.length() > 0) {
             mProgressDialog.show();
             Bundle bundle = new Bundle();

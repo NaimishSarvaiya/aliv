@@ -13,12 +13,11 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.MessageListAdapter;
+import com.iotsmartaliv.databinding.ActivityChatBoxBinding;
 import com.iotsmartaliv.model.Chat;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This activity class is used for chat box activity.
@@ -32,24 +31,17 @@ public class ChatBoxActivity extends AppCompatActivity {
     private static String[] receiver = {"Hi", "I'm fine", "BBye"};
     Context context;
     String msg;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.chatbot)
-    RecyclerView chatbot;
-    @BindView(R.id.endBtn)
-    Button endBtn;
-    @BindView(R.id.chatED)
-    EditText chatED;
-    private MessageListAdapter mMessageAdapter;
 
+    private MessageListAdapter mMessageAdapter;
+    ActivityChatBoxBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_box);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityChatBoxBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final ArrayList<Chat> chats = new ArrayList<>();
@@ -59,14 +51,14 @@ public class ChatBoxActivity extends AppCompatActivity {
         mMessageAdapter = new MessageListAdapter(this, chats);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         // linearLayoutManager.setReverseLayout(true);
-        chatbot.setLayoutManager(linearLayoutManager);
-        chatbot.setAdapter(mMessageAdapter);
-        endBtn.setOnClickListener(view -> {
-            if (chatED.getText().toString().trim().length() > 0) {
-                msg = chatED.getText().toString().trim();
+        binding.chatbot.setLayoutManager(linearLayoutManager);
+        binding.chatbot.setAdapter(mMessageAdapter);
+        binding.endBtn.setOnClickListener(view -> {
+            if (binding.chatED.getText().toString().trim().length() > 0) {
+                msg = binding.chatED.getText().toString().trim();
                 Chat obj = new Chat(msg, "", true);
                 mMessageAdapter.addChat(obj);
-                chatED.setText("");
+                binding.chatED.setText("");
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override

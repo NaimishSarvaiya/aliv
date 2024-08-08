@@ -27,17 +27,13 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.HomeAutomationBinding;
 import com.iotsmartaliv.fragments.automation.RoomOneFragment;
 import com.iotsmartaliv.model.AutomationRoomsData;
 import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 import org.json.JSONException;
@@ -52,32 +48,24 @@ import org.json.JSONObject;
  */
 public class HomeAutomationActivity extends AppCompatActivity implements RetrofitListener<AutomationRoomsResponse> {
     public static int SCHEDULE_CREATED = 12001;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    @BindView(R.id.floatingAddButton)
-    FloatingActionButton floatingAddButton;
-    @BindView(R.id.imageView)
-    ImageView imageView;
     ApiServiceProvider apiServiceProvider;
     ViewPagerAdapter viewPagerAdapter;
     String automationId;
     int currentSelectPos = 0;
     String isAutomationManagementEnable = "0";
+    HomeAutomationBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_automation);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = HomeAutomationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
+        setSupportActionBar(binding.toolbar);
         apiServiceProvider = ApiServiceProvider.getInstance(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        tabLayout.setupWithViewPager(viewPager);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
         boolean isSubAdmin = false;
         for (String rolid : LOGIN_DETAIL.getRoleIDs()) {
             if (rolid.equalsIgnoreCase("1")) {
@@ -86,10 +74,10 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
             }
         }
         if (!LOGIN_DETAIL.getAppuserType().equalsIgnoreCase("1") && !isSubAdmin) {
-            floatingAddButton.hide();
+            binding.floatingAddButton.hide();
         }
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
             }
@@ -98,22 +86,22 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
             public void onPageSelected(int i) {
                 isAutomationManagementEnable = getAutomationManagementEnable(viewPagerAdapter.getItemPos(i).getRolePermission());
                 if (viewPagerAdapter.getItemPos(i).getUserType().equalsIgnoreCase("User")) {
-                    floatingAddButton.setVisibility(View.GONE);
+                    binding.floatingAddButton.setVisibility(View.GONE);
                 } else if (viewPagerAdapter.getItemPos(i).getUserType().equalsIgnoreCase("Senior Admin")) {
                     if (isAutomationManagementEnable.equalsIgnoreCase("1")) {
-                        floatingAddButton.setVisibility(View.VISIBLE);
+                        binding.floatingAddButton.setVisibility(View.VISIBLE);
                     } else {
-                        floatingAddButton.setVisibility(View.GONE);
+                        binding.floatingAddButton.setVisibility(View.GONE);
                     }
                 } else {
-                    floatingAddButton.setVisibility(View.VISIBLE);
+                    binding.floatingAddButton.setVisibility(View.VISIBLE);
                 }
                 currentSelectPos = i;
                 Glide.with(HomeAutomationActivity.this)
                         .load(viewPagerAdapter.getItemPos(i).getRoomImage())
                         .placeholder(R.mipmap.ic_room)
                         .fitCenter()
-                        .into(imageView);
+                        .into(binding.imageView);
                 automationId = viewPagerAdapter.getItemPos(i).getAutomationID();
             }
 
@@ -132,6 +120,14 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
                 }
             }
         });
+        binding.floatingAddButton.setOnClickListener(v-> onViewClicked());
+
+//        @OnClick(R.id.floatingAddButton)
+//        public void onViewClicked() {
+//            Intent intent = new Intent(this, CreateSchedulesActivity.class);
+//            intent.putExtra("automation_ID", automationId);
+//            startActivityForResult(intent, SCHEDULE_CREATED);
+//        }
 
     }
 
@@ -172,7 +168,6 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
         }
     }
 
-    @OnClick(R.id.floatingAddButton)
     public void onViewClicked() {
         Intent intent = new Intent(this, CreateSchedulesActivity.class);
         intent.putExtra("automation_ID", automationId);
@@ -190,21 +185,21 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
         if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
             if (sucessRespnse.getData().size() > 0) {
                 viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), sucessRespnse.getData());
-                viewPager.setAdapter(viewPagerAdapter);
+                binding.viewPager.setAdapter(viewPagerAdapter);
                 if (sucessRespnse.getData().get(0).getUserType().equalsIgnoreCase("User")) {
-                    floatingAddButton.setVisibility(View.GONE);
+                    binding.floatingAddButton.setVisibility(View.GONE);
                 } else {
-                    floatingAddButton.setVisibility(View.VISIBLE);
+                    binding.floatingAddButton.setVisibility(View.VISIBLE);
                 }
                 Glide.with(HomeAutomationActivity.this)
                         .load(viewPagerAdapter.getItemPos(currentSelectPos).getRoomImage())
                         .placeholder(R.mipmap.ic_room)
                         .fitCenter()
-                        .into(imageView);
+                        .into(binding.imageView);
                 automationId = viewPagerAdapter.getItemPos(currentSelectPos).getAutomationID();
-                viewPager.setCurrentItem(currentSelectPos);
-                imageView.setVisibility(View.VISIBLE);
-                tabLayout.setVisibility(View.VISIBLE);
+                binding.viewPager.setCurrentItem(currentSelectPos);
+                binding.imageView.setVisibility(View.VISIBLE);
+                binding.tabLayout.setVisibility(View.VISIBLE);
             } else {
                 Toast.makeText(HomeAutomationActivity.this, "Sorry! No room added in automation.", Toast.LENGTH_SHORT).show();
                 finish();

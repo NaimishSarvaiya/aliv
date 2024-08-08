@@ -34,6 +34,7 @@ import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityVisitorAuthorizationBinding;
 import com.iotsmartaliv.dialog_box.CustomCommunityDialog;
 import com.iotsmartaliv.dialog_box.CustomCountryCodeDialog;
 import com.iotsmartaliv.dialog_box.CustomDeviceListDialog;
@@ -47,9 +48,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -65,53 +63,32 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
     CustomCountryCodeDialog customCountryCodeDialog;
     CustomDeviceListDialog customDeviceListDialog;
     ApiServiceProvider apiServiceProvider;
-    @BindView(R.id.community_lay)
-    RelativeLayout communityLay;
-    @BindView(R.id.device_lay)
-    RelativeLayout deviceLay;
     String communityID = null;
-    @BindView(R.id.community_name)
-    TextView communityName;
-    @BindView(R.id.visitor_list)
-    RecyclerView visitorList;
     VisitorListAdapter visitorListAdapter;
     ResponseData responseDataDevice;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat dateFormatValidation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
-    @BindView(R.id.edt_pin_use_limit)
-    EditText edtPinUseLimit;
-    @BindView(R.id.edt_purpose)
-    EditText edtPurpose;
-    @BindView(R.id.tvStartDate)
-    TextView tvStartDate;
-    @BindView(R.id.tvStartTime)
-    TextView tvStartTime;
-    @BindView(R.id.tvEndDate)
-    TextView tvEndDate;
-    @BindView(R.id.tvEndTime)
-    TextView tvEndTime;
     DeviceMultiSelectDialogAdapter deviceMultiSelectDialogAdapter;
-    @BindView(R.id.device_list)
-    RecyclerView deviceList;
     SelectDeviceListAdapter selectDeviceListAdapter;
     Country country = null;
+    ActivityVisitorAuthorizationBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_visitor_authorization);
-        ButterKnife.bind(this);
+        binding = ActivityVisitorAuthorizationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        visitorList.setLayoutManager(layoutManager);
+        binding.visitorList.setLayoutManager(layoutManager);
         visitorListAdapter = new VisitorListAdapter(new ArrayList<>());
-        visitorList.setAdapter(visitorListAdapter);
-        visitorList.addItemDecoration(new DividerItemDecoration(VisitorAuthorizationActivity.this, DividerItemDecoration.VERTICAL));
+        binding.visitorList.setAdapter(visitorListAdapter);
+        binding.visitorList.addItemDecoration(new DividerItemDecoration(VisitorAuthorizationActivity.this, DividerItemDecoration.VERTICAL));
 
         selectDeviceListAdapter = new SelectDeviceListAdapter(new ArrayList<>(), () -> deviceMultiSelectDialogAdapter.notifyDataSetChanged());
-        deviceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        deviceList.addItemDecoration(new DividerItemDecoration(VisitorAuthorizationActivity.this, DividerItemDecoration.VERTICAL));
-        deviceList.setAdapter(selectDeviceListAdapter);
+        binding.deviceList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        binding.deviceList.addItemDecoration(new DividerItemDecoration(VisitorAuthorizationActivity.this, DividerItemDecoration.VERTICAL));
+        binding.deviceList.setAdapter(selectDeviceListAdapter);
 
         apiServiceProvider = ApiServiceProvider.getInstance(this);
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
@@ -124,7 +101,7 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
                             if (successArrayResponse.getStatus().equalsIgnoreCase("OK")) {
                                 if (successArrayResponse.getData().size() > 0) {
                                     if (successArrayResponse.getData().size() == 1) {
-                                        communityLay.setVisibility(View.GONE);
+                                        binding.communityLay.setVisibility(View.GONE);
                                         communityID = successArrayResponse.getData().get(0).getCommunityID();
                                         Util.checkInternet(VisitorAuthorizationActivity.this, new Util.NetworkCheckCallback() {
                                             @Override
@@ -138,7 +115,7 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
                                     } else {
                                         CommunityDialogAdapter dataAdapter = new CommunityDialogAdapter(successArrayResponse.getData(), data -> {
                                             communityID = data.getCommunityID();
-                                            communityName.setText(data.getCommunityName());
+                                            binding.communityName.setText(data.getCommunityName());
                                             Util.checkInternet(VisitorAuthorizationActivity.this, new Util.NetworkCheckCallback() {
                                                 @Override
                                                 public void onNetworkCheckComplete(boolean isAvailable) {
@@ -179,9 +156,13 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
                 }
             }
         });
+
+                binding.communityLay.setOnClickListener(this::onViewClicked);
+        binding.deviceLay.setOnClickListener(this::onViewClicked);
+        binding.imgBackVisitor.setOnClickListener(this::onViewClicked);
     }
 
-    @OnClick({R.id.community_lay, R.id.device_lay, R.id.rl_visitor_add, R.id.img_back_visitor})
+
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.community_lay:
@@ -376,31 +357,31 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
             Toast.makeText(this, "Please select device.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (edtPurpose.getText().toString().trim().length() < 1) {
-            edtPurpose.setError("Please enter purpose.");
-            edtPurpose.requestFocus();
+        if (binding.edtPurpose.getText().toString().trim().length() < 1) {
+            binding.edtPurpose.setError("Please enter purpose.");
+            binding.edtPurpose.requestFocus();
             Toast.makeText(this, "Please enter purpose.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (edtPinUseLimit.getText().toString().trim().length() < 1) {
-            edtPinUseLimit.setError("Please enter  pin usage limit.");
-            edtPinUseLimit.requestFocus();
+        if (binding.edtPinUseLimit.getText().toString().trim().length() < 1) {
+            binding.edtPinUseLimit.setError("Please enter  pin usage limit.");
+            binding.edtPinUseLimit.requestFocus();
             Toast.makeText(this, "Please enter pin usage limit.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvStartDate.getText().toString().trim().length() < 1) {
+        if (binding.tvStartDate.getText().toString().trim().length() < 1) {
             Toast.makeText(this, "Please select start date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvEndDate.getText().toString().trim().length() < 1) {
+        if (binding.tvEndDate.getText().toString().trim().length() < 1) {
             Toast.makeText(this, "Please select end date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvStartTime.getText().toString().trim().length() < 1) {
+        if (binding.tvStartTime.getText().toString().trim().length() < 1) {
             Toast.makeText(this, "Please select start time.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvEndTime.getText().toString().trim().length() < 1) {
+        if (binding.tvEndTime.getText().toString().trim().length() < 1) {
             Toast.makeText(this, "Please select end time.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -412,8 +393,8 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
             Toast.makeText(this, "Please add visitor.", Toast.LENGTH_SHORT).show();
             return;
         }
-        String startTime = tvStartDate.getText().toString() + " " + tvStartTime.getText().toString();
-        String endTime = tvEndDate.getText().toString() + " " + tvEndTime.getText().toString();
+        String startTime = binding.tvStartDate.getText().toString() + " " + binding.tvStartTime.getText().toString();
+        String endTime = binding.tvEndDate.getText().toString() + " " + binding.tvEndTime.getText().toString();
         try {
             if (dateFormatValidation.parse(endTime).before(dateFormatValidation.parse(startTime))) {
                 Toast.makeText(this, "End time should not be less than to start time.", Toast.LENGTH_SHORT).show();
@@ -427,8 +408,8 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
 
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("appuser_ID", LOGIN_DETAIL.getAppuserID());
-        hashMap.put("pincode_usage_limit", edtPinUseLimit.getText().toString());
-        hashMap.put("purpose", edtPurpose.getText().toString());
+        hashMap.put("pincode_usage_limit", binding.edtPinUseLimit.getText().toString());
+        hashMap.put("purpose", binding.edtPurpose.getText().toString());
         hashMap.put("event_start_date", startTime);
         hashMap.put("event_end_date", endTime);
         hashMap.put("community_ID", communityID);

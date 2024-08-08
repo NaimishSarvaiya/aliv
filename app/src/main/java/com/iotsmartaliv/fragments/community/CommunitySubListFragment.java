@@ -17,11 +17,7 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
+import com.iotsmartaliv.databinding.FragmentCommunitySubListBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,12 +28,10 @@ import butterknife.Unbinder;
  */
 public class CommunitySubListFragment extends Fragment implements RetrofitListener<SuccessArrayResponse> {
     private static final String ARG_PARAM_CATEGORY = "category";
-    @BindView(R.id.recyclerView_community)
-    RecyclerView recyclerViewCommunity;
-    Unbinder unbinder;
     CommunityListAdapter communityListAdapter;
     ApiServiceProvider apiServiceProvider;
     private String categoryID;
+    FragmentCommunitySubListBinding binding;
 
     // private OnFragmentInteractionListener mListener;
 
@@ -72,22 +66,23 @@ public class CommunitySubListFragment extends Fragment implements RetrofitListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_community_sub_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentCommunitySubListBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_community_sub_list, container, false);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         communityListAdapter = new CommunityListAdapter(getContext(), null);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewCommunity.setLayoutManager(mLayoutManager);
-        recyclerViewCommunity.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewCommunity.setAdapter(communityListAdapter);
+        binding.recyclerViewCommunity.setLayoutManager(mLayoutManager);
+        binding.recyclerViewCommunity.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerViewCommunity.setAdapter(communityListAdapter);
         apiServiceProvider.callForListOfSubCommunity(categoryID, this);
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
 

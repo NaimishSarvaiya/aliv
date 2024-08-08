@@ -28,12 +28,10 @@ import com.iotsmartaliv.apiCalling.models.SearchBookingData;
 import com.iotsmartaliv.apiCalling.models.SearchBookingResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.SelectRoomActivityBinding;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.fragments.booking.SearchRoomFragment.SEARCH_ROOMS;
@@ -48,27 +46,21 @@ import static com.iotsmartaliv.fragments.booking.SearchRoomFragment.SEARCH_ROOMS
 public class SelectRoomActivity extends AppCompatActivity implements View.OnClickListener {
 
     ApiServiceProvider apiServiceProvider;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.recyclerViewRoom)
-    RecyclerView recyclerViewRoom;
-    @BindView(R.id.rl_book)
-    RelativeLayout rlBook;
+    SelectRoomActivityBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_room_activity);
-        ButterKnife.bind(this);
+        binding = SelectRoomActivityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiServiceProvider = ApiServiceProvider.getInstance(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        rlBook.setOnClickListener(this);
-        recyclerViewRoom.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewRoom.setAdapter(new SelectRoomAdapter(this, SEARCH_ROOMS.getData()));
+        binding.rlBook.setOnClickListener(this);
+        binding.recyclerViewRoom.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerViewRoom.setAdapter(new SelectRoomAdapter(this, SEARCH_ROOMS.getData()));
     }
 
     @Override

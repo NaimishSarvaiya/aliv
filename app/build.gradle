@@ -157,11 +157,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/ChangeServertools1.3.jar')
     implementation files('libs\\DoormasterSDKV2.4.8.jar')
-    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.romandanylyk:pageindicatorview:1.0.2'

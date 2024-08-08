@@ -10,16 +10,17 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.transition.FragmentTransitionSupport;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.SignUpActivity;
+import com.iotsmartaliv.databinding.FragmentTermsOfBinding;
+//
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+//import butterknife.OnClick;
+//import butterknife.Unbinder;
 
 /**
  * This class uses as fragment for show the terms of use.
@@ -29,13 +30,7 @@ import butterknife.Unbinder;
  * @since 2018-10-23
  */
 public class TermsOfFragment extends Fragment {
-
-    @BindView(R.id.pdfView)
-
-    PDFView pdfView;
-    Unbinder unbinder;
-     @BindView(R.id.i_agree_btn)
-    Button iAgreeBtn;
+     FragmentTermsOfBinding binding;
 
 
     @Override
@@ -47,19 +42,21 @@ public class TermsOfFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_terms_of, container, false);
+        binding = FragmentTermsOfBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_terms_of, container, false);
 
-        unbinder = ButterKnife.bind(this, view);
-        pdfView.fromAsset("Term_and_Conditions.pdf")
+
+        binding.pdfView.fromAsset("Term_and_Conditions.pdf")
                 .defaultPage(0)
                 .onPageChange(null)
                 .enableAnnotationRendering(true)
-                .onLoad(nbPages -> iAgreeBtn.setVisibility(View.VISIBLE))
+                .onLoad(nbPages -> binding.iAgreeBtn.setVisibility(View.VISIBLE))
                 .scrollHandle(new DefaultScrollHandle(getContext()))
                 .spacing(0)
                 .load();
 
-        return view;
+        binding.iAgreeBtn.setOnClickListener(v -> onViewClicked() );
+        return binding.getRoot();
     }
 
     @Override
@@ -76,10 +73,9 @@ public class TermsOfFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
-    @OnClick(R.id.i_agree_btn)
     public void onViewClicked() {
 
         if (getActivity() instanceof SignUpActivity)

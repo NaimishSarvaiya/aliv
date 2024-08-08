@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.databinding.ActivityFaultBinding;
+//
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This activity class is used for show fault devices.
@@ -20,34 +20,14 @@ import butterknife.ButterKnife;
  * @since 2018-10-23
  */
 public class FaultActivity extends AppCompatActivity {
-
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.textView2)
-    TextView textView2;
-    @BindView(R.id.description)
-    EditText description;
-    @BindView(R.id.textViewDate)
-    TextView textViewDate;
-    @BindView(R.id.date)
-    TextView date;
-    @BindView(R.id.textViewTime)
-    TextView textViewTime;
-    @BindView(R.id.textViewAddress)
-    TextView textViewAddress;
-    @BindView(R.id.addressEditText)
-    EditText addressEditText;
-    @BindView(R.id.book_service)
-    Button bookService;
+ActivityFaultBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fault);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityFaultBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

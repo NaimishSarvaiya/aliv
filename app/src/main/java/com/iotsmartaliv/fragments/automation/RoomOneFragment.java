@@ -25,6 +25,7 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.AutomationScheduleResponse;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.databinding.RoomOneFragmentBinding;
 import com.iotsmartaliv.dialog_box.ShowScheduleDetailDialog;
 import com.iotsmartaliv.model.AutomationRoomsData;
 import com.iotsmartaliv.model.AutomationRoomsResponse;
@@ -32,10 +33,6 @@ import com.iotsmartaliv.model.Schedule;
 
 import java.util.HashMap;
 import java.util.Iterator;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.iotsmartaliv.activity.automation.HomeAutomationActivity.SCHEDULE_CREATED;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
@@ -51,26 +48,14 @@ import org.json.JSONObject;
  * @since 16/8/19 :August : 2019 on 17 : 04.
  */
 public class RoomOneFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
+    RoomOneFragmentBinding binding;
     public static final String SCHEDULE_DATA = "SCHEDULE_DATA";
     private static final String ROOM_DATA = "Room_Data_key";
     AutomationRoomsData automationRoomsData;
-    @BindView(R.id.light_toggle)
-    ToggleButton lightToggle;
-    @BindView(R.id.air_conditioner_toggle)
-    ToggleButton airConditionerToggle;
-    @BindView(R.id.recyclerViewSchedules)
-    RecyclerView recyclerViewSchedules;
-
-    @BindView(R.id.tv_schedule)
-    TextView tvSchedule;
-    Unbinder unbinder;
     ApiServiceProvider apiServiceProvider;
     SchedulesListAdapter schedulesListAdapter;
 
     String userType;
-    @BindView(R.id.ll_switch)
-    LinearLayout llSwitchMain;
-
     ToggleButton  switchSelection;
 
     String isAutomationManagementEnable = "0";
@@ -87,17 +72,18 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = RoomOneFragmentBinding.inflate(inflater,container,false);
         View view = inflater.inflate(R.layout.room_one_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
+
         automationRoomsData = (AutomationRoomsData) getArguments().getSerializable(ROOM_DATA);
         if(automationRoomsData.getUserType()!=null){
             userType = automationRoomsData.getUserType();
         }
-        lightToggle.setChecked(automationRoomsData.getLights().equalsIgnoreCase("1"));
-        airConditionerToggle.setChecked(automationRoomsData.getAirconditioner().equalsIgnoreCase("1"));
-        recyclerViewSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewSchedules.setNestedScrollingEnabled(false);
-        recyclerViewSchedules.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        binding.lightToggle.setChecked(automationRoomsData.getLights().equalsIgnoreCase("1"));
+        binding.airConditionerToggle.setChecked(automationRoomsData.getAirconditioner().equalsIgnoreCase("1"));
+        binding.recyclerViewSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewSchedules.setNestedScrollingEnabled(false);
+        binding.recyclerViewSchedules.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         if (!automationRoomsData.getRolePermission().equalsIgnoreCase("") ||automationRoomsData.getRolePermission()!=null ) {
             isAutomationManagementEnable = getAutomationManagementEnable(automationRoomsData.getRolePermission());
@@ -112,26 +98,26 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
             }
         }
         if (userType.equalsIgnoreCase("User")) {
-            lightToggle.setEnabled(false);
-            airConditionerToggle.setEnabled(false);
+            binding.lightToggle.setEnabled(false);
+            binding.airConditionerToggle.setEnabled(false);
 //            floatingActionButtonView.setVisibility(View.GONE);
         }else if (userType.equalsIgnoreCase("Senior Admin")){
             if (isAutomationManagementEnable.equalsIgnoreCase("1")) {
-                lightToggle.setEnabled(true);
-                airConditionerToggle.setEnabled(true);
+                binding.lightToggle.setEnabled(true);
+                binding.airConditionerToggle.setEnabled(true);
             }else {
-                lightToggle.setEnabled(false);
-                airConditionerToggle.setEnabled(false);
+                binding.lightToggle.setEnabled(false);
+                binding.airConditionerToggle.setEnabled(false);
             }
 //            floatingActionButtonView.setVisibility(View.VISIBLE);
         }else {
-            lightToggle.setEnabled(true);
-            airConditionerToggle.setEnabled(true);
+            binding.lightToggle.setEnabled(true);
+            binding.airConditionerToggle.setEnabled(true);
         }
         if (automationRoomsData.getSchedule() == null || automationRoomsData.getSchedule().isEmpty()){
-            tvSchedule.setVisibility(View.GONE);
+            binding.tvSchedule.setVisibility(View.GONE);
         }else {
-            tvSchedule.setVisibility(View.VISIBLE);
+            binding.tvSchedule.setVisibility(View.VISIBLE);
         }
 
         schedulesListAdapter = new SchedulesListAdapter(userType,automationRoomsData.getSchedule(),automationRoomsData.getRolePermission(), new SchedulesListAdapter.ScheduleActionListener() {
@@ -199,10 +185,10 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
                 });
             }
         });
-        recyclerViewSchedules.setAdapter(schedulesListAdapter);
-        lightToggle.setOnCheckedChangeListener(this);
-        airConditionerToggle.setOnCheckedChangeListener(this);
-        return view;
+        binding.recyclerViewSchedules.setAdapter(schedulesListAdapter);
+        binding.lightToggle.setOnCheckedChangeListener(this);
+        binding.airConditionerToggle.setOnCheckedChangeListener(this);
+        return binding.getRoot();
     }
 
 
@@ -261,7 +247,7 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
             String name = value[1];
 
             // Inflate the custom switch layout
-            RelativeLayout switchLayout = (RelativeLayout) inflater.inflate(R.layout.custome_switch, llSwitchMain, false);
+            RelativeLayout switchLayout = (RelativeLayout) inflater.inflate(R.layout.custome_switch, binding.llSwitch, false);
 
             TextView switchTitle = switchLayout.findViewById(R.id.tv_switch);
             ToggleButton  switchComponent = switchLayout.findViewById(R.id.toggle_button);
@@ -307,13 +293,12 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
             });
 
             // Add the custom switch layout to the main layout
-            llSwitchMain.addView(switchLayout);
+            binding.llSwitch.addView(switchLayout);
         }
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     public void changeStatus(String relay, String status, String deviceId) {
@@ -357,14 +342,14 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
         });
     }
 
-    public void chagefailSatus(boolean isOnline) {
-        lightToggle.setOnCheckedChangeListener(null);
-        lightToggle.setChecked(!isOnline);
-        lightToggle.setOnCheckedChangeListener(RoomOneFragment.this);
-        airConditionerToggle.setOnCheckedChangeListener(null);
-        airConditionerToggle.setChecked(!isOnline);
-        airConditionerToggle.setOnCheckedChangeListener(RoomOneFragment.this);
-    }
+//    public void chagefailSatus(boolean isOnline) {
+//        lightToggle.setOnCheckedChangeListener(null);
+//        lightToggle.setChecked(!isOnline);
+//        lightToggle.setOnCheckedChangeListener(RoomOneFragment.this);
+//        airConditionerToggle.setOnCheckedChangeListener(null);
+//        airConditionerToggle.setChecked(!isOnline);
+//        airConditionerToggle.setOnCheckedChangeListener(RoomOneFragment.this);
+//    }
 
     /* @OnClick(R.id.floatingAddButton)
      public void onViewClicked() {

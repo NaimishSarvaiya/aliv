@@ -25,6 +25,7 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.GroupResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentVsitorsBinding;
 import com.iotsmartaliv.dialog_box.AddVisitorDialog;
 import com.iotsmartaliv.dialog_box.AssignGroupDialog;
 import com.iotsmartaliv.dialog_box.DeleteConfirmDialog;
@@ -37,10 +38,7 @@ import com.iotsmartaliv.utils.Util;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -52,19 +50,21 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @since 30/7/19 :July : 2019 on 18 : 22.
  */
 public class FragmentVisitor extends Fragment implements AddVisitorDialog.VisitorAddedRefresh, RetrofitListener<VisitorsListDataResponse> {
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
+//    @BindView(R.id.recyclerView)
+//    RecyclerView recyclerView;
+//    Unbinder unbinder;
     ApiServiceProvider apiServiceProvider;
     FragmentVisitorAdapter fragmentVisitorAdapter;
-    @BindView(R.id.item_not_found_tv)
+//    @BindView(R.id.item_not_found_tv)
     TextView itemNotFoundTv;
+    FragmentVsitorsBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_vsitors, container, false);
-        unbinder = ButterKnife.bind(this, view);
+binding = FragmentVsitorsBinding.inflate(inflater,container,false);
+        //        View view = inflater.inflate(R.layout.fragment_vsitors, container, false);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
 //        if (Util.checkInternet(requireActivity())) {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
@@ -77,8 +77,8 @@ public class FragmentVisitor extends Fragment implements AddVisitorDialog.Visito
             }
         });
 //        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
         fragmentVisitorAdapter = new FragmentVisitorAdapter(getContext(), new FragmentVisitorAdapter.VisitorUpdateClick() {
             @Override
             public void visitorEditNotify(VisitorData visitorData) {
@@ -161,9 +161,10 @@ public class FragmentVisitor extends Fragment implements AddVisitorDialog.Visito
 //                }
             }
         });
-        recyclerView.setAdapter(fragmentVisitorAdapter);
+        binding.recyclerView.setAdapter(fragmentVisitorAdapter);
+binding.floatingActionButton.setOnClickListener(v -> onViewClicked());
 
-        return view;
+        return binding.getRoot();
     }
 
     public void getAssignGroups(VisitorData visitorData) {
@@ -202,7 +203,7 @@ public class FragmentVisitor extends Fragment implements AddVisitorDialog.Visito
         //unbinder.unbind();
     }
 
-    @OnClick(R.id.floatingActionButton)
+
     public void onViewClicked() {
 
         TimeZone tz = TimeZone.getDefault();

@@ -18,11 +18,11 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityForgotBinding;
 import com.iotsmartaliv.utils.Util;
+//
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+//import butterknife.OnClick;
 
 
 /**
@@ -31,16 +31,18 @@ import butterknife.OnClick;
  */
 public class ForgotActivity extends AppCompatActivity implements RetrofitListener<SuccessResponse> {
 
-    @BindView(R.id.edt_email_log_in)
-    EditText edtEmailLogIn;
     ApiServiceProvider apiServiceProvider;
+
+    ActivityForgotBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot);
-        ButterKnife.bind(this);
+        binding = ActivityForgotBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
         apiServiceProvider = ApiServiceProvider.getInstance(this);
+        binding.btnSendPwd.setOnClickListener(v ->onViewClicked());
     }
 
     public void backPress(View view) {
@@ -91,20 +93,20 @@ public class ForgotActivity extends AppCompatActivity implements RetrofitListene
         }
     }
 
-    @OnClick(R.id.btn_send_pwd)
+
     public void onViewClicked() {
-        if (edtEmailLogIn.getText().toString().trim().length() > 0) {
+        if (binding.edtEmailLogIn.getText().toString().trim().length() > 0) {
             Util.checkInternet(this, new Util.NetworkCheckCallback() {
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {
                     if (isAvailable) {
-                        apiServiceProvider.callForForgotPassword(edtEmailLogIn.getText().toString().trim(), ForgotActivity.this);
+                        apiServiceProvider.callForForgotPassword(binding.edtEmailLogIn.getText().toString().trim(), ForgotActivity.this);
 
                     }
                 }
             });
         } else {
-            edtEmailLogIn.setError("Please Enter Username.");
+            binding.edtEmailLogIn.setError("Please Enter Username.");
         }
     }
 }

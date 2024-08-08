@@ -16,11 +16,7 @@ import android.widget.Button;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.BookServiceActivity;
 import com.iotsmartaliv.adapter.ServiceAdapter;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+import com.iotsmartaliv.databinding.FragmentServiceBinding;
 
 /**
  * This fragment class is used for left fragment drawer.
@@ -30,36 +26,33 @@ import butterknife.Unbinder;
  * @since 2018-10-24
  */
 public class ServiceFragment extends Fragment {
-    @BindView(R.id.book_service)
-    Button bookService;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
-
+FragmentServiceBinding binding;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_service, container, false);
-        unbinder = ButterKnife.bind(this, view);
+       binding = FragmentServiceBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_service, container, false);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new ServiceAdapter(getContext()));
-        return view;
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setAdapter(new ServiceAdapter(getContext()));
+        binding.bookService.setOnClickListener(v ->  startActivity(new Intent(getActivity(), BookServiceActivity.class)));
+        return binding.getRoot();
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
-    @OnClick({R.id.book_service, R.id.recyclerView})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.book_service:
-                startActivity(new Intent(getActivity(), BookServiceActivity.class));
-                break;
-        }
-    }
+//    @OnClick({R.id.book_service, R.id.recyclerView})
+//    public void onViewClicked(View view) {
+//        switch (view.getId()) {
+//            case R.id.book_service:
+//                startActivity(new Intent(getActivity(), BookServiceActivity.class));
+//                break;
+//        }
+//    }
 }

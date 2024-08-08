@@ -115,25 +115,30 @@ public class MVDPApplication extends Application {
             // This is an anonymous inner class that implements the Callback interface.
             @Override
             public void onResponse(Call<VoIpModel> call, retrofit2.Response<VoIpModel> response) {
-
-                VoIpModel voIpModel = response.body();
-                if (voIpModel.getData().getIp() != null) {
-                    ip = voIpModel.getData().getIp();
-                }else {
-                    ip = "113.197.36.196";
+                if (response.isSuccessful() && response.body()!= null) {
+                    VoIpModel voIpModel = response.body();
+                    if (voIpModel.getData().getIp() != null) {
+                        ip = voIpModel.getData().getIp();
+                    } else {
+                        ip = "113.197.36.196";
+                    }
+                    if (voIpModel.getData().getPort() != null) {
+                        port = voIpModel.getData().getPort();
+                    } else {
+                        port = "5061";
+                    }
+                    configure(ip, port);
+                } else {
+                    // when ever api gives null data we set a static ip and port for configure device sdk
+                    configure("113.197.36.196", "5061");
                 }
-                if (voIpModel.getData().getPort() != null) {
-                    port = voIpModel.getData().getPort();
-
-                }else {
-                    port = "5061";
-                }
-                 configure(ip,port);
 
             }
 
             @Override
             public void onFailure(Call<VoIpModel> call, Throwable t) {
+                configure("113.197.36.196", "5061");
+
                 // This method is called when the API request fails.
 //                Toast.makeText(this, "Request Fail", Toast.LENGTH_SHORT).show();
                 Log.e("","");

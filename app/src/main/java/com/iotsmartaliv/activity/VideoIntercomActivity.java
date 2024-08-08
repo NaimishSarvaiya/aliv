@@ -76,7 +76,6 @@ import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
 
 import org.json.JSONObject;
 
-import butterknife.BindView;
 import okhttp3.ResponseBody;
 
 /**

@@ -21,15 +21,14 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityBookServiceBinding;
+import com.iotsmartaliv.databinding.ActivityFacilityBookingBinding;
 import com.iotsmartaliv.model.BookRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.SHAKE_ENABLE;
@@ -43,12 +42,7 @@ import static com.iotsmartaliv.constants.Constant.SHAKE_ENABLE;
  */
 public class BookedRoomsActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.recyclerViewRoom)
-    RecyclerView recyclerViewRoom;
+    ActivityFacilityBookingBinding binding;
     ApiServiceProvider apiServiceProvider;
     String booking_ID;
     BookedRoomsAdapter bookedRoomsAdapter;
@@ -56,9 +50,9 @@ public class BookedRoomsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facility_booking);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityFacilityBookingBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         apiServiceProvider = ApiServiceProvider.getInstance(this);
@@ -116,9 +110,9 @@ public class BookedRoomsActivity extends AppCompatActivity {
 
 
                 });
-        recyclerViewRoom.setLayoutManager(new LinearLayoutManager(BookedRoomsActivity.this));
-        recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewRoom.setAdapter(bookedRoomsAdapter);
+        binding.recyclerViewRoom.setLayoutManager(new LinearLayoutManager(BookedRoomsActivity.this));
+        binding.recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerViewRoom.setAdapter(bookedRoomsAdapter);
 
         apiServiceProvider.getAllBookingRooms(booking_ID, new RetrofitListener<BookRoomsResponse>() {
             @Override

@@ -25,6 +25,7 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceLandmark;
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.databinding.ActivityFaceEnrollCameraBinding;
 import com.iotsmartaliv.utils.faceenroll.FaceCenterCrop;
 import com.iotsmartaliv.utils.faceenroll.FaceDetectionProcessor;
 import com.iotsmartaliv.utils.faceenroll.FaceDetectionResultListener;
@@ -40,8 +41,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.iotsmartaliv.utils.faceenroll.FaceDetectionScanner.Constants.KEY_CAMERA_PERMISSION_GRANTED;
 import static com.iotsmartaliv.utils.faceenroll.FaceDetectionScanner.Constants.PERMISSION_REQUEST_CAMERA;
@@ -49,13 +48,6 @@ import static com.iotsmartaliv.utils.faceenroll.FaceDetectionScanner.Constants.P
 public class FaceEnrollCameraActivity extends AppCompatActivity {
 
     String TAG = "ScannerActivity";
-
-    @BindView(R.id.barcodeOverlay)
-    GraphicOverlay barcodeOverlay;
-    @BindView(R.id.preview)
-    CameraSourcePreview preview;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
     FaceDetectionProcessor faceDetectionProcessor;
     FaceDetectionResultListener faceDetectionResultListener = null;
     Bitmap bmpCapturedImage;
@@ -67,12 +59,14 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
     boolean isEnable;
     int faceId = -1;
     private CameraSource mCameraSource = null;
+
+    ActivityFaceEnrollCameraBinding binding;
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.d(TAG, "handleMessage: ");
-            if (preview != null)
+            if (binding.preview != null)
                 createCameraSource();
         }
     };
@@ -92,12 +86,12 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
             Log.e(TAG, "Barcode scanner could not go into fullscreen mode!");
         }
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_face_enroll_camera);
+        binding = ActivityFaceEnrollCameraBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         Log.e("FACEENROLL", "TRUE");
-        ButterKnife.bind(this);
 
         faceCenterCrop = new FaceCenterCrop(this, 300, 300, 1);
-        countDownTimer = new CountDownTimer(1500, 1000) {
+        countDownTimer = new CountDownTimer(2500, 1000) {
             public void onTick(long millissUntilFinished) {
             }
 
@@ -106,8 +100,8 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
                 Toast.makeText(FaceEnrollCameraActivity.this, "Face Capture.", Toast.LENGTH_SHORT).show();
             }
         };
-        if (preview != null)
-            if (preview.isPermissionGranted(true, mMessageSender))
+        if (binding.preview != null)
+            if (binding.preview.isPermissionGranted(true, mMessageSender))
                 new Thread(mMessageSender).start();
 
     }
@@ -118,21 +112,12 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
                 new FirebaseVisionFaceDetectorOptions.Builder()
                         .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
                         .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-//                        .setMinFaceSize(1.0f)
-//                         .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-//                        .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
-//                         .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
-                        /*   .setPerformanceMode(FirebaseVisionFaceDetectorOptions.FAST)
-                           .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
-                           .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)*/
-                        // .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
-                        //.setMinFaceSize(0.15f)
                         .enableTracking()
                         .build();
 
         FirebaseVisionFaceDetector detector = FirebaseVision.getInstance().getVisionFaceDetector(options);
         // To connect the camera resource with the detector
-        mCameraSource = new CameraSource(this, barcodeOverlay);
+        mCameraSource = new CameraSource(this, binding.barcodeOverlay);
         mCameraSource.setFacing(CameraSource.CAMERA_FACING_FRONT);
         // FaceContourDetectorProcessor faceDetectionProcessor = new FaceContourDetectorProcessor(detector);
         faceDetectionProcessor = new FaceDetectionProcessor(detector);
@@ -225,7 +210,7 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
                                 if (faceId == face.getTrackingId()) {
                                     countDownTimer.start();
                                     faceDetectionProcessor.setFaceDetectionResultListener(null);
-                                    progressBar.setVisibility(View.VISIBLE);
+                                    binding.progressBar.setVisibility(View.VISIBLE);
                                     //  faceCenterCrop.transform(bmpCapturedImage, faceCenterCrop.getCenterPoint(capturedFaces), getFaceCropResult());
                                     //    Toast.makeText(ScannerActivity.this, "Found Face Start", Toast.LENGTH_SHORT).show();
 
@@ -241,7 +226,7 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
                                             // this code will be executed after 2 seconds
                                         }
                                     }, 2000);
-                                    progressBar.setVisibility(View.GONE);
+                                    binding.progressBar.setVisibility(View.GONE);
 
                                     countDownTimer.cancel();
                                 }
@@ -281,10 +266,10 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
             dlg.show();
         }
 
-        if (mCameraSource != null && preview != null && barcodeOverlay != null) {
+        if (mCameraSource != null && binding.preview != null && binding.barcodeOverlay != null) {
             try {
                 Log.d(TAG, "startCameraSource: ");
-                preview.start(mCameraSource, barcodeOverlay);
+                binding.preview.start(mCameraSource, binding.barcodeOverlay);
             } catch (IOException e) {
                 Log.d(TAG, "Unable to start camera source.", e);
                 mCameraSource.release();
@@ -298,8 +283,9 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionsResult: " + requestCode);
-        preview.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        binding.preview.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     /**
@@ -318,8 +304,8 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (preview != null)
-            preview.stop();
+        if (binding.preview != null)
+            binding.preview.stop();
     }
 
     /**
