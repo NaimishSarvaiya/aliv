@@ -1,7 +1,15 @@
-apply plugin: 'com.android.application'
-//apply plugin: 'io.fabric'
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.android.application'
+////apply plugin: 'io.fabric'
+//apply plugin: 'com.google.gms.google-services'
+//
+//apply plugin: 'io.sentry.android.gradle' version '4.11.0'
 
+plugins{
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'io.sentry.android.gradle' version '4.11.0'
+}
 //apply plugin: 'com.google.firebase.crashlytics'
 //
 //plugins {
@@ -156,7 +164,9 @@ dependencies {
     // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/ChangeServertools1.3.jar')
-    implementation files('libs\\DoormasterSDKV2.4.8.jar')
+//    implementation files('libs\\DoormasterSDKV2.4.8.jar')
+//    implementation files('D:\\Android\\Backup Client Work\\Aliv SDK\\DoormasterSDKV2.4.8.jar')
+//    implementation files('D:\\Android\\Backup Client Work\\Aliv SDK\\DoormasterSDKV2.4.8.jar')
     androidTestImplementation 'junit:junit:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     testImplementation 'junit:junit:4.12'
@@ -239,4 +249,4 @@ dependencies {
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.50'
 }
 
-apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin
+//apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin

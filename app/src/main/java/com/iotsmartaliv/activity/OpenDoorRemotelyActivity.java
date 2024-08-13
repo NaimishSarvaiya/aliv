@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;

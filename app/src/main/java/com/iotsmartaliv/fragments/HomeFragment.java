@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bugfender.sdk.Bugfender;
+import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -647,6 +648,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 //            if (goInsideToOpenDoor) {
             pressed = true;
             progress.show();
+
             int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
             //Naimish
             if (ret1 != 0) {

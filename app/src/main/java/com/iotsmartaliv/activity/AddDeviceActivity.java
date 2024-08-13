@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
+
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.ScanDevListAdapter;
 
