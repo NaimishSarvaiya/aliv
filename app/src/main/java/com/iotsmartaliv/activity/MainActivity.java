@@ -44,6 +44,7 @@ import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.gson.Gson;
 import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
@@ -66,6 +67,7 @@ import java.util.ArrayList;
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
 import static com.iotsmartaliv.constants.Constant.showLoader;
@@ -310,11 +312,11 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                     showLoader(MainActivity.this);
                     String userIdApp = "";
                     SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
-//                    if (LOGIN_DETAIL.getAppuser() == null){
+                    if (LOGIN_DETAIL.getAppuser() == null){
                         userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
-//                    }else {
-//                      userIdApp =   LOGIN_DETAIL.getAppuser();
-//                    }
+                    }else {
+                      userIdApp =  LOGIN_DETAIL.getAppuserID();
+                    }
                     Log.e("UserId",LOGIN_DETAIL.getAppuserID() );
                     apiServiceProvider.callForDeviceList(userIdApp,BuildConfig.VERSION_NAME.toString(), MainActivity.this);
 
@@ -328,12 +330,14 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     private void intercomLogin() {
         if (!SharePreference.getInstance(this).getBoolean(Constant.IS_INTERCOM_LOGIN)) {
+            LOGIN_DETAIL = new Gson().fromJson(SharePreference.getInstance(MainActivity.this).getString(LOGIN_PREFRENCE), com.iotsmartaliv.apiCalling.models.ResponseData.class);
+
             //  todo uncomment the following code when you want to login in video Intercom server
             Util.checkInternet(this, new Util.NetworkCheckCallback() {
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {
                     if (isAvailable) {
-                        DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(), LOGIN_DETAIL.getAccountTokenPwd(), 1, MainActivity.this, new DMCallback() {
+                        DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(),LOGIN_DETAIL.getAccountTokenPwd(), 1, MainActivity.this, new DMCallback() {
                             //DMVPhoneModel.loginVPhoneServer("ashishagrawal0108@gmail.com", "c5be8bcL88496f2bd778bfebeabc78208801efe3", 1, this, new DMModelCallBack.DMCallback() {
                             @Override
                             public void setResult(int errorCode, DMException e) {

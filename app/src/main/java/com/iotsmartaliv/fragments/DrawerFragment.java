@@ -22,9 +22,11 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 //import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.InstructorActivity;
+import com.iotsmartaliv.activity.LoginActivity;
 import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.SettingActivity;
 import com.iotsmartaliv.activity.SplashActivity;
@@ -211,11 +213,11 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                         .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
                         .setCancelable(true)
                         .setPositiveButtonText(getString(R.string.dialog_yes_button))
-                        .setPositiveButtonbackgroundColor(R.color.Orangebtn)
+                        .setPositiveButtonbackgroundColor(R.color.Orange)
                         .setPositiveButtonTextColor(R.color.white)
                         .setNegativeButtonText(getString(R.string.dialog_no_button))
                         .setNegativeButtonbackgroundColor(R.color.colorPrimary)
-                        .setNegativeButtonTextColor(R.color.Orangebtn)
+                        .setNegativeButtonTextColor(R.color.Orange)
                         .setPositiveButtonClick(() -> {
                             //click
                             LOGIN_DETAIL = null;
@@ -243,7 +245,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                             // startActivity(new Intent(getContext(), SplashActivity.class));
 
                             // login in issue-----------
-                            Intent intent = new Intent(getContext(), SplashActivity.class);
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);

@@ -11,12 +11,11 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiCalling.models.GroupData;
+import com.iotsmartaliv.databinding.ItemGroupVisitorBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This class is used as .
@@ -38,17 +37,18 @@ public class FragmentGroupAdapter extends RecyclerView.Adapter<FragmentGroupAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_group_visitor, viewGroup, false);
-        return new ViewHolder(view);
+        ItemGroupVisitorBinding binding = ItemGroupVisitorBinding.inflate(LayoutInflater.from(viewGroup.getContext()),viewGroup,false);
+//        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_group_visitor, viewGroup, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.tvGroup.setText(data.get(i).getGroupName());
-        viewHolder.assignVisitorTv.setOnClickListener(v -> groupUpdateClick.groupAssignVisitorNotify(data.get(i)));
-        viewHolder.viewVisitorTv.setOnClickListener(v -> groupUpdateClick.viewVisitorNotify(data.get(i)));
-        viewHolder.edit_group.setOnClickListener(v -> groupUpdateClick.groupEditNotify(data.get(i)));
-        viewHolder.deleteBtn.setOnClickListener(v -> groupUpdateClick.groupDeleteNotify(data.get(i)));
+        viewHolder.binding.tvGroup.setText(data.get(i).getGroupName());
+        viewHolder.binding.assignVisitorTv.setOnClickListener(v -> groupUpdateClick.groupAssignVisitorNotify(data.get(i)));
+        viewHolder.binding.viewVisitorTv.setOnClickListener(v -> groupUpdateClick.viewVisitorNotify(data.get(i)));
+        viewHolder.binding.editGroup.setOnClickListener(v -> groupUpdateClick.groupEditNotify(data.get(i)));
+        viewHolder.binding.deleteBtn.setOnClickListener(v -> groupUpdateClick.groupDeleteNotify(data.get(i)));
     }
 
     @Override
@@ -72,20 +72,22 @@ public class FragmentGroupAdapter extends RecyclerView.Adapter<FragmentGroupAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_group)
-        TextView tvGroup;
-        @BindView(R.id.delete_btn)
-        ImageView deleteBtn;
-        @BindView(R.id.edit_group)
-        View edit_group;
-        @BindView(R.id.assign_visitor_tv)
-        TextView assignVisitorTv;
-        @BindView(R.id.view_visitor_tv)
-        TextView viewVisitorTv;
+//        @BindView(R.id.tv_group)
+//        TextView tvGroup;
+//        @BindView(R.id.delete_btn)
+//        ImageView deleteBtn;
+//        @BindView(R.id.edit_group)
+//        View edit_group;
+//        @BindView(R.id.assign_visitor_tv)
+//        TextView assignVisitorTv;
+//        @BindView(R.id.view_visitor_tv)
+//        TextView viewVisitorTv;
 
-        ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        ItemGroupVisitorBinding binding;
+
+        ViewHolder(ItemGroupVisitorBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

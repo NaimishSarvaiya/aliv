@@ -15,13 +15,13 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentUserListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -29,11 +29,6 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * A simple {@link Fragment} subclass.
  */
 public class UserListFragment extends Fragment implements RetrofitListener<CardUserListModel> {
-
-
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
     ApiServiceProvider apiServiceProvider;
     List<CardUserList> cardUserLists = new ArrayList<>();
 
@@ -41,14 +36,16 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
     public UserListFragment() {
         // Required empty public constructor
     }
+    FragmentUserListBinding binding;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentUserListBinding.inflate(inflater,container,false);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
+//        View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+
        /* CardModel[] myListData = new CardModel[]{
                 new CardModel("Ravi Thakur", "ravi@maili.com", 0),
                 new CardModel("Akash Gupta", "aksh.gupta.com", 0),
@@ -73,13 +70,13 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
         }
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         apiServiceProvider.callForCardUserList(communityId, deviceId, LOGIN_DETAIL.getAppuserID(), this);
-        return view;
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
     @Override
@@ -93,9 +90,9 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
                         Toast.makeText(getContext(), "List is empty", Toast.LENGTH_SHORT).show();
                     }
                     UserListAdapter adapter = new UserListAdapter(cardUserLists);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerView.setAdapter(adapter);
+                    binding.recyclerView.setHasFixedSize(true);
+                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    binding.recyclerView.setAdapter(adapter);
                 } else
                     Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
 

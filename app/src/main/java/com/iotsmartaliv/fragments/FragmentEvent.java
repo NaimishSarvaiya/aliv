@@ -51,6 +51,7 @@ import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentEventBinding;
 import com.iotsmartaliv.dialog_box.CustomCommunityDialog;
 import com.iotsmartaliv.dialog_box.CustomCountryCodeDialog;
 import com.iotsmartaliv.dialog_box.CustomDeviceListDialog;
@@ -73,9 +74,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -86,101 +84,10 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @version 1.0
  * @since 30/7/19 :July : 2019 on 18 : 22.
  */
-public class FragmentEvent extends Fragment implements View.OnClickListener, RetrofitListener<SuccessResponse> {
-
-    @BindView(R.id.rl_select_community)
-    RelativeLayout rlSelectCommunity;
-    @BindView(R.id.cbEnableEnhance)
-    CheckBox cbEnableEnhance;
-    @BindView(R.id.rl_checkbox)
-    RelativeLayout rlCheckbox;
-    @BindView(R.id.rl_select_device)
-    RelativeLayout rlSelectDevice;
-    @BindView(R.id.ed_event_title)
-    EditText edEventTitle;
-    @BindView(R.id.ed_purpose)
-    EditText edPurpose;
-    @BindView(R.id.ed_event_location)
-    EditText edEventLocation;
-    @BindView(R.id.ed_pin_usage_limit)
-    EditText edPinUsageLimit;
-    @BindView(R.id.tv_limit)
-    TextView tvLimit;
-    /*@BindView(R.id.ed_scan_time)
-    EditText edScanTime;*/
-    @BindView(R.id.tvCommunity)
-    TextView tvCommunity;
-    @BindView(R.id.rl_upper)
-    RelativeLayout rlUpper;
-    @BindView(R.id.tv_start_date)
-    TextView tvStartDate;
-    @BindView(R.id.tv_end_date)
-    TextView tvEndDate;
-    @BindView(R.id.ll_select_date)
-    LinearLayout llSelectDate;
-    @BindView(R.id.tv_start_time)
-    TextView tvStartTime;
-    @BindView(R.id.tv_end_time)
-    TextView tvEndTime;
-    @BindView(R.id.ll_select_time)
-    LinearLayout llSelectTime;
-    @BindView(R.id.rl_date_time)
-    RelativeLayout rlDateTime;
-    @BindView(R.id.radioSingleVisitor)
-    RadioButton radioSingleVisitor;
-    @BindView(R.id.radioGroupOfVisitor)
-    RadioButton radioGroupOfVisitor;
-    @BindView(R.id.radioVisitor)
-    RadioGroup radioVisitor;
-    @BindView(R.id.rl_select_group)
-    RelativeLayout rlSelectGroup;
-    @BindView(R.id.rl_select_visitor)
-    RelativeLayout rlSelectVisitor;
-    @BindView(R.id.iv_addVisitor)
-    ImageView ivAddVisitor;
-    @BindView(R.id.rl_add_visitor)
-    RelativeLayout rlAddVisitor;
-    @BindView(R.id.tvGroupName)
-    TextView tvGroupName;
-    @BindView(R.id.recyclerView_selectedMultipleVisitor)
-    RecyclerView recyclerViewSelectedMultipleVisitor;
+public class FragmentEvent extends Fragment implements  RetrofitListener<SuccessResponse> {
     VisitorListAdapter visitorListAdapter;
-    Unbinder unbinder;
-    @BindView(R.id.visitor_list)
-    RecyclerView visitorList;
-    @BindView(R.id.rl_device)
-    RelativeLayout rlDevice;
     DeviceMultiSelectDialogAdapter deviceDialogAdapter;
-    @BindView(R.id.device_list)
-    RecyclerView deviceList;
-    @BindView(R.id.ll_singleVisitor)
-    LinearLayout ll_singleVisitor;
-    @BindView(R.id.ll_groupsOfVisitors)
-    LinearLayout ll_groupsOfVisitors;
-    @BindView(R.id.rl_event)
-    RelativeLayout rlEvent;
     Country country;
-    @BindView(R.id.tvVisitorName)
-    TextView tvVisitorName;
-    @BindView(R.id.tvVisitorName_single)
-    TextView tvVisitorNameSingle;
-    /*@BindView(R.id.ed_pinUsage_limit)
-    EditText edPinUsageLimitEvent;*/
-    @BindView(R.id.rlSubmitEvent)
-    RelativeLayout rlSubmitEvent;
-    @BindView(R.id.rl_add_visitor_uncheck)
-    RelativeLayout rlAddVisitorUncheck;
-    @BindView(R.id.rl_select_visitorSingle)
-    RelativeLayout rl_selectVisitorSingle;
-    @BindView(R.id.recyclerView_selectedSingleVisitor)
-    RecyclerView recyclerViewSelectedSingleVisitor;
-    @BindView(R.id.visitor_list_single)
-    RecyclerView addNewvisitorListSingle;
-    @BindView(R.id.rl_add_visitor_single)
-    RelativeLayout rlAddNewVisitorSingle;
-    @BindView(R.id.visitor_list_uncheck)
-    RecyclerView addNewVisitorListUncheck;
-
     AddNewVisitorAdapterUncheck addNewVisitorAdapterUncheck;
     RadioSingleAddNewVisitorAdapter radioSingleAddNewVisitorAdapter;
     GroupListDialog groupListDialog;
@@ -201,44 +108,48 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
     SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
     SimpleDateFormat dateFormatValidation = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     String addLicensePlate;
+    String visitorEventValidity;
+
+    FragmentEventBinding binding;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentEventBinding.inflate(inflater,container,false);
+
         clickListener();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        visitorList.setLayoutManager(layoutManager);
+        binding.visitorList.setLayoutManager(layoutManager);
         visitorListAdapter = new VisitorListAdapter(new ArrayList<>());
-        visitorList.setAdapter(visitorListAdapter);
-        visitorList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        binding.visitorList.setAdapter(visitorListAdapter);
+        binding.visitorList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext());
-        addNewvisitorListSingle.setLayoutManager(layoutManager1);
+        binding.visitorListSingle.setLayoutManager(layoutManager1);
         radioSingleAddNewVisitorAdapter = new RadioSingleAddNewVisitorAdapter(new ArrayList<>());
-        addNewvisitorListSingle.setAdapter(radioSingleAddNewVisitorAdapter);
-        addNewvisitorListSingle.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        binding.visitorListSingle.setAdapter(radioSingleAddNewVisitorAdapter);
+        binding.visitorListSingle.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext());
-        addNewVisitorListUncheck.setLayoutManager(layoutManager2);
+        binding.visitorListUncheck.setLayoutManager(layoutManager2);
         addNewVisitorAdapterUncheck = new AddNewVisitorAdapterUncheck(new ArrayList<>());
-        addNewVisitorListUncheck.setAdapter(addNewVisitorAdapterUncheck);
-        addNewVisitorListUncheck.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        binding.visitorListUncheck.setAdapter(addNewVisitorAdapterUncheck);
+        binding.visitorListUncheck.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         selectedVisitorListAdapter = new SelectedVisitorListAdapter(new ArrayList<>(), null);
         singleSelectedVisitorAdapter = new SingleSelectedVisitorAdapter(new ArrayList<>(), () -> singleSelectedVisitorAdapter.notifyDataSetChanged());
-        recyclerViewSelectedSingleVisitor.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewSelectedSingleVisitor.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerViewSelectedSingleVisitor.setAdapter(singleSelectedVisitorAdapter);
+        binding.recyclerViewSelectedSingleVisitor.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewSelectedSingleVisitor.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        binding.recyclerViewSelectedSingleVisitor.setAdapter(singleSelectedVisitorAdapter);
 
         selectDeviceListAdapter = new SelectDeviceListAdapter(new ArrayList<>(), () -> {
             deviceDialogAdapter.notifyDataSetChanged();
-            deviceList.setVisibility(View.GONE);
+            binding.deviceList.setVisibility(View.GONE);
         });
-        deviceList.setLayoutManager(new LinearLayoutManager(getContext()));
-        deviceList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        deviceList.setAdapter(selectDeviceListAdapter);
+        binding.deviceList.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.deviceList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        binding.deviceList.setAdapter(selectDeviceListAdapter);
 
 
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
@@ -252,9 +163,10 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                             if (successArrayResponse.getStatus().equalsIgnoreCase("OK")) {
                                 if (successArrayResponse.getData().size() > 0) {
                                     if (successArrayResponse.getData().size() == 1) {
-                                        rlSelectCommunity.setVisibility(View.GONE);
+                                        addLicensePlate = successArrayResponse.getData().get(0).getAddLicensePlate();
+                                        binding.rlSelectCommunity.setVisibility(View.GONE);
                                         communityID = successArrayResponse.getData().get(0).getCommunityID();
-
+                                        visitorEventValidity =successArrayResponse.getData().get(0).getVisitorEventValidity();
                                         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                                             @Override
                                             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -265,16 +177,17 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                             }
                                         });
                                         if (successArrayResponse.getData().get(0).getVisitorManagement().equalsIgnoreCase("1")) {
-                                            rlCheckbox.setVisibility(View.VISIBLE);
+                                            binding.rlCheckbox.setVisibility(View.VISIBLE);
                                         } else {
-                                            rlCheckbox.setVisibility(View.GONE);
+                                            binding.rlCheckbox.setVisibility(View.GONE);
                                         }
                                     } else {
                                         CommunityDialogAdapter dataAdapter = new CommunityDialogAdapter(successArrayResponse.getData(), data -> {
                                             communityID = data.getCommunityID();
-                                            tvCommunity.setText(data.getCommunityName());
+                                            binding.tvCommunity.setText(data.getCommunityName());
                                             addLicensePlate = data.getAddLicensePlate();
-                                            cbEnableEnhance.setChecked(false);
+                                            binding.cbEnableEnhance.setChecked(false);
+                                            visitorEventValidity = data.getVisitorEventValidity();
                                             Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                                                 @Override
                                                 public void onNetworkCheckComplete(boolean isAvailable) {
@@ -285,9 +198,9 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                                 }
                                             });
                                             if (data.getVisitorManagement().equalsIgnoreCase("1")) {
-                                                rlCheckbox.setVisibility(View.VISIBLE);
+                                                binding.rlCheckbox.setVisibility(View.VISIBLE);
                                             } else {
-                                                rlCheckbox.setVisibility(View.GONE);
+                                                binding.rlCheckbox.setVisibility(View.GONE);
                                             }
                                             customCommunityDialog.dismiss();
                                         });
@@ -326,19 +239,18 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         });
 
 
-        cbEnableEnhance.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            rlEvent.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            radioVisitor.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            ll_singleVisitor.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-            ll_groupsOfVisitors.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-
-            rlDevice.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-            rlAddVisitorUncheck.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-            rlAddVisitorUncheck.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+        binding.cbEnableEnhance.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            binding.rlEvent.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            binding.radioVisitor.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            binding.llSingleVisitor.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            binding.llGroupsOfVisitors.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            binding.rlDevice.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+            binding.rlAddVisitorUncheck.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+            binding.rlAddVisitorUncheck.setVisibility(isChecked ? View.GONE : View.VISIBLE);
 
             if (isChecked) {
-                radioVisitor.clearCheck();
-                radioSingleVisitor.setChecked(true);
+                binding.radioVisitor.clearCheck();
+                binding.radioSingleVisitor.setChecked(true);
             }
 
             if (addNewVisitorAdapterUncheck != null) {
@@ -353,61 +265,60 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         });
 
 
-        radioVisitor.setOnCheckedChangeListener((group, checkedId) -> {
+        binding.radioVisitor.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.radioSingleVisitor:
-                    rlSelectVisitor.setVisibility(View.VISIBLE);
-                    rlSelectGroup.setVisibility(View.GONE);
-                    ll_singleVisitor.setVisibility(View.VISIBLE);
-                    ll_groupsOfVisitors.setVisibility(View.GONE);
+                    binding.rlSelectVisitor.setVisibility(View.VISIBLE);
+                    binding.rlSelectGroup.setVisibility(View.GONE);
+                    binding.llSingleVisitor.setVisibility(View.VISIBLE);
+                    binding.llGroupsOfVisitors.setVisibility(View.GONE);
                     break;
                 case R.id.radioGroupOfVisitor:
-                    ll_singleVisitor.setVisibility(View.GONE);
-                    ll_groupsOfVisitors.setVisibility(View.VISIBLE);
-                    rlSelectVisitor.setVisibility(View.VISIBLE);
-                    tvVisitorName.setText("Select Visitor");
-                    tvVisitorName.setTextColor(getResources().getColor(R.color.gray));
-                    recyclerViewSelectedMultipleVisitor.setVisibility(View.VISIBLE);
-                    rlSelectGroup.setVisibility(View.VISIBLE);
+                    binding.llSingleVisitor.setVisibility(View.GONE);
+                    binding.llGroupsOfVisitors.setVisibility(View.VISIBLE);
+                    binding.rlSelectVisitor.setVisibility(View.VISIBLE);
+                    binding.tvVisitorName.setText("Select Visitor");
+                    binding.tvVisitorName.setTextColor(getResources().getColor(R.color.gray));
+                    binding.recyclerViewSelectedMultipleVisitor.setVisibility(View.VISIBLE);
+                    binding.rlSelectGroup.setVisibility(View.VISIBLE);
                     break;
             }
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     private void clickListener() {
-        tvStartDate.setOnClickListener(this);
-        tvStartTime.setOnClickListener(this);
-        tvEndDate.setOnClickListener(this);
-        tvEndTime.setOnClickListener(this);
-        rlSelectCommunity.setOnClickListener(this);
-        rlSelectDevice.setOnClickListener(this);
-        rlAddVisitor.setOnClickListener(this);
-        rlSubmitEvent.setOnClickListener(this);
-        rlSelectGroup.setOnClickListener(this);
-        rlSelectVisitor.setOnClickListener(this);
-        rl_selectVisitorSingle.setOnClickListener(this);
-        rlAddNewVisitorSingle.setOnClickListener(this);
-        rlAddVisitorUncheck.setOnClickListener(this);
+        binding.tvStartDate.setOnClickListener(this :: onClick);
+        binding.tvStartTime.setOnClickListener(this :: onClick);
+        binding.tvEndDate.setOnClickListener(this :: onClick);
+        binding.tvEndTime.setOnClickListener(this :: onClick);
+        binding.rlSelectCommunity.setOnClickListener(this :: onClick);
+        binding.rlSelectDevice.setOnClickListener(this :: onClick);
+        binding.rlAddVisitor.setOnClickListener(this :: onClick);
+        binding.rlSubmitEvent.setOnClickListener(this :: onClick);
+        binding.rlSelectGroup.setOnClickListener(this :: onClick);
+        binding.rlSelectVisitor.setOnClickListener(this :: onClick);
+        binding.rlSelectVisitorSingle.setOnClickListener(this :: onClick);
+        binding.rlAddVisitorSingle.setOnClickListener(this :: onClick);
+        binding.rlAddVisitorUncheck.setOnClickListener(this :: onClick);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
-    @Override
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_start_date:
                 string = "start date";
-                showDatePicker();
+                showDatePicker(visitorEventValidity);
                 break;
             case R.id.tv_end_date:
                 string = "end date";
-                showDatePicker();
+                showDatePicker(visitorEventValidity);
                 break;
             case R.id.tv_start_time:
                 string = "start time";
@@ -442,7 +353,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 }
                 break;
             case R.id.rlSubmitEvent:
-                if (cbEnableEnhance.isChecked()) {
+                if (binding.cbEnableEnhance.isChecked()) {
                     callApiForSubmitEventEnhanced();
                 } else {
                     callApiForSubmitBasicEvent();
@@ -458,7 +369,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                 @Override
                                 public void onResponseSuccess(GroupResponse sucessRespnse, String apiFlag) {
                                     GroupListAdapter groupListAdapter = new GroupListAdapter(sucessRespnse.getData(), data -> {
-                                        tvGroupName.setText(data.getGroupName());
+                                        binding.tvGroupName.setText(data.getGroupName());
                                         selectedGroup = data;
                                         if (selectedVisitorListAdapter != null) {
                                             selectedVisitorListAdapter.updateItem(new ArrayList<>());
@@ -496,11 +407,11 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                                             multiSelectVisitorDailog = new MultiSelectVisitorDailog(getActivity(), new MultiSelectVisitorAdapter(sucessRespnse.getData(), selectedVisitorListAdapter.getVisitors()), sucessRespnse.getData(), new MultiSelectVisitorDailog.SelectItemListener() {
                                                 @Override
                                                 public void getSelectedItem(List<VisitorData> mDataset) {
-                                                    recyclerViewSelectedMultipleVisitor.setVisibility(View.VISIBLE);
+                                                    binding.recyclerViewSelectedMultipleVisitor.setVisibility(View.VISIBLE);
                                                     selectedVisitorListAdapter = new SelectedVisitorListAdapter(new ArrayList<>(), () -> selectedVisitorListAdapter.notifyDataSetChanged());
-                                                    recyclerViewSelectedMultipleVisitor.setLayoutManager(new LinearLayoutManager(getContext()));
-                                                    recyclerViewSelectedMultipleVisitor.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-                                                    recyclerViewSelectedMultipleVisitor.setAdapter(selectedVisitorListAdapter);
+                                                    binding.recyclerViewSelectedMultipleVisitor.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                    binding.recyclerViewSelectedMultipleVisitor.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+                                                    binding.recyclerViewSelectedMultipleVisitor.setAdapter(selectedVisitorListAdapter);
                                                     selectedVisitorListAdapter.updateItem(mDataset);
                                                     multiSelectVisitorDailog.setCanceledOnTouchOutside(false);
                                                 }
@@ -637,8 +548,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                }
-                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else if (edt_license_plate.getText().toString().trim().isEmpty() || edt_license_plate.getText().toString().equalsIgnoreCase("")) {
@@ -656,8 +566,7 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         edt_contact_number.getText().toString().trim().isEmpty() || edt_contact_number.getText().toString().equalsIgnoreCase("")) {
                     edt_contact_number.setError("Enter Contact Number.");
                     edt_contact_number.requestFocus();
-                }
-                else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
+                } else if (!Util.isValidPhoneNumber(edt_contact_number.getText().toString(), country.getPhonecode())) {
                     edt_contact_number.setError("Please enter valid Contact Number.");
                     edt_contact_number.requestFocus();
                 } else {
@@ -777,19 +686,20 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
     }
 
     private void callApiForSubmitEventEnhanced() {
+
         if (communityID == null) {
             Toast.makeText(getContext(), "Select Community ID.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (edEventTitle.getText().toString().trim().length() < 1) {
-            edEventTitle.setError("Please enter event title.");
-            edEventTitle.requestFocus();
+        if (binding.edEventTitle.getText().toString().trim().length() < 1) {
+            binding.edEventTitle.setError("Please enter event title.");
+            binding.edEventTitle.requestFocus();
             Toast.makeText(getContext(), "Please enter event title.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (edEventLocation.getText().toString().trim().length() < 1) {
-            edEventLocation.setError("Please event location.");
-            edEventLocation.requestFocus();
+        if (binding.edEventLocation.getText().toString().trim().length() < 1) {
+            binding.edEventLocation.setError("Please event location.");
+            binding.edEventLocation.requestFocus();
             Toast.makeText(getContext(), "Please enter event location.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -805,25 +715,27 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             Toast.makeText(getContext(), "Please enter scan time.", Toast.LENGTH_SHORT).show();
             return;
         }*/
-        if (tvStartDate.getText().toString().trim().length() < 1) {
+        if (binding.tvStartDate.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select start date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvEndDate.getText().toString().trim().length() < 1) {
+        if (binding.tvEndDate.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select end date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvStartTime.getText().toString().trim().length() < 1) {
+        if (binding.tvStartTime.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select start time.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvEndTime.getText().toString().trim().length() < 1) {
+        if (binding.tvEndTime.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select end time.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String startTime1 = startDate + " " + CommanUtils.convert12To24Time(tvStartTime.getText().toString());
-        String endTime1 = endDate + " " + CommanUtils.convert12To24Time(tvEndTime.getText().toString());
+        String startTime1 = startDate + " " + CommanUtils.convert12To24Time(binding.tvStartTime.getText().toString());
+        String endTime1 = endDate + " " + CommanUtils.convert12To24Time(binding.tvEndTime.getText().toString());
+        boolean isVisitorEventValid = Util.validateTime(startTime1, endTime1, visitorEventValidity);
+
         try {
             if (dateFormatValidation.parse(endTime1).before(dateFormatValidation.parse(startTime1))) {
                 Toast.makeText(getContext(), "End time should not be less than to start time.", Toast.LENGTH_SHORT).show();
@@ -834,7 +746,13 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             Toast.makeText(getContext(), "Something is wrong to parse the date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        boolean isSingleVisitor = radioSingleVisitor.isChecked();
+        if (!isVisitorEventValid) {
+            Toast.makeText(requireActivity(), "Times are not within the valid range", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+        boolean isSingleVisitor = binding.radioSingleVisitor.isChecked();
 
         if (isSingleVisitor) {
             int count = radioSingleAddNewVisitorAdapter.getItemCount() + singleSelectedVisitorAdapter.getItemCount();
@@ -853,8 +771,8 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("appuser_ID", LOGIN_DETAIL.getAppuserID());
         hashMap.put("community_ID", communityID);
-        hashMap.put("event_title", edEventTitle.getText().toString());
-        hashMap.put("event_location", edEventLocation.getText().toString());
+        hashMap.put("event_title", binding.edEventTitle.getText().toString());
+        hashMap.put("event_location", binding.edEventLocation.getText().toString());
         //   hashMap.put("pincode_use_limit", edPinUsageLimitEvent.getText().toString());
         //   hashMap.put("scan_time", edScanTime.getText().toString());
         hashMap.put("event_start_date", startTime1);
@@ -956,31 +874,31 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                 return;
             }
         }
-        if (edPurpose.getText().toString().trim().length() < 1) {
-            edPurpose.setError("Please enter purpose.");
-            edPurpose.requestFocus();
+        if (binding.edPurpose.getText().toString().trim().length() < 1) {
+            binding.edPurpose.setError("Please enter purpose.");
+            binding.edPurpose.requestFocus();
             Toast.makeText(getContext(), "Please enter purpose.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (edPinUsageLimit.getText().toString().trim().length() < 1) {
-            edPinUsageLimit.setError("Please enter  pin usage limit.");
-            edPinUsageLimit.requestFocus();
+        if (binding.edPinUsageLimit.getText().toString().trim().length() < 1) {
+            binding.edPinUsageLimit.setError("Please enter  pin usage limit.");
+            binding.edPinUsageLimit.requestFocus();
             Toast.makeText(getContext(), "Please enter pin usage limit.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvStartDate.getText().toString().trim().length() < 1) {
+        if (binding.tvStartDate.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select start date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvEndDate.getText().toString().trim().length() < 1) {
+        if (binding.tvEndDate.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select end date.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvStartTime.getText().toString().trim().length() < 1) {
+        if (binding.tvStartTime.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select start time.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (tvEndTime.getText().toString().trim().length() < 1) {
+        if (binding.tvEndTime.getText().toString().trim().length() < 1) {
             Toast.makeText(getContext(), "Please select end time.", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -989,8 +907,11 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             return;
         }
 
-        String startTime1 = startDate + " " + CommanUtils.convert12To24Time(tvStartTime.getText().toString());
-        String endTime1 = endDate + " " + CommanUtils.convert12To24Time(tvEndTime.getText().toString());
+        String startTime1 = startDate + " " + CommanUtils.convert12To24Time(binding.tvStartTime.getText().toString());
+        String endTime1 = endDate + " " + CommanUtils.convert12To24Time(binding.tvEndTime.getText().toString());
+        boolean isVisitorEventValid = Util.validateTime(startTime1, endTime1, visitorEventValidity);
+
+
         try {
             if (dateFormatValidation.parse(endTime1).before(dateFormatValidation.parse(startTime1))) {
                 Toast.makeText(getContext(), "End time should not be less than to start time.", Toast.LENGTH_SHORT).show();
@@ -1002,11 +923,15 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
             return;
         }
 
+        if (!isVisitorEventValid) {
+            Toast.makeText(requireActivity(), "Times are not within the valid range", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("appuser_ID", LOGIN_DETAIL.getAppuserID());
-        hashMap.put("pincode_usage_limit", edPinUsageLimit.getText().toString());
-        hashMap.put("purpose", edPurpose.getText().toString());
+        hashMap.put("pincode_usage_limit", binding.edPinUsageLimit.getText().toString());
+        hashMap.put("purpose", binding.edPurpose.getText().toString());
         hashMap.put("event_start_date", startTime1);
         hashMap.put("event_end_date", endTime1);
         hashMap.put("community_ID", communityID);
@@ -1150,32 +1075,115 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
         dialogBuilder.show();
     }
 
-    public void showDatePicker() {
+    public void showDatePicker(String count) {
         Calendar myCalendar = Calendar.getInstance(TimeZone.getDefault());
-        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme, (mDatePicker, year, month, dayOfMonth) -> {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, dayOfMonth);
-            String strDate = outputFormat.format(calendar.getTime());
-            if (string.equalsIgnoreCase("start date")) {
-                startDate = dateFormat.format(calendar.getTime());
-                tvStartDate.setText(strDate);
-            } else if (string.equalsIgnoreCase("end date")) {
-                endDate = dateFormat.format(calendar.getTime());
-                tvEndDate.setText(strDate);
-            }
+        Calendar maxCalendar = Calendar.getInstance();
 
-        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme,
+                (mDatePicker, year, month, dayOfMonth) -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, dayOfMonth);
+                    String strDate = outputFormat.format(calendar.getTime());
+
+                    if (string.equalsIgnoreCase("start date")) {
+                        startDate = dateFormat.format(calendar.getTime());
+                        binding.tvStartDate.setText(strDate);
+
+                        // Set the minimum date for the end date picker
+                        Calendar endDateCalendar = Calendar.getInstance();
+                        endDateCalendar.set(year, month, dayOfMonth);
+                        endDateCalendar.add(Calendar.DAY_OF_YEAR, 1); // Next day
+
+                        // Create end date picker dialog
+                        DatePickerDialog endDatePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme,
+                                (endDatePickerView, endYear, endMonth, endDayOfMonth) -> {
+                                    Calendar endCalendar = Calendar.getInstance();
+                                    endCalendar.set(endYear, endMonth, endDayOfMonth);
+                                    endDate = dateFormat.format(endCalendar.getTime());
+                                    binding.tvEndDate.setText(outputFormat.format(endCalendar.getTime()));
+                                }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+
+                        endDatePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+                        if (count != null && !count.isEmpty()) {
+                            Calendar calendarCurrentDate = Calendar.getInstance();
+                            maxCalendar.setTimeInMillis(calendarCurrentDate.getTimeInMillis()); // Set to selected start date
+                            maxCalendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(count) - 1);
+                            endDatePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
+                        }
+
+                        endDatePicker.show();
+                    } else if (string.equalsIgnoreCase("end date")) {
+                        endDate = dateFormat.format(calendar.getTime());
+                        binding.tvEndDate.setText(strDate);
+
+                        // Set the maximum date for the start date picker
+                        Calendar startDateCalendar = Calendar.getInstance();
+                        startDateCalendar.set(year, month, dayOfMonth);
+
+                        // Create start date picker dialog
+                        DatePickerDialog startDatePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme,
+                                (startDatePickerView, startYear, startMonth, startDayOfMonth) -> {
+                                    Calendar startCalendar = Calendar.getInstance();
+                                    startCalendar.set(startYear, startMonth, startDayOfMonth);
+                                    startDate = dateFormat.format(startCalendar.getTime());
+                                    binding.tvStartDate.setText(outputFormat.format(startCalendar.getTime()));
+                                }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+
+                        startDatePicker.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+                        if (count != null && !count.isEmpty()) {
+                            maxCalendar.setTimeInMillis(calendar.getTimeInMillis()); // Set to selected end date
+                            maxCalendar.add(Calendar.DAY_OF_YEAR, -(Integer.parseInt(count) - 1));
+//                            startDatePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
+                            startDatePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); // Disable past dates
+
+                        }
+
+                        startDatePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000); // Disable past dates
+
+                        startDatePicker.show();
+                    }
+                }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+
+// Set the initial minimum selectable date to the current date
         datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+// Set the initial maximum selectable date to current date plus count - 1 days
+        if (count != null && !count.isEmpty()) {
+            maxCalendar.add(Calendar.DAY_OF_YEAR, Integer.parseInt(count) - 1);
+            datePicker.getDatePicker().setMaxDate(maxCalendar.getTimeInMillis());
+        }
+
         datePicker.show();
+
     }
+//    public void showDatePicker() {
+//        Calendar myCalendar = Calendar.getInstance(TimeZone.getDefault());
+//        DatePickerDialog datePicker = new DatePickerDialog(getContext(), R.style.TimePickerTheme, (mDatePicker, year, month, dayOfMonth) -> {
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(year, month, dayOfMonth);
+//            String strDate = outputFormat.format(calendar.getTime());
+//            if (string.equalsIgnoreCase("start date")) {
+//                startDate = dateFormat.format(calendar.getTime());
+//                tvStartDate.setText(strDate);
+//            } else if (string.equalsIgnoreCase("end date")) {
+//                endDate = dateFormat.format(calendar.getTime());
+//                tvEndDate.setText(strDate);
+//            }
+//
+//        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+//        datePicker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+//        datePicker.show();
+//    }
 
     private void showCustomTimePicker(boolean isStart) {
         new CustomTimePicker(getActivity(), time -> {
             if (isStart) {
-                tvStartTime.setText(time);
+                binding.tvStartTime.setText(time);
                 showCustomTimePicker(false);
             } else {
-                tvEndTime.setText(time);
+                binding.tvEndTime.setText(time);
             }
 
         }, isStart ? "Start Time" : "End Time").show();
@@ -1195,14 +1203,14 @@ public class FragmentEvent extends Fragment implements View.OnClickListener, Ret
                         customDeviceListDialog = new CustomDeviceListDialog(getActivity(), deviceDialogAdapter, mDataset -> {
                             selectDeviceListAdapter.updateItem(mDataset);
                             if (mDataset.size() > 0) {
-                                deviceList.setVisibility(View.VISIBLE);
-                            } else deviceList.setVisibility(View.GONE);
+                                binding.deviceList.setVisibility(View.VISIBLE);
+                            } else binding.deviceList.setVisibility(View.GONE);
                             customDeviceListDialog.setCanceledOnTouchOutside(false);
                         });
                     } else {
                         customDeviceListDialog = null;
                         //        responseDataDevice = null;
-                        deviceList.setVisibility(View.GONE);
+                        binding.deviceList.setVisibility(View.GONE);
                         selectDeviceListAdapter.updateItem(new ArrayList<>());
                         Toast.makeText(getContext(), "No Device", Toast.LENGTH_LONG).show();
                     }

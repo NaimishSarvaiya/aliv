@@ -19,15 +19,12 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.InstructorInductionFragmentBinding;
 import com.iotsmartaliv.model.InstructorInductionData;
 import com.iotsmartaliv.model.InstructorInductionDataResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -42,21 +39,17 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 public class InstructorInductionFragment extends Fragment implements RetrofitListener<InstructorInductionDataResponse> {
 
     public List<InstructorInductionData> instructorInductionList = new ArrayList<>();
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
+    InstructorInductionFragmentBinding binding;
     ApiServiceProvider apiServiceProvider;
-    @BindView(R.id.item_not_found_tv)
-    TextView itemNotFoundTv;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = InstructorInductionFragmentBinding.inflate(inflater,container,false);
         View view = inflater.inflate(R.layout.instructor_induction_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         initiate();
-        return view;
+        return binding.getRoot();
     }
 
     public void initiate() {
@@ -67,7 +60,6 @@ public class InstructorInductionFragment extends Fragment implements RetrofitLis
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
 
@@ -78,22 +70,22 @@ public class InstructorInductionFragment extends Fragment implements RetrofitLis
                 if (instructorInductionDataResponse.getStatus().equalsIgnoreCase("OK")) {
                     if (instructorInductionDataResponse.getData().size() > 0) {
                         instructorInductionList = instructorInductionDataResponse.getData();
-                        itemNotFoundTv.setVisibility(View.GONE);
+                        binding.itemNotFoundTv.setVisibility(View.GONE);
                     } else {
                         instructorInductionList = new ArrayList<>();
-                        itemNotFoundTv.setVisibility(View.VISIBLE);
+                        binding.itemNotFoundTv.setVisibility(View.VISIBLE);
 
                         //  Toast.makeText(getContext(), "List is Empty", Toast.LENGTH_LONG).show();
                     }
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(new InstructorInductionAdapter(getActivity(), instructorInductionList));
+                    binding.recyclerView.setLayoutManager(mLayoutManager);
+                    binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    binding.recyclerView.setAdapter(new InstructorInductionAdapter(getActivity(), instructorInductionList));
                     //recyclerView.getAdapter().notifyDataSetChanged();
 
                 } else {
-                    itemNotFoundTv.setVisibility(View.VISIBLE);
-                    itemNotFoundTv.setText(instructorInductionDataResponse.getMsg());
+                    binding.itemNotFoundTv.setVisibility(View.VISIBLE);
+                    binding.itemNotFoundTv.setText(instructorInductionDataResponse.getMsg());
                     Toast.makeText(getContext(), instructorInductionDataResponse.getMsg(), Toast.LENGTH_LONG).show();
                 }
                 break;

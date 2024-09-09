@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bugfender.sdk.Bugfender;
+import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -126,8 +127,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
     private String[] mItemTexts = new String[]{
             "Face Enroll", "Video Intercom",
-            /* "Rewards",*/  "Automation", /*"Market Place",*/
-            /*   "Services & Maintenance",*/ "Visitor",
+            /* "Rewards",*/ "Visitor" , /*"Market Place",*/
+            /*   "Services & Maintenance",*/ "Automation",
             "Facility Booking", "Device List"
     };
     private boolean pressed = false;
@@ -142,6 +143,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             new SaveAccessLogTask(getContext(), new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date()))).execute();
             Toast.makeText(getContext(), "Door Open Successfully.", Toast.LENGTH_SHORT).show();
+            logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date())));
+            Util.logDoorOpenEvent("GreenKey", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
         } else {
             if (result == 48) {
                 Bugfender.d("CanoHomeFragment", "Result Error Time Out");
@@ -150,6 +153,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                 Bugfender.d("CanoHomeFragment", "Failure:" + result);
                 Toast.makeText(getContext(), "Failure:" + result, Toast.LENGTH_SHORT).show();
             }
+            Util.logDoorOpenEvent("GreenKey", false, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
         }
     });
     private ProgressDialog progress;
@@ -365,8 +369,9 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     };
     private int[] mItemImgs = new int[]{
             R.drawable.ic_face_recognition, R.drawable.ic_webcam,
-            /* R.drawable.ic_record,*/ R.drawable.ic_home_automation,/* R.drawable.ic_markets,*/
-            /*    R.drawable.ic_maintenance, */R.drawable.ic_guest,
+            /* R.drawable.ic_record,*/ R.drawable.ic_guest,/* R.drawable.ic_markets,*/
+            /*    R.drawable.ic_maintenance, */
+            R.drawable.ic_home_automation,
             R.drawable.ic_booking, R.drawable.ic_devicelist
     };
 
@@ -444,7 +449,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         startActivity(new Intent(getActivity(), VideoIntercomActivity.class));
                         break;
                     case 2:
-                        startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
+                        startActivity(new Intent(getActivity(), VisitorActivity.class));
                         break;
                   /*  case 3:
                         startActivity(new Intent(getActivity(), MarketPlaceActivity.class));
@@ -454,7 +459,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         break;*/
                     case 3:
                         // startActivity(new Intent(getActivity(), GuestActivity.class));
-                        startActivity(new Intent(getActivity(), VisitorActivity.class));
+                        startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
                         break;
                     case 4:
                         startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
@@ -646,6 +651,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 //            if (goInsideToOpenDoor) {
             pressed = true;
             progress.show();
+
             int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
             //Naimish
             if (ret1 != 0) {
@@ -798,6 +804,29 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
                 Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
 //                chagefailSatus(isOnline);
+            }
+        });
+    }
+    public void logs(String userId,AccessLogModel accessLogModel){
+        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable){
+                    apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
+
+                        @Override
+                        public void onResponseSuccess(AccessLogModel accessLogModel1, String apiFlag) {
+                            if (Constant.UrlPath.POST_ACCESS_LOG.equals(apiFlag)) {
+//                                new DeviceLogSyncService.DeleteAccessLogTask(DeviceLogSyncService.this, accessLogModel1).execute();
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+//                            Util.firebaseEvent(Constant.APIERROR, DeviceLogSyncService.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                        }
+                    });
+                }
             }
         });
     }

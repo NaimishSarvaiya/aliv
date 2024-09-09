@@ -6,17 +6,16 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.OpenRemotelyAdapter;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
+import com.iotsmartaliv.databinding.ActivityOpenDoorRemotelyBinding;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
 
@@ -29,18 +28,20 @@ import static com.iotsmartaliv.constants.Constant.deviceLIST;
  */
 public class OpenDoorRemotelyActivity extends AppCompatActivity {
     public static int flag = 0;
-    @BindView(R.id.lv_device)
-    ListView lvDevice;
     private OpenRemotelyAdapter myAdapter;
+    ActivityOpenDoorRemotelyBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_door_remotely);
-        ButterKnife.bind(this);
+        binding = ActivityOpenDoorRemotelyBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         myAdapter = new OpenRemotelyAdapter(this, deviceLIST);
-        lvDevice.setAdapter(myAdapter);
+        binding.lvDevice.setAdapter(myAdapter);
         swipeToRefresh();
+
+        binding.imgBackOpenrDoor.setOnClickListener(v->onClickBack() );
+        binding.tvRefresh.setOnClickListener(v-> onClickRefresh());
     }
 
     /**
@@ -49,7 +50,6 @@ public class OpenDoorRemotelyActivity extends AppCompatActivity {
     private void swipeToRefresh() {
         if (deviceLIST == null || deviceLIST.size() == 0)
             return;
-        //myAdapter.refreshList(devList);
         refreshScanList();
 
         // Get the last device to test
@@ -90,18 +90,16 @@ public class OpenDoorRemotelyActivity extends AppCompatActivity {
 //            Toast.makeText(OpenDoorRemotelyActivity.this, "" + ret, Toast.LENGTH_SHORT).show();
             Toast.makeText(OpenDoorRemotelyActivity.this, "No nearby device found.", Toast.LENGTH_SHORT).show();
             myAdapter = new OpenRemotelyAdapter(this, deviceLIST);
-            lvDevice.setAdapter(myAdapter);
+            binding.lvDevice.setAdapter(myAdapter);
         }
         Log.e("ret", "ret" + ret);
     }
 
-    @OnClick(R.id.img_back_openr_door)
     void onClickBack() {
         flag = 0;
         onBackPressed();
     }
 
-    @OnClick(R.id.tv_refresh)
     void onClickRefresh() {
         swipeToRefresh();
     }

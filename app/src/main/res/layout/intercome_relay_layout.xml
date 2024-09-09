@@ -28,7 +28,7 @@
             android:padding="5dp"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_open_exit_door"
-            android:tint="@color/Orangebtn" />
+            android:tint="@color/Orange" />
     </RelativeLayout>
 
     <View

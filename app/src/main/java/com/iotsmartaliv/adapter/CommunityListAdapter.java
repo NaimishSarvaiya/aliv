@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
+import com.iotsmartaliv.databinding.DeviceListRowBinding;
 import com.iotsmartaliv.fragments.community.CommunityListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 /**
  * This class is used as adapter for community list adapter.
@@ -41,16 +41,17 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.device_list_row, parent, false);
-        return new MyViewHolder(itemView);
+        DeviceListRowBinding binding = DeviceListRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+//        View itemView = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.device_list_row, parent, false);
+        return new MyViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.itemText.setText(data.get(position).getCommunityName());
+        holder.binding.itemText.setText(data.get(position).getCommunityName());
         if (mListener == null){
-                holder.itemImg.setVisibility(View.GONE);
+                holder.binding.itemImg.setVisibility(View.GONE);
         }
         holder.itemView.setOnClickListener(v -> {
             if (mListener != null) {
@@ -71,16 +72,19 @@ public class CommunityListAdapter extends RecyclerView.Adapter<CommunityListAdap
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_text)
-        TextView itemText;
-        @BindView(R.id.item_img)
-        ImageView itemImg;
-        @BindView(R.id.ll_device)
-        LinearLayout llDevice;
+//        @BindView(R.id.item_text)
+//        TextView itemText;
+//        @BindView(R.id.item_img)
+//        ImageView itemImg;
+//        @BindView(R.id.ll_device)
+//        LinearLayout llDevice;
 
-        MyViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        DeviceListRowBinding binding;
+
+        MyViewHolder( DeviceListRowBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+//            ButterKnife.bind(this, view);
         }
     }
 }

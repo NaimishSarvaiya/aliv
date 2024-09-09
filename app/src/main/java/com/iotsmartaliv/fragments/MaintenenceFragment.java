@@ -14,11 +14,11 @@ import android.widget.Button;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.FaultActivity;
 import com.iotsmartaliv.adapter.ServiceAdapter;
+import com.iotsmartaliv.databinding.FragmentMaintainenceBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
+//import butterknife.OnClick;
+//import butterknife.Unbinder;
 
 /**
  * This fragment class is used for maintenence fragment.
@@ -28,11 +28,7 @@ import butterknife.Unbinder;
  * @since 2018-10-24
  */
 public class MaintenenceFragment extends Fragment {
-    @BindView(R.id.report_fault_btn)
-    Button reportFaultBtn;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
+    FragmentMaintainenceBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,28 +38,31 @@ public class MaintenenceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_maintainence, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentMaintainenceBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_maintainence, container, false);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(new ServiceAdapter(getContext()));
-        return view;
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setAdapter(new ServiceAdapter(getContext()));
+        binding.reportFaultBtn.setOnClickListener(v-> startActivity(new Intent(getContext(), FaultActivity.class)));
+        binding.recyclerView.setOnClickListener(v-> startActivity(new Intent(getContext(), FaultActivity.class)));
+        return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
-    @OnClick({R.id.report_fault_btn, R.id.recyclerView})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.report_fault_btn:
-                startActivity(new Intent(getContext(), FaultActivity.class));
-                break;
-
-        }
-    }
+//    @OnClick({R.id.report_fault_btn, R.id.recyclerView})
+//    public void onViewClicked(View view) {
+//        switch (view.getId()) {
+//            case R.id.report_fault_btn:
+//                startActivity(new Intent(getContext(), FaultActivity.class));
+//                break;
+//
+//        }
+//    }
 }

@@ -33,6 +33,7 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityDeviceListBinding;
 import com.iotsmartaliv.roomDB.DatabaseClient;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 import com.iotsmartaliv.utils.NetworkAvailability;
@@ -44,10 +45,6 @@ import com.iotsmartaliv.utils.mail.MailSender;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
@@ -63,21 +60,15 @@ import static com.iotsmartaliv.constants.Constant.hideLoader;
  */
 public class DeviceListActivity extends AppCompatActivity implements RetrofitListener<SuccessDeviceListResponse> {
     public static int flagDeviceList = 0;
-    @BindView(R.id.lv_device)
-    ListView lvDevice;
-    @BindView(R.id.pullToRefresh)
-    SwipeRefreshLayout pullToRefresh;
     ApiServiceProvider apiServiceProvider;
     private DevicelistAdapter myAdapter;
     EmailViewModel emailViewModel;
-    @BindView(R.id.search_device)
-    EditText searchDevice;
-
+ActivityDeviceListBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_list);
-        ButterKnife.bind(this);
+        binding = ActivityDeviceListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         for (DeviceObject deviceObject : deviceLIST) {
             deviceObject.setRssi(-500);
         }
@@ -100,7 +91,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
         ConnectionManager.performApiCallWithNetworkCheck(this, false);
 
         myAdapter = new DevicelistAdapter(this, deviceLIST);
-        lvDevice.setAdapter(myAdapter);
+        binding.lvDevice.setAdapter(myAdapter);
 
         apiServiceProvider = ApiServiceProvider.getInstance(this);
 
@@ -130,7 +121,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
                     }
                 }
             });
-            pullToRefresh.setOnRefreshListener(() -> {
+            binding.pullToRefresh.setOnRefreshListener(() -> {
                 Util.checkInternet(DeviceListActivity.this, new Util.NetworkCheckCallback() {
                     @Override
                     public void onNetworkCheckComplete(boolean isAvailable) {
@@ -141,7 +132,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
                         }
                     }
                 });
-                pullToRefresh.setRefreshing(false);
+                binding.pullToRefresh.setRefreshing(false);
             });
         } catch (Exception e) {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -151,7 +142,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
 //            hideLoader();
 //        }
 
-        searchDevice.addTextChangedListener(new TextWatcher() {
+        binding.searchDevice.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -172,7 +163,37 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
                 //you can use runnable postDelayed like 500 ms to delay search text
             }
         });
+        binding.floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DeviceListActivity.this, AddDeviceActivity.class));
+            }
+        });
 
+        binding.imgBackOpenDoor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flagDeviceList = 0;
+                onBackPressed();
+            }
+        });
+
+       binding.tvRefresh.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Util.checkInternet(DeviceListActivity.this, new Util.NetworkCheckCallback() {
+                   @Override
+                   public void onNetworkCheckComplete(boolean isAvailable) {
+                       if (isAvailable){
+                           apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(),  BuildConfig.VERSION_NAME,DeviceListActivity.this);
+                       }else {
+                           hideLoader();
+                       }
+                   }
+               }) ;
+
+           }
+       });
     }
 
     private void filter(String text) {
@@ -189,11 +210,6 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
             }
         }
         myAdapter.updateList(device);
-    }
-
-    @OnClick(R.id.floatingActionButton)
-    void addDeviceToList() {
-        startActivity(new Intent(DeviceListActivity.this, AddDeviceActivity.class));
     }
 
     /**
@@ -253,7 +269,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
 //            Toast.makeText(DeviceListActivity.tsshis, "" + ret, Toast.LENGTH_SHORT).show();
 //                Toast.makeText(DeviceListActivity.this, ErrorMsgDoorMasterSDK.getErrorMsg(ret), Toast.LENGTH_SHORT).show();
                 myAdapter = new DevicelistAdapter(this, deviceLIST);
-                lvDevice.setAdapter(myAdapter);
+                binding.lvDevice.setAdapter(myAdapter);
                 isScaning = false;
             }
             Log.e("ret", "ret" + ret);
@@ -272,26 +288,7 @@ public class DeviceListActivity extends AppCompatActivity implements RetrofitLis
 
     }
 
-    @OnClick(R.id.img_back_open_door)
-    void clickBack() {
-        flagDeviceList = 0;
-        onBackPressed();
-    }
 
-    @OnClick(R.id.tv_refresh)
-    void clickRefresh() {
-        Util.checkInternet(DeviceListActivity.this, new Util.NetworkCheckCallback() {
-            @Override
-            public void onNetworkCheckComplete(boolean isAvailable) {
-                if (isAvailable){
-                    apiServiceProvider.callForDeviceList(LOGIN_DETAIL.getAppuserID(),  BuildConfig.VERSION_NAME,DeviceListActivity.this);
-                }else {
-                    hideLoader();
-                }
-            }
-        }) ;
-//        swipeToRefresh();
-    }
 
 
     @Override

@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.databinding.ActivityFaceEnrollCameraBinding;
+import com.iotsmartaliv.databinding.ActivityFacilitySuccessBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 
 /**
  * This activity class is used for Facility Success.
@@ -17,15 +18,14 @@ import butterknife.ButterKnife;
  * @since 2018-10-23
  */
 public class FacilitySuccessActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    ActivityFacilitySuccessBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityFacilitySuccessBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_facility_success);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }

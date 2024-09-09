@@ -515,7 +515,7 @@ public class DeviceObject implements Serializable {
 
         device.privilege = 1;
         device.openType = 2;
-        device.useCount = Integer.parseInt(dev.getUseAs());
+//        device.useCount = Integer.parseInt(dev.getUseAs());
         device.verified = 3;
         device.cardno = "123";//卡号从服务器获取，此卡号为测试卡号
      /*   device.openType = dev.getOpenType();

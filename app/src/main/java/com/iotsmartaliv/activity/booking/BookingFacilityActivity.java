@@ -12,40 +12,42 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
+import com.iotsmartaliv.databinding.ActivityBookingFacilityBinding;
 import com.iotsmartaliv.fragments.booking.SearchRoomFragment;
 import com.iotsmartaliv.fragments.booking.ShowBookedRoomFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class BookingFacilityActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    ActivityBookingFacilityBinding binding;
+
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+//    @BindView(R.id.tabLayout)
+//    TabLayout tabLayout;
+//    @BindView(R.id.viewPager)
+//    ViewPager viewPager;
     TabAdapter adapter;
     ShowBookedRoomFragment showBookedRoomFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking_facility);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityBookingFacilityBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new SearchRoomFragment(), "Search Room");
         showBookedRoomFragment = new ShowBookedRoomFragment();
         adapter.addFragment(showBookedRoomFragment, "My Bookings");
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(2);
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.viewPager.setOffscreenPageLimit(2);
     }
 
     @Override

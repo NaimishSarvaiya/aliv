@@ -8,10 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import com.iotsmartaliv.databinding.ActivityBookServiceBinding;
+import com.iotsmartaliv.databinding.ActivityBookingFacilityBinding;
 
 /**
  * This activity class is used for book services.
@@ -21,26 +19,20 @@ import butterknife.OnClick;
  * @since 2018-10-23
  */
 public class BookServiceActivity extends AppCompatActivity {
+    ActivityBookServiceBinding binding;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.description)
-    EditText description;
-    @BindView(R.id.date)
-    TextView date;
-    @BindView(R.id.addressEditText)
-    EditText addressEditText;
-    @BindView(R.id.book_service)
-    Button bookService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityBookServiceBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_book_service);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
     }
 
     @Override
@@ -49,7 +41,7 @@ public class BookServiceActivity extends AppCompatActivity {
         return true;
     }
 
-    @OnClick(R.id.book_service)
-    public void onViewClicked() {
-    }
+//    @OnClick(R.id.book_service)
+//    public void onViewClicked() {
+//    }
 }

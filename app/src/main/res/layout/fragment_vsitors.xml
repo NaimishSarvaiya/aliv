@@ -25,7 +25,7 @@
         android:gravity="center"
         android:text="Visitor Not Available."
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/orange"
+        android:textColor="@color/Orange"
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -43,7 +43,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:tint="@color/White"
-        app:backgroundTint="@color/Orangebtn"
+        app:backgroundTint="@color/Orange"
         app:srcCompat="@drawable/ic_add_white" />
 
 </RelativeLayout>

@@ -18,15 +18,13 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ListInstructorFragmentBinding;
 import com.iotsmartaliv.model.InstructorListData;
 import com.iotsmartaliv.model.InstructorListResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -38,20 +36,19 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @since 22/7/19 :July.
  */
 public class ListOfInstructorFragment extends Fragment implements RetrofitListener<InstructorListResponse> {
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
+
     ApiServiceProvider apiServiceProvider;
     List<InstructorListData> instructorListData = new ArrayList<>();
-
+    ListInstructorFragmentBinding binding;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_instructor_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = ListInstructorFragmentBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.list_instructor_fragment, container, false);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         initiate();
-        return view;
+        return binding.getRoot();
     }
 
     public void initiate() {
@@ -61,7 +58,6 @@ public class ListOfInstructorFragment extends Fragment implements RetrofitListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
@@ -76,9 +72,9 @@ public class ListOfInstructorFragment extends Fragment implements RetrofitListen
                         Toast.makeText(getContext(), "List is empty", Toast.LENGTH_SHORT).show();
                     }
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(new ListOfInstructorAdapter(getContext(), instructorListData));
+                    binding.recyclerView.setLayoutManager(mLayoutManager);
+                    binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    binding.recyclerView.setAdapter(new ListOfInstructorAdapter(getContext(), instructorListData));
                 } else {
                     Toast.makeText(getContext(), instructorListResponse.getMsg(), Toast.LENGTH_LONG).show();
 

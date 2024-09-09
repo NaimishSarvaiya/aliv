@@ -104,6 +104,12 @@ public class ResArrayObjectData {
     @Expose
     private String bookingmanagement;
 
+    @SerializedName("visitor_event_validity")
+    @Expose
+    private String visitorEventValidity;
+
+
+
     public String getCommUserID() {
         return commUserID;
     }
@@ -342,5 +348,13 @@ public class ResArrayObjectData {
 
     public void setBookingmanagement(String bookingmanagement) {
         this.bookingmanagement = bookingmanagement;
+    }
+
+    public String getVisitorEventValidity() {
+        return visitorEventValidity;
+    }
+
+    public void setVisitorEventValidity(String visitorEventValidity) {
+        this.visitorEventValidity = visitorEventValidity;
     }
 }

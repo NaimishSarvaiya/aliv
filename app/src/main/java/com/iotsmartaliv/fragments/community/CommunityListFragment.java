@@ -18,11 +18,11 @@ import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
 import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentCommunityListBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
+//import butterknife.OnClick;
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -35,12 +35,11 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * create an instance of this fragment.
  */
 public class CommunityListFragment extends Fragment implements RetrofitListener<SuccessArrayResponse> {
-    @BindView(R.id.recyclerView_community)
-    RecyclerView recyclerView_community;
-    Unbinder unbinder;
     ApiServiceProvider apiServiceProvider;
     CommunityListAdapter communityListAdapter;
     private OnFragmentInteractionListener mListener;
+
+    FragmentCommunityListBinding binding;
 
     public CommunityListFragment() {
         // Required empty public constructor
@@ -60,16 +59,18 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_community_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentCommunityListBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_community_list, container, false);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         communityListAdapter = new CommunityListAdapter(getContext(), mListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView_community.setLayoutManager(mLayoutManager);
-        recyclerView_community.setItemAnimator(new DefaultItemAnimator());
-        recyclerView_community.setAdapter(communityListAdapter);
+        binding.recyclerViewCommunity.setLayoutManager(mLayoutManager);
+        binding.recyclerViewCommunity.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerViewCommunity.setAdapter(communityListAdapter);
         apiServiceProvider.callForListOfCommunity(LOGIN_DETAIL.getAppuserID(), this);
-        return view;
+        binding.floatingActionButton.setOnClickListener(v-> onViewClicked() );
+        return binding.getRoot();
     }
 
     public void setOnFragmentInteractionListener(OnFragmentInteractionListener OnFragmentInteractionListener) {
@@ -80,7 +81,7 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
     @Override
@@ -115,7 +116,6 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
         }
     }
 
-    @OnClick(R.id.floatingActionButton)
     public void onViewClicked() {
         if (mListener != null) {
             mListener.onListEmptyCallback(true);

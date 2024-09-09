@@ -65,6 +65,13 @@ public class DeviceLogSyncService extends Service {
         deviceDao = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().deviceDao();
         apiServiceProvider = ApiServiceProvider.getInstance(this);
 
+        setupBroadcastReceivers();
+
+        createNotificationChannel(); // Ensure notification channel is created before use
+        startForegroundServiceWithNotification(); // Start the service in the foreground
+    }
+
+    private void setupBroadcastReceivers() {
         connectivityChangeBroadcast = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -74,7 +81,7 @@ public class DeviceLogSyncService extends Service {
                         localIntent.setAction(DeviceLogSyncService.UPDATE_APPS_PACKAGE);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent);
                     } else {
-                        Log.e("NetworkChangeReceiver", "Connectivity Failure !!! ");
+                        Log.e(TAG, "Connectivity Failure !!!");
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -92,7 +99,7 @@ public class DeviceLogSyncService extends Service {
                 try {
                     userId = responseData.getAppuserID();
                 } catch (Exception e) {
-                    e.getStackTrace();
+                    e.printStackTrace();
                     return;
                 }
                 List<AccessLogModel> list = deviceDao.getAllDeviceLog();
@@ -100,9 +107,8 @@ public class DeviceLogSyncService extends Service {
                     Util.checkInternet(context, new Util.NetworkCheckCallback() {
                         @Override
                         public void onNetworkCheckComplete(boolean isAvailable) {
-                            if (isAvailable){
+                            if (isAvailable) {
                                 apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
-
                                     @Override
                                     public void onResponseSuccess(AccessLogModel accessLogModel1, String apiFlag) {
                                         if (Constant.UrlPath.POST_ACCESS_LOG.equals(apiFlag)) {
@@ -122,40 +128,43 @@ public class DeviceLogSyncService extends Service {
             }
         };
 
+        // Register Broadcast Receivers
         IntentFilter intentFilterNetwork = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityChangeBroadcast, intentFilterNetwork);
         IntentFilter theFilter = new IntentFilter();
         theFilter.addAction(UPDATE_APPS_PACKAGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiverPkgMoniter, theFilter);
+    }
 
-        Bitmap IconLg = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
-
-        mNotifyManager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(this, "30");
-        mBuilder.setContentTitle(getString(R.string.app_name))
-                .setContentText("Aliv Background Service")
-                .setTicker("Aliv is running in the background")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(IconLg)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setVibrate(new long[]{1000})
-                .setOngoing(true)
-                .setAutoCancel(false);
-
+    private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = new NotificationChannel("30", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
-
             notificationChannel.setDescription("Channel description");
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.RED);
             notificationChannel.setVibrationPattern(new long[]{1000});
             notificationChannel.enableVibration(true);
             notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-            mNotifyManager.createNotificationChannel(notificationChannel);
 
-            mBuilder.setChannelId("30");
-            startForeground(20, mBuilder.build());
+            mNotifyManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            mNotifyManager.createNotificationChannel(notificationChannel);
         }
+    }
+
+    private void startForegroundServiceWithNotification() {
+        Bitmap iconLg = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground);
+        mBuilder = new NotificationCompat.Builder(this, "30")
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Aliv Background Service")
+                .setTicker("Aliv is running in the background")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(iconLg)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setVibrate(new long[]{1000})
+                .setOngoing(true)
+                .setAutoCancel(false);
+
+        startForeground(20, mBuilder.build());
     }
 
     @Override
@@ -190,13 +199,8 @@ public class DeviceLogSyncService extends Service {
             DatabaseClient.getInstance(context).getAppDatabase()
                     .deviceDao()
                     .deleteAccessLog(accessLogModel);
-            Log.d("DeleteAccessLogTask", "doInBackground: " + accessLogModel.getDevice_SN() + ":Time:- " + accessLogModel.getEvent_time());
+            Log.d("DeleteAccessLogTask", "Deleted log for device SN: " + accessLogModel.getDevice_SN());
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
         }
     }
 }

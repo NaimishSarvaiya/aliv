@@ -1,7 +1,15 @@
-apply plugin: 'com.android.application'
-//apply plugin: 'io.fabric'
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.android.application'
+////apply plugin: 'io.fabric'
+//apply plugin: 'com.google.gms.google-services'
+//
+//apply plugin: 'io.sentry.android.gradle' version '4.11.0'
 
+plugins{
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'io.sentry.android.gradle' version '4.11.0'
+}
 //apply plugin: 'com.google.firebase.crashlytics'
 //
 //plugins {
@@ -18,14 +26,15 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 33
-    buildToolsVersion "30.0.2"
+    namespace 'com.iotsmartaliv'
+    compileSdk  34
+    namespace 'com.iotsmartaliv'
     defaultConfig {
         applicationId 'com.iotsmartaliv'
-        minSdkVersion 21
-        targetSdkVersion 33
-        versionCode 41
-        versionName "3.1.0" //Latest June Update
+        minSdk  21
+        targetSdk  34
+        versionCode 46
+        versionName "3.6.0" //Latest June Update
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -44,6 +53,9 @@ android {
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
+
+
+
 
 
         /*   manifestPlaceholders = [
@@ -90,6 +102,7 @@ android {
 //                "USE_TOKEN_SERVER",
 //                "${getSecretProperty("USE_TOKEN_SERVER", false)}")
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -112,9 +125,14 @@ android {
         abortOnError false
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+
+    viewBinding{
+        enable = true
+    }
+
 }
 
 
@@ -146,17 +164,19 @@ dependencies {
     // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/ChangeServertools1.3.jar')
-    implementation files('libs\\DoormasterSDKV2.4.8.jar')
-    androidTestImplementation 'junit:junit:4.12'
+//    implementation files('libs\\DoormasterSDKV2.4.8.jar')
+//    implementation files('D:\\Android\\Backup Client Work\\Aliv SDK\\DoormasterSDKV2.4.8.jar')
+//    implementation files('D:\\Android\\Backup Client Work\\Aliv SDK\\DoormasterSDKV2.4.8.jar')
+    androidTestImplementation 'junit:junit:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.romandanylyk:pageindicatorview:1.0.2'
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+//    implementation 'com.jakewharton:butterknife:10.2.3'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
     // Dependency for Google Sign-In
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
@@ -166,7 +186,7 @@ dependencies {
 //    implementation(name: 'doormaster-vphone-sdk-V2.5.9-thinmoo_nopush', ext: 'aar')
 //    implementation(name: 'doormaster-vphone-sdk-V3.6.0-thinmoo-no-push', ext: 'aar')
 
-    implementation(name: 'doormaster-vphone-sdk-V3.6.7-thinmoo-no-push', ext: 'aar')
+    implementation(name: 'doormaster-vphone-sdk-V3.7.7-thinmoo-no-push', ext: 'aar')
     implementation 'com.google.code.gson:gson:2.8.5'
     //  implementation 'com.meizu.flyme.internet:push-internal:3.4.2@aar'
     ///  implementation 'com.getui:sdk:2.13.0.0'
@@ -229,4 +249,4 @@ dependencies {
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.50'
 }
 
-apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin
+//apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin

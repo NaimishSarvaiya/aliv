@@ -10,12 +10,11 @@ import androidx.appcompat.widget.Toolbar;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.databinding.ActivityVisitorBinding;
 import com.iotsmartaliv.fragments.FragmentEvent;
 import com.iotsmartaliv.fragments.FragmentGroup;
 import com.iotsmartaliv.fragments.FragmentVisitor;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This class is used as .
@@ -25,23 +24,19 @@ import butterknife.ButterKnife;
  * @since 30/7/19 :July : 2019 on 15 : 06.
  */
 public class VisitorActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
     TabAdapter adapter;
 
     ApiServiceProvider apiServiceProvider;
+    ActivityVisitorBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_visitor);
+        binding = ActivityVisitorBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiServiceProvider = ApiServiceProvider.getInstance(this);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+//        ButterKnife.bind(this);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -49,9 +44,9 @@ public class VisitorActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentEvent(), "Event");
         adapter.addFragment(new FragmentGroup(), "Group");
         adapter.addFragment(new FragmentVisitor(), "Visitor");
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.viewPager.setOffscreenPageLimit(3);
     }
 
     @Override
