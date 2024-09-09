@@ -190,8 +190,10 @@ public class SearchRoomFragment extends Fragment {
                                                     new Handler().postDelayed(() -> {
                                                         binding.tvStart.setText("");
                                                         binding.tvEndDate.setText("");
-                                                        binding.tvStart.setText("");
-                                                        binding.tvEndDate.setText("");
+                                                        binding.tvStartTime.setText("");
+                                                        binding.tvEndTime.setText("");
+                                                        startDate = null;
+                                                        endDate = null;
                                                         if (communityID != null && binding.communityId.getText().toString().trim().length() > 0) {
                                                             binding.communityId.setText("");
                                                             communityID = null;
@@ -292,10 +294,10 @@ public class SearchRoomFragment extends Fragment {
     private void showCustomTimePicker(boolean isStart) {
         new CustomTimePicker(getActivity(), time -> {
             if (isStart) {
-                binding.tvStart.setText(time);
+                binding.tvStartTime.setText(time);
                 showCustomTimePicker(false);
             } else {
-                binding.tvEndDate.setText(time);
+                binding.tvEndTime.setText(time);
             }
 
         }, isStart ? "Start Time" : "End Time").show();

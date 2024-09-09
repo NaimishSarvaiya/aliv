@@ -18,7 +18,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:tint="@color/White"
-        app:backgroundTint="@color/Orangebtn"
+        app:backgroundTint="@color/Orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

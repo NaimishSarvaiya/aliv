@@ -56,7 +56,6 @@ public class FragmentVisitor extends Fragment implements AddVisitorDialog.Visito
     ApiServiceProvider apiServiceProvider;
     FragmentVisitorAdapter fragmentVisitorAdapter;
 //    @BindView(R.id.item_not_found_tv)
-    TextView itemNotFoundTv;
     FragmentVsitorsBinding binding;
 
     @Nullable
@@ -255,15 +254,15 @@ binding.floatingActionButton.setOnClickListener(v -> onViewClicked());
                 if (visitorsListDataResponse.getStatus().equalsIgnoreCase("OK")) {
                     if (visitorsListDataResponse.getData().size() > 0) {
                         fragmentVisitorAdapter.addItem(visitorsListDataResponse.getData());
-                        itemNotFoundTv.setVisibility(View.GONE);
+                        binding.itemNotFoundTv.setVisibility(View.GONE);
                     } else {
                         fragmentVisitorAdapter.addItem(new ArrayList<>());
-                        itemNotFoundTv.setVisibility(View.VISIBLE);
+                        binding.itemNotFoundTv.setVisibility(View.VISIBLE);
                         //  Toast.makeText(getContext(), "No Visitors found.", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    itemNotFoundTv.setVisibility(View.VISIBLE);
-                    itemNotFoundTv.setText(visitorsListDataResponse.getMsg());
+                    binding.itemNotFoundTv.setVisibility(View.VISIBLE);
+                    binding.itemNotFoundTv.setText(visitorsListDataResponse.getMsg());
                     Toast.makeText(getContext(), visitorsListDataResponse.getMsg(), Toast.LENGTH_LONG).show();
                 }
                 break;

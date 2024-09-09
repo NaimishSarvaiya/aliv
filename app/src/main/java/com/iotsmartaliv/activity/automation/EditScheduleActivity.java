@@ -74,8 +74,8 @@ public class EditScheduleActivity extends AppCompatActivity implements CompoundB
         dialog.setTextBtnPositive("Accept");
         dialog.setTextBtnNegative("Close");
         dialog.setValidateRange(false);
-        dialog.setColorBackgroundHeader(R.color.orange);
-        dialog.setColorBackgroundTimePickerHeader(R.color.orange);
+        dialog.setColorBackgroundHeader(R.color.Orange);
+        dialog.setColorBackgroundTimePickerHeader(R.color.Orange);
         dialog.setColorTextButton(R.color.colorPrimaryDark);
         dialog.enableMinutes(true);
         dialog.setStartTabIcon(R.drawable.ic_access_time_black_24dp);

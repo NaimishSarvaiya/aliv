@@ -269,12 +269,15 @@ public class DevicelistAdapter extends BaseAdapter {
                         new SaveAccessLogTask(context, new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date()))).execute();
                         logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date())));
                         Toast.makeText(context, "Door open successfully", Toast.LENGTH_SHORT).show();
+                        Util.logDoorOpenEvent("DeviceList", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
                     } else {
                         if (result == 48) {
                             Toast.makeText(context, "Result Error Time Out", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Failure: Error Code" + result, Toast.LENGTH_SHORT).show();
                         }
+                        Util.logDoorOpenEvent("DeviceList", false, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
+
                     }
                 }));
                 if (ret == 0) {

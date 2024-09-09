@@ -61,7 +61,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@color/Orangebtn"
+                    android:background="@color/Orange"
                     android:paddingStart="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:visibility="gone">

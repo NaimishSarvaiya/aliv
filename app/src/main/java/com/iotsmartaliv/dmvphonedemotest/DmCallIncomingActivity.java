@@ -42,6 +42,7 @@ import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.utils.Util;
 
 import jp.wasabeef.blurry.Blurry;
 
@@ -161,6 +162,7 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
 
     private void answer() {
         DMVPhoneModel.answerCall();
+        Util.logVideoCallEvent("INCOMING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(this));
         Intent intent = new Intent(DmCallIncomingActivity.this, YJCallActivity.class);
         intent.putExtra(Constant.CALL_PATH, Constant.ICOMING_CALL);
         startActivity(intent);

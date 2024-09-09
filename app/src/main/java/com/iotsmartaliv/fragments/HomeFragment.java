@@ -127,8 +127,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
     private String[] mItemTexts = new String[]{
             "Face Enroll", "Video Intercom",
-            /* "Rewards",*/  "Automation", /*"Market Place",*/
-            /*   "Services & Maintenance",*/ "Visitor",
+            /* "Rewards",*/ "Visitor" , /*"Market Place",*/
+            /*   "Services & Maintenance",*/ "Automation",
             "Facility Booking", "Device List"
     };
     private boolean pressed = false;
@@ -144,6 +144,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             new SaveAccessLogTask(getContext(), new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date()))).execute();
             Toast.makeText(getContext(), "Door Open Successfully.", Toast.LENGTH_SHORT).show();
             logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date())));
+            Util.logDoorOpenEvent("GreenKey", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
         } else {
             if (result == 48) {
                 Bugfender.d("CanoHomeFragment", "Result Error Time Out");
@@ -152,6 +153,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                 Bugfender.d("CanoHomeFragment", "Failure:" + result);
                 Toast.makeText(getContext(), "Failure:" + result, Toast.LENGTH_SHORT).show();
             }
+            Util.logDoorOpenEvent("GreenKey", false, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
         }
     });
     private ProgressDialog progress;
@@ -367,8 +369,9 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     };
     private int[] mItemImgs = new int[]{
             R.drawable.ic_face_recognition, R.drawable.ic_webcam,
-            /* R.drawable.ic_record,*/ R.drawable.ic_home_automation,/* R.drawable.ic_markets,*/
-            /*    R.drawable.ic_maintenance, */R.drawable.ic_guest,
+            /* R.drawable.ic_record,*/ R.drawable.ic_guest,/* R.drawable.ic_markets,*/
+            /*    R.drawable.ic_maintenance, */
+            R.drawable.ic_home_automation,
             R.drawable.ic_booking, R.drawable.ic_devicelist
     };
 
@@ -446,7 +449,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         startActivity(new Intent(getActivity(), VideoIntercomActivity.class));
                         break;
                     case 2:
-                        startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
+                        startActivity(new Intent(getActivity(), VisitorActivity.class));
                         break;
                   /*  case 3:
                         startActivity(new Intent(getActivity(), MarketPlaceActivity.class));
@@ -456,7 +459,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         break;*/
                     case 3:
                         // startActivity(new Intent(getActivity(), GuestActivity.class));
-                        startActivity(new Intent(getActivity(), VisitorActivity.class));
+                        startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
                         break;
                     case 4:
                         startActivity(new Intent(getActivity(), BookingFacilityActivity.class));

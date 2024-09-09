@@ -120,7 +120,7 @@
         android:focusable="true"
         android:tint="@color/White"
         android:visibility="gone"
-        app:backgroundTint="@color/Orangebtn"
+        app:backgroundTint="@color/Orange"
         app:srcCompat="@drawable/ic_add_white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -219,7 +219,7 @@
             android:clickable="true"
             android:focusable="true"
             android:tint="@color/White"
-            app:backgroundTint="@color/Orangebtn"
+            app:backgroundTint="@color/Orange"
             app:srcCompat="@drawable/ic_add_white" />
     </RelativeLayout>
 

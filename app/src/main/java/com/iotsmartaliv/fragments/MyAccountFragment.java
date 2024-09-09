@@ -145,11 +145,11 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
                         .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
                         .setCancelable(true)
                         .setPositiveButtonText(getString(R.string.dialog_yes_button))
-                        .setPositiveButtonbackgroundColor(R.color.Orangebtn)
+                        .setPositiveButtonbackgroundColor(R.color.Orange)
                         .setPositiveButtonTextColor(R.color.white)
                         .setNegativeButtonText(getString(R.string.dialog_no_button))
                         .setNegativeButtonbackgroundColor(R.color.colorPrimary)
-                        .setNegativeButtonTextColor(R.color.Orangebtn)
+                        .setNegativeButtonTextColor(R.color.Orange)
                         .setPositiveButtonClick(() -> {
                             Constant.showLoader(requireActivity());
                             deleteAccount();

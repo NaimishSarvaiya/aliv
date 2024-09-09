@@ -15,6 +15,7 @@ import com.iotsmartaliv.apiCalling.utils.HttpUtil;
 import com.iotsmartaliv.apiCalling.utils.Logger;
 import com.iotsmartaliv.apiCalling.utils.RequestInterceptor;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.utils.Util;
 
 import java.util.concurrent.TimeUnit;
 
@@ -90,6 +91,7 @@ public class RetrofitBase {
     }
 
     void validateResponse(Response response, RetrofitListener retrofitListener, String apiFlag) {
+        Util.logSentryEvent(apiFlag, response.raw().request(), response, null);
         if (response.code() == 200) {
             retrofitListener.onResponseSuccess(response.body(), apiFlag);
         } else {
@@ -107,8 +109,12 @@ public class RetrofitBase {
             if (errorPojo == null) {
                 errorPojo = HttpUtil.getServerErrorPojo(context);
             }
+            // Log error details in Sentry
+            Util.logSentryEvent(apiFlag, response.raw().request(), response, null);
             retrofitListener.onResponseError(errorPojo, null, apiFlag);
         } catch (Exception e) {
+            // Log exception in Sentry
+            Util.logSentryEvent("API Error Handling Exception", response.raw().request(), null, e);
             retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), null, apiFlag);
         }
     }

@@ -134,7 +134,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                             .setTitle("Successfully")
                             .setMessage("Password has been changed successfully.")
                             .setColoredCircle(R.color.colorPrimary)
-                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orangebtn)
+                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orange)
                             .setCancelable(false)
                             .setDoneButtonClick(() -> {
                                 if (!isFromAccount) {
@@ -146,7 +146,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                                 }
                             })
                             .setDoneButtonText(getString(R.string.ok))
-                            .setDoneButtonbackgroundColor(R.color.Orangebtn)
+                            .setDoneButtonbackgroundColor(R.color.Orange)
                             .setDoneButtonTextColor(R.color.white)
                             .show();
 
@@ -166,7 +166,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                             .setTitle("Successfully")
                             .setMessage("Password has been changed successfully.")
                             .setColoredCircle(R.color.colorPrimary)
-                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orangebtn)
+                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orange)
                             .setCancelable(false)
                             .setDoneButtonClick(() -> {
                                 if (!isFromAccount) {
@@ -178,7 +178,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                                 }
                             })
                             .setDoneButtonText(getString(R.string.ok))
-                            .setDoneButtonbackgroundColor(R.color.Orangebtn)
+                            .setDoneButtonbackgroundColor(R.color.Orange)
                             .setDoneButtonTextColor(R.color.white)
                             .show();
                 } else {

@@ -27,14 +27,14 @@ android {
         }
     }
     namespace 'com.iotsmartaliv'
-    compileSdkVersion 34
-    buildToolsVersion "30.0.2"
+    compileSdk  34
+    namespace 'com.iotsmartaliv'
     defaultConfig {
         applicationId 'com.iotsmartaliv'
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode 42
-        versionName "3.2.0" //Latest June Update
+        minSdk  21
+        targetSdk  34
+        versionCode 46
+        versionName "3.6.0" //Latest June Update
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -186,7 +186,7 @@ dependencies {
 //    implementation(name: 'doormaster-vphone-sdk-V2.5.9-thinmoo_nopush', ext: 'aar')
 //    implementation(name: 'doormaster-vphone-sdk-V3.6.0-thinmoo-no-push', ext: 'aar')
 
-    implementation(name: 'doormaster-vphone-sdk-V3.6.7-thinmoo-no-push', ext: 'aar')
+    implementation(name: 'doormaster-vphone-sdk-V3.7.7-thinmoo-no-push', ext: 'aar')
     implementation 'com.google.code.gson:gson:2.8.5'
     //  implementation 'com.meizu.flyme.internet:push-internal:3.4.2@aar'
     ///  implementation 'com.getui:sdk:2.13.0.0'

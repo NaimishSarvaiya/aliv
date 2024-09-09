@@ -38,8 +38,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-<!--    <uses-permission android:name="android.permission.READ_LOGS" /> &lt;!&ndash; Needed to store received images if the user wants to &ndash;&gt;-->
-<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> &lt;!&ndash; Needed to use our own Contact editor &ndash;&gt;-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Needed to route the audio to the bluetooth headset if available -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" /> <!-- Needed to pre fill the wizard email field (only if enabled in custom settings) -->
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -51,10 +49,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 个推权限 -->
     <!-- iBeancon功能所需权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<!--    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />-->
-<!--    <uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- 个推3.0电子围栏功能所需权限 -->
@@ -71,9 +68,11 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-<!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-<!--    <uses-permission android:name="android.permission.READ_BASIC_PHONE_STATE" />-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+
 
     <application
         android:name=".dmvphonedemotest.MVDPApplication"
@@ -465,10 +464,12 @@
             android:name=".services.ShakeOpenService"
             android:enabled="true"
             android:exported="true"
-            android:theme="@style/NoTitle" />
+            android:foregroundServiceType="connectedDevice"
+            android:theme="@style/NoTitle"/>
         <service
             android:name=".services.DeviceLogSyncService"
-            android:exported="true" />
+            android:exported="true"
+            android:foregroundServiceType="dataSync"/>
 <!--        <service-->
 <!--            android:name=".dmvphonedemotest.DemoIntentService"-->
 <!--            android:exported="true" />-->

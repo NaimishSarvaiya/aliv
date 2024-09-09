@@ -1,5 +1,7 @@
 package com.iotsmartaliv.utils;
 
+import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -7,9 +9,11 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.Gson;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.CountryPhoneFormat;
 import com.iotsmartaliv.utils.faceenroll.ConnectionManager;
@@ -19,7 +23,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import io.sentry.Sentry;
+import io.sentry.SentryEvent;
+import io.sentry.SentryLevel;
+import io.sentry.protocol.Message;
+import io.sentry.protocol.User;
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okio.Buffer;
+import retrofit2.Response;
 
 public class Util {
 
@@ -377,8 +394,142 @@ public class Util {
             }
         }
     }
+    public static void logSentryEvent(String apiFlag, Request request, Response<?> response, Throwable throwable) {
+        SentryEvent event = new SentryEvent();
 
-    // Example usage
-//
+        // Determine if it's a success or error
+        boolean isSuccess = response != null && response.isSuccessful();
+
+        // Set event level based on success or error
+        event.setLevel(isSuccess ? SentryLevel.INFO : SentryLevel.ERROR);
+
+        // Set the event message
+        String messageText = isSuccess ? "API Success: " + apiFlag : "API Error: " + apiFlag;
+        Message message = new Message();
+        message.setMessage(messageText);
+        event.setMessage(message);
+
+        // Log request details
+        event.setTag("API URL",  request.method() + "  " +request.url().toString());
+        event.setExtra("Request Headers", request.headers().toString());
+        event.setExtra("Request Parameters", getRequestParameters(request));
+
+        if (response != null) {
+            // Log response details
+            event.setTag("Status Code", String.valueOf(response.code()));
+            event.setExtra("Response Headers", response.headers().toString());
+            event.setExtra("Response Body", response.body() != null ? new Gson().toJson(response.body()) : "No response body");
+        }
+
+        if (throwable != null) {
+            // Log the throwable in case of an error
+            event.setThrowable(throwable);
+        }
+
+        // Attach any additional context like user info, environment, etc.
+        User user = new User();
+        user.setId("user-id"); // Replace with actual user ID if available
+        event.setUser(user);
+
+        event.setTag("Environment", BuildConfig.DEBUG ? "Development" : "Production");
+
+        // Send the event to Sentry
+        Sentry.captureEvent(event);
+    }
+
+    private static String getRequestParameters(Request request) {
+        Map<String, String> params = new LinkedHashMap<>();
+
+        // Extract query parameters from the URL
+        HttpUrl url = request.url();
+        for (int i = 0; i < url.querySize(); i++) {
+            params.put(url.queryParameterName(i), url.queryParameterValue(i));
+        }
+
+        // Extract form data from the body if available
+        if (request.body() instanceof FormBody) {
+            FormBody formBody = (FormBody) request.body();
+            for (int i = 0; i < formBody.size(); i++) {
+                params.put(formBody.name(i), formBody.value(i));
+            }
+        } else {
+            // For non-form bodies, capture the raw body as a string
+//            params.put("Raw Body", getRequestBodyAsString(request));
+        }
+
+        return new Gson().toJson(params); // Convert the parameters map to a JSON string
+    }
+
+
+    public static void logDoorOpenEvent(String triggerSource, boolean isSuccess, String userId, String deviceDetails) {
+        // Create a new Sentry event
+        SentryEvent event = new SentryEvent();
+
+        // Set event level based on success or failure
+//        event.setLevel(isSuccess ? SentryLevel.INFO : SentryLevel.ERROR);
+
+        // Build the event message based on the trigger source and status
+        String messageText;
+        switch (triggerSource) {
+            case "GreenKey":
+                messageText = (isSuccess ? "Success: Door open from Green key" : "Failed: Door open from Green key");
+                break;
+            case "DeviceList":
+                messageText = (isSuccess ? "Success: Door open from device list" : "Failed: Door open from device list");
+                break;
+            case "VideoCall":
+                messageText = (isSuccess ? "Success: Door open from video call" : "Failed: Door open from video call");
+                break;
+            case "VideoDeviceList":
+                messageText = (isSuccess ? "Success: Door open from video device list" : "Failed: Door open from video device list");
+                break;
+            default:
+                messageText = (isSuccess ? "Success: Door open" : "Failed: Door open");
+                break;
+        }
+
+        Message message = new Message();
+        message.setMessage(messageText);
+        event.setMessage(message);
+
+        // Add additional tags and extra data
+        event.setTag("User ID", userId);
+        event.setTag("Trigger Source", triggerSource);
+        event.setExtra("Device Details", deviceDetails);
+
+        // Set environment context
+        event.setTag("Environment", BuildConfig.DEBUG ? "Development" : "Production");
+
+        // Send the event to Sentry
+        Sentry.captureEvent(event);
+    }
+
+    public static void logVideoCallEvent(String callType, String deviceSN, String deviceName) {
+        SentryEvent event = new SentryEvent();
+
+        // Determine the message for the event
+        String messageText = callType.equals("INCOMING") ? "Incoming Video Call" : "Outgoing Video Call";
+
+        // Set the event level (INFO for calls)
+        event.setLevel(SentryLevel.INFO);
+
+        // Set the event message
+        Message message = new Message();
+        message.setMessage(messageText);
+        event.setMessage(message);
+
+        // Attach additional context
+        event.setTag("User ID", LOGIN_DETAIL.getAppuserID());
+//        if (device != null) {
+        event.setExtra("Device SN",deviceSN );
+        event.setExtra("Device Name", deviceName);
+//        }
+
+        // Log environment (Production or Development)
+        event.setTag("Environment", BuildConfig.DEBUG ? "Development" : "Production");
+
+        // Send the event to Sentry
+        Sentry.captureEvent(event);
+    }
 
 }

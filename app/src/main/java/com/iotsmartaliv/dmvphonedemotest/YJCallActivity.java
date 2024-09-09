@@ -331,7 +331,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                         } else {
                             DMVPhoneModel.openDoor();
                             Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-
+                            Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
                         }
                     }
 //                } else {
@@ -409,7 +409,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                                         DMVPhoneModel.openDoor();
                                         dialog.dismiss();
                                         Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-
+                                        Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
                                     }
                                     //callOpenDoor();
 
@@ -566,14 +566,10 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         openDoor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String isAcessible = matchedDevice.getIsAccessTimeEnabled();
-//                if (isAcessible.equals("1")) {
-//                    callGetServerAPI();
-//                } else {
                 DMVPhoneModel.openDoor();
                 dialog.dismiss();
                 Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-//                }
+                Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
             }
         });
 

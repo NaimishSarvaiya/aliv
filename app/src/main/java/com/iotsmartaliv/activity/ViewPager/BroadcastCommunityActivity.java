@@ -185,7 +185,7 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
     private void callBroadcastApi() {
 
-        String appUserId  = SharePreference.getInstance(this).getString("APP_USER_ID");
+        String appUserId  = LOGIN_DETAIL.getAppuserID();
 
            Util.checkInternet(this, new Util.NetworkCheckCallback() {
                @Override

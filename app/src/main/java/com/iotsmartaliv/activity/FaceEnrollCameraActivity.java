@@ -97,7 +97,7 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
 
             public void onFinish() {
                 faceCenterCrop.transform(bmpCapturedImage, faceCenterCrop.getCenterPoint(capturedFaces), getFaceCropResult());
-                Toast.makeText(FaceEnrollCameraActivity.this, "Face Capture.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(FaceEnrollCameraActivity.this, "Face Capture.", Toast.LENGTH_SHORT).show();
             }
         };
         if (binding.preview != null)
