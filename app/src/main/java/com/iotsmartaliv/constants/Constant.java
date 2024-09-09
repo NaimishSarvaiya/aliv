@@ -88,6 +88,13 @@ public class Constant {
     public static final String CALL_PATH = "callType";
     public static final String ICOMING_CALL = "incomingCall";
     public static final String OUTGOING_CALL = "outgoingCall";
+    public static final String SENT_FEED = "sentFeed";
+    public static final String HISTORY_FEED = "historyFeed";
+    public static final String INPROGRESS_FEED = "inProgressFeed";
+    public static final String SENT_FEED_STATUS = "1";
+    public static final String INPROGRESS_FEED_STATUS = "2";
+    public static final String HISTORY_FEED_STATUS = "3";
+    public static final String FEED_PAGE_LIMIT = "10";
 
     /**
      * This method is used for showing message in snack bar.
@@ -341,6 +348,13 @@ public class Constant {
          */
         String FCM_TOKEN_UPDATE_SERVICE_URL = "http://43.229.85.122:8099/doormaster/vphone/login/";
         String FCM_TOKEN_UPDATE_SERVICE_ENDPOINT = "info";
+
+        String GET_FEED = "getFeedbackList";
+        String GET_FEED_CATEGORY = "getFeedbackCatList";
+        String ADD_FEEDBACK= "addFeedback";
+        String ADD_FEEDBACK_DOCUMENT= "addFeedbackDocument";
+        String ACTION_OPEN= "com.iotsmartaliv.UPDATE_BROADCAST_ACTIVITY";
+
 
     }
 

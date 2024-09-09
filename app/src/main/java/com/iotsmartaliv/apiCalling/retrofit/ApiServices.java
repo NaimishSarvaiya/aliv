@@ -24,11 +24,18 @@ import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
 import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
+import com.iotsmartaliv.model.feedback.AddFeedbackRequest;
+import com.iotsmartaliv.model.feedback.AddFeedbackResponse;
+import com.iotsmartaliv.model.feedback.FeedBackCategoryModel;
+import com.iotsmartaliv.model.feedback.FeedbackModel;
+import com.iotsmartaliv.model.feedback.UploadFeedbackDocumentResponse;
 import com.iotsmartaliv.modules.cardManager.CardUserListModel;
 
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,7 +43,9 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
@@ -44,6 +53,8 @@ import retrofit2.http.Url;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADDFACEENROLLIMAGE;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_AUTOMATION_SCHEDULE;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_EVENT;
+import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_FEEDBACK;
+import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_FEEDBACK_DOCUMENT;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_GROUP;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_INSTRUCTOR;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_VISITOR;
@@ -72,6 +83,8 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.GET_CARD_SYNC_LIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_CARD_USERLIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_COUNTRY_CODES;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_CURRENT_TIME;
+import static com.iotsmartaliv.constants.Constant.UrlPath.GET_FEED;
+import static com.iotsmartaliv.constants.Constant.UrlPath.GET_FEED_CATEGORY;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_GROUP_LIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_INSTRUCTOR_INFO;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_USER_VISITORS;
@@ -297,6 +310,23 @@ public interface ApiServices {
 
     @POST(DELETE_APPUSER)
     Call<SuccessResponseModel> deleteUser(@Body DeleteUserRequest deleteUserRequest);
+
+
+    @GET(GET_FEED)
+    Call<FeedbackModel> getFeedList(@Query("appuser_ID") String userId, @Query("status") String status, @Query("limit") String limit, @Query("page") String page);
+    @GET(GET_FEED_CATEGORY)
+    Call<FeedBackCategoryModel> getFeedbackCatergory();
+
+    @POST(ADD_FEEDBACK)
+    Call<AddFeedbackResponse> addFeedback(@Body AddFeedbackRequest feedbackRequest);
+
+    // Add Multipart annotation for uploading a file
+    @Multipart
+    @POST(ADD_FEEDBACK_DOCUMENT)
+    Call<UploadFeedbackDocumentResponse> uploadFeedbackDocument(
+            @Part("feedback_doc_name") RequestBody feedbackDocName,
+            @Part MultipartBody.Part feedbackDocument
+    );
 }
 
 

@@ -35,6 +35,9 @@ import com.iotsmartaliv.model.BroadcastDocumentFolder;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +79,7 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
         setListeners();
 
         updateTabItem(tabLayout.getTabAt(0), true);
+
     }
 
     private void initView() {
@@ -119,7 +123,6 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
 
     private void setupViewPagerTablayout() {
-
         viewPager.setOffscreenPageLimit(3);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -187,17 +190,17 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
         String appUserId  = LOGIN_DETAIL.getAppuserID();
 
-           Util.checkInternet(this, new Util.NetworkCheckCallback() {
-               @Override
-               public void onNetworkCheckComplete(boolean isAvailable) {
-                   if (isAvailable){
-                       apiServiceProvider.callGetUserBroadcast(BroadcastCommunityActivity.this, appUserId);
-                   }
+        Util.checkInternet(this, new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable){
+                    apiServiceProvider.callGetUserBroadcast(BroadcastCommunityActivity.this, appUserId);
+                }
 
-               }
-           });
+            }
+        });
 
-       }
+    }
 
 
     private void updateTabItem(TabLayout.Tab tab, boolean selected) {
@@ -427,8 +430,25 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
     private void redirectToDetailBraodcast() {
 
-        String mAppUserID = getIntent().getExtras().getString("APP_USER_ID");
-        String mBroadcastID = getIntent().getExtras().getString("BROADCAST_ID");
+        String mAppUserID ;
+        String mBroadcastID;
+
+        if (getIntent().getExtras().getString("APP_USER_ID") !=null && getIntent().getExtras().getString("BROADCAST_ID") !=null){
+            mAppUserID = getIntent().getExtras().getString("APP_USER_ID");
+            mBroadcastID = getIntent().getExtras().getString("BROADCAST_ID");
+        }else {
+            String data = getIntent().getExtras().get("data").toString();
+            // Convert the string to a JSONObject
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(data);
+                mAppUserID = jsonObject.getString("appuser_ID");
+                mBroadcastID = jsonObject.getString("broadcast_ID");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            // Retrieve the values using the keys
+        }
 
         for (Broadcast broadcast : mBroadcastList) {
 

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/ic_background"
+    android:orientation="vertical"
+    tools:context=".activity.feedback.CreateFeedbackActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/ic_back_y" />
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Feedback"
+                android:textColor="@color/Orange"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="to the managment"
+                style="@style/feedbackDetailsTextStyle"/>
+
+        </RelativeLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_above="@+id/rl_sendFeedBack"
+                android:paddingHorizontal="15dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_select_community"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_feedback_sent">
+
+                    <TextView
+                        android:id="@+id/communityId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/ten"
+                        android:layout_toStartOf="@+id/arrow_down"
+                        android:layout_toLeftOf="@+id/arrow_down"
+                        android:hint="@string/select_community"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/arrow_down"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/ic_arrow_down" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_select_categry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_feedback_sent">
+
+                    <TextView
+                        android:id="@+id/categoryId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/ten"
+                        android:layout_toStartOf="@+id/category_arrow_down"
+                        android:layout_toLeftOf="@+id/category_arrow_down"
+                        android:hint="@string/select_type"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/category_arrow_down"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        app:srcCompat="@drawable/ic_arrow_down" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/et_feedbackTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_feedback_sent"
+                    android:hint="Title"
+                    android:maxLines="1"
+                    android:maxLength="30"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+                <EditText
+                    android:id="@+id/et_feedbackDiscription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_feedback_sent"
+                    android:gravity="top"
+                    android:hint="@string/discription"
+                    android:inputType="textMultiLine"
+                    android:lines="10"
+                    android:maxLength="1000"
+                    android:maxLines="10"
+                    android:padding="10dp"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_add_document"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="20dp"
+                    android:background="@drawable/bg_feedback_sent"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/img_doc"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/add_doc_feedback" />
+
+                    <TextView
+                        style="@style/feedbackTitleTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/Orange"
+                        android:text="@string/tap_to_upload_n_jpg_jpeg_png_or_pdf"
+                        android:textAlignment="textEnd" />
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_sendFeedBack"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/btn_bg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/send_feedback"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

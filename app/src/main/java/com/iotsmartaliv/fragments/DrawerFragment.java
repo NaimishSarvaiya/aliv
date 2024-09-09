@@ -31,6 +31,7 @@ import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.SettingActivity;
 import com.iotsmartaliv.activity.SplashActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
+import com.iotsmartaliv.activity.feedback.FeedBackActivity;
 import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.fragments.community.CommunityJoinFragment;
@@ -56,7 +57,7 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 public class  DrawerFragment extends Fragment implements View.OnClickListener, CommunityJoinFragment.OnJoinCommunityFragmentInListener, CommunityListFragment.OnFragmentInteractionListener, HomeFragment.OnJoinCommunityFragmentInListener {
     TextView tv_profile_name;
     private RelativeLayout relHome, rlSetting, relMyAccount, relNotifications, relPayment, relHelp, relAboutUs,
-            relMessage, rel_community, rel_logout, rel_instructor,rel_communityBroadcast/*,rl_tutorial*/;
+            relMessage, rel_community, rel_logout, rel_instructor,rel_communityBroadcast/*,rl_tutorial*/,rel_feedback;
     private ImageView imgCross;
 
     public DrawerFragment() {
@@ -109,6 +110,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
         rel_logout.setOnClickListener(this);
         relMessage.setOnClickListener(this);
         rel_communityBroadcast.setOnClickListener(this);
+        rel_feedback.setOnClickListener(this);
         /*rl_tutorial.setOnClickListener(this);*/
     }
 
@@ -131,6 +133,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
         imgCross = layout.findViewById(R.id.img_cross);
         relMessage = layout.findViewById(R.id.rel_message);
         tv_profile_name = layout.findViewById(R.id.tv_profile_name);
+        rel_feedback = layout.findViewById(R.id.rel_feedback);
 
     }
 
@@ -138,7 +141,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rel_home:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 HomeFragment homeFragment = new HomeFragment();
                 homeFragment.setOnonJoinCommunityFragmentInListener(this);
                 loadFragments(homeFragment, false);
@@ -148,7 +151,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.VISIBLE);
                 break;
             case R.id.rel_community:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 CommunityListFragment communityListFragment = CommunityListFragment.newInstance();
                 communityListFragment.setOnFragmentInteractionListener(this);
                 ((MainActivity) getActivity()).tvHeader.setText("Communities");
@@ -163,35 +166,35 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                 loadFragments(fragmentMyAccount, false);
                 break;
             case R.id.rel_notification:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentNotification = new NotificationFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.notification));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
                 loadFragments(fragmentNotification, false);
                 break;
             case R.id.rel_payment:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentPayment = new PaymentFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.payment));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
                 loadFragments(fragmentPayment, false);
                 break;
             case R.id.rel_help:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentHelp = new HelpFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.help));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
                 loadFragments(fragmentHelp, false);
                 break;
             case R.id.rel_about_us:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentAboutUs = new AboutUsFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.about_us));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
                 loadFragments(fragmentAboutUs, false);
                 break;
             case R.id.rel_message:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment messageFragment = new MessageFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.message));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
@@ -199,13 +202,17 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                 break;
 
             case R.id.rl_communitybroadcast:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Intent intent1 = new Intent(getContext(), BroadcastCommunityActivity.class);
                 startActivity(intent1);
                 break;
-
+            case R.id.rel_feedback:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
+                startActivity(feddbackintent);
+                break;
             case R.id.rel_logout:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 new AwesomeInfoDialog(getContext())
                         .setTitle(R.string.app_name)
                         .setMessage("Are you sure?\n Do you want to logout?")
@@ -262,16 +269,16 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
 
                 break;
             case R.id.img_cross:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
 
             case R.id.rl_setting:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 startActivity(new Intent(getContext(), SettingActivity.class));
                 break;
 
             case R.id.rel_instructor:
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 startActivity(new Intent(getContext(), InstructorActivity.class));
                 break;
            /* case R.id.rl_tutorial:
@@ -305,7 +312,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
      */
     @Override
     public void onChangeJoinCommunityFaragment() {
-        drawerLayout.closeDrawer(Gravity.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         ((MainActivity) getActivity()).tvHeader.setText("Communities");
         ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
         CommunityListFragment communityListFragment = CommunityListFragment.newInstance();
@@ -315,7 +322,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
 
     @Override
     public void onFragmentInteractionSelectCategory(ResArrayObjectData category) {
-        drawerLayout.closeDrawer(Gravity.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         ((MainActivity) getActivity()).tvHeader.setText(category.getCommunityName());
         CommunitySubListFragment communitySubListFragment = CommunitySubListFragment.newInstance(category.getCommunityID());
         ((MainActivity) getActivity()).setFragment(communitySubListFragment);

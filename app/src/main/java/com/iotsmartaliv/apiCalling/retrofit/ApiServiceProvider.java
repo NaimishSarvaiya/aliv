@@ -36,13 +36,22 @@ import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorData;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
+import com.iotsmartaliv.model.feedback.AddFeedbackRequest;
+import com.iotsmartaliv.model.feedback.AddFeedbackResponse;
+import com.iotsmartaliv.model.feedback.FeedBackCategoryModel;
+import com.iotsmartaliv.model.feedback.FeedbackModel;
+import com.iotsmartaliv.model.feedback.UploadFeedbackDocumentResponse;
 import com.iotsmartaliv.modules.cardManager.CardUserListModel;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -1481,6 +1490,88 @@ public class ApiServiceProvider<context> extends RetrofitBase {
             public void onFailure(Call<SuccessResponseModel> call, Throwable t) {
                 super.onFailure(call, t);
                 retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void FeedbackList(String appuser_ID,String status,String pageLimit,String page, final RetrofitListener<FeedbackModel> retrofitArrayListener) {
+
+        Call<FeedbackModel> call = apiServices.getFeedList(appuser_ID,status,pageLimit,page);
+        call.enqueue(new CallBackWithProgress<FeedbackModel>(context) {
+            @Override
+            public void onResponse(Call<FeedbackModel> call, Response<FeedbackModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+
+            @Override
+            public void onFailure(Call<FeedbackModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+
+    public void getFeedbackCategory(final RetrofitListener<FeedBackCategoryModel> retrofitArrayListener) {
+        Call<FeedBackCategoryModel> call = apiServices.getFeedbackCatergory();
+        call.enqueue(new CallBackWithProgress<FeedBackCategoryModel>(context) {
+            @Override
+            public void onResponse(Call<FeedBackCategoryModel> call, Response<FeedBackCategoryModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.SERVERTIMESYNC);
+            }
+
+            @Override
+            public void onFailure(Call<FeedBackCategoryModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.SERVERTIMESYNC);
+            }
+        });
+    }
+
+    public void addFeedback(AddFeedbackRequest request, final RetrofitListener<AddFeedbackResponse> retrofitListener) {
+        Call<AddFeedbackResponse> call = apiServices.addFeedback(request);
+        call.enqueue(new CallBackWithProgress<AddFeedbackResponse>(context) {
+            @Override
+            public void onResponse(Call<AddFeedbackResponse> call, Response<AddFeedbackResponse> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADD_FEEDBACK);
+            }
+
+            @Override
+            public void onFailure(Call<AddFeedbackResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADD_FEEDBACK);
+            }
+        });
+    }
+
+    public void uploadFeedbackDocument(String fileName, File file, final RetrofitListener<UploadFeedbackDocumentResponse> retrofitListener) {
+//        File file = new File(Util.getPathFromUri(fileUri,context)); // Get the file path from URI
+
+        // Create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body = MultipartBody.Part.createFormData("feedback_document", file.getName(), requestFile);
+
+        // Add feedback document name
+        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), fileName);
+
+        // Execute the request
+        Call<UploadFeedbackDocumentResponse> call = apiServices.uploadFeedbackDocument(name, body);
+        call.enqueue(new CallBackWithProgress<UploadFeedbackDocumentResponse>(context) {
+            @Override
+            public void onResponse(Call<UploadFeedbackDocumentResponse> call, Response<UploadFeedbackDocumentResponse> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADD_FEEDBACK_DOCUMENT);
+            }
+
+            @Override
+            public void onFailure(Call<UploadFeedbackDocumentResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADD_FEEDBACK_DOCUMENT);
             }
         });
     }

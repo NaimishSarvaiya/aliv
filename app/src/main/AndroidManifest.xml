@@ -90,7 +90,13 @@
             android:exported="false" />
         <activity
             android:name=".activity.ViewPager.BroadcastCommunityActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY_1"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.DocumentPdfActivity"
             android:exported="true" />
@@ -375,6 +381,18 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.feedback.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.feedback.FeedbackDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.feedback.CreateFeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.feedback.FeedBackActivity"
+            android:exported="false" />
 <!--        <activity-->
 <!--            android:name=".twilio.activity.VideoActivity"-->
 <!--            android:configChanges="orientation|screenSize"-->
@@ -393,7 +411,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_launcher_foreground" />
+            android:resource="@drawable/app_logo" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
