@@ -22,38 +22,41 @@ import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentShowBookedRoomBinding;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
+//
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.SHAKE_ENABLE;
 
 public class ShowBookedRoomFragment extends Fragment {
 
-    @BindView(R.id.recyclerViewRoom)
-    RecyclerView recyclerViewRoom;
-    Unbinder unbinder;
-    ApiServiceProvider apiServiceProvider;
-    @BindView(R.id.item_not_found_tv)
-    TextView itemNotFoundTv;
+//    @BindView(R.id.recyclerViewRoom)
+//    RecyclerView recyclerViewRoom;
+//    Unbinder unbinder;
+//
+//    @BindView(R.id.item_not_found_tv)
+//    TextView itemNotFoundTv;
     BookingsAdapter bookingsAdapter;
+    ApiServiceProvider apiServiceProvider;
+    FragmentShowBookedRoomBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_show_booked_room, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = FragmentShowBookedRoomBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_show_booked_room, container, false);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
-        recyclerViewRoom.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerViewRoom.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
         bookingsAdapter = new BookingsAdapter(getActivity(), new ArrayList<>(), (bookedRoomData, position) ->{
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireActivity());
             alertDialogBuilder.setTitle("Alert!");
@@ -69,7 +72,7 @@ public class ShowBookedRoomFragment extends Fragment {
                                 if (searchBookingResponse.getStatus().equalsIgnoreCase("OK")) {
                                     bookingsAdapter.removeCancelBooking(position);
                                     if (bookingsAdapter.getItemCount() == 0) {
-                                        itemNotFoundTv.setVisibility(View.VISIBLE);
+                                        binding.itemNotFoundTv.setVisibility(View.VISIBLE);
                                     }
                                     Toast.makeText(getContext(), searchBookingResponse.getMsg(), Toast.LENGTH_SHORT).show();
                                 } else {
@@ -98,9 +101,9 @@ public class ShowBookedRoomFragment extends Fragment {
 
 
 
-        recyclerViewRoom.setAdapter(bookingsAdapter);
+        binding.recyclerViewRoom.setAdapter(bookingsAdapter);
         callAPI();
-        return view;
+        return binding.getRoot();
     }
 
     public void callAPI() {
@@ -113,9 +116,9 @@ public class ShowBookedRoomFragment extends Fragment {
                             if (searchBookingResponse.getStatus().equalsIgnoreCase("OK")) {
                                 if (searchBookingResponse.getData().size() > 0) {
                                     bookingsAdapter.setData(searchBookingResponse.getData());
-                                    itemNotFoundTv.setVisibility(View.GONE);
+                                    binding.itemNotFoundTv.setVisibility(View.GONE);
                                 } else {
-                                    itemNotFoundTv.setVisibility(View.VISIBLE);
+                                    binding.itemNotFoundTv.setVisibility(View.VISIBLE);
                                     bookingsAdapter.setData(new ArrayList<>());
                                 }
                             } else {
@@ -137,6 +140,5 @@ public class ShowBookedRoomFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 }

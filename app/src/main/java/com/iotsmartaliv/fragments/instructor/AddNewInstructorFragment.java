@@ -36,6 +36,7 @@ import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.AddNewFragmentBinding;
 import com.iotsmartaliv.dialog_box.CustomCommunityDialog;
 import com.iotsmartaliv.dialog_box.CustomCountryCodeDialog;
 import com.iotsmartaliv.dialog_box.CustomTimePicker;
@@ -49,9 +50,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.TimeZone;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.hideKeyBoard;
@@ -83,16 +83,17 @@ public class AddNewInstructorFragment extends Fragment implements View.OnClickLi
     CheckBox checkboxSunday, checkboxMonday, checkboxTuesday, checkboxWednesday, checkboxThursday, checkboxFriday, checkboxSaturday;
     EditText edInstructorMobileNumber, edNameOfInstructor, edActivity, edCompany;
     ArrayList<Integer> selectedDaysList = new ArrayList<>();
-    @BindView(R.id.scrollView)
-    ScrollView scrollView;
-    Unbinder unbinder;
     SimpleDateFormat dateFormatValidation = new SimpleDateFormat("hh:mm a");
     private String TAG = "AddNewInstructorFragment";
+
+    AddNewFragmentBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_new_fragment, container, false);
+        binding = AddNewFragmentBinding.inflate(inflater,container,false);
+        View view = binding.getRoot();
+
         initView(view);
         clickListener();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -144,8 +145,8 @@ public class AddNewInstructorFragment extends Fragment implements View.OnClickLi
             }
         });
 
-        unbinder = ButterKnife.bind(this, view);
-        return view;
+
+        return binding.getRoot();
     }
 
     private void clickListener() {
@@ -318,7 +319,7 @@ public class AddNewInstructorFragment extends Fragment implements View.OnClickLi
 
         }
         tv_community.requestFocus();
-        scrollView.scrollTo(0, 0);
+        binding.scrollView.scrollTo(0, 0);
         getActivity().getWindow().getDecorView().clearFocus();
 
         selectedDaysList.clear();
@@ -542,6 +543,6 @@ public class AddNewInstructorFragment extends Fragment implements View.OnClickLi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 }

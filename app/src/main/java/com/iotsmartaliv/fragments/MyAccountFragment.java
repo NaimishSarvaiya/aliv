@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,6 +37,7 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.MyAccountFragmentBinding;
 import com.iotsmartaliv.model.DeleteUserRequest;
 import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.services.ShakeOpenService;
@@ -47,10 +49,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
+//import butterknife.OnClick;
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.activity.MainActivity.drawerLayout;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
@@ -65,37 +66,33 @@ import static com.iotsmartaliv.constants.Constant.hideLoader;
  * @since 2018-10-24
  */
 public class MyAccountFragment extends Fragment implements RetrofitListener<SuccessResponse> {
-
-    @BindView(R.id.tv_name)
-    TextView tvName;
-    @BindView(R.id.edt_user_name)
-    TextView edtUserName;
-    @BindView(R.id.edt_email_log_in)
-    TextView edtEmailLogIn;
-    Unbinder unbinder;
-    @BindView(R.id.rel_face_registration)
-    RelativeLayout relFaceRegistration;
-    @BindView(R.id.rel_removeAccount)
-    RelativeLayout relDeleteAccount;
-    @BindView(R.id.tv_payment_help)
-    TextView tvPaymentHelp;
     ApiServiceProvider apiServiceProvider;
+
+    MyAccountFragmentBinding binding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view;
-        view = inflater.inflate(R.layout.my_account_fragment, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding = MyAccountFragmentBinding.inflate(inflater,container,false);
+//        view = inflater.inflate(R.layout.my_account_fragment, container, false);
+
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         setDataUI();
-        return view;
+
+        binding.imgChangeName.setOnClickListener(this::onViewClicked);
+        binding.imgChangeUname.setOnClickListener(this::onViewClicked);
+        binding.edtFaceRegistration.setOnClickListener(this::onViewClicked);
+        binding.tvPaymentHelp.setOnClickListener(this::onViewClicked);
+        binding.relPassword.setOnClickListener(this::onViewClicked);
+        binding.relRemoveAccount.setOnClickListener(this::onViewClicked);
+        return binding.getRoot();
     }
 
     public void setDataUI() {
-        tvName.setText(LOGIN_DETAIL.getUserFullName());
-        edtUserName.setText(LOGIN_DETAIL.getUsername());
-        edtEmailLogIn.setText(LOGIN_DETAIL.getUserEmail());
+        binding.tvName.setText(LOGIN_DETAIL.getUserFullName());
+        binding.edtUserName.setText(LOGIN_DETAIL.getUsername());
+        binding.edtEmailLogIn.setText(LOGIN_DETAIL.getUserEmail());
     }
 
     /**
@@ -113,18 +110,16 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
-    @OnClick({R.id.img_change_name, R.id.img_change_uname, R.id.edt_face_registration, R.id.tv_payment_help, R.id.rel_password,R.id.rel_removeAccount})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_change_name:
-                showPopForTakeInput("Enter your name.", tvName.getText().toString(), 1);
+                showPopForTakeInput("Enter your name.", binding.tvName.getText().toString(), 1);
                 break;
 
             case R.id.img_change_uname:
-                showPopForTakeInput("Enter your username.", edtUserName.getText().toString(), 2);
+                showPopForTakeInput("Enter your username.", binding.edtUserName.getText().toString(), 2);
                 break;
             case R.id.edt_face_registration:
                 Intent intentEnrollment = new Intent(getActivity(), EnrollmentActivity.class);
@@ -136,7 +131,7 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
             case R.id.tv_payment_help:
                 /*    Intent intentPayment = new Intent(getActivity(), PaymentSetupActivity.class);
                 startActivity(intentPayment);*/
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentPayment = new PaymentFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.payment));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
@@ -150,11 +145,11 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
                         .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
                         .setCancelable(true)
                         .setPositiveButtonText(getString(R.string.dialog_yes_button))
-                        .setPositiveButtonbackgroundColor(R.color.Orangebtn)
+                        .setPositiveButtonbackgroundColor(R.color.Orange)
                         .setPositiveButtonTextColor(R.color.white)
                         .setNegativeButtonText(getString(R.string.dialog_no_button))
                         .setNegativeButtonbackgroundColor(R.color.colorPrimary)
-                        .setNegativeButtonTextColor(R.color.Orangebtn)
+                        .setNegativeButtonTextColor(R.color.Orange)
                         .setPositiveButtonClick(() -> {
                             Constant.showLoader(requireActivity());
                             deleteAccount();

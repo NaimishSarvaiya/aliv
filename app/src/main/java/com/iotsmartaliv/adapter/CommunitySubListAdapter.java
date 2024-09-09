@@ -11,9 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.databinding.DeviceListRowBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This class is used as adapter for community list adapter.
@@ -33,14 +32,15 @@ public class CommunitySubListAdapter extends RecyclerView.Adapter<CommunitySubLi
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        DeviceListRowBinding binding = DeviceListRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.device_list_row, parent, false);
-        return new MyViewHolder(itemView);
+        return new MyViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.itemText.setText("Sub-Community " + (position + 1));
+        holder.binding.itemText.setText("Sub-Community " + (position + 1));
         holder.itemView.setOnClickListener(v -> {
             // mListener.onFragmentInteractionSelectCategory("Community " + (position+1));
         });
@@ -52,16 +52,18 @@ public class CommunitySubListAdapter extends RecyclerView.Adapter<CommunitySubLi
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_text)
-        TextView itemText;
-        @BindView(R.id.item_img)
-        ImageView itemImg;
-        @BindView(R.id.ll_device)
-        LinearLayout llDevice;
 
-        MyViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+//        @BindView(R.id.item_text)
+//        TextView itemText;
+//        @BindView(R.id.item_img)
+//        ImageView itemImg;
+//        @BindView(R.id.ll_device)
+//        LinearLayout llDevice;
+        DeviceListRowBinding binding;
+
+        MyViewHolder(DeviceListRowBinding binding) {
+            super(binding.getRoot());
+           this.binding = binding;
         }
     }
 

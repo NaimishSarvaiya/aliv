@@ -18,11 +18,11 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentCommunityJoinBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+
+//import butterknife.OnClick;
+//import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -34,11 +34,13 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * create an instance of this fragment.
  */
 public class CommunityJoinFragment extends Fragment implements RetrofitListener<SuccessResponse> {
-    @BindView(R.id.edt_invitation_code)
-    EditText edtInvitationCode;
-    Unbinder unbinder;
+//    @BindView(R.id.edt_invitation_code)
+//    EditText edtInvitationCode;
+//    Unbinder unbinder;
     ApiServiceProvider apiServiceProvider;
     private OnJoinCommunityFragmentInListener mListener;
+    private FragmentCommunityJoinBinding binding;
+
 
     public CommunityJoinFragment() {
         // Required empty public constructor
@@ -54,15 +56,18 @@ public class CommunityJoinFragment extends Fragment implements RetrofitListener<
         return new CommunityJoinFragment();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_community_join, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        binding =  FragmentCommunityJoinBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
         apiServiceProvider = ApiServiceProvider.getInstance(getContext());
         setupUI(view);
-        return view;
+        binding.submitBtn.setOnClickListener( v-> onViewClicked() );
+        return binding.getRoot();
     }
 
 
@@ -74,16 +79,15 @@ public class CommunityJoinFragment extends Fragment implements RetrofitListener<
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+//        unbinder.unbind();
     }
 
-    @OnClick(R.id.submit_btn)
     public void onViewClicked() {
-        if (edtInvitationCode.getText().toString().trim().length() > 0) {
-            apiServiceProvider.callForJoinCommunity(LOGIN_DETAIL.getAppuserID(), edtInvitationCode.getText().toString().trim(), this);
+        if (binding.edtInvitationCode.getText().toString().trim().length() > 0) {
+            apiServiceProvider.callForJoinCommunity(LOGIN_DETAIL.getAppuserID(), binding.edtInvitationCode.getText().toString().trim(), this);
         } else {
-            edtInvitationCode.setError("Enter Invitation Code.");
-            edtInvitationCode.requestFocus();
+            binding.edtInvitationCode.setError("Enter Invitation Code.");
+            binding.edtInvitationCode.requestFocus();
         }
     }
 
@@ -92,7 +96,7 @@ public class CommunityJoinFragment extends Fragment implements RetrofitListener<
         switch (apiFlag) {
             case Constant.UrlPath.JOIN_COMMUNITY_API:
                 if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
-                    edtInvitationCode.setText("");
+                    binding.edtInvitationCode.setText("");
                     Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
                     showSucessDialog();
                    /* if (mListener != null) {

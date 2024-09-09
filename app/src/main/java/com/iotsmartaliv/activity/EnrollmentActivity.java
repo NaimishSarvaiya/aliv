@@ -139,7 +139,7 @@ public class EnrollmentActivity extends AppCompatActivity implements View.OnClic
                                     @Override
                                     public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
                                         if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
-                                            Toast.makeText(EnrollmentActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(EnrollmentActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
                                             LOGIN_DETAIL.setFacialImage(base64String);
                                             SharePreference.getInstance(EnrollmentActivity.this).putString(LOGIN_PREFRENCE, new Gson().toJson(LOGIN_DETAIL));
                                             Intent intentCameraActivity = new Intent(EnrollmentActivity.this, EnrollmentSuccessful.class);

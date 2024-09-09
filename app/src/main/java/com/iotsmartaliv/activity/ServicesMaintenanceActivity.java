@@ -8,11 +8,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
+import com.iotsmartaliv.databinding.ActivitySerivcesMaintainenceBinding;
 import com.iotsmartaliv.fragments.MaintenenceFragment;
 import com.iotsmartaliv.fragments.ServiceFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This activity class is used for service maintenance.
@@ -22,34 +21,30 @@ import butterknife.ButterKnife;
  * @since 2018-10-23
  */
 public class ServicesMaintenanceActivity extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
 
     TabAdapter adapter;
+    ActivitySerivcesMaintainenceBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serivces_maintainence);
-        ButterKnife.bind(this);
+        binding = ActivitySerivcesMaintainenceBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
+//        binding.viewPager = findViewById(R.id.viewPager);
+//        tabLayout = findViewById(R.id.tabLayout);
 
         adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new ServiceFragment(), "Service");
         adapter.addFragment(new MaintenenceFragment(), "Maintenance");
 
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
 
     }
 

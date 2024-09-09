@@ -21,10 +21,12 @@ import com.iotsmartaliv.apiCalling.models.Country;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 import com.iotsmartaliv.utils.SaveAccessLogTask;
 import com.iotsmartaliv.utils.SharePreference;
+import com.iotsmartaliv.utils.Util;
 
 import org.json.JSONObject;
 
@@ -40,6 +42,7 @@ import static com.iotsmartaliv.activity.DeviceListActivity.flagDeviceList;
 import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.COMMUNITY_ID;
 import static com.iotsmartaliv.constants.Constant.DEVICE_ID;
+import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
 import static com.iotsmartaliv.utils.CommanUtils.accessWithinRange;
 import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
@@ -264,14 +267,17 @@ public class DevicelistAdapter extends BaseAdapter {
                     if (result == 0x00) {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
                         new SaveAccessLogTask(context, new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date()))).execute();
-
+                        logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date())));
                         Toast.makeText(context, "Door open successfully", Toast.LENGTH_SHORT).show();
+                        Util.logDoorOpenEvent("DeviceList", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
                     } else {
                         if (result == 48) {
                             Toast.makeText(context, "Result Error Time Out", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(context, "Failure: Error Code" + result, Toast.LENGTH_SHORT).show();
                         }
+                        Util.logDoorOpenEvent("DeviceList", false, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
+
                     }
                 }));
                 if (ret == 0) {
@@ -356,6 +362,31 @@ public class DevicelistAdapter extends BaseAdapter {
         TextView devName;
         LinearLayout item, image_click_lay;
         ImageView image;
+    }
+
+    public void logs(String userId,AccessLogModel accessLogModel){
+        Util.checkInternet(context, new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable){
+                    ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context);
+                    apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
+
+                        @Override
+                        public void onResponseSuccess(AccessLogModel accessLogModel1, String apiFlag) {
+                            if (Constant.UrlPath.POST_ACCESS_LOG.equals(apiFlag)) {
+//                                new DeviceLogSyncService.DeleteAccessLogTask(DeviceLogSyncService.this, accessLogModel1).execute();
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+//                            Util.firebaseEvent(Constant.APIERROR, DeviceLogSyncService.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+                        }
+                    });
+                }
+            }
+        });
     }
 
 

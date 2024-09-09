@@ -11,12 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.databinding.SchedulesItemHomeAutomationBinding;
 import com.iotsmartaliv.model.Schedule;
 
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -54,27 +52,28 @@ public class SchedulesListAdapter extends RecyclerView.Adapter<SchedulesListAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedules_item_home_automation, viewGroup, false);
-        return new ViewHolder(view);
+        SchedulesItemHomeAutomationBinding binding = SchedulesItemHomeAutomationBinding.inflate(LayoutInflater.from(viewGroup.getContext()),viewGroup,false);
+//        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedules_item_home_automation, viewGroup, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final Schedule schedule = schedules.get(i);
-        viewHolder.tvStartDate.setText("Start Date :" + schedule.getStartDate());
-        viewHolder.tvEndDate.setText("End Date :" + schedule.getEndDate());
-        viewHolder.tvDays.setText("");
+        viewHolder.binding.tvStartDate.setText("Start Date :" + schedule.getStartDate());
+        viewHolder.binding.tvEndDate.setText("End Date :" + schedule.getEndDate());
+        viewHolder.binding.tvDays.setText("");
 
         for (String day : schedule.getDays()) {
-            if (viewHolder.tvDays.length() > 0) {
-                viewHolder.tvDays.append(", ");
+            if (viewHolder.binding.tvDays.length() > 0) {
+                viewHolder.binding.tvDays.append(", ");
             }
-            viewHolder.tvDays.append(day);
+            viewHolder.binding.tvDays.append(day);
         }
 
         if (!LOGIN_DETAIL.getAppuserType().equalsIgnoreCase("1") && !isSubAdmin) {
-            viewHolder.editLay.setVisibility(View.GONE);
-            viewHolder.deleteLay.setVisibility(View.GONE);
+            viewHolder.binding.editLay.setVisibility(View.GONE);
+            viewHolder.binding.deleteLay.setVisibility(View.GONE);
         }
 //        if (userType.equalsIgnoreCase("User")) {
 //            viewHolder.llTimeslot.setGravity(Gravity.START);
@@ -85,27 +84,27 @@ public class SchedulesListAdapter extends RecyclerView.Adapter<SchedulesListAdap
         isAutomationManagementEnable = getAutomationManagementEnable(rolePermission);
 
         if (userType.equalsIgnoreCase("User")) {
-            viewHolder.llTimeslot.setGravity(Gravity.START);
-            viewHolder.editLay.setVisibility(View.GONE);
-            viewHolder.deleteLay.setVisibility(View.GONE);
+            viewHolder.binding.llTimeslot.setGravity(Gravity.START);
+            viewHolder.binding.editLay.setVisibility(View.GONE);
+            viewHolder.binding.deleteLay.setVisibility(View.GONE);
         } else if (userType.equalsIgnoreCase("Senior Admin")) {
             if (isAutomationManagementEnable.equalsIgnoreCase("1")) {
-                viewHolder.editLay.setVisibility(View.VISIBLE);
-                viewHolder.deleteLay.setVisibility(View.VISIBLE);
+                viewHolder.binding.editLay.setVisibility(View.VISIBLE);
+                viewHolder.binding.deleteLay.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.llTimeslot.setGravity(Gravity.START);
-                viewHolder.editLay.setVisibility(View.GONE);
-                viewHolder.deleteLay.setVisibility(View.GONE);
+                viewHolder.binding.llTimeslot.setGravity(Gravity.START);
+                viewHolder.binding.editLay.setVisibility(View.GONE);
+                viewHolder.binding.deleteLay.setVisibility(View.GONE);
             }
         } else {
-            viewHolder.editLay.setVisibility(View.VISIBLE);
-            viewHolder.deleteLay.setVisibility(View.VISIBLE);
+            viewHolder.binding.editLay.setVisibility(View.VISIBLE);
+            viewHolder.binding.deleteLay.setVisibility(View.VISIBLE);
         }
 
 
-        viewHolder.editSchedule.setOnClickListener(v -> scheduleActionListener.editSchedule(schedule, i));
-        viewHolder.deleteSchedule.setOnClickListener(v -> scheduleActionListener.deleteSchedule(schedule, i));
-        viewHolder.tvViewTimeSlot.setOnClickListener(v -> scheduleActionListener.viewSchedule(schedule, i));
+        viewHolder.binding.editSchedule.setOnClickListener(v -> scheduleActionListener.editSchedule(schedule, i));
+        viewHolder.binding.deleteSchedule.setOnClickListener(v -> scheduleActionListener.deleteSchedule(schedule, i));
+        viewHolder.binding.tvViewTimeSlot.setOnClickListener(v -> scheduleActionListener.viewSchedule(schedule, i));
     }
 
     public String getAutomationManagementEnable(String rolePermission) {
@@ -159,29 +158,30 @@ public class SchedulesListAdapter extends RecyclerView.Adapter<SchedulesListAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_start_date)
-        TextView tvStartDate;
-        @BindView(R.id.tv_end_date)
-        TextView tvEndDate;
-        @BindView(R.id.tv_days)
-        TextView tvDays;
-        @BindView(R.id.tv_view_timeSlot)
-        TextView tvViewTimeSlot;
-        @BindView(R.id.edit_schedule)
-        TextView editSchedule;
-        @BindView(R.id.delete_schedule)
-        TextView deleteSchedule;
-        @BindView(R.id.delete_lay)
-        LinearLayout deleteLay;
+        SchedulesItemHomeAutomationBinding binding;
+//        @BindView(R.id.tv_start_date)
+//        TextView tvStartDate;
+//        @BindView(R.id.tv_end_date)
+//        TextView tvEndDate;
+//        @BindView(R.id.tv_days)
+//        TextView tvDays;
+//        @BindView(R.id.tv_view_timeSlot)
+//        TextView tvViewTimeSlot;
+//        @BindView(R.id.edit_schedule)
+//        TextView editSchedule;
+//        @BindView(R.id.delete_schedule)
+//        TextView deleteSchedule;
+//        @BindView(R.id.delete_lay)
+//        LinearLayout deleteLay;
+//
+//        @BindView(R.id.edit_lay)
+//        LinearLayout editLay;
+//        @BindView(R.id.ll_timeslot)
+//        LinearLayout llTimeslot;
 
-        @BindView(R.id.edit_lay)
-        LinearLayout editLay;
-        @BindView(R.id.ll_timeslot)
-        LinearLayout llTimeslot;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        public ViewHolder(@NonNull SchedulesItemHomeAutomationBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
 
         }
     }

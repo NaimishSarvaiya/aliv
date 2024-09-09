@@ -17,6 +17,7 @@ import com.iotsmartaliv.apiCalling.models.ErrorObject;
 import com.iotsmartaliv.apiCalling.models.SuccessResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityNewPasswordBinding;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
@@ -24,9 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
@@ -42,57 +40,55 @@ import static com.iotsmartaliv.constants.Constant.isValidPassword;
  */
 public class NewPasswordActivity extends AppCompatActivity implements RetrofitListener<SuccessResponse> {
 
-    @BindView(R.id.edt_password)
-    EditText edtPassword;
-    @BindView(R.id.edt_confirm_password)
-    EditText edtConfirmPassword;
     ApiServiceProvider apiServiceProvider;
     boolean isFromAccount;
+
+    ActivityNewPasswordBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_password);
-        ButterKnife.bind(this);
+        binding = ActivityNewPasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         apiServiceProvider = ApiServiceProvider.getInstance(this);
         isFromAccount = getIntent().getBooleanExtra("isFromAccount", false);
+        binding.tvSignUp.setOnClickListener( v->onViewClicked() );
     }
 
     public void backPress(View view) {
         onBackPressed();
     }
 
-    @OnClick(R.id.tv_sign_up)
     public void onViewClicked() {
-        String strPassword = edtPassword.getText().toString().trim();
-        String strConfirmPassword = edtConfirmPassword.getText().toString().trim();
+        String strPassword =  binding.edtPassword.getText().toString().trim();
+        String strConfirmPassword =  binding.edtConfirmPassword.getText().toString().trim();
         if (strPassword.equalsIgnoreCase("")) {
-            edtPassword.setError(getString(R.string.empty_password));
-            edtPassword.requestFocus();
+            binding.edtPassword.setError(getString(R.string.empty_password));
+            binding.edtPassword.requestFocus();
             // Toast.makeText(this, R.string.empty_password, Toast.LENGTH_SHORT).show();
             return;
         }
         if (strPassword.length() < 8) {
-            edtPassword.setError(getString(R.string.valid_password));
-            edtPassword.requestFocus();
+            binding.edtPassword.setError(getString(R.string.valid_password));
+            binding.edtPassword.requestFocus();
             //  Toast.makeText(this, R.string.valid_password, Toast.LENGTH_SHORT).show();
             return;
         } else if (!isValidPassword(strPassword)) {
             //  Toast.makeText(this, R.string.valid_password, Toast.LENGTH_SHORT).show();
-            edtPassword.setError(getResources().getString(R.string.error_msg));
-            edtPassword.requestFocus();
+            binding.edtPassword.setError(getResources().getString(R.string.error_msg));
+            binding.edtPassword.requestFocus();
             return;
         }
         if (strConfirmPassword.equalsIgnoreCase("")) {
-            edtConfirmPassword.setError(getString(R.string.empty_confirm_password));
-            edtConfirmPassword.requestFocus();
+            binding.edtConfirmPassword.setError(getString(R.string.empty_confirm_password));
+            binding.edtConfirmPassword.requestFocus();
 
             //   Toast.makeText(this, R.string.empty_confirm_password, Toast.LENGTH_SHORT).show();
             return;
         }
         if (!strPassword.equalsIgnoreCase(strConfirmPassword)) {
-            edtConfirmPassword.setError(getString(R.string.password_and_confirm_password_doesnt_match));
-            edtConfirmPassword.requestFocus();
+            binding.edtConfirmPassword.setError(getString(R.string.password_and_confirm_password_doesnt_match));
+            binding.edtConfirmPassword.requestFocus();
             // Toast.makeText(this, R.string.password_and_confirm_password_doesnt_match, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -100,7 +96,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {
                     if (isAvailable){
-                        apiServiceProvider.callForChangePassword(LOGIN_DETAIL.getAppuserID(), edtPassword.getText().toString().trim(), edtConfirmPassword.getText().toString().trim(), NewPasswordActivity.this);
+                        apiServiceProvider.callForChangePassword(LOGIN_DETAIL.getAppuserID(), binding.edtPassword.getText().toString().trim(), binding.edtConfirmPassword.getText().toString().trim(), NewPasswordActivity.this);
 
                     }
                 }
@@ -123,7 +119,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                     }
                     byte[] hashInBytes = new byte[0];
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                        hashInBytes = md.digest(edtConfirmPassword.getText().toString().getBytes(StandardCharsets.UTF_8));
+                        hashInBytes = md.digest(binding.edtConfirmPassword.getText().toString().getBytes(StandardCharsets.UTF_8));
                     }
                     // bytes to hex
                     StringBuilder sb = new StringBuilder();
@@ -138,7 +134,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                             .setTitle("Successfully")
                             .setMessage("Password has been changed successfully.")
                             .setColoredCircle(R.color.colorPrimary)
-                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orangebtn)
+                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orange)
                             .setCancelable(false)
                             .setDoneButtonClick(() -> {
                                 if (!isFromAccount) {
@@ -150,7 +146,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                                 }
                             })
                             .setDoneButtonText(getString(R.string.ok))
-                            .setDoneButtonbackgroundColor(R.color.Orangebtn)
+                            .setDoneButtonbackgroundColor(R.color.Orange)
                             .setDoneButtonTextColor(R.color.white)
                             .show();
 
@@ -170,7 +166,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                             .setTitle("Successfully")
                             .setMessage("Password has been changed successfully.")
                             .setColoredCircle(R.color.colorPrimary)
-                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orangebtn)
+                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orange)
                             .setCancelable(false)
                             .setDoneButtonClick(() -> {
                                 if (!isFromAccount) {
@@ -182,7 +178,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
                                 }
                             })
                             .setDoneButtonText(getString(R.string.ok))
-                            .setDoneButtonbackgroundColor(R.color.Orangebtn)
+                            .setDoneButtonbackgroundColor(R.color.Orange)
                             .setDoneButtonTextColor(R.color.white)
                             .show();
                 } else {

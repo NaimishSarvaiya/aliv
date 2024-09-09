@@ -145,7 +145,7 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
         if (defaultCountryDataList.size() > 0) {
             tvCountryCode.setText(defaultCountryDataList.get(0).getPhonecode());
             countryId = defaultCountryDataList.get(0).getId();
-            countryISO = defaultCountryDataList.get(0).getCountryCode();
+            countryISO = defaultCountryDataList.get(0).getPhonecode();
         } else {
             tvCountryCode.setText(countryArrayData.getCountry().get(0).getPhonecode());
             countryId = countryArrayData.getCountry().get(0).getId();

@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.doormaster.vphone.config.DMCallState;
@@ -41,6 +42,7 @@ import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.utils.Util;
 
 import jp.wasabeef.blurry.Blurry;
 
@@ -126,6 +128,8 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
             finish();
         }
         String displayName = DMVPhoneModel.getDisplayName(this);
+        String deviceName = DMVPhoneModel.getCurConnDevice().dev_name;
+        Toast.makeText(this, deviceName,Toast.LENGTH_LONG).show();
         if (tv_title != null) {
             tv_title.setText("Incoming Call.....\n" + ((displayName == null) ? "" : displayName));
         }
@@ -158,6 +162,7 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
 
     private void answer() {
         DMVPhoneModel.answerCall();
+        Util.logVideoCallEvent("INCOMING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(this));
         Intent intent = new Intent(DmCallIncomingActivity.this, YJCallActivity.class);
         intent.putExtra(Constant.CALL_PATH, Constant.ICOMING_CALL);
         startActivity(intent);

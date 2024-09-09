@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.ServiceDetailsActivity;
+import com.iotsmartaliv.databinding.ServiceListRowBinding;
+//
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * This adapter class is used for service0.
@@ -34,18 +34,19 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_list_row, parent, false);
-        return new MyViewHolder(itemView);
+        ServiceListRowBinding binding = ServiceListRowBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+//        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_list_row, parent, false);
+        return new MyViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         //todo Perfrom UI task
         if (position == 1) {
-            holder.textViewTitle.setText("Software update");
-            holder.buttonStatus.setText("Pending");
-            holder.buttonStatus.setTextColor(context.getResources().getColor(R.color.colorBlack));
-            holder.buttonStatus.setBackground(ContextCompat.getDrawable(context, R.drawable.btn_non_select));
+            holder.binding.textViewTitle.setText("Software update");
+            holder.binding.buttonStatus.setText("Pending");
+            holder.binding.buttonStatus.setTextColor(context.getResources().getColor(R.color.colorBlack));
+            holder.binding.buttonStatus.setBackground(ContextCompat.getDrawable(context, R.drawable.btn_non_select));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,18 +62,20 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.MyViewHo
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.textViewTitle)
-        TextView textViewTitle;
-        @BindView(R.id.textViewDate)
-        TextView textViewDate;
-        @BindView(R.id.textViewToken)
-        TextView textViewToken;
-        @BindView(R.id.buttonStatus)
-        Button buttonStatus;
+//        @BindView(R.id.textViewTitle)
+//        TextView textViewTitle;
+//        @BindView(R.id.textViewDate)
+//        TextView textViewDate;
+//        @BindView(R.id.textViewToken)
+//        TextView textViewToken;
+//        @BindView(R.id.buttonStatus)
+//        Button buttonStatus;
 
-        MyViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        ServiceListRowBinding binding;
+
+        MyViewHolder( ServiceListRowBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

@@ -19,7 +19,7 @@
         android:clickable="true"
         android:tint="@color/White"
         android:visibility="gone"
-        app:backgroundTint="@color/Orangebtn"
+        app:backgroundTint="@color/Orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

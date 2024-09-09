@@ -7,7 +7,7 @@
     <color name="lightGray">#a9a9a9</color>
     <color name="colorWhite">#ffffff</color>
     <color name="White">#FFFFFF</color>
-    <color name="Orange">#FF9900</color>
+    <color name="Orange">#F88A40</color>
     <color name="OrangeRed">#FF4500</color>
     <color name="Red">#FF0000</color>
     <color name="LightCyan">#E0FFFF</color>
@@ -18,7 +18,6 @@
     <color name="BlackTrans">#43000000</color>
     <color name="WhiteTrans">#60ffffff</color>
     <color name="Blue_bg">#73091420</color>
-    <color name="Orangebtn">#ff9649</color>
     <color name="light_blue">#2c3d4b</color>
     <color name="blue_dark">#062032</color>
     <color name="transparent">#00000000</color>

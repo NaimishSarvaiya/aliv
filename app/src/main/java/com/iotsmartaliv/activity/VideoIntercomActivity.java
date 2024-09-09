@@ -76,7 +76,6 @@ import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
 
 import org.json.JSONObject;
 
-import butterknife.BindView;
 import okhttp3.ResponseBody;
 
 /**
@@ -406,12 +405,14 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
                             Toast.makeText(VideoIntercomActivity.this,sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
+                            Util.logDoorOpenEvent("VideoDeviceList", true, LOGIN_DETAIL.getAppuserID(), device_sn);
                         }
 
                         @Override
                         public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
                             Util.firebaseEvent(Constant.APIERROR, VideoIntercomActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
                             Toast.makeText(VideoIntercomActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            Util.logDoorOpenEvent("VideoDeviceList", false, LOGIN_DETAIL.getAppuserID(), device_sn);
                         }
                     });
                 }

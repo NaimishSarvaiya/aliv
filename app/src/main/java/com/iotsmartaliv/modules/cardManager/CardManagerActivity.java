@@ -22,10 +22,10 @@ import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
 import com.iotsmartaliv.apiCalling.models.DeviceObject;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.ActivityCardManagerBinding;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
+//
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
 
@@ -37,17 +37,6 @@ import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
  * @since 2019-01-16
  */
 public class CardManagerActivity extends AppCompatActivity {
-
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    @BindView(R.id.navigation)
-    BottomNavigationView bottomNavigationView;
     TabAdapter adapter;
     ProgressDialog progress;
     String communityId, deviceId;
@@ -74,13 +63,15 @@ ConstantsUtils.MAX_CONTAINER (maximum user capacity)
                     Toast.LENGTH_SHORT).show();
         }
     };
+    ActivityCardManagerBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_manager);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
+        binding = ActivityCardManagerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        ButterKnife.bind(this);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -100,14 +91,14 @@ ConstantsUtils.MAX_CONTAINER (maximum user capacity)
         adapter.addFragment(new UserListFragment(), "User List");*/
         adapter.addFragment(cardListFragment, "Card List");
         adapter.addFragment(userListFragment, "User List");
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setOffscreenPageLimit(2);
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.viewPager.setOffscreenPageLimit(2);
         progress = new ProgressDialog(this);
         progress.setMessage("Processing.....");
         progress.setCancelable(false);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(
+        binding.navigation.setOnNavigationItemSelectedListener(
                 item -> {
                     switch (item.getItemId()) {
                         case R.id.add_card:

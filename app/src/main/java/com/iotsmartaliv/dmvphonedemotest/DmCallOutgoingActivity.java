@@ -38,6 +38,7 @@ import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.utils.Util;
 
 import jp.wasabeef.blurry.Blurry;
 
@@ -93,6 +94,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
 
                 if (DMCallState.Connected == state) {
                     // LogUtils.i(TAG, "-----------电话被接听了");
+                    Util.logVideoCallEvent("OUTGOING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(DmCallOutgoingActivity.this));
                     Intent intent = new Intent(DmCallOutgoingActivity.this, YJCallActivity.class);
                     intent.putExtra(Constant.CALL_PATH, Constant.OUTGOING_CALL);
                     startActivity(intent);
@@ -119,7 +121,6 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
             Log.e("CallOutGoingActivity", "Couldn't find outgoing call");
             finish();
         }
-
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.iotsmartaliv.apiCalling.models.GroupData;
 import com.iotsmartaliv.apiCalling.models.GroupResponse;
 import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.databinding.FragmentGroupBinding;
 import com.iotsmartaliv.dialog_box.AddGroupDialog;
 import com.iotsmartaliv.dialog_box.AssignVisitorDialog;
 import com.iotsmartaliv.dialog_box.DeleteConfirmDialog;
@@ -35,11 +36,6 @@ import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
@@ -51,25 +47,29 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @since 30/7/19 :July : 2019 on 18 : 23.
  */
 public class FragmentGroup extends Fragment implements RetrofitListener<GroupResponse>, AddGroupDialog.GroupAddedRefresh {
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    Unbinder unbinder;
+//    @BindView(R.id.recyclerView)
+//    RecyclerView recyclerView;
+//    Unbinder unbinder;
 
     ApiServiceProvider apiServiceProvider;
     FragmentGroupAdapter fragmentGroupAdapter;
-    @BindView(R.id.item_not_found_tv)
-    TextView itemNotFoundTv;
+//    @BindView(R.id.item_not_found_tv)
+//    TextView itemNotFoundTv;
+
+    FragmentGroupBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_group, container, false);
+        binding = FragmentGroupBinding.inflate(inflater,container,false);
+//        View view = inflater.inflate(R.layout.fragment_group, container, false);
         apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
 
-        unbinder = ButterKnife.bind(this, view);
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerView.setLayoutManager(mLayoutManager);
+        binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         fragmentGroupAdapter = new FragmentGroupAdapter(getContext(), new FragmentGroupAdapter.GroupUpdateClick() {
             @Override
             public void groupEditNotify(GroupData groupData) {
@@ -153,9 +153,10 @@ public class FragmentGroup extends Fragment implements RetrofitListener<GroupRes
 
 
         });
-        recyclerView.setAdapter(fragmentGroupAdapter);
+        binding.recyclerView.setAdapter(fragmentGroupAdapter);
         apiServiceProvider.callForListOfGroup(LOGIN_DETAIL.getAppuserID(), this);
-        return view;
+        binding.floatingActionButton.setOnClickListener(v-> onViewClicked());
+        return binding.getRoot();
     }
 
     public void callForGroupUpdate(GroupData groupData){
@@ -191,7 +192,7 @@ public class FragmentGroup extends Fragment implements RetrofitListener<GroupRes
         //unbinder.unbind();
     }
 
-    @OnClick(R.id.floatingActionButton)
+
     public void onViewClicked() {
         new AddGroupDialog(getActivity(), this).show();
     }
@@ -203,17 +204,17 @@ public class FragmentGroup extends Fragment implements RetrofitListener<GroupRes
                 if (groupResponse.getStatus().equalsIgnoreCase("OK")) {
                     if (groupResponse.getData().size() > 0) {
                         fragmentGroupAdapter.addItem(groupResponse.getData());
-                        itemNotFoundTv.setVisibility(View.GONE);
+                        binding.itemNotFoundTv.setVisibility(View.GONE);
                     } else {
                         fragmentGroupAdapter.addItem(new ArrayList<>());
-                        itemNotFoundTv.setVisibility(View.VISIBLE);
+                        binding.itemNotFoundTv.setVisibility(View.VISIBLE);
                         //Toast.makeText(getContext(), "Sub Community Not found", Toast.LENGTH_LONG).show();
                     }
 
                 } else {
                     fragmentGroupAdapter.addItem(new ArrayList<>());
-                    itemNotFoundTv.setVisibility(View.VISIBLE);
-                    itemNotFoundTv.setText(groupResponse.getMsg());
+                    binding.itemNotFoundTv.setVisibility(View.VISIBLE);
+                    binding.itemNotFoundTv.setText(groupResponse.getMsg());
                     Toast.makeText(getContext(), groupResponse.getMsg(), Toast.LENGTH_LONG).show();
                 }
                 break;
