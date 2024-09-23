@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.CommunityDialogAdapter;
-import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
+import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +89,7 @@ public class CustomCommunityDialog extends Dialog implements View.OnClickListene
     private void filter(String text) {
         ArrayList<ResArrayObjectData> temp = new ArrayList<>();
         for (ResArrayObjectData d : mainDataList) {
-            if (d.getCommunityName().contains(text)) {
+            if (d.getCommunityName().toLowerCase().contains(text.toLowerCase())) {
                 temp.add(d);
             }
         }

@@ -39,22 +39,17 @@ import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
 import com.doormaster.vphone.inter.DMPhoneMsgListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.activity.DeviceDetailActivity;
-import com.iotsmartaliv.activity.VideoIntercomActivity;
-import com.iotsmartaliv.activity.VisitorAuthorizationActivity;
 import com.iotsmartaliv.adapter.automation.IntercomeRelayAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.IntercomRelayData;
-import com.iotsmartaliv.apiCalling.models.VideoDeviceData;
-import com.iotsmartaliv.apiCalling.models.VideoDeviceListModel;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.IntercomRelayData;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceData;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceListModel;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.interfaces.VideoIntercomItemClick;
 import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
 import com.iotsmartaliv.model.SuccessResponseModel;
-import com.iotsmartaliv.utils.NetworkAvailability;
-import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import org.json.JSONObject;
@@ -331,7 +326,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                         } else {
                             DMVPhoneModel.openDoor();
                             Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-                            Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
+//                            Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
                         }
                     }
 //                } else {
@@ -409,7 +404,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                                         DMVPhoneModel.openDoor();
                                         dialog.dismiss();
                                         Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-                                        Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
+//                                        Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
                                     }
                                     //callOpenDoor();
 
@@ -569,7 +564,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
                 DMVPhoneModel.openDoor();
                 dialog.dismiss();
                 Toast.makeText(YJCallActivity.this, "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-                Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
+//                Util.logDoorOpenEvent("VideoCall", true, LOGIN_DETAIL.getAppuserID(), deviceSN);
             }
         });
 

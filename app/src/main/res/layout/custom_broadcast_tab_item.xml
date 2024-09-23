@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@string/tab1"
             android:textSize="@dimen/_14sp"
+            android:ellipsize="end"
             android:textColor="@color/black"
             />
 

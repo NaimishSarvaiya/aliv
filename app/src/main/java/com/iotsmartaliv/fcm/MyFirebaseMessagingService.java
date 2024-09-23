@@ -26,15 +26,13 @@ import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.SplashActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
+import com.iotsmartaliv.activity.feedback.ChatActivity;
+import com.iotsmartaliv.activity.feedback.FeedbackDetailsActivity;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.services.RefreshDeviceListService;
 import com.iotsmartaliv.services.ShakeOpenService;
-import com.iotsmartaliv.utils.NotificationUtil;
 import com.iotsmartaliv.utils.SharePreference;
-import com.thinmoo.utils.ChangeServerUtil;
-import com.thinmoo.utils.ServerContainer;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -43,8 +41,6 @@ import java.util.concurrent.ExecutionException;
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
-import static com.iotsmartaliv.constants.Constant.VO_IP;
-import static com.iotsmartaliv.constants.Constant.VO_PORT;
 //import static com.iotsmartaliv.twilio.activity.VideoActivity.isCallActive;
 
 /**
@@ -94,6 +90,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //            }
             if ((notification_type.equalsIgnoreCase("broadcast update"))) {
                 broadcastUpdateMessage(remoteMessage);
+            } else if (notification_type.equalsIgnoreCase("updateFeedback")) {
+                feedBackUpdateMessage(remoteMessage, 0);
+            } else if (notification_type.equalsIgnoreCase("chatStatus")) {
+                feedBackUpdateMessage(remoteMessage, 1);
             } else if ((notification_type.equalsIgnoreCase("end call"))) {
                 Intent intent = new Intent("custom-event-name");
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
@@ -266,6 +266,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    private void feedBackUpdateMessage(RemoteMessage remoteMessage, int i) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("data"));
+//            JSONObject jsonAdditionalParams = new JSONObject(remoteMessage.getData().get("additionalParam"));
+            String mTitle = remoteMessage.getNotification().getTitle();
+            String mBody = remoteMessage.getNotification().getBody();
+
+
+            String appuserID = jsonObject.optString("appuser_ID");
+            String feedbackId = jsonObject.optString("feedback_ID");
+
+            if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")) {
+                sendFeedbackDetails(mTitle, mBody, appuserID, feedbackId, i);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     void forground(RemoteMessage remoteMessage) {
         try {
 
@@ -429,6 +451,53 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
 
+    }
+
+    private void sendFeedbackDetails(String strTitle, String strBody, String appuserID, String feedbackID, int i) {
+        Intent intent = null;
+        if (i == 0) {
+            intent = new Intent(this, FeedbackDetailsActivity.class);
+        } else {
+            intent = new Intent(this, ChatActivity.class);
+        }
+        intent.putExtra(Constant.APPUSER_ID, appuserID);
+        intent.putExtra(Constant.FEEDBACK_ID, feedbackID);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+
+
+        String channelId = "default_notification_channel_id";
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.drawable.app_logo)
+                        .setPriority(Notification.PRIORITY_HIGH)
+                        .setContentTitle(strTitle)
+                        .setContentText(strBody)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
     private void sendBroadcastNotification(String strTitle, String strBody, String appuserID, String broadcastID, RemoteMessage remoteMessage) {

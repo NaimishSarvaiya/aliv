@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.Country;
+import com.iotsmartaliv.apiAndSocket.models.Country;
 
 import java.util.List;
 

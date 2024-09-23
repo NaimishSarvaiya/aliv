@@ -4,17 +4,14 @@ import static com.iotsmartaliv.constants.Constant.VO_PORT;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.bugfender.sdk.Bugfender;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.facebook.stetho.Stetho;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.google.gson.Gson;
 import com.iotsmartaliv.BuildConfig;
-import com.iotsmartaliv.activity.EnrollmentActivity;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServices;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServices;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.VoIpModel;
 import com.iotsmartaliv.utils.ConnectivityHelper;
@@ -22,7 +19,6 @@ import com.iotsmartaliv.utils.SharePreference;
 import com.thinmoo.utils.ChangeServerUtil;
 import com.thinmoo.utils.ServerContainer;
 
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;

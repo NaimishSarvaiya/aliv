@@ -90,7 +90,7 @@ public class CustomFeedbackCategoryDialog extends Dialog implements View.OnClick
     private void filter(String text) {
         ArrayList<FeedbackCategoryData> temp = new ArrayList<>();
         for (FeedbackCategoryData d : mainDataList) {
-            if (d.getCatName().contains(text)) {
+            if (d.getCatName().toLowerCase().contains(text.toLowerCase())) { // Convert both strings to lowercase
                 temp.add(d);
             }
         }

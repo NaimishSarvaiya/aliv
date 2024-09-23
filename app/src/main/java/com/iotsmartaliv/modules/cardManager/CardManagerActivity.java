@@ -3,11 +3,9 @@ package com.iotsmartaliv.modules.cardManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -20,7 +18,7 @@ import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.LibInterface;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityCardManagerBinding;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;

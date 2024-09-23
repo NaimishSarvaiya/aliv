@@ -3,31 +3,42 @@ package com.iotsmartaliv.activity.feedback;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.provider.OpenableColumns;
+import android.text.InputFilter;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.CommunityDialogAdapter;
 import com.iotsmartaliv.adapter.FeedbackCategoryDialogAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
-import com.iotsmartaliv.apiCalling.models.SuccessArrayResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
+import com.iotsmartaliv.apiAndSocket.models.SuccessArrayResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.dialog_box.CustomCommunityDialog;
 import com.iotsmartaliv.dialog_box.CustomFeedbackCategoryDialog;
@@ -39,8 +50,15 @@ import com.iotsmartaliv.model.feedback.UploadFeedbackDocumentResponse;
 import com.iotsmartaliv.utils.Util;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CreateFeedbackActivity extends AppCompatActivity implements RetrofitListener<SuccessArrayResponse> {
     ApiServiceProvider apiServiceProvider;
@@ -48,18 +66,16 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
     TextView tvCommunity, tvType;
     EditText etFeedbackTitle, etFeedbackDiscription;
     CustomCommunityDialog customCommunityDialog;
-
     CustomFeedbackCategoryDialog feedbackCategoryDialog;
     RelativeLayout rlSelectCommunity, rlSelectCategory, rlsendFeedBack, rlAddDocument;
     private Uri fileUri;
-
-    ImageView imgDoc;
-
+    ImageView imgDoc, img_back, img_preview;
     String docUrl = "";
     private static final int CAMERA_REQUEST_CODE = 1001;
     private static final int GALLERY_REQUEST_CODE = 1002;
     private static final int DOCUMENT_REQUEST_CODE = 1003;
-    private static final int PICK_FILE_REQUEST = 1004;
+    private static final int STORAGE_PERMISSION_CODE = 1004;
+    String fileNameforUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +83,8 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
         setContentView(R.layout.activity_create_feedback);
         init();
 
+        // Request permissions on start
+        requestStoragePermission();
     }
 
     void init() {
@@ -78,37 +96,248 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
         etFeedbackTitle = findViewById(R.id.et_feedbackTitle);
         etFeedbackDiscription = findViewById(R.id.et_feedbackDiscription);
         rlAddDocument = findViewById(R.id.rl_add_document);
+        img_back = findViewById(R.id.img_back);
         imgDoc = findViewById(R.id.img_doc);
+        etFeedbackTitle.setFilters(new InputFilter[]{Util.filterEmoji});
+        etFeedbackDiscription.setFilters(new InputFilter[]{Util.filterEmoji});
         apiServiceProvider = ApiServiceProvider.getInstance(this);
-        rlSelectCommunity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCommunity();
+
+        rlSelectCommunity.setOnClickListener(v -> getCommunity());
+        rlSelectCategory.setOnClickListener(v -> getFeedbackCategory());
+        rlsendFeedBack.setOnClickListener(v -> sendFeedback());
+        rlAddDocument.setOnClickListener(v -> showImagePickerOptions());
+        imgDoc.setOnClickListener(v -> {
+            documentPreview();
+        });
+        img_back.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void documentPreview() {
+        if (fileUri != null) {
+            String mimeType = getContentResolver().getType(fileUri);
+
+            if (mimeType != null) {
+                // Start the PreviewActivity with the file URI and MIME type
+                Intent intent = new Intent(this, FilePreviewActivity.class);
+                intent.putExtra(Constant.FILE_URI, fileUri);
+                intent.putExtra(Constant.MIME_TYPE, mimeType);
+                intent.putExtra(Constant.PATH, Constant.FROM_CREATE_FEEDBACK);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Unable to determine file type", Toast.LENGTH_SHORT).show();
+            }
+//            previewSelectedFile(fileUri);
+        }
+    }
+
+    private void requestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted
+            } else {
+//                Toast.makeText(this, "Permission denied to read storage", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void showImagePickerOptions() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Image");
+        String[] options = {"Camera", "Gallery", "Documents"};
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0:
+                    openCamera();
+                    break;
+                case 1:
+                    openGallery();
+                    break;
+                case 2:
+                    openDocuments();
+                    break;
             }
         });
+        builder.show();
+    }
 
-        rlSelectCategory.setOnClickListener(new View.OnClickListener() {
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA_REQUEST_CODE);
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), GALLERY_REQUEST_CODE);
+    }
+
+    private void openDocuments() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        String[] mimeTypes = {"image/*", "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), DOCUMENT_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == CAMERA_REQUEST_CODE) {
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                handleCameraImage(photo);
+            } else if (requestCode == GALLERY_REQUEST_CODE || requestCode == DOCUMENT_REQUEST_CODE) {
+                fileUri = data.getData();
+                handleSelectedFile(fileUri);
+            }
+        }
+    }
+
+    private void handleCameraImage(Bitmap photo) {
+        Uri tempUri = Util.getImageUri(this, photo);
+        fileUri = tempUri;
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        fileNameforUpload = "IMG_" + timeStamp + ".png"; // Example: IMG_20240912_143200.png
+        // Display the image in the ImageView using Glide
+        Glide.with(this)
+                .load(tempUri)
+                .placeholder(R.drawable.attached_file)
+                .into(imgDoc);
+//        uploadFileToServer("camera_image.png");
+    }
+
+    private void handleSelectedFile(Uri fileUri) {
+        String fileName = getFileNameFromUri(fileUri);
+        if (fileName != null) {
+            fileNameforUpload = fileName;
+//            uploadFileToServer(fileName);
+        } else {
+            fileNameforUpload = "selected_file";
+//            uploadFileToServer("selected_file");
+        }
+        String mimeType = getContentResolver().getType(fileUri);
+        if (mimeType != null && mimeType.startsWith("image/")) {
+            // Display the image in the ImageView using Glide
+            Glide.with(this)
+                    .load(fileUri)
+                    .placeholder(R.drawable.attached_file)
+                    .into(imgDoc);
+        } else {
+            // For documents, display a generic file icon
+            imgDoc.setImageResource(R.drawable.attached_file); // Use your placeholder for documents
+        }
+
+    }
+
+    private String getFileNameFromUri(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (nameIndex >= 0) { // Ensure the index is valid
+                        result = cursor.getString(nameIndex);
+                    }
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
+    }
+
+
+    private void uploadFileToServer() {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(fileUri);
+            File file = createTempFileFromUri(this, fileUri);
+
+            if (file != null) {
+                apiServiceProvider.uploadFeedbackDocument(fileNameforUpload, file, new RetrofitListener<UploadFeedbackDocumentResponse>() {
+                    @Override
+                    public void onResponseSuccess(UploadFeedbackDocumentResponse responseBody, String apiFlag) {
+                        String imageUrl = responseBody.getFilePath();
+                        docUrl = imageUrl;
+                        apiCallForFeedback();
+//                        Glide.with(CreateFeedbackActivity.this)
+//                                .load(imageUrl)
+//                                .override(300, 300)
+//                                .placeholder(R.drawable.add_doc_feedback)
+//                                .into(imgDoc);
+                    }
+
+                    @Override
+                    public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                        Toast.makeText(CreateFeedbackActivity.this, "File upload failed: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Failed to create file", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static File createTempFileFromUri(Context context, Uri uri) throws IOException {
+        InputStream inputStream = context.getContentResolver().openInputStream(uri);
+        File tempFile = File.createTempFile("tempFile", null, context.getCacheDir());
+        OutputStream outputStream = new FileOutputStream(tempFile);
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+
+        outputStream.close();
+        inputStream.close();
+
+        return tempFile;
+    }
+
+    private void apiCallForFeedback() {
+
+        AddFeedbackRequest request = new AddFeedbackRequest(
+                LOGIN_DETAIL.getAppuserID(),
+                communityID,
+                categoryId,
+                etFeedbackTitle.getText().toString().trim(),
+                etFeedbackDiscription.getText().toString().trim(),
+                docUrl
+        );
+
+        apiServiceProvider.addFeedback(request, new RetrofitListener<AddFeedbackResponse>() {
             @Override
-            public void onClick(View v) {
-                getFeedbackCategory();
+            public void onResponseSuccess(AddFeedbackResponse successResponse, String apiFlag) {
+                showSuccessfullDailog("Thank you for your feedback! You can track the status of your feedback and send additional message if needed");
+//                    Toast.makeText(CreateFeedbackActivity.this, "Success", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                Toast.makeText(CreateFeedbackActivity.this, "Error sending feedback", Toast.LENGTH_SHORT).show();
             }
         });
-
-        rlsendFeedBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendFeedback();
-            }
-        });
-
-        rlAddDocument.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImagePickerOptions();
-            }
-        });
-
-
     }
 
     private void sendFeedback() {
@@ -121,30 +350,11 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
         } else if (etFeedbackDiscription.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Please provide a description", Toast.LENGTH_SHORT).show();
         } else {
-            ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(this);
-
-            AddFeedbackRequest request = new AddFeedbackRequest(
-                    LOGIN_DETAIL.getAppuserID(), // appuser_id
-                    communityID,    // comm_id
-                    categoryId,      // cat_id
-                    etFeedbackTitle.getText().toString().trim(), // feedback_title
-                    etFeedbackDiscription.getText().toString().trim(), // feedback_description
-                    docUrl // feedback_doc_fullpath
-            );
-
-            apiServiceProvider.addFeedback(request, new RetrofitListener<AddFeedbackResponse>() {
-                @Override
-                public void onResponseSuccess(AddFeedbackResponse successResponse, String apiFlag) {
-                    Toast.makeText(CreateFeedbackActivity.this, "Success", Toast.LENGTH_SHORT).show();
-
-                    // Handle success response
-                }
-
-                @Override
-                public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                    // Handle error response
-                }
-            });
+            if (fileUri != null) {
+                uploadFileToServer();
+            } else {
+                apiCallForFeedback();
+            }
         }
     }
 
@@ -168,11 +378,13 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
                 if (isAvailable) {
                     apiServiceProvider.getFeedbackCategory(new RetrofitListener<FeedBackCategoryModel>() {
                         @Override
-                        public void onResponseSuccess(FeedBackCategoryModel sucessRespnse, String apiFlag) {
-                            List<FeedbackCategoryData> categoryData = new ArrayList<>();
-                            if (sucessRespnse.getStatusCode() == 200) {
-                                categoryData = sucessRespnse.getData();
-                                if (categoryData != null && categoryData.size() != 0) {
+                        public void onResponseSuccess(FeedBackCategoryModel successResponse, String apiFlag) {
+                            List<FeedbackCategoryData> categoryData = successResponse.getData();
+                            if (categoryData != null && !categoryData.isEmpty()) {
+                                if (categoryData.size() == 1){
+                                    categoryId = categoryData.get(0).getId();
+                                    tvType.setText(categoryData.get(0).getCatName());
+                                }else {
                                     FeedbackCategoryDialogAdapter dataAdapter = new FeedbackCategoryDialogAdapter(categoryData, data -> {
                                         categoryId = data.getId();
                                         tvType.setText(data.getCatName());
@@ -180,19 +392,16 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
                                     });
                                     feedbackCategoryDialog = new CustomFeedbackCategoryDialog(CreateFeedbackActivity.this, dataAdapter, categoryData);
                                     feedbackCategoryDialog.setCanceledOnTouchOutside(false);
-                                    if (feedbackCategoryDialog != null) {
-                                        feedbackCategoryDialog.show();
-                                    }
+                                    feedbackCategoryDialog.show();
                                 }
                             }
                         }
 
                         @Override
                         public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-
+                            // Handle error
                         }
                     });
-
                 } else {
                     hideLoader();
                 }
@@ -202,202 +411,65 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
 
     @Override
     public void onResponseSuccess(SuccessArrayResponse successArrayResponse, String apiFlag) {
-        switch (apiFlag) {
-            case Constant.UrlPath.COMMUNITY_LIST_API:
-                if (successArrayResponse.getStatus().equalsIgnoreCase("OK")) {
-                    if (successArrayResponse.getData().size() > 0) {
-                        List<ResArrayObjectData> mDataseta = new ArrayList<>();
-                        for (int i = 0; i < successArrayResponse.getData().size(); i++) {
-                            Log.e("Booking Authority", successArrayResponse.getData().get(i).getBookingmanagement().toString());
-                            if (successArrayResponse.getData().get(i).getBookingmanagement().toString().equalsIgnoreCase("1")) {
-                                mDataseta.add(successArrayResponse.getData().get(i));
-                            }
-                        }
-                        if (mDataseta == null || mDataseta.size() == 0) {
-                            Toast.makeText(CreateFeedbackActivity.this, "Please Contact Administrator for booking System", Toast.LENGTH_SHORT).show();
-                        } else {
-                            CommunityDialogAdapter dataAdapter = new CommunityDialogAdapter(mDataseta, data -> {
-                                communityID = data.getCommunityID();
-                                tvCommunity.setText(data.getCommunityName());
-                                customCommunityDialog.dismiss();
-                            });
-                            customCommunityDialog = new CustomCommunityDialog(CreateFeedbackActivity.this, dataAdapter, mDataseta);
-                            customCommunityDialog.setCanceledOnTouchOutside(false);
-                            if (customCommunityDialog != null) {
-                                customCommunityDialog.show();
-                            }
-                        }
-                    } else {
-//                                    getActivity().finish();
-                        Toast.makeText(CreateFeedbackActivity.this, "Please join the Community.", Toast.LENGTH_LONG).show();
+        if (Constant.UrlPath.COMMUNITY_LIST_API.equals(apiFlag) && "OK".equalsIgnoreCase(successArrayResponse.getStatus())) {
+            List<ResArrayObjectData> communityData = successArrayResponse.getData();
+            if (communityData != null && !communityData.isEmpty()) {
+                List<ResArrayObjectData> filteredData = new ArrayList<>();
+                for (ResArrayObjectData data : communityData) {
+                    if ("1".equalsIgnoreCase(data.getBookingmanagement().toString())) {
+                        filteredData.add(data);
                     }
-                } else {
-//                                getActivity().finish();
-                    Toast.makeText(CreateFeedbackActivity.this, successArrayResponse.getMsg(), Toast.LENGTH_LONG).show();
                 }
-                break;
+                if (filteredData.isEmpty()) {
+                    Toast.makeText(this, "Please Contact Administrator for booking System", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (filteredData.size() == 1) {
+                        communityID = filteredData.get(0).getCommunityID();
+                        tvCommunity.setText(filteredData.get(0).getCommunityName());
+                    } else {
+                        CommunityDialogAdapter dataAdapter = new CommunityDialogAdapter(filteredData, data -> {
+                            communityID = data.getCommunityID();
+                            tvCommunity.setText(data.getCommunityName());
+                            customCommunityDialog.dismiss();
+                        });
+                        customCommunityDialog = new CustomCommunityDialog(this, dataAdapter, filteredData);
+                        customCommunityDialog.setCanceledOnTouchOutside(false);
+                        customCommunityDialog.show();
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Please join the Community.", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, successArrayResponse.getMsg(), Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
     public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-        switch (apiFlag) {
-            case Constant.UrlPath.COMMUNITY_LIST_API:
-                Util.firebaseEvent(Constant.APIERROR, CreateFeedbackActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
-                try {
-                    Toast.makeText(CreateFeedbackActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Toast.makeText(CreateFeedbackActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
-                }
-                break;
+        if (Constant.UrlPath.COMMUNITY_LIST_API.equals(apiFlag)) {
+            Util.firebaseEvent(Constant.APIERROR, this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
-    // Method to open file picker
-//    private void openFilePicker() {
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        intent.setType("*/*"); // Allows any file type to be selected
-//        String[] mimeTypes = {"image/*", "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
-//        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-//        startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_FILE_REQUEST);
-//    }
-
-    // Handle the selected file
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == PICK_FILE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-//            fileUri = data.getData();
-//            String fileName = "test.png"; // Replace with your desired file name
-//            uploadFileToServer(fileName, fileUri);
-//        }
-//    }
-
-//    private void uploadFileToServer(String fileName, Uri fileUri) {
-//        String filePath = Util.getPathFromUri(this, fileUri); // Ensure correct context is passed
-//        if (filePath != null) {
-//            File file = new File(filePath);
-//            apiServiceProvider.uploadFeedbackDocument(fileName, file, new RetrofitListener<UploadFeedbackDocumentResponse>() {
-//                @Override
-//                public void onResponseSuccess(UploadFeedbackDocumentResponse responseBody, String apiFlag) {
-//                    // Handle successful upload response
-//                    Toast.makeText(CreateFeedbackActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
-//                    String imageUrl = responseBody.getFilePath();// Construct the full URL
-//                    docUrl = imageUrl;
-//                    Log.e("DocUrl", imageUrl);
-//                    // Use Glide to load and compress the image for display
-//                    Glide.with(CreateFeedbackActivity.this)
-//                            .load(imageUrl)
-//                            .override(300, 300) // Resize the image to 300x300 pixels
-//                            .placeholder(R.drawable.add_doc_feedback) // Optional: placeholder while loading
-////                            .error(R.drawable.error) // Optional: error image if loading fails
-//                            .into(imgDoc);
-////                    Glide.with(CreateFeedbackActivity.this).load(imageUrl).into(imgDoc); // Use Glide or another image loading library
-//
-//                }
-//
-//                @Override
-//                public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-//                    // Handle error response
-//                    Toast.makeText(CreateFeedbackActivity.this, "File upload failed: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        } else {
-//            Toast.makeText(this, "Failed to get file path", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-    private void showImagePickerOptions() {
-        // Create and display a dialog for selecting image
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Choose Image");
-        String[] options = {"Camera", "Gallery", "Documents"};
-        builder.setItems(options, (dialog, which) -> {
-            switch (which) {
-                case 0:
-                    openCamera(); // Open camera
-                    break;
-                case 1:
-                    openGallery(); // Open gallery
-                    break;
-                case 2:
-                    openDocuments(); // Open documents
-                    break;
-            }
+    public void showSuccessfullDailog(String msg) {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
+        dialogBuilder.setCancelable(false);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_successful_booked, null);
+        RelativeLayout rlOk = dialogView.findViewById(R.id.rl_ok);
+        TextView tvMessage = dialogView.findViewById(R.id.tv_message);
+        tvMessage.setText(msg);
+        rlOk.setOnClickListener(v -> {
+            dialogBuilder.dismiss();
+            Intent returnIntent = new Intent();
+            setResult(10, returnIntent);
+            finish();
         });
-        builder.show();
+        dialogBuilder.setView(dialogView);
+        Window window = dialogBuilder.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialogBuilder.show();
     }
-    private void openCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA_REQUEST_CODE);
-    }
-
-    private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), GALLERY_REQUEST_CODE);
-    }
-
-    private void openDocuments() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        String[] mimeTypes = {"image/*", "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"};
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), DOCUMENT_REQUEST_CODE);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            if (requestCode == CAMERA_REQUEST_CODE) {
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                handleCameraImage(photo); // Handle camera image
-            } else if (requestCode == GALLERY_REQUEST_CODE || requestCode == DOCUMENT_REQUEST_CODE) {
-                fileUri = data.getData();
-                handleSelectedFile(fileUri); // Handle gallery or document selection
-            }
-        }
-    }
-
-    private void handleCameraImage(Bitmap photo) {
-        // Convert Bitmap to Uri and upload it
-        Uri tempUri = Util.getImageUri(this, photo);
-        String filePath = Util.getPathFromUri(this, tempUri);
-        uploadFileToServer("camera_image.png", tempUri);
-    }
-
-    private void handleSelectedFile(Uri fileUri) {
-        String fileName = "selected_file"; // Replace with your desired file name
-        uploadFileToServer(fileName, fileUri);
-    }
-    private void uploadFileToServer(String fileName, Uri fileUri) {
-        String filePath = Util.getPathFromUri(this, fileUri);
-        if (filePath != null) {
-            File file = new File(filePath);
-            apiServiceProvider.uploadFeedbackDocument(fileName, file, new RetrofitListener<UploadFeedbackDocumentResponse>() {
-                @Override
-                public void onResponseSuccess(UploadFeedbackDocumentResponse responseBody, String apiFlag) {
-                    Toast.makeText(CreateFeedbackActivity.this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
-                    String imageUrl = responseBody.getFilePath();
-                    docUrl = imageUrl;
-                    Log.e("DocUrl", imageUrl);
-                    Glide.with(CreateFeedbackActivity.this)
-                            .load(imageUrl)
-                            .override(300, 300)
-                            .placeholder(R.drawable.add_doc_feedback)
-                            .into(imgDoc);
-                }
-
-                @Override
-                public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                    Toast.makeText(CreateFeedbackActivity.this, "File upload failed: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(this, "Failed to get file path", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
 }

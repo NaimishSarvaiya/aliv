@@ -4,19 +4,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.automation.TimeSlotsMondayAdapter;
-import com.iotsmartaliv.apiCalling.models.AutomationScheduleData;
-import com.iotsmartaliv.apiCalling.models.Reccurence;
+import com.iotsmartaliv.apiAndSocket.models.AutomationScheduleData;
+import com.iotsmartaliv.apiAndSocket.models.Reccurence;
 import com.iotsmartaliv.databinding.ShowCheduleDetailDialogBinding;
 
 

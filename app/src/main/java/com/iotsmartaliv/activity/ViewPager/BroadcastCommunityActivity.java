@@ -21,18 +21,16 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.activity.NewPasswordActivity;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
-import com.iotsmartaliv.apiCalling.models.BroadcastModel;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.BroadcastModel;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.fragments.DocumentFragment;
 import com.iotsmartaliv.fragments.EventFragment;
 import com.iotsmartaliv.fragments.MessageCommunityBroadcastFragment;
 import com.iotsmartaliv.model.BroadcastDocumentFolder;
-import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import org.json.JSONException;
@@ -58,8 +56,8 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
     ArrayList<Broadcast> mDocument = new ArrayList<>();
     ArrayList<BroadcastDocumentFolder> mDocumentFolderlist = new ArrayList<>();
 
-    String[] tabTitle = {"Messages", "Events", "Documents"};
-    int[] tabIcon = {R.drawable.massage, R.drawable.event, R.drawable.doc};
+    String[] tabTitle = {"Announcement", "Events", "Documents"};
+    int[] tabIcon = {R.drawable.ic_announcement, R.drawable.event, R.drawable.doc};
     public List<Broadcast> mBroadcastList;
 
     ApiServiceProvider apiServiceProvider;

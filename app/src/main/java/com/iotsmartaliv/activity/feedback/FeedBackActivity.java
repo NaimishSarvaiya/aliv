@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -20,7 +21,7 @@ public class FeedBackActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ImageView imgBack;
-    private RelativeLayout rlHeader,rl_createFeedBack;
+    private RelativeLayout rlHeader, rl_createFeedBack;
     ViewPagerAdapter adapter;
     SentFeedbackFragment sentFeedbackFragment;
     InProgressFeedbackFragment inProgressFeedbackFragment;
@@ -38,7 +39,8 @@ public class FeedBackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed_back);
         init();
     }
-    void init(){
+
+    void init() {
         viewPager = findViewById(R.id.vp_feedback);
 //        viewPager.setOffscreenPageLimit(1);
         tabLayout = findViewById(R.id.tablayout_feedback);
@@ -49,8 +51,8 @@ public class FeedBackActivity extends AppCompatActivity {
         rl_createFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FeedBackActivity.this,CreateFeedbackActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(FeedBackActivity.this, CreateFeedbackActivity.class);
+                startActivityForResult(intent, 10);
             }
         });
 
@@ -62,6 +64,15 @@ public class FeedBackActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 10) {
+            sentFeedbackFragment.loadFeed(1);
+        }
+    }
+
     private void setupViewPagerTablayout() {
 
         viewPager.setOffscreenPageLimit(3);

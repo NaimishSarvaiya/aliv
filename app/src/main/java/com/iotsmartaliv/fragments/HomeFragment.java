@@ -26,10 +26,10 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bugfender.sdk.Bugfender;
-import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -49,19 +49,17 @@ import com.iotsmartaliv.activity.DeviceListActivity;
 import com.iotsmartaliv.activity.EnrollmentActivity;
 import com.iotsmartaliv.activity.VideoIntercomActivity;
 import com.iotsmartaliv.activity.VisitorActivity;
-import com.iotsmartaliv.activity.VisitorAuthorizationActivity;
 import com.iotsmartaliv.activity.automation.HomeAutomationActivity;
 import com.iotsmartaliv.activity.booking.BookingFacilityActivity;
 import com.iotsmartaliv.adapter.HomePageSliderAdpter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.SuccessDeviceListResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.constants.Request;
 import com.iotsmartaliv.dialog_box.GpsEnableDialog;
-import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.model.CheckBookingRequest;
 import com.iotsmartaliv.model.DeviceBean;
@@ -70,7 +68,6 @@ import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.services.ShakeOpenService;
 import com.iotsmartaliv.utils.CircleMenuLayout;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
-import com.iotsmartaliv.utils.NetworkAvailability;
 import com.iotsmartaliv.utils.RippleBackground;
 import com.iotsmartaliv.utils.SaveAccessLogTask;
 import com.iotsmartaliv.utils.SharePreference;
@@ -86,13 +83,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
 
 import static com.iotsmartaliv.activity.LoginActivity.devList;
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
-import static com.iotsmartaliv.constants.Constant.LOGIN;
+import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.SHAKE_ENABLE;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
@@ -125,9 +122,10 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     Date serverDate;
 
+    TextView tvTodayDate;
     private String[] mItemTexts = new String[]{
             "Face Enroll", "Video Intercom",
-            /* "Rewards",*/ "Visitor" , /*"Market Place",*/
+            /* "Rewards",*/ "Visitor", /*"Market Place",*/
             /*   "Services & Maintenance",*/ "Automation",
             "Facility Booking", "Device List"
     };
@@ -143,8 +141,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             new SaveAccessLogTask(getContext(), new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date()))).execute();
             Toast.makeText(getContext(), "Door Open Successfully.", Toast.LENGTH_SHORT).show();
-            logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date())));
-            Util.logDoorOpenEvent("GreenKey", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
+            logs(LOGIN_DETAIL.getAppuserID(), new AccessLogModel("", openingDoorDeviceSN, "home page key", dateFormat.format(new Date())));
+//            Util.logDoorOpenEvent("GreenKey", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
         } else {
             if (result == 48) {
                 Bugfender.d("CanoHomeFragment", "Result Error Time Out");
@@ -387,7 +385,11 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
         imgChat = view.findViewById(R.id.imageView);
         imageViewCommunity = view.findViewById(R.id.imageViewCommunity);
         imgInfo = view.findViewById(R.id.imgInfo);
+        tvTodayDate = view.findViewById(R.id.tv_todaysDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", Locale.getDefault());
+        String formattedDate = dateFormat.format(new Date());
 
+        tvTodayDate.setText(formattedDate);
         setShakeSettings();
 
 
@@ -807,11 +809,12 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             }
         });
     }
-    public void logs(String userId,AccessLogModel accessLogModel){
+
+    public void logs(String userId, AccessLogModel accessLogModel) {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
-                if (isAvailable){
+                if (isAvailable) {
                     apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
 
                         @Override

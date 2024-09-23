@@ -18,9 +18,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.FeedbackListAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.feedback.FeedbackData;
 import com.iotsmartaliv.model.feedback.FeedbackModel;
@@ -94,7 +94,7 @@ public class SentFeedbackFragment extends Fragment implements RetrofitListener<F
         });
     }
 
-    void loadFeed(int page) {
+   public void loadFeed(int page) {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {

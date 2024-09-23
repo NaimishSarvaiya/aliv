@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.GroupListAdapter;
-import com.iotsmartaliv.apiCalling.models.GroupData;
+import com.iotsmartaliv.apiAndSocket.models.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;

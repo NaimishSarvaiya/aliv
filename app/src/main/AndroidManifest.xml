@@ -73,18 +73,24 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
 
-
     <application
         android:name=".dmvphonedemotest.MVDPApplication"
         android:allowBackup="false"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:persistent="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="label,icon,theme,android:allowBackup">
+        <activity
+            android:name=".activity.PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.feedback.FilePreviewActivity"
+            android:exported="false" />
         <activity
             android:name=".lifeGuard.view.activity.LgHomeActivity"
             android:exported="false" />
@@ -93,7 +99,8 @@
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="OPEN_ACTIVITY_1"/>
+                <action android:name="OPEN_ACTIVITY_1" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -383,32 +390,44 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.feedback.ChatActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="OPEN_FEEDBACK_CHAT_1" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.feedback.FeedbackDetailsActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="OPEN_FEEDBACK_1" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.feedback.CreateFeedbackActivity"
             android:exported="false" />
         <activity
             android:name=".activity.feedback.FeedBackActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".twilio.activity.VideoActivity"-->
-<!--            android:configChanges="orientation|screenSize"-->
-<!--            android:excludeFromRecents="true"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name=".twilio.activity.SettingsActivity"-->
-<!--            android:exported="true"-->
-<!--            android:label="@string/title_activity_settings"-->
-<!--            android:parentActivityName=".twilio.activity.VideoActivity"-->
-<!--            android:theme="@style/AppTheme.Settings">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.PARENT_ACTIVITY"-->
-<!--                android:value=".twilio.activity.VideoActivity" />-->
-<!--        </activity>-->
-
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".twilio.activity.VideoActivity" -->
+        <!-- android:configChanges="orientation|screenSize" -->
+        <!-- android:excludeFromRecents="true" -->
+        <!-- android:exported="true" /> -->
+        <!-- <activity -->
+        <!-- android:name=".twilio.activity.SettingsActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:label="@string/title_activity_settings" -->
+        <!-- android:parentActivityName=".twilio.activity.VideoActivity" -->
+        <!-- android:theme="@style/AppTheme.Settings"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.PARENT_ACTIVITY" -->
+        <!-- android:value=".twilio.activity.VideoActivity" /> -->
+        <!-- </activity> -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/app_logo" />
@@ -483,14 +502,13 @@
             android:enabled="true"
             android:exported="true"
             android:foregroundServiceType="connectedDevice"
-            android:theme="@style/NoTitle"/>
+            android:theme="@style/NoTitle" />
         <service
             android:name=".services.DeviceLogSyncService"
             android:exported="true"
-            android:foregroundServiceType="dataSync"/>
-<!--        <service-->
-<!--            android:name=".dmvphonedemotest.DemoIntentService"-->
-<!--            android:exported="true" />-->
+            android:foregroundServiceType="dataSync" /> <!-- <service -->
+        <!-- android:name=".dmvphonedemotest.DemoIntentService" -->
+        <!-- android:exported="true" /> -->
         <service
             android:name=".services.RefreshDeviceListService"
             android:exported="true" />
@@ -501,40 +519,25 @@
 
         <meta-data
             android:name="io.sentry.dsn"
-            android:value="https://d746e81d92d95ce498f642ada43322d7@o4507767997726720.ingest.us.sentry.io/4507768020008960"
-            />
-
-        <!-- enable automatic breadcrumbs for user interactions (clicks, swipes, scrolls) -->
+            android:value="https://d746e81d92d95ce498f642ada43322d7@o4507767997726720.ingest.us.sentry.io/4507768020008960" /> <!-- enable automatic breadcrumbs for user interactions (clicks, swipes, scrolls) -->
         <meta-data
             android:name="io.sentry.traces.user-interaction.enable"
-            android:value="true"
-            />
-        <!-- enable screenshot for crashes -->
+            android:value="true" /> <!-- enable screenshot for crashes -->
         <meta-data
             android:name="io.sentry.attach-screenshot"
-            android:value="true"
-            />
-        <!-- enable view hierarchy for crashes -->
+            android:value="true" /> <!-- enable view hierarchy for crashes -->
         <meta-data
             android:name="io.sentry.attach-view-hierarchy"
-            android:value="true"
-            />
-
-        <!-- enable the performance API by setting a sample-rate, adjust in production env -->
+            android:value="true" /> <!-- enable the performance API by setting a sample-rate, adjust in production env -->
         <meta-data
             android:name="io.sentry.traces.sample-rate"
-            android:value="1.0"
-            />
-        <!-- enable profiling when starting transactions, adjust in production env -->
+            android:value="1.0" /> <!-- enable profiling when starting transactions, adjust in production env -->
         <meta-data
             android:name="io.sentry.traces.profiling.sample-rate"
-            android:value="1.0"
-            />
-        <!-- enable app start profiling -->
+            android:value="1.0" /> <!-- enable app start profiling -->
         <meta-data
             android:name="io.sentry.traces.profiling.enable-app-start"
-            android:value="true"
-            />
+            android:value="true" />
     </application>
 
 </manifest>

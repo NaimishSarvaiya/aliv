@@ -54,7 +54,7 @@
     </style>
 
     <style name="feedbackTitleTextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -65,7 +65,7 @@
     </style>
 
     <style name="chatEditTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 

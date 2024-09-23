@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.onboarding.OnBoardingPermissionActivity;
-import com.iotsmartaliv.services.DeviceLogSyncService;
 import com.iotsmartaliv.utils.SharePreference;
 
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
  */
 public class SplashActivity extends AppCompatActivity {
 
-    /*private static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1101;*/
     public static boolean checkFromOnResume = false;
     private boolean isUserLogin;
     private Intent onboardingPermission;
@@ -52,8 +50,7 @@ public class SplashActivity extends AppCompatActivity {
         hasOnBoardingShown = SharePreference.getInstance(SplashActivity.this).getBoolean(Constant.HAS_ON_BOARDING_SHOWN);
         onboardingPermission = new Intent(this, OnBoardingPermissionActivity.class);
 
-
-       moveToNxtScreen();
+        moveToNxtScreen();
     }
 
     @Override
@@ -61,13 +58,12 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
         if (checkFromOnResume) {
             if (checkAndRequestPermissions()) {
-                //all permission granted
+                // All permissions granted
                 moveToNxtScreen();
             } else {
-                //require all permission.
+                // Permissions required
             }
         }
-
     }
 
     /**
@@ -90,9 +86,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean checkAndRequestPermissions() {
-
         int camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-//        int phonestate = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
         int location = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int recordaudio = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         int permissionLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -102,9 +96,6 @@ public class SplashActivity extends AppCompatActivity {
         if (camerapermission != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.CAMERA);
         }
-//        if (phonestate != PackageManager.PERMISSION_GRANTED) {
-//            listPermissionsNeeded.add(Manifest.permission.READ_PHONE_STATE);
-//        }
         if (location != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
@@ -112,8 +103,7 @@ public class SplashActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
         }
 
-        if(bluetoothPermission != PackageManager.PERMISSION_GRANTED) {
-
+        if (bluetoothPermission != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
@@ -123,132 +113,56 @@ public class SplashActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_VIDEO);
             listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_IMAGES);
         }
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED)
-        {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
-            {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, 2);
                 listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN);
             }
         }
         if (!listPermissionsNeeded.isEmpty()) {
-            onboardingPermission.putExtra(Constant.PERMISSION_ARRAY, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]));
-            /*ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
-            return false;*/
+            onboardingPermission.putExtra(Constant.PERMISSION_ARRAY, listPermissionsNeeded.toArray(new String[0]));
             return false;
         }
 
-
         return true;
-
-
     }
 
-   /* @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        switch (requestCode) {
-            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
-
-                Map<String, Integer> perms = new HashMap<>();
-
-                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.READ_PHONE_STATE, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.RECORD_AUDIO, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-
-                // Fill with actual results from user
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < permissions.length; i++)
-                        perms.put(permissions[i], grantResults[i]);
-                    // Check for both permissions
-                    if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-                            && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        Log.d("SplashScreen", "camera & location services permission granted");
-                        // here you can do your logic all Permission Success Call
-                        moveToNxtScreen();
-
-                    } else {
-                        Log.d("SplashScreen", "Some permissions are not granted ask again ");
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            showDialogOK("Some Permissions are required for Open Camera",
-                                    (dialog, which) -> {
-                                        switch (which) {
-                                            case DialogInterface.BUTTON_POSITIVE:
-                                                checkAndRequestPermissions();
-                                                break;
-                                            case DialogInterface.BUTTON_NEGATIVE:
-                                                // proceed with logic by disabling the related features or quit the app.
-                                                dialog.dismiss();
-                                                finish();
-                                                break;
-                                        }
-                                    });
-                        } else {
-                            explain("You need to give some mandatory permissions to continue. Do you want to go to app settings?");
-                        }
-                    }
-                }
-            }
-        }
-
-    }*/
-
     private void moveToNxtScreen() {
-
         isUserLogin = SharePreference.getInstance(SplashActivity.this).getBoolean(Constant.IS_LOGIN);
         new Handler().postDelayed(() -> {
-
-
-
             if (isUserLogin) {
+                // Move JSON parsing to a background thread
+                new Thread(() -> {
+                    LOGIN_DETAIL = new Gson().fromJson(
+                            SharePreference.getInstance(SplashActivity.this).getString(LOGIN_PREFRENCE),
+                            com.iotsmartaliv.apiAndSocket.models.ResponseData.class
+                    );
 
-                LOGIN_DETAIL = new Gson().fromJson(SharePreference.getInstance(SplashActivity.this).getString(LOGIN_PREFRENCE), com.iotsmartaliv.apiCalling.models.ResponseData.class);
-
-                if (LOGIN_DETAIL.getLoginStatus().equalsIgnoreCase("1")) {
-
-                    openActivityMain();
-
-                } else {
-
-                    Intent intent = new Intent(SplashActivity.this, NewPasswordActivity.class);
-
-                    intent.putExtra("IS_FOR_NEW_PASSWORD", true);
-
-                    startActivity(intent);
-
-                    finish();
-
-                }
-            }
-            else if (!hasOnBoardingShown) {
-
+                    // Switch back to main thread for UI updates
+                    runOnUiThread(() -> {
+                        if (LOGIN_DETAIL != null && LOGIN_DETAIL.getLoginStatus().equalsIgnoreCase("1")) {
+                            openActivityMain();
+                        } else {
+                            Intent intent = new Intent(SplashActivity.this, NewPasswordActivity.class);
+                            intent.putExtra("IS_FOR_NEW_PASSWORD", true);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }).start(); // Start the background thread
+            } else if (!hasOnBoardingShown) {
                 checkAndRequestPermissions();
-
                 startActivity(onboardingPermission);
-
                 finish();
-
-            }
-            else{
-
+            } else {
                 openActivityLogin();
-
             }
-
-
-            }, 2000);
-
+        }, 2000);
     }
 
     private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
@@ -259,24 +173,4 @@ public class SplashActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
-
- /*   private void explain(String msg) {
-        checkFromOnResume = false;
-        final androidx.appcompat.app.AlertDialog.Builder dialog = new androidx.appcompat.app.AlertDialog.Builder(this);
-        dialog.setMessage(msg)
-                .setPositiveButton("Yes", (paramDialogInterface, paramInt) -> {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                            Uri.parse("package:" + getPackageName()));
-                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    checkFromOnResume = true;
-                })
-                .setNegativeButton("Cancel", (paramDialogInterface, paramInt) -> {
-                    dialog.create().dismiss();
-                    finish();
-                });
-        dialog.show();
-    }*/
-
 }

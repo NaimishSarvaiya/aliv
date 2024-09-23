@@ -18,7 +18,7 @@ import com.intelligoo.sdk.LibInterface;
 import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.OpenDoorRemotelyActivity;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.iotsmartaliv.activity.OpenDoorRemotelyActivity.flag;
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
+import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
 
 /**

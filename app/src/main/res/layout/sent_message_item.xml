@@ -3,30 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end"
-    android:paddingVertical="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingVertical="5dp">
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/sent_message_background"
-        android:padding="3dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="11:30"
-        android:paddingHorizontal="8sp"
-        android:textColor="@android:color/white"
-        android:textSize="8sp" />
-    <TextView
-        android:id="@+id/text_message_body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
-        android:text="Sent message"
-        android:textColor="@android:color/white"
-        android:textSize="13sp" />
+        android:orientation="vertical"
+        android:padding="3dp">
+
+        <RelativeLayout
+            android:layout_gravity="end"
+            android:id="@+id/rl_sentDocument"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginVertical="5dp"
+            android:background="@drawable/chat_doc_bg"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/img_sentDoc"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true"
+                android:src="@drawable/attached_file" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text_message_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="Sent message"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_message_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="3sp"
+                android:text=""
+                android:layout_marginLeft="4dp"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/img_messageSeen"
+                android:layout_width="12dp"
+                android:layout_height="10dp"
+                android:src="@drawable/ic_message_sent" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

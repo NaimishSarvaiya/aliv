@@ -194,7 +194,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/rel_feedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -512,10 +512,48 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rl_setting"
+                    android:id="@+id/rel_privacyPolicy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rel_about_us"
+                    android:padding="@dimen/five_dp">
+
+                    <ImageView
+                        android:id="@+id/img_privacyPolicy"
+                        android:layout_width="@dimen/twenty_five"
+                        android:layout_height="@dimen/twenty_five"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/ten_dp"
+                        android:src="@drawable/add_doc_feedback"
+                        android:textSize="@dimen/fifteen_dp" />
+
+                    <TextView
+                        android:id="@+id/tv_privayPolicy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/twenty_dp"
+                        android:layout_toRightOf="@+id/img_privacyPolicy"
+                        android:text="Privacy Policy"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/eighteen_dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/one_sp"
+                        android:layout_below="@+id/tv_privayPolicy"
+                        android:layout_marginTop="@dimen/twenty_dp"
+                        android:background="@color/colorTransparentBlue"
+                        android:padding="@dimen/five_dp"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rel_privacyPolicy"
                     android:padding="@dimen/five_dp">
 
                     <ImageView

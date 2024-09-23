@@ -2,14 +2,10 @@ package com.iotsmartaliv.activity;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.TabAdapter;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.databinding.ActivityVisitorBinding;
 import com.iotsmartaliv.fragments.FragmentEvent;
 import com.iotsmartaliv.fragments.FragmentGroup;

@@ -14,7 +14,7 @@ import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.LibInterface;
 import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 import com.iotsmartaliv.utils.SaveAccessLogTask;
@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
+import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
 
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
+import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 
 import java.util.List;
 

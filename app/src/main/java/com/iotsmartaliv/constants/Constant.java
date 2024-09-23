@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ResponseData;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ResponseData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,18 @@ public class Constant {
     public static final String SENT_FEED_STATUS = "1";
     public static final String INPROGRESS_FEED_STATUS = "2";
     public static final String HISTORY_FEED_STATUS = "3";
-    public static final String FEED_PAGE_LIMIT = "10";
+    public static final String FEED_PAGE_LIMIT = "20";
+    public static final String FEEDBACK_ID = "feedback_ID";
+    public static final String FILE_URI = "file_uri";
+    public static final String MIME_TYPE = "mime_type";
+    public static final String PATH = "path";
+    public static final String FROM_CREATE_FEEDBACK = "fromCreateFeedback";
+    public static final String FROM_FEEDBACK_DETAILS = "fromFeedbackDetails";
+    public static final String MESSAGE_FROM_USER = "message_from_user";
+    public static final String MESSAGE_FROM_ADMIN = "message_from_admin";
+    public static final String STATUS_CHANGED_FOR_ADMIN = "status_changed_admin";
+    public static final String STATUS_CHANGED_FOR_USER = "status_changed_user";
+    public static final String APPUSER_ID = "appuser_ID";
 
     /**
      * This method is used for showing message in snack bar.
@@ -202,8 +213,8 @@ public class Constant {
 
     public interface UrlPath {
 
-        String BASEURL = "https://aliv.com.sg/"; // Live server.
-//      String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
+//        String BASEURL = "https://aliv.com.sg/"; // Live server.
+      String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
         String PATH = "alivapp/";                  // Here is the path path of API.
         String  SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
 
@@ -354,6 +365,9 @@ public class Constant {
         String ADD_FEEDBACK= "addFeedback";
         String ADD_FEEDBACK_DOCUMENT= "addFeedbackDocument";
         String ACTION_OPEN= "com.iotsmartaliv.UPDATE_BROADCAST_ACTIVITY";
+        String GET_FEEDBACK_DETAILS = "getFeedbackDetail";
+        String GET_FEEDBACK_CHAT = "getFeedbackChatList";
+        String UPDATE_FEEDBACK_MESSAGE_STATUS = "UpdateFeedbackStatus";
 
 
     }

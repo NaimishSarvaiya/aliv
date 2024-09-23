@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +21,16 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.doormaster.vphone.inter.DMVPhoneModel;
 //import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.InstructorActivity;
 import com.iotsmartaliv.activity.LoginActivity;
 import com.iotsmartaliv.activity.MainActivity;
+import com.iotsmartaliv.activity.PrivacyPolicyActivity;
 import com.iotsmartaliv.activity.SettingActivity;
-import com.iotsmartaliv.activity.SplashActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
 import com.iotsmartaliv.activity.feedback.FeedBackActivity;
-import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
+import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.fragments.community.CommunityJoinFragment;
 import com.iotsmartaliv.fragments.community.CommunityListFragment;
@@ -57,7 +55,7 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 public class  DrawerFragment extends Fragment implements View.OnClickListener, CommunityJoinFragment.OnJoinCommunityFragmentInListener, CommunityListFragment.OnFragmentInteractionListener, HomeFragment.OnJoinCommunityFragmentInListener {
     TextView tv_profile_name;
     private RelativeLayout relHome, rlSetting, relMyAccount, relNotifications, relPayment, relHelp, relAboutUs,
-            relMessage, rel_community, rel_logout, rel_instructor,rel_communityBroadcast/*,rl_tutorial*/,rel_feedback;
+            relMessage, rel_community, rel_logout, rel_instructor,rel_communityBroadcast/*,rl_tutorial*/,rel_feedback,rel_privacyPolicy;
     private ImageView imgCross;
 
     public DrawerFragment() {
@@ -111,6 +109,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
         relMessage.setOnClickListener(this);
         rel_communityBroadcast.setOnClickListener(this);
         rel_feedback.setOnClickListener(this);
+        rel_privacyPolicy.setOnClickListener(this);
         /*rl_tutorial.setOnClickListener(this);*/
     }
 
@@ -134,6 +133,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
         relMessage = layout.findViewById(R.id.rel_message);
         tv_profile_name = layout.findViewById(R.id.tv_profile_name);
         rel_feedback = layout.findViewById(R.id.rel_feedback);
+        rel_privacyPolicy = layout.findViewById(R.id.rel_privacyPolicy);
 
     }
 
@@ -210,6 +210,11 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
                 startActivity(feddbackintent);
+                break;
+            case R.id.rel_privacyPolicy:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                Intent privacyPolicyIntent = new Intent(getContext(), PrivacyPolicyActivity.class);
+                startActivity(privacyPolicyIntent);
                 break;
             case R.id.rel_logout:
                 drawerLayout.closeDrawer(GravityCompat.START);

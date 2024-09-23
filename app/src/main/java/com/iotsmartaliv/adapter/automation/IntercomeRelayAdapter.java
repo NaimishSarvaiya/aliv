@@ -5,15 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.IntercomRelayData;
+import com.iotsmartaliv.apiAndSocket.models.IntercomRelayData;
 import com.iotsmartaliv.interfaces.VideoIntercomItemClick;
-import com.iotsmartaliv.model.RelayItemModel;
 
 import java.util.List;
 
