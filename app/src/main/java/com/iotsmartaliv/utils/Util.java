@@ -2,8 +2,17 @@ package com.iotsmartaliv.utils;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -18,6 +27,12 @@ import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.CountryPhoneFormat;
 import com.iotsmartaliv.utils.faceenroll.ConnectionManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +40,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.sentry.Sentry;
 import io.sentry.SentryEvent;
@@ -532,4 +549,236 @@ public class Util {
         Sentry.captureEvent(event);
     }
 
+    public static String getPathFromUri(Context context, Uri uri) {
+        String path = null;
+
+        // Check if the document Uri is from MediaStore
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            // External Storage Provider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+            } else if (isDownloadsDocument(uri)) {
+                // Downloads Provider
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+
+            } else if (isMediaDocument(uri)) {
+                // Media Provider
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.getLastPathSegment();
+
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {column};
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isGooglePhotosUri(Uri uri) {
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    public static Uri getImageUri(Context context, Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static String formatFeedbackDate(String inputDate) {
+        try {
+            // Define the input and output date formats
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMM yy", Locale.getDefault());
+            SimpleDateFormat outputTimeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+
+            // Parse the input date string to a Date object
+            Date date = inputFormat.parse(inputDate);
+
+            // Format the date and time to the desired output format
+            String formattedDate = outputDateFormat.format(date);
+            String formattedTime = outputTimeFormat.format(date);
+
+            // Combine the formatted date and time, separated by a newline
+            return formattedDate+"," + "\n" + formattedTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return inputDate; // Return the input string if parsing fails
+        }
+    }
+    public static  InputFilter filterEmoji = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            for (int i = start; i < end; i++) {
+                int type = Character.getType(source.charAt(i));
+                if (type == Character.SURROGATE || type == Character.NON_SPACING_MARK || type == Character.OTHER_SYMBOL) {
+                    // Block surrogate pairs (emoji) and non-spacing marks (composite characters)
+                    return "";
+                }
+            }
+            return null; // Accept valid input
+        }
+    };
+
+    // Method to encode a chat string (convert to non-lossy ASCII)
+    public static String encodeChatString(String input) {
+        StringBuilder encodedString = new StringBuilder();
+
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+
+            // Check if the character is an emoji or a non-ASCII character
+            if (ch > 127) {
+                // Convert the character to its Unicode escape sequence
+                encodedString.append(String.format("\\u%04x", (int) ch));
+            } else {
+                // Append normal ASCII characters directly
+                encodedString.append(ch);
+            }
+        }
+
+        return encodedString.toString();
+    }
+
+    // Method to decode the string from non-lossy ASCII
+    public static String decodeChatString(String input) {
+        try {
+            StringBuilder decodedString = new StringBuilder();
+
+            String[] unicodeArray = input.split("\\\\u");
+            decodedString.append(unicodeArray[0]); // Append normal text before the first unicode
+
+            // Loop through the Unicode parts and convert them to characters
+            for (int i = 1; i < unicodeArray.length; i++) {
+                String unicode = unicodeArray[i];
+
+                // Check if the string has at least 4 characters for the Unicode sequence
+                if (unicode.length() >= 4) {
+                    // Get the first 4 characters as the Unicode code point
+                    String unicodeChar = unicode.substring(0, 4);
+                    // Convert the Unicode hex value to an integer and then to a char
+                    int codePoint = Integer.parseInt(unicodeChar, 16);
+                    decodedString.append(Character.toChars(codePoint));
+
+                    // Append any remaining characters after the Unicode sequence
+                    decodedString.append(unicode.substring(4));
+                } else {
+                    // If there are less than 4 characters, just append the string
+                    decodedString.append(unicode);
+                }
+            }
+
+            return decodedString.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return input; // Return the original string if there's an exception
+        }
+    }
+    public static String calculateTimeDifference(String progressDate, String feedbackDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            // Parse the dates
+            Date progress = dateFormat.parse(progressDate);
+            Date feedback = dateFormat.parse(feedbackDate);
+
+            // Get the difference in milliseconds
+            long differenceInMillis = Math.abs(progress.getTime() - feedback.getTime());
+
+            // Convert milliseconds to hours and minutes
+            long differenceInHours = TimeUnit.MILLISECONDS.toHours(differenceInMillis);
+            long remainingMinutes = TimeUnit.MILLISECONDS.toMinutes(differenceInMillis) % 60;
+
+            // Convert milliseconds to days
+            long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+
+            // Return the formatted time difference
+            if (differenceInDays == 0) { // If difference is less than a day
+                // If minutes >= 31, round the hour difference up
+                if (remainingMinutes >= 31) {
+                    differenceInHours += 1;
+                }
+
+                return differenceInHours + " hours";
+            } else if (differenceInDays == 1) { // Between 24 and 48 hours
+                return "2 days";
+            } else if (differenceInDays == 2) { // Between 48 and 72 hours
+                return "3 days";
+            } else {
+                return differenceInDays + " days"; // For more than 72 hours
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "Invalid date";
+        }
+    }
 }

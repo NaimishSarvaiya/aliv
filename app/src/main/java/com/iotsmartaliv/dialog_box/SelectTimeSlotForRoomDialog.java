@@ -15,8 +15,8 @@ import android.widget.Toast;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.SelectRoomAdapter;
 import com.iotsmartaliv.adapter.TimeSlotRoomDialogAdapter;
-import com.iotsmartaliv.apiCalling.models.SearchBookingData;
-import com.iotsmartaliv.apiCalling.models.TimeSlot;
+import com.iotsmartaliv.apiAndSocket.models.SearchBookingData;
+import com.iotsmartaliv.apiAndSocket.models.TimeSlot;
 
 
 public class SelectTimeSlotForRoomDialog extends Dialog implements View.OnClickListener {

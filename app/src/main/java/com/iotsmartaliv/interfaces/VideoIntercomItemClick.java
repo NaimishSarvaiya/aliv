@@ -1,9 +1,7 @@
 package com.iotsmartaliv.interfaces;
 
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.IntercomRelayData;
-import com.iotsmartaliv.apiCalling.models.VideoDeviceData;
-import com.iotsmartaliv.model.RelayItemModel;
+import com.iotsmartaliv.apiAndSocket.models.IntercomRelayData;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceData;
 
 /**
  * This class is used as Interface for video intercom device click.

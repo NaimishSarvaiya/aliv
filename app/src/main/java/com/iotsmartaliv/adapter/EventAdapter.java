@@ -7,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.ViewPager.BroadcastDetailActivity;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 
 import java.util.ArrayList;
 
@@ -83,6 +85,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             holder.eventDate.setTypeface(null, Typeface.BOLD);
 
             holder.eventOrganizer.setTypeface(null, Typeface.BOLD);
+            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.unReadBroacastColor));
+
 
         }else {
 
@@ -104,6 +108,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public class EventViewHolder extends RecyclerView.ViewHolder{
         TextView eventHead,eventDate,eventOrganizer;
         ImageView eventImage;
+        RelativeLayout rlMain;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -112,6 +117,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             eventDate = itemView.findViewById(R.id.txt_message_date_event);
             eventOrganizer = itemView.findViewById(R.id.txt_organizer_event);
             eventImage = itemView.findViewById(R.id.img_eventforward);
+            rlMain = itemView.findViewById(R.id.rl_main);
         }
     }
 

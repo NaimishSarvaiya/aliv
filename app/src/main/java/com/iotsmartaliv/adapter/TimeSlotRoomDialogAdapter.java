@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.TimeSlot;
+import com.iotsmartaliv.apiAndSocket.models.TimeSlot;
 
 import java.util.List;
 

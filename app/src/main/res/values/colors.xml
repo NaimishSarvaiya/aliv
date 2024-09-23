@@ -21,10 +21,10 @@
     <color name="light_blue">#2c3d4b</color>
     <color name="blue_dark">#062032</color>
     <color name="transparent">#00000000</color>
-    <color name="orange">#ff8b40</color>
+    <color name="orange">#F88A40</color>
     <color name="green">#2ab122</color>
 
-    <color name="orange_text_heading">#ff9c5c</color>
+    <color name="orange_text_heading">#F88A40</color>
 
     <!-- Custom color -->
     <color name="Yellow">#ffdd00</color>
@@ -32,6 +32,8 @@
     <!-- Color Dialog Time Picker-->
     <color name="CyanWater">#09b6b3</color>
     <color name="getstarted_button">#41D48F</color>
+    <color name="unReadBroacastColor">#FCD7BD</color>
+    <color name="todayDateColor">#A1ACBE</color>
 </resources>
 
 

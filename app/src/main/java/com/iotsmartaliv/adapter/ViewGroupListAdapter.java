@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.GroupData;
+import com.iotsmartaliv.apiAndSocket.models.GroupData;
 
 import java.util.List;
 

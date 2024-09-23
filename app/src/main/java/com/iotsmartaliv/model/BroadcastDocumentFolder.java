@@ -1,6 +1,6 @@
 package com.iotsmartaliv.model;
 
-import com.iotsmartaliv.apiCalling.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 
 import java.io.Serializable;
 import java.util.ArrayList;

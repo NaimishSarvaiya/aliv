@@ -6,14 +6,17 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.ViewPager.BroadcastDetailActivity;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 import java.util.ArrayList;
 
 /**
@@ -82,13 +85,11 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MassageV
             holder.txtHead.setTypeface(null, Typeface.BOLD);
 
             holder.txtDate.setTypeface(null, Typeface.BOLD);
+            holder.llMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.unReadBroacastColor));
             
         }else {
-
             holder.txtHead.setTypeface(null, Typeface.NORMAL);
-
             holder.txtDate.setTypeface(null, Typeface.NORMAL);
-            
         }
     }
 
@@ -100,11 +101,13 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MassageV
 
     public class MassageViewHolder extends RecyclerView.ViewHolder{
         TextView txtHead,txtDate;
+        LinearLayout llMain;
         public MassageViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtHead = itemView.findViewById(R.id.txt_message_head);
             txtDate = itemView.findViewById(R.id.txt_message_date);
+            llMain = itemView.findViewById(R.id.ll_main);
         }
     }
 }

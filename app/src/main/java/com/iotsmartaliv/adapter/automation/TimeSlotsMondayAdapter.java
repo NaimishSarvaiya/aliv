@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.TimeSlot;
+import com.iotsmartaliv.apiAndSocket.models.TimeSlot;
 
 import java.util.ArrayList;
 import java.util.List;

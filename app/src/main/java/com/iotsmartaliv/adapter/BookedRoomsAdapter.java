@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.TimeSlot;
+import com.iotsmartaliv.apiAndSocket.models.TimeSlot;
 import com.iotsmartaliv.model.BookRoomData;
 
 import java.util.List;

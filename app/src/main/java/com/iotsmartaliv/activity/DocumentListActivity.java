@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.DocumentListAdapter;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 
 import java.util.ArrayList;
 

@@ -3,7 +3,7 @@ package com.iotsmartaliv.roomDB;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 
 /**
  * This class is used as Room database class that is create table in Db.

@@ -6,12 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.ResArrayObjectData;
+import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 import com.iotsmartaliv.databinding.DeviceListRowBinding;
 import com.iotsmartaliv.fragments.community.CommunityListFragment;
 

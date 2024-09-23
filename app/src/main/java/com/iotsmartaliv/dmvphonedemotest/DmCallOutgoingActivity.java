@@ -94,7 +94,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
 
                 if (DMCallState.Connected == state) {
                     // LogUtils.i(TAG, "-----------电话被接听了");
-                    Util.logVideoCallEvent("OUTGOING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(DmCallOutgoingActivity.this));
+//                    Util.logVideoCallEvent("OUTGOING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(DmCallOutgoingActivity.this));
                     Intent intent = new Intent(DmCallOutgoingActivity.this, YJCallActivity.class);
                     intent.putExtra(Constant.CALL_PATH, Constant.OUTGOING_CALL);
                     startActivity(intent);

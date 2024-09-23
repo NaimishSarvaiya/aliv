@@ -4,18 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.intelligoo.sdk.LibDevModel;
-import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityDeviceDetailBinding;
 import com.iotsmartaliv.modules.cardManager.CardManagerActivity;
@@ -28,8 +25,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
-import static com.iotsmartaliv.constants.Constant.COMMUNITY_ID;
-import static com.iotsmartaliv.constants.Constant.DEVICE_ID;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 /**

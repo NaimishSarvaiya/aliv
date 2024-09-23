@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.ViewPager.BroadcastDetailActivity;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 
 import java.util.List;
 
