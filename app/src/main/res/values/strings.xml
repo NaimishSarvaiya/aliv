@@ -272,6 +272,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_account_note">This action is irreversible and will permanently remove all your data from our system.</string>
+    <string name="feedback">Feedback</string>
+    <string name="help_us_keep_your_n_estate_beautiful">
+        Help us preserve the beauty \n of your community.</string>
+    <string name="if_there_s_anything_that_needs_our_attention_or_if_you_have_a_great_idea_or_solution_we_d_love_to_hear_about_it">If there\'s anything that needs our attention or if you have a great idea or solution, we\'d love to hear about it.</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="tap_to_upload_n_jpg_jpeg_png_or_pdf">Tap to upload\n JPG,JPEG,PNG or PDF</string>
+    <string name="type">Type</string>
+    <string name="discription">Discription</string>
+    <string name="select_type">Select Type</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

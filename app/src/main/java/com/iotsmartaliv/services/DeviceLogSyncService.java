@@ -24,10 +24,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.ResponseData;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.ResponseData;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.roomDB.DatabaseClient;

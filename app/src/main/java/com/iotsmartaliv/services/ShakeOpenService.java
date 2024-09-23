@@ -1,7 +1,6 @@
 package com.iotsmartaliv.services;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -28,14 +27,13 @@ import androidx.core.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.intelligoo.sdk.BluetoothLeService;
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.LibInterface;
 import com.intelligoo.sdk.ScanCallBackSort;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServices;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServices;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.roomDB.DatabaseClient;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
@@ -59,7 +57,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
+import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.SHAKE_DISTANCE;
 import static com.iotsmartaliv.constants.Constant.SHAKE_ENABLE;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;

@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.DocumentListActivity;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.model.BroadcastDocumentFolder;
 
 import java.util.ArrayList;
@@ -98,6 +100,8 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
         if (mDocument.getReadStatus().equalsIgnoreCase("0")) {
 
             holder.txtDoc.setTypeface(null, Typeface.BOLD);
+            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.unReadBroacastColor));
+
 
         } else {
 
@@ -116,12 +120,14 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
         TextView txtDoc;
         ImageView imgDoc;
+        RelativeLayout rlMain;
 
         public DocumentViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtDoc = itemView.findViewById(R.id.txt_doc);
             imgDoc = itemView.findViewById(R.id.img_forward_doc);
+            rlMain = itemView.findViewById(R.id.rl_main);
         }
     }
 

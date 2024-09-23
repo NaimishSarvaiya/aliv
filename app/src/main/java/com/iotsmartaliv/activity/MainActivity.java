@@ -18,7 +18,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
@@ -47,11 +46,11 @@ import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.gson.Gson;
 import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.SuccessDeviceListResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.fragments.HomeFragment;
 import com.iotsmartaliv.fragments.community.CommunityJoinFragment;
@@ -330,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     private void intercomLogin() {
         if (!SharePreference.getInstance(this).getBoolean(Constant.IS_INTERCOM_LOGIN)) {
-            LOGIN_DETAIL = new Gson().fromJson(SharePreference.getInstance(MainActivity.this).getString(LOGIN_PREFRENCE), com.iotsmartaliv.apiCalling.models.ResponseData.class);
+            LOGIN_DETAIL = new Gson().fromJson(SharePreference.getInstance(MainActivity.this).getString(LOGIN_PREFRENCE), com.iotsmartaliv.apiAndSocket.models.ResponseData.class);
 
             //  todo uncomment the following code when you want to login in video Intercom server
             Util.checkInternet(this, new Util.NetworkCheckCallback() {

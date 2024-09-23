@@ -3,15 +3,12 @@ package com.iotsmartaliv.activity;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.doormaster.vphone.inter.DMVPhoneModel;
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
-import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.OpenRemotelyAdapter;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.databinding.ActivityOpenDoorRemotelyBinding;
 
 import java.util.ArrayList;

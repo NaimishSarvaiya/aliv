@@ -162,7 +162,7 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
 
     private void answer() {
         DMVPhoneModel.answerCall();
-        Util.logVideoCallEvent("INCOMING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(this));
+//        Util.logVideoCallEvent("INCOMING",DMVPhoneModel.getCurConnDevice().dev_sn,DMVPhoneModel.getDisplayName(this));
         Intent intent = new Intent(DmCallIncomingActivity.this, YJCallActivity.class);
         intent.putExtra(Constant.CALL_PATH, Constant.ICOMING_CALL);
         startActivity(intent);

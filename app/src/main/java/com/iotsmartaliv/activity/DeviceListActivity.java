@@ -9,39 +9,29 @@ import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.BuildConfig;
-import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.DevicelistAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.Country;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.SuccessDeviceListResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityDeviceListBinding;
 import com.iotsmartaliv.roomDB.DatabaseClient;
-import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
-import com.iotsmartaliv.utils.NetworkAvailability;
-import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 import com.iotsmartaliv.utils.faceenroll.ConnectionManager;
 import com.iotsmartaliv.utils.mail.EmailViewModel;
-import com.iotsmartaliv.utils.mail.MailSender;
 
 import java.util.ArrayList;
 import java.util.List;

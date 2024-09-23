@@ -17,11 +17,11 @@ import android.widget.Toast;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.ViewGroupListAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.GroupData;
-import com.iotsmartaliv.apiCalling.models.SuccessResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.GroupData;
+import com.iotsmartaliv.apiAndSocket.models.SuccessResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.model.VisitorData;
 
 import java.util.ArrayList;

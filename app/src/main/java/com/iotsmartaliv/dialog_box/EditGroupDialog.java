@@ -13,11 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.GroupData;
-import com.iotsmartaliv.apiCalling.models.GroupResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.GroupData;
+import com.iotsmartaliv.apiAndSocket.models.GroupResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 
 
 public class EditGroupDialog extends Dialog implements View.OnClickListener {

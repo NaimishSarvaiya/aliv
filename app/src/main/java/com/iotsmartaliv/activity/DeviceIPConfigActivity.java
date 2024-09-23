@@ -4,19 +4,17 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.intelligoo.sdk.ConstantsUtils;
 import com.intelligoo.sdk.LibDevModel;
-import com.iotsmartaliv.R;
 import com.iotsmartaliv.databinding.ActivityDeviceIpconfigBinding;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 
 
 
 import static com.iotsmartaliv.adapter.DevicelistAdapter.selectDevice;
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
+import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 
 /**
  * This class is use for Device IP Config of the device.

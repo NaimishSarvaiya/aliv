@@ -2,7 +2,7 @@ package com.iotsmartaliv.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.iotsmartaliv.apiCalling.models.TimeSlot;
+import com.iotsmartaliv.apiAndSocket.models.TimeSlot;
 
 import java.util.List;
 

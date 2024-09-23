@@ -16,11 +16,10 @@ import com.intelligoo.sdk.LibDevModel;
 import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.DeviceDetailActivity;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.Country;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.roomDB.AccessLogModel;
 import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
@@ -39,7 +38,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 
 import static com.iotsmartaliv.activity.DeviceListActivity.flagDeviceList;
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
+import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.COMMUNITY_ID;
 import static com.iotsmartaliv.constants.Constant.DEVICE_ID;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
@@ -269,7 +268,7 @@ public class DevicelistAdapter extends BaseAdapter {
                         new SaveAccessLogTask(context, new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date()))).execute();
                         logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date())));
                         Toast.makeText(context, "Door open successfully", Toast.LENGTH_SHORT).show();
-                        Util.logDoorOpenEvent("DeviceList", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
+//                        Util.logDoorOpenEvent("DeviceList", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
                     } else {
                         if (result == 48) {
                             Toast.makeText(context, "Result Error Time Out", Toast.LENGTH_SHORT).show();

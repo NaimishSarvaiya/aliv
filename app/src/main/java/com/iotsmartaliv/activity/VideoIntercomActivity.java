@@ -24,7 +24,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bugfender.sdk.Bugfender;
 import com.doormaster.vphone.config.DMCallState;
 import com.doormaster.vphone.config.DMConstants;
 import com.doormaster.vphone.config.DMErrorReturn;
@@ -34,42 +33,31 @@ import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
 import com.doormaster.vphone.inter.DMModelCallBack.DMCallback;
 import com.doormaster.vphone.inter.DMPhoneMsgListener;
 import com.doormaster.vphone.inter.DMVPhoneModel;
-import com.google.gson.Gson;
-import com.intelligoo.sdk.LibDevModel;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.VideoIntercomAdapter;
 import com.iotsmartaliv.adapter.automation.IntercomeRelayAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.DeviceObject;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.IntercomRelayData;
-import com.iotsmartaliv.apiCalling.models.SuccessDeviceListResponse;
-import com.iotsmartaliv.apiCalling.models.SuccessResponse;
-import com.iotsmartaliv.apiCalling.models.VideoDeviceData;
-import com.iotsmartaliv.apiCalling.models.VideoDeviceListModel;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.IntercomRelayData;
+import com.iotsmartaliv.apiAndSocket.models.SuccessResponse;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceData;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceListModel;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.dmvphonedemotest.CheckPermissionUtils;
 import com.iotsmartaliv.dmvphonedemotest.DmCallIncomingActivity;
 import com.iotsmartaliv.dmvphonedemotest.DmCallOutgoingActivity;
 import com.iotsmartaliv.interfaces.VideoIntercomItemClick;
-import com.iotsmartaliv.model.CheckBookingRequest;
 import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
-import com.iotsmartaliv.model.RelayItemModel;
 import com.iotsmartaliv.model.SuccessResponseModel;
-import com.iotsmartaliv.utils.ErrorMsgDoorMasterSDK;
 import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
-import static com.iotsmartaliv.apiCalling.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
-import static com.iotsmartaliv.constants.Constant.deviceLIST;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
 import static com.iotsmartaliv.utils.CommanUtils.accessWithinRange;
 import static com.iotsmartaliv.utils.CommanUtils.utcToLocalTimeZone;
@@ -405,7 +393,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {
                             Toast.makeText(VideoIntercomActivity.this,sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
-                            Util.logDoorOpenEvent("VideoDeviceList", true, LOGIN_DETAIL.getAppuserID(), device_sn);
+//                            Util.logDoorOpenEvent("VideoDeviceList", true, LOGIN_DETAIL.getAppuserID(), device_sn);
                         }
 
                         @Override

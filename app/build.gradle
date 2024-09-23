@@ -164,6 +164,7 @@ dependencies {
     // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/ChangeServertools1.3.jar')
+    implementation 'androidx.activity:activity:1.8.0'
 //    implementation files('libs\\DoormasterSDKV2.4.8.jar')
 //    implementation files('D:\\Android\\Backup Client Work\\Aliv SDK\\DoormasterSDKV2.4.8.jar')
 //    implementation files('D:\\Android\\Backup Client Work\\Aliv SDK\\DoormasterSDKV2.4.8.jar')
@@ -247,6 +248,10 @@ dependencies {
 
     implementation 'com.google.android.play:app-update:2.1.0'
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.50'
+
+    implementation ('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }
 
 //apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin

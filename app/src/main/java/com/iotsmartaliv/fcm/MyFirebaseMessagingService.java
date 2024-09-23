@@ -26,15 +26,13 @@ import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.SplashActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
+import com.iotsmartaliv.activity.feedback.ChatActivity;
+import com.iotsmartaliv.activity.feedback.FeedbackDetailsActivity;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.services.RefreshDeviceListService;
 import com.iotsmartaliv.services.ShakeOpenService;
-import com.iotsmartaliv.utils.NotificationUtil;
 import com.iotsmartaliv.utils.SharePreference;
-import com.thinmoo.utils.ChangeServerUtil;
-import com.thinmoo.utils.ServerContainer;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -43,8 +41,6 @@ import java.util.concurrent.ExecutionException;
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
-import static com.iotsmartaliv.constants.Constant.VO_IP;
-import static com.iotsmartaliv.constants.Constant.VO_PORT;
 //import static com.iotsmartaliv.twilio.activity.VideoActivity.isCallActive;
 
 /**
@@ -80,26 +76,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             wakeScreen();
 
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            try {
-                JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("message"));
-                String notification_type = jsonObject.optString("notification_type");
-                Log.i(TAG, "ybbonMessageReceived: " + notification_type);
+//            try {
 
-                if (notification_type.equalsIgnoreCase("")) {
-                    Log.i(TAG, "ybbbonMessageReceived: App Update Notification Received");
-                    appUpdateMessage(jsonObject);
-                } else {
-                    Log.i(TAG, "ybbbonMessageReceived: App Update Notification Not Received");
-                }
-                if ((notification_type.equalsIgnoreCase("broadcast updated"))) {
-                    broadcastUpdateMessage(remoteMessage);
-                } else if ((notification_type.equalsIgnoreCase("end call"))) {
-                    Intent intent = new Intent("custom-event-name");
-                    LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-                } else if (notification_type.equalsIgnoreCase("Version Update")) {
-                    forground(remoteMessage);
-                } else if (notification_type.equalsIgnoreCase("device list updated")) {
-                    forground(remoteMessage);
+//                JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("data"));
+            String notification_type = remoteMessage.getData().get("type");
+            Log.i(TAG, "ybbonMessageReceived: " + notification_type);
+
+//            if (notification_type.equalsIgnoreCase("")) {
+//                Log.i(TAG, "ybbbonMessageReceived: App Update Notification Received");
+////                    appUpdateMessage(jsonObject);
+//            } else {
+//                Log.i(TAG, "ybbbonMessageReceived: App Update Notification Not Received");
+//            }
+            if ((notification_type.equalsIgnoreCase("broadcast update"))) {
+                broadcastUpdateMessage(remoteMessage);
+            } else if (notification_type.equalsIgnoreCase("updateFeedback")) {
+                feedBackUpdateMessage(remoteMessage, 0);
+            } else if (notification_type.equalsIgnoreCase("chatStatus")) {
+                feedBackUpdateMessage(remoteMessage, 1);
+            } else if ((notification_type.equalsIgnoreCase("end call"))) {
+                Intent intent = new Intent("custom-event-name");
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            } else if (notification_type.equalsIgnoreCase("Version Update")) {
+                forground(remoteMessage);
+            } else if (notification_type.equalsIgnoreCase("updatedevice")) {
+                forground(remoteMessage);
 //                    JSONObject notification_data = (JSONObject)jsonObject.get("data");
 //                    String notification_title = notification_data.optString("message_title");
 //                    String notification_body = notification_data.optString("body");
@@ -108,21 +109,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                    Intent intent = new Intent(this, RefreshDeviceListService.class);
 //                    startService(intent);
 
-                } else if ((notification_type.equalsIgnoreCase("login in different device"))) {
-                    LOGIN_DETAIL = null;
-                    DMVPhoneModel.exit();
-                    stopService(new Intent(this, ShakeOpenService.class));
-                    SharePreference.getInstance(this).clearPref();
-                    SharePreference.getInstance(this).putBoolean(Constant.HAS_ON_BOARDING_SHOWN, true);
+            } else if ((notification_type.equalsIgnoreCase("login in different device"))) {
+                LOGIN_DETAIL = null;
+                DMVPhoneModel.exit();
+                stopService(new Intent(this, ShakeOpenService.class));
+                SharePreference.getInstance(this).clearPref();
+                SharePreference.getInstance(this).putBoolean(Constant.HAS_ON_BOARDING_SHOWN, true);
 //                    new AsyncTask<Void, Void, Void>() {
 //                        @Override
 //                        protected Void doInBackground(Void... params) {
-                    try {
-                        FirebaseMessaging.getInstance().deleteToken();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.d("FCMTOKEN", "doInBackground: " + e.getLocalizedMessage());
-                    }
+                try {
+                    FirebaseMessaging.getInstance().deleteToken();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d("FCMTOKEN", "doInBackground: " + e.getLocalizedMessage());
+                }
 //                            return null;
 //                        }
 //
@@ -132,79 +133,82 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                        }
 //                    }.execute();
 
-                    boolean isForeground = false;
-                    try {
-                        isForeground = new ForegroundCheckTask().execute(this).get();
-                    } catch (ExecutionException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (isForeground) {
-                        // App is running
-                        startActivity(new Intent(this, SplashActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    } else {
-                        // App is not running
-                    }
-                } else {
-                    Log.e(TAG, "Call Notification Receive.");
-                    JSONObject messagejsonObject = new JSONObject(remoteMessage.getData().get("message"));
-                    String push_type = messagejsonObject.optString("push_type");
-                    if (push_type.equalsIgnoreCase("calling")) {
-                        String data = messagejsonObject.optString("data");
-                        if (data == null) {
-                            Log.e("GTdemo", "receiver payload = null");
-                        } else {
-                            boolean isForeground = false;
-                            try {
-                                isForeground = new ForegroundCheckTask().execute(this).get();
-                            } catch (ExecutionException | InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            if (!isForeground) {
-
-                                JSONObject dataJson = new JSONObject(data);
-                                String callerName = dataJson.optString("dev_name");
-
-
-                                //初始化sdk
-
-                                try {
-                                    Context context = getApplicationContext();
-                                    String ip = SharePreference.getInstance(this).getString(VO_IP);
-                                    String port = SharePreference.getInstance(this).getString(VO_PORT);
-
-                                    if (ip == null && ip.isEmpty() && ip.equals("")) {
-                                        ip = "113.197.36.196";
-                                    }
-
-                                    if (port == null && port.isEmpty() && port.equals("")) {
-                                        port = "5061";
-                                    }
-                                    //  DMVPhoneModel.initDMVPhoneSDK(this);
-//                                    ChangeServerUtil.getInstance().initConfig(this);
-                                    ServerContainer serverContainer2 = new ServerContainer("43.229.85.122", "8099", "自定义应用服务器");
-                                    ChangeServerUtil.getInstance().setAppServer(serverContainer2);
-                                    ServerContainer sipContainer = new ServerContainer(ip, port, "CustomVideoServer");
-                                    ChangeServerUtil.getInstance().setVideoServer(sipContainer);
-                                    DMVPhoneModel.initConfig(context);
-                                    DMVPhoneModel.initDMVPhoneSDK(context, "DDemo", false, false);
-                                    DMVPhoneModel.enableCallPreview(true, this);//打开预览消息界面显示
-                                    DMVPhoneModel.setLogSwitch(true);
-                                    DMVPhoneModel.setCameraId(1, context);
-                                    DMVPhoneModel.receivePushNotification(callerName != null ? callerName : "Incoming call from unidentified");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                                    NotificationUtil.getInstance(this).scheduleNotification(this, false, callerName);
-                            }
-
-                        }
-                    }
+                boolean isForeground = false;
+                try {
+                    isForeground = new ForegroundCheckTask().execute(this).get();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
+                if (isForeground) {
+                    // App is running
+                    startActivity(new Intent(this, SplashActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                } else {
+                    // App is not running
+                }
+            } else {
 
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+//                else {
+//                    Log.e(TAG, "Call Notification Receive.");
+//                    JSONObject messagejsonObject = new JSONObject(remoteMessage.getData().get("message"));
+//                    String push_type = messagejsonObject.optString("push_type");
+//                    if (push_type.equalsIgnoreCase("calling")) {
+//                        String data = messagejsonObject.optString("data");
+//                        if (data == null) {
+//                            Log.e("GTdemo", "receiver payload = null");
+//                        } else {
+//                            boolean isForeground = false;
+//                            try {
+//                                isForeground = new ForegroundCheckTask().execute(this).get();
+//                            } catch (ExecutionException | InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                            if (!isForeground) {
+//
+//                                JSONObject dataJson = new JSONObject(data);
+//                                String callerName = dataJson.optString("dev_name");
+//
+//
+//                                //初始化sdk
+//
+//                                try {
+//                                    Context context = getApplicationContext();
+//                                    String ip = SharePreference.getInstance(this).getString(VO_IP);
+//                                    String port = SharePreference.getInstance(this).getString(VO_PORT);
+//
+//                                    if (ip == null && ip.isEmpty() && ip.equals("")) {
+//                                        ip = "113.197.36.196";
+//                                    }
+//
+//                                    if (port == null && port.isEmpty() && port.equals("")) {
+//                                        port = "5061";
+//                                    }
+//                                    //  DMVPhoneModel.initDMVPhoneSDK(this);
+////                                    ChangeServerUtil.getInstance().initConfig(this);
+//                                    ServerContainer serverContainer2 = new ServerContainer("43.229.85.122", "8099", "自定义应用服务器");
+//                                    ChangeServerUtil.getInstance().setAppServer(serverContainer2);
+//                                    ServerContainer sipContainer = new ServerContainer(ip, port, "CustomVideoServer");
+//                                    ChangeServerUtil.getInstance().setVideoServer(sipContainer);
+//                                    DMVPhoneModel.initConfig(context);
+//                                    DMVPhoneModel.initDMVPhoneSDK(context, "DDemo", false, false);
+//                                    DMVPhoneModel.enableCallPreview(true, this);//打开预览消息界面显示
+//                                    DMVPhoneModel.setLogSwitch(true);
+//                                    DMVPhoneModel.setCameraId(1, context);
+//                                    DMVPhoneModel.receivePushNotification(callerName != null ? callerName : "Incoming call from unidentified");
+//                                } catch (Exception e) {
+//                                    e.printStackTrace();
+//                                }
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+//                                    NotificationUtil.getInstance(this).scheduleNotification(this, false, callerName);
+//                            }
+//
+//                        }
+//                    }
+//                }
+
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         }
 
         if (remoteMessage.getNotification() != null) {
@@ -244,17 +248,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void broadcastUpdateMessage(RemoteMessage remoteMessage) {
         try {
 
-            JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("message"));
-            JSONObject jsonAdditionalParams = new JSONObject(remoteMessage.getData().get("additionalParam"));
-            String mTitle = jsonObject.optString("title");
-            String mBody = jsonObject.optString("body");
-            String appuserID = jsonAdditionalParams.optString("appuser_ID");
-            String broadcastID = jsonAdditionalParams.optString("broadcast_ID");
+            JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("data"));
+//            JSONObject jsonAdditionalParams = new JSONObject(remoteMessage.getData().get("additionalParam"));
+            String mTitle = remoteMessage.getNotification().getTitle();
+            String mBody = remoteMessage.getNotification().getBody();
+
+
+            String appuserID = jsonObject.optString("appuser_ID");
+            String broadcastID = jsonObject.optString("broadcast_ID");
 
             if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")) {
-
-                sendBroadcastNotification(mTitle, mBody, appuserID, broadcastID);
-
+                sendBroadcastNotification(mTitle, mBody, appuserID, broadcastID, remoteMessage);
             }
 
         } catch (Exception e) {
@@ -262,12 +266,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    private void feedBackUpdateMessage(RemoteMessage remoteMessage, int i) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("data"));
+//            JSONObject jsonAdditionalParams = new JSONObject(remoteMessage.getData().get("additionalParam"));
+            String mTitle = remoteMessage.getNotification().getTitle();
+            String mBody = remoteMessage.getNotification().getBody();
+
+
+            String appuserID = jsonObject.optString("appuser_ID");
+            String feedbackId = jsonObject.optString("feedback_ID");
+
+            if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")) {
+                sendFeedbackDetails(mTitle, mBody, appuserID, feedbackId, i);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     void forground(RemoteMessage remoteMessage) {
         try {
 
-            JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("message"));
-            String mTitle = jsonObject.optString("title");
-            String mBody = jsonObject.optString("body");
+//            JSONObject jsonObject = new JSONObject(remoteMessage.getData().get("data"));
+            String mTitle = remoteMessage.getNotification().getTitle();
+            String mBody = remoteMessage.getNotification().getBody();
 
 
 //            if (!mTitle.equalsIgnoreCase("") && !mBody.equalsIgnoreCase("")){
@@ -427,7 +453,54 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void sendBroadcastNotification(String strTitle, String strBody, String appuserID, String broadcastID) {
+    private void sendFeedbackDetails(String strTitle, String strBody, String appuserID, String feedbackID, int i) {
+        Intent intent = null;
+        if (i == 0) {
+            intent = new Intent(this, FeedbackDetailsActivity.class);
+        } else {
+            intent = new Intent(this, ChatActivity.class);
+        }
+        intent.putExtra(Constant.APPUSER_ID, appuserID);
+        intent.putExtra(Constant.FEEDBACK_ID, feedbackID);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+
+
+        String channelId = "default_notification_channel_id";
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.drawable.app_logo)
+                        .setPriority(Notification.PRIORITY_HIGH)
+                        .setContentTitle(strTitle)
+                        .setContentText(strBody)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    private void sendBroadcastNotification(String strTitle, String strBody, String appuserID, String broadcastID, RemoteMessage remoteMessage) {
 
         Intent intent = new Intent(this, BroadcastCommunityActivity.class);
         intent.putExtra("APP_USER_ID", appuserID);
@@ -473,8 +546,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
         Intent intent2 = new Intent("com.iotsmartaliv.UPDATE_BROADCAST_ACTIVITY");
+        intent.putExtra("data", remoteMessage.getData().get("data"));
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent2);
     }
+
 
     class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
         @Override

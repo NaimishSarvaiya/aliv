@@ -13,11 +13,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.adapter.BroadcastImageAdapter;
-import com.iotsmartaliv.apiCalling.listeners.RetrofitListener;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
-import com.iotsmartaliv.apiCalling.models.ErrorObject;
-import com.iotsmartaliv.apiCalling.models.SuccessResponse;
-import com.iotsmartaliv.apiCalling.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.SuccessResponse;
+import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 
 
 public class MessageDetailFragment extends Fragment {

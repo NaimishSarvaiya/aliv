@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.iotsmartaliv.R;
-import com.iotsmartaliv.apiCalling.models.Broadcast;
+import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 import com.iotsmartaliv.fragments.DocumentDetailFragment;
 import com.iotsmartaliv.fragments.EventDetailFragment;
 import com.iotsmartaliv.fragments.MessageDetailFragment;

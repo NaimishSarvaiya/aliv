@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/ll_noFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/feedback_intro" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_us_keep_your_n_estate_beautiful"
+            android:textAlignment="center"
+           style="@style/nofeedbackTitleTextStyle" />
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/if_there_s_anything_that_needs_our_attention_or_if_you_have_a_great_idea_or_solution_we_d_love_to_hear_about_it"
+           style="@style/feedbackTitleTextStyle"
+            />
+    </LinearLayout>
+
+</LinearLayout>
