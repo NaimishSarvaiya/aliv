@@ -34,6 +34,11 @@
     <color name="getstarted_button">#41D48F</color>
     <color name="unReadBroacastColor">#FCD7BD</color>
     <color name="todayDateColor">#A1ACBE</color>
+
+    <color name="newNavyBuleBaseColor">#012433</color>
+    <color name="newLightBlueBaseColor">#0AB0C6</color>
+    <color name="lightBlueBooking">#E3F5F7</color>
+
 </resources>
 
 

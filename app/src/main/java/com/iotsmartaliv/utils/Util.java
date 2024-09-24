@@ -6,6 +6,8 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +15,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
@@ -780,5 +783,20 @@ public class Util {
             e.printStackTrace();
             return "Invalid date";
         }
+
+    }
+    public static  void setBrightness(ImageView imageView, float brightnessFactor) {
+        ColorMatrix colorMatrix = new ColorMatrix();
+
+        // Adjust the brightness. 1 means no change, values > 1 increase brightness
+        colorMatrix.set(new float[] {
+                brightnessFactor, 0, 0, 0, 0,
+                0, brightnessFactor, 0, 0, 0,
+                0, 0, brightnessFactor, 0, 0,
+                0, 0, 0, 1, 0
+        });
+
+        // Apply the color matrix to the image view
+        imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
     }
 }

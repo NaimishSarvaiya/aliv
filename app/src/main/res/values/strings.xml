@@ -281,6 +281,13 @@
     <string name="type">Type</string>
     <string name="discription">Discription</string>
     <string name="select_type">Select Type</string>
+    <string name="booking">Booking</string>
+    <string name="we_couldn_t_find_any_result">We Couldn\'t Find Any Result</string>
+    <string name="we_couldn_t_locate_any_relevant_results_in_your_communities_right_now_please_try_again_later">We couldn\'t locate any relevant results in your communities right now. Please try again later.</string>
+    <string name="no_active_bookings">No Active Bookings</string>
+    <string name="you_currently_have_no_active_bookings_please_check_back_later_or_add_a_new_booking">You currently have no active bookings. please check back later or add a new booking.</string>
+    <string name="no_active_deposit">No Active Deposit</string>
+    <string name="currently_there_are_no_active_deposits_please_note_that_your_deposit_amount_will_be_held_on_your_debit_credit_card_but_no_transaction_will_occur_unless_your_deposit_is_forfeited_check_back_later">Currently, there are no active deposits. Please note that your deposit amount will be held on your debit/credit card but no transaction will occur unless your deposit is forfeited. Check back later.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

@@ -50,6 +50,8 @@ import com.iotsmartaliv.activity.EnrollmentActivity;
 import com.iotsmartaliv.activity.VideoIntercomActivity;
 import com.iotsmartaliv.activity.VisitorActivity;
 import com.iotsmartaliv.activity.automation.HomeAutomationActivity;
+import com.iotsmartaliv.activity.booking.BookingActivity;
+import com.iotsmartaliv.activity.booking.BookingDetailsActivity;
 import com.iotsmartaliv.activity.booking.BookingFacilityActivity;
 import com.iotsmartaliv.adapter.HomePageSliderAdpter;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
@@ -464,7 +466,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
                         break;
                     case 4:
-                        startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+//                        startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+                        startActivity(new Intent(getActivity(), BookingActivity.class));
                         break;
                     case 5:
                       /*  if (deviceLIST.size() == 0) {

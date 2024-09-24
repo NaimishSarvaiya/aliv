@@ -86,6 +86,12 @@
         android:usesCleartextTraffic="true"
         tools:replace="label,icon,theme,android:allowBackup">
         <activity
+            android:name=".activity.booking.BookingDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.booking.BookingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.PrivacyPolicyActivity"
             android:exported="false" />
         <activity
