@@ -4,7 +4,7 @@
 //
 //apply plugin: 'io.sentry.android.gradle' version '4.11.0'
 
-plugins{
+plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
@@ -27,14 +27,14 @@ android {
         }
     }
     namespace 'com.iotsmartaliv'
-    compileSdk  34
+    compileSdk 34
     namespace 'com.iotsmartaliv'
     defaultConfig {
         applicationId 'com.iotsmartaliv'
-        minSdk  21
-        targetSdk  34
-        versionCode 46
-        versionName "3.6.0" //Latest June Update
+        minSdk 21
+        targetSdk 34
+        versionCode 49
+        versionName "3.9.0" //Latest June Update
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -53,9 +53,6 @@ android {
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
-
-
-
 
 
         /*   manifestPlaceholders = [
@@ -91,7 +88,6 @@ android {
         }*/
 
 
-
 //        buildConfigField("String",
 //                "TWILIO_ACCESS_TOKEN",
 //                "\"${getSecretProperty("TWILIO_ACCESS_TOKEN", "TWILIO_ACCESS_TOKEN")}\"")
@@ -108,9 +104,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            buildConfigField "boolean", "ENABLE_SENTRY", "true"
         }
         debug {
             signingConfig signingConfigs.config
+            buildConfigField "boolean", "ENABLE_SENTRY", "false"
         }
     }
     repositories {
@@ -129,7 +127,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    viewBinding{
+    viewBinding {
         enable = true
     }
 
@@ -232,7 +230,7 @@ dependencies {
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
- 
+
     implementation 'com.sun.mail:android-mail:1.6.0'
     implementation 'com.sun.mail:android-activation:1.6.0'
 
@@ -249,9 +247,12 @@ dependencies {
     implementation 'com.google.android.play:app-update:2.1.0'
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.50'
 
-    implementation ('io.socket:socket.io-client:2.0.0') {
+    implementation('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+    implementation 'com.stripe:stripe-android:20.52.0'
+
+
 }
 
 //apply plugin: 'com.google.firebase.crashlytics'// Google Play services Gradle plugin

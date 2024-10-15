@@ -32,6 +32,8 @@ import java.util.List;
 import static com.iotsmartaliv.activity.OpenDoorRemotelyActivity.flag;
 import static com.iotsmartaliv.apiAndSocket.models.DeviceObject.getLibDev;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
+import static com.iotsmartaliv.constants.Constant.hideLoader;
+import static com.iotsmartaliv.constants.Constant.showLoader;
 
 /**
  * This adapter class is used to open a specific door.
@@ -59,7 +61,7 @@ public class OpenRemotelyAdapter extends BaseAdapter {
             ((OpenDoorRemotelyActivity) context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Constant.hideLoader();
+                    hideLoader();
                     try {
                         pressed = false;
                         if (result == 0x00) {
@@ -95,7 +97,7 @@ public class OpenRemotelyAdapter extends BaseAdapter {
                 //permitedList.clear();
                 //permitedRssiList.clear();
                 if (deviceList.size() == 0) {
-                    Constant.hideLoader();
+                    hideLoader();
                     pressed = false;
                     //Toast.makeText(context, "Scan 0 device", Toast.LENGTH_SHORT).show();
                     Toast.makeText(context, "Device out-of range.", Toast.LENGTH_SHORT).show();
@@ -114,13 +116,13 @@ public class OpenRemotelyAdapter extends BaseAdapter {
                 if (ret == 0) {
                     return;
                 } else {
-                    Constant.hideLoader();
+                    hideLoader();
                     pressed = false;
 //                    Toast.makeText(context, "RET：" + ret, Toast.LENGTH_SHORT).show();
                     Toast.makeText(context, "Something weng wrong! Please try again.", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                Constant.hideLoader();
+                hideLoader();
                 e.printStackTrace();
             }
         }
@@ -202,7 +204,7 @@ public class OpenRemotelyAdapter extends BaseAdapter {
 //            viewHolder.devName.setTextColor(context.getResources().getColor(R.color.White));
 //        }
         convertView.setOnClickListener(v -> {
-            Constant.showLoader(context);
+            showLoader(context);
             if (pressed) {
                 Toast.makeText(context, "Operationing...",
                         Toast.LENGTH_SHORT).show();
@@ -211,7 +213,7 @@ public class OpenRemotelyAdapter extends BaseAdapter {
             int ret1 = LibDevModel.scanDevice(context, true, 1300, oneKeyScanCallback);         // A key to open the door
             pressed = true;
             if (ret1 != 0) {
-                Constant.hideLoader();
+               hideLoader();
                 Toast.makeText(context, ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
                 pressed = false;
             }

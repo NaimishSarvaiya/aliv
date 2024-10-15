@@ -63,7 +63,7 @@ public class InstructorInductionAdapter extends RecyclerView.Adapter<InstructorI
         viewHolder.tvStartTime.setText("Start time: " + instructorDataList.get(i).getProgramStartTime());
         viewHolder.tvEndTime.setText("End time: " + instructorDataList.get(i).getProgramEndTime());
         viewHolder.tvApprove.setOnClickListener(v -> {
-            apiServiceProvider = ApiServiceProvider.getInstance(context);
+            apiServiceProvider = ApiServiceProvider.getInstance(context,false);
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("appuser_ID", LOGIN_DETAIL.getAppuserID());
             hashMap.put("iapproval_ID", instructorDataList.get(i).getIapprovalID());
@@ -73,7 +73,7 @@ public class InstructorInductionAdapter extends RecyclerView.Adapter<InstructorI
 
         });
         viewHolder.tvReject.setOnClickListener(v -> {
-            apiServiceProvider = ApiServiceProvider.getInstance(context);
+            apiServiceProvider = ApiServiceProvider.getInstance(context,false);
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("appuser_ID", LOGIN_DETAIL.getAppuserID());
             hashMap.put("iapproval_ID", instructorDataList.get(i).getIapprovalID());

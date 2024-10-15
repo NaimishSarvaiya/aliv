@@ -62,8 +62,8 @@ public class FeedbackHistoryFragment extends Fragment implements RetrofitListene
         rv_historyFeed.setLayoutManager(new LinearLayoutManager(requireActivity()));
         feedbackListAdapter = new FeedbackListAdapter(requireActivity(), Constant.HISTORY_FEED, feedbackList);
         rv_historyFeed.setAdapter(feedbackListAdapter);
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
-        loadFeed(page);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+
 
         // Handle scroll for pagination
         rv_historyFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -151,5 +151,11 @@ public class FeedbackHistoryFragment extends Fragment implements RetrofitListene
         // Reset the refreshing flag in case of an error
         isRefreshing = false;
         pullToRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFeed(page);
     }
 }

@@ -315,9 +315,9 @@ public class FaceEnrollCameraActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mCameraSource != null) {
-            mCameraSource.release();
-        }
+//        if (mCameraSource != null) {
+//            mCameraSource.release();
+//        }
     }
 
     private FaceCenterCrop.FaceCenterCropListener getFaceCropResult() {

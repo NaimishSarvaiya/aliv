@@ -70,6 +70,7 @@ import java.util.TimeZone;
 
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+import static com.iotsmartaliv.constants.Constant.hideKeyBoard;
 
 /**
  * This class is used as .
@@ -105,6 +106,7 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
     String visitorEventValidity;
 
     FragmentEventBinding binding;
+    int selectedDeviceCount = 0;
 
 
     @Nullable
@@ -139,14 +141,16 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
 
         selectDeviceListAdapter = new SelectDeviceListAdapter(new ArrayList<>(), () -> {
             deviceDialogAdapter.notifyDataSetChanged();
-            binding.deviceList.setVisibility(View.GONE);
+            if (selectedDeviceCount == 1) {
+                binding.deviceList.setVisibility(View.GONE);
+            }
         });
         binding.deviceList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.deviceList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         binding.deviceList.setAdapter(selectDeviceListAdapter);
 
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -160,7 +164,11 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
                                         addLicensePlate = successArrayResponse.getData().get(0).getAddLicensePlate();
                                         binding.rlSelectCommunity.setVisibility(View.GONE);
                                         communityID = successArrayResponse.getData().get(0).getCommunityID();
-                                        visitorEventValidity =successArrayResponse.getData().get(0).getVisitorEventValidity();
+                                        if (successArrayResponse.getData().get(0).getVisitorEventValidity()!=null) {
+                                            visitorEventValidity = successArrayResponse.getData().get(0).getVisitorEventValidity();
+                                        }else {
+                                            visitorEventValidity = "";
+                                        }
                                         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                                             @Override
                                             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -181,7 +189,11 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
                                             binding.tvCommunity.setText(data.getCommunityName());
                                             addLicensePlate = data.getAddLicensePlate();
                                             binding.cbEnableEnhance.setChecked(false);
-                                            visitorEventValidity = data.getVisitorEventValidity();
+                                            if (data.getVisitorEventValidity()!=null) {
+                                                visitorEventValidity = data.getVisitorEventValidity();
+                                            }else {
+                                                visitorEventValidity = "";
+                                            }
                                             Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                                                 @Override
                                                 public void onNetworkCheckComplete(boolean isAvailable) {
@@ -934,7 +946,6 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
             hashMap.put("visitors[" + i + "][name]", addVisitor.getVisitorName());
             hashMap.put("visitors[" + i + "][country_code]", addVisitor.getCountryID());
             hashMap.put("visitors[" + i + "][contact]", addVisitor.getCountryCode() + addVisitor.getContactNumber());
-            hashMap.put("visitors[" + i + "][contact]", addVisitor.getCountryCode() + addVisitor.getContactNumber());
             hashMap.put("visitors[" + i + "][license_plate]", addVisitor.getLicensePlate());
         }
         for (int i = 0; i < deviceDialogAdapter.getSelectItem().size(); i++) {
@@ -1198,6 +1209,7 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
                             selectDeviceListAdapter.updateItem(mDataset);
                             if (mDataset.size() > 0) {
                                 binding.deviceList.setVisibility(View.VISIBLE);
+                               selectedDeviceCount = mDataset.size();
                             } else binding.deviceList.setVisibility(View.GONE);
                             customDeviceListDialog.setCanceledOnTouchOutside(false);
                         });

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/rl_timeSlot"
+    android:background="@drawable/bg_available_time_slot"
+    android:orientation="vertical"
+    android:padding="7dp">
+    <TextView
+        android:id="@+id/tv_timestart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        style="@style/timeSlotTV" />
+    <TextView
+        android:layout_below="@+id/tv_timestart"
+        android:id="@+id/tv_timeEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/timeSlotTV"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true"/>
+
+</LinearLayout>

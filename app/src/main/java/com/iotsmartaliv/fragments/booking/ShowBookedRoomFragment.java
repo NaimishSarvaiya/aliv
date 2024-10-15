@@ -49,7 +49,7 @@ public class ShowBookedRoomFragment extends Fragment {
         binding = FragmentShowBookedRoomBinding.inflate(inflater,container,false);
 //        View view = inflater.inflate(R.layout.fragment_show_booked_room, container, false);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
         binding.recyclerViewRoom.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewRoom.setItemAnimator(new DefaultItemAnimator());
         bookingsAdapter = new BookingsAdapter(getActivity(), new ArrayList<>(), (bookedRoomData, position) ->{

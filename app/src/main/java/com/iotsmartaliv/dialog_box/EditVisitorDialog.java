@@ -44,7 +44,7 @@ public class EditVisitorDialog extends Dialog implements View.OnClickListener {
     public EditVisitorDialog(Activity activity, VisitorData visitorData, AddVisitorDialog.VisitorAddedRefresh visitorAddedRefresh) {
         super(activity);
         this.activity = activity;
-        apiServiceProvider = ApiServiceProvider.getInstance(activity);
+        apiServiceProvider = ApiServiceProvider.getInstance(activity,false);
         this.visitorAddedRefresh = visitorAddedRefresh;
         this.visitorData = visitorData;
     }

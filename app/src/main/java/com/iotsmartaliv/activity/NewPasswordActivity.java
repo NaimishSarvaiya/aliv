@@ -49,7 +49,7 @@ public class NewPasswordActivity extends AppCompatActivity implements RetrofitLi
         super.onCreate(savedInstanceState);
         binding = ActivityNewPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         isFromAccount = getIntent().getBooleanExtra("isFromAccount", false);
         binding.tvSignUp.setOnClickListener( v->onViewClicked() );
     }

@@ -15,6 +15,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -445,10 +446,13 @@ public class Util {
             // Log the throwable in case of an error
             event.setThrowable(throwable);
         }
-
         // Attach any additional context like user info, environment, etc.
         User user = new User();
-        user.setId("user-id"); // Replace with actual user ID if available
+        if (LOGIN_DETAIL.getAppuserID()!=null) {
+            user.setId(LOGIN_DETAIL.getAppuserID());
+        }else {
+            user.setId("");
+        }// Replace with actual user ID if available
         event.setUser(user);
 
         event.setTag("Environment", BuildConfig.DEBUG ? "Development" : "Production");
@@ -798,5 +802,21 @@ public class Util {
 
         // Apply the color matrix to the image view
         imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+    }
+     public static String convertDateFormatForBooking(String inputDate) {
+        // Define the input and output date formats
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("d MMM, yyyy", Locale.ENGLISH);
+
+        try {
+            // Parse the input date string to a Date object
+            Date date = inputFormat.parse(inputDate);
+
+            // Format the Date object to the desired output format
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;  // Return null if parsing fails
+        }
     }
 }

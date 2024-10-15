@@ -3,6 +3,13 @@ package com.iotsmartaliv.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.iotsmartaliv.constants.Constant;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * This class is used for shared-preference.
  *
@@ -85,6 +92,7 @@ public class SharePreference {
     /**
      * Put String value into sharedpreference
      **/
+
     public void putString(String key, String value) {
         try {
             mEditor = mPref.edit();
@@ -106,6 +114,16 @@ public class SharePreference {
         } catch (Exception e) {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public void delete(String key) {
+        try {
+            mEditor = mPref.edit();
+            mEditor.remove(key);
+            mEditor.commit(); // Consider using apply() for better performance
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -159,5 +177,22 @@ public class SharePreference {
      */
     public void clearPref() {
         mPref.edit().clear().apply();
+    }
+
+    public void putFeatureForApp(List<String> featureList){
+        try {
+            Set<String> set = new HashSet<>(featureList);
+            mEditor = mPref.edit();
+            mEditor.putStringSet(Constant.APP_FEATURE, set);
+            mEditor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static List<String> getFeatureForApp() {
+
+        // Retrieve Set<String> from SharedPreferences
+        Set<String> set = mPref.getStringSet(Constant.APP_FEATURE, new HashSet<>());
+        return new ArrayList<>(set);  // Convert Set<String> back to List<String>
     }
 }

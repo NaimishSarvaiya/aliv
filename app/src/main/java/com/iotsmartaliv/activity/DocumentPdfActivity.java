@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
@@ -28,7 +29,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class DocumentPdfActivity extends AppCompatActivity {
 
     PDFView pdfView;
-    ImageView imgBack,imgShare;
+    ImageView imgBack,imgShare,imgDocImage;
     ProgressBar progressBar;
     ArrayList<String> mUrl = new ArrayList<>();
     String mPdfUrl;
@@ -42,18 +43,26 @@ public class DocumentPdfActivity extends AppCompatActivity {
         imgBack = findViewById(R.id.img_back);
         imgShare = findViewById(R.id.img_share);
         progressBar = findViewById(R.id.progress);
+        imgDocImage = findViewById(R.id.img_doc);
         progressBar.setVisibility(View.GONE);
 
 
         mUrl = getIntent().getStringArrayListExtra("PDFUrl");/*getIntent().getExtras().getString("PDFUrl");*/
 
         for (String url : mUrl){
-            if (url.endsWith(".pdf")){
+//            if (url.endsWith(".pdf")){
                 mPdfUrl = url;
-            }
+//            }
         }
-
-        new RetrivePDFfromUrl().execute(mPdfUrl);
+        if (mPdfUrl.endsWith(".pdf")) {
+            new RetrivePDFfromUrl().execute(mPdfUrl);
+            imgDocImage.setVisibility(View.GONE);
+            pdfView.setVisibility(View.VISIBLE);
+        }else {
+            imgDocImage.setVisibility(View.VISIBLE);
+            pdfView.setVisibility(View.GONE);
+            Glide.with(this).load(mPdfUrl).into(imgDocImage);
+        }
 
 
         imgBack.setOnClickListener(new View.OnClickListener() {

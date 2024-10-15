@@ -51,7 +51,7 @@ public class AssignGroupDialog extends Dialog implements View.OnClickListener {
         this.adapter = adapter;
         this.mainDataList = mDataset;
         this.visitorData = visitorData;
-        apiServiceProvider = ApiServiceProvider.getInstance(activity);
+        apiServiceProvider = ApiServiceProvider.getInstance(activity,false);
 
     }
 

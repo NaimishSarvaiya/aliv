@@ -1,5 +1,7 @@
 package com.iotsmartaliv.apiAndSocket.retrofit;
 
+import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 
@@ -39,7 +41,7 @@ public class RetrofitBase {
     protected Context context;
     private Logger logger;
 
-    public RetrofitBase(Context context, boolean addTimeout) {
+    public RetrofitBase(Context context, boolean addTimeout,Boolean headerAuth) {
         this.context = context;
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         if (BuildConfig.DEBUG) {
@@ -60,7 +62,11 @@ public class RetrofitBase {
             httpClientBuilder.readTimeout(Constant.TimeOut.IMAGE_UPLOAD_SOCKET_TIMEOUT, TimeUnit.SECONDS);
             httpClientBuilder.connectTimeout(Constant.TimeOut.IMAGE_UPLOAD_CONNECTION_TIMEOUT, TimeUnit.SECONDS);
         }
-        addVersioningHeaders(httpClientBuilder, context);
+        if (headerAuth) {
+            addAuthHeaders(httpClientBuilder, context);
+        }else {
+            addVersioningHeaders(httpClientBuilder, context);
+        }
         OkHttpClient httpClient = httpClientBuilder.build();
 
         logger = new Logger(RetrofitBase.class.getSimpleName());
@@ -85,6 +91,16 @@ public class RetrofitBase {
             Request request = chain.request().newBuilder()
                     .addHeader(appVersion, String.valueOf(version))
                     .addHeader(appName, name)
+                    .build();
+            return chain.proceed(request);
+        });
+    }
+    private void addAuthHeaders(OkHttpClient.Builder builder, Context context) {
+        final String header = "authorization";
+//        final String value = "RetroKit";
+        builder.interceptors().add(chain -> {
+            Request request = chain.request().newBuilder()
+                    .addHeader(header, LOGIN_DETAIL.getApiAuthToken())
                     .build();
             return chain.proceed(request);
         });

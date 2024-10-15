@@ -108,7 +108,7 @@ public class EventDetailFragment extends Fragment {
 
         if (mBroadcast.getReadStatus().equalsIgnoreCase("0")){
 
-            apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+            apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
             Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {

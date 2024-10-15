@@ -9,7 +9,6 @@
     android:background="@color/white"
     tools:context=".activity.booking.BookingActivity">
 
-
     <RelativeLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"

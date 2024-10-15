@@ -84,6 +84,59 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+//    private boolean checkAndRequestPermissions() {
+//        List<String> listPermissionsNeeded = new ArrayList<>();
+//
+//        // Permissions for all API levels
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+//        }
+//
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+//        }
+//
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
+//        }
+//
+//        // Permissions for Android below API 30
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//            }
+//        }
+//
+//        // Permissions for Android 12 (API 31) and above
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+//                listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_CONNECT);
+//            }
+//
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+//                listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN);
+//            }
+//        }
+//
+//        // Permissions for Android 13 (API 33) and above
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+//                listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_VIDEO);
+//            }
+//
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+//                listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_IMAGES);
+//            }
+//        }
+//
+//        if (!listPermissionsNeeded.isEmpty()) {
+//            // Request the permissions that are missing
+//            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[0]), 2);
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
     private boolean checkAndRequestPermissions() {
         int camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -118,10 +171,42 @@ public class SplashActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_IMAGES);
         }
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, 2);
+//        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//                ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, 2);
+//                listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN);
+//            }
+//        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+//            listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
+//        }
+
+        // Permissions for Android below API 30
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+        }
+
+        // Permissions for Android 12 (API 31) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_CONNECT);
+            }
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+        }
+
+        // Permissions for Android 13 (API 33) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_VIDEO);
+            }
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_IMAGES);
             }
         }
         if (!listPermissionsNeeded.isEmpty()) {

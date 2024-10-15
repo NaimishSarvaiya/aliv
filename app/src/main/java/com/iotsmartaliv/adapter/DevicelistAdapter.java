@@ -223,7 +223,7 @@ public class DevicelistAdapter extends BaseAdapter {
     }
 
     private void callGetServerAPI(boolean isOnline, LibDevModel libDev, int position) {
-        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context);
+        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context,false);
         apiServiceProvider.callGetServerCurrentTime(new RetrofitListener<ResponseBody>() {
             @Override
             public void onResponseSuccess(ResponseBody sucessRespnse, String apiFlag) {
@@ -368,7 +368,7 @@ public class DevicelistAdapter extends BaseAdapter {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable){
-                    ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context);
+                    ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context,false);
                     apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
 
                         @Override

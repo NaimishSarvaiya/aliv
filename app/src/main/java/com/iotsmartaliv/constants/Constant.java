@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.provider.Settings;
+
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -76,9 +79,9 @@ public class Constant {
     private static ProgressDialog dialog;
 
     public static String URL = "url";
-        public static String USERNAME = "userName";
-        public static String USERID = "userID";
-        public static String ERRORCODE = "errorCode";
+    public static String USERNAME = "userName";
+    public static String USERID = "userID";
+    public static String ERRORCODE = "errorCode";
     public static String APITYPE = "apiType";
     public static String PARAMETER = "parameter";
     public static String APIERROR = "Api_Error";
@@ -95,6 +98,7 @@ public class Constant {
     public static final String INPROGRESS_FEED_STATUS = "2";
     public static final String HISTORY_FEED_STATUS = "3";
     public static final String FEED_PAGE_LIMIT = "20";
+    public static final String ROOM_PAGE_LIMIT = "5";
     public static final String FEEDBACK_ID = "feedback_ID";
     public static final String FILE_URI = "file_uri";
     public static final String MIME_TYPE = "mime_type";
@@ -106,6 +110,20 @@ public class Constant {
     public static final String STATUS_CHANGED_FOR_ADMIN = "status_changed_admin";
     public static final String STATUS_CHANGED_FOR_USER = "status_changed_user";
     public static final String APPUSER_ID = "appuser_ID";
+    public static final String ROOM_ID = "roomID";
+    public static final String ROOM_START_DATE = "roomStartDate";
+    public static final String ROOM_END_DATE = "roomEndDate";
+    public static final String ROOM_TITLE = "roomTitle";
+    public static final String ROOM_TYPE = "roomType";
+    public static final String BOOKING_DETAILS = "roomType";
+    public static final String SELECTED_TIME_SLOT = "selectedTimeSlot";
+    public static final String APP_FEATURE = "selectedTimeSlot";
+    public static final String BOOKING_MANAGMENT = "booking_management";
+    public static final String AUTOMATION_MANAGMENT = "automation_management";
+    public static final String BROADCAST_MANAGMENT = "broadcast_management";
+    public static final String USER_APP_NAME = "userapp_name";
+    public static final String FEEDBACK_MANAGMENT = "Feedback_Management";
+    public static final String API_AUTH = "apiAuth";
 
     /**
      * This method is used for showing message in snack bar.
@@ -212,11 +230,10 @@ public class Constant {
     }
 
     public interface UrlPath {
-
-//        String BASEURL = "https://aliv.com.sg/"; // Live server.
-      String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
+                String BASEURL = "https://aliv.com.sg/"; // Live server.
+//        String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
         String PATH = "alivapp/";                  // Here is the path path of API.
-        String  SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
+        String SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
 
         /**
          * This are the End Point list of User Operation API.
@@ -233,7 +250,7 @@ public class Constant {
         /**
          * This are the End Point list of Device API.
          */
-        String  DEVICE_LIST_API = "userDevices";
+        String DEVICE_LIST_API = "userDevices";
 
         /**
          * This is the End Point list of Community Device API.
@@ -261,7 +278,7 @@ public class Constant {
          * This are the End Point list of Community API.
          */
         String JOIN_COMMUNITY_API = "joinCommunity";
-            String COMMUNITY_LIST_API = "userCommunities";
+        String COMMUNITY_LIST_API = "userCommunities";
         String SUB_COMMUNITY_LIST_API = "subCommunities";
         String SERVERTIMESYNC = "serverTimeSync";
         String VOIP = "getVoipData";
@@ -362,12 +379,18 @@ public class Constant {
 
         String GET_FEED = "getFeedbackList";
         String GET_FEED_CATEGORY = "getFeedbackCatList";
-        String ADD_FEEDBACK= "addFeedback";
-        String ADD_FEEDBACK_DOCUMENT= "addFeedbackDocument";
-        String ACTION_OPEN= "com.iotsmartaliv.UPDATE_BROADCAST_ACTIVITY";
+        String ADD_FEEDBACK = "addFeedback";
+        String ADD_FEEDBACK_DOCUMENT = "addFeedbackDocument";
+        String ACTION_OPEN = "com.iotsmartaliv.UPDATE_BROADCAST_ACTIVITY";
         String GET_FEEDBACK_DETAILS = "getFeedbackDetail";
         String GET_FEEDBACK_CHAT = "getFeedbackChatList";
         String UPDATE_FEEDBACK_MESSAGE_STATUS = "UpdateFeedbackStatus";
+        String GET_ALL_ROOMS = "getAllRooms";
+        String GET_TIME_SLOT = "getRoomAvailableSlots";
+        String GET_ROOM_DETAILS = "getRoomDetails";
+        String COMM_FEATURES_APP_USER = "commfeaturesAppUser";
+        String CREATE_CUSTOMER_IN_STRIPE = "createCustomerInStripe";
+        String GET_BOOKING_AUTH_TOKEN = "getBookingAuthToken";
 
 
     }

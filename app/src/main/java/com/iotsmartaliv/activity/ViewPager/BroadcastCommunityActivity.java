@@ -29,7 +29,7 @@ import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.fragments.DocumentFragment;
 import com.iotsmartaliv.fragments.EventFragment;
-import com.iotsmartaliv.fragments.MessageCommunityBroadcastFragment;
+import com.iotsmartaliv.fragments.AnnouncementFragment;
 import com.iotsmartaliv.model.BroadcastDocumentFolder;
 import com.iotsmartaliv.utils.Util;
 
@@ -48,7 +48,7 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
     ViewPagerAdapter adapter;
 
     EventFragment eventFragment;
-    MessageCommunityBroadcastFragment messageFragment;
+    AnnouncementFragment messageFragment;
     DocumentFragment documentFragment;
 
     ArrayList<Broadcast> mMassage = new ArrayList<>();
@@ -70,7 +70,7 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
         initView();
 
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 
         setupViewPagerTablayout();
 
@@ -125,7 +125,7 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        messageFragment = new MessageCommunityBroadcastFragment();
+        messageFragment = new AnnouncementFragment();
         eventFragment = new EventFragment();
         documentFragment = new DocumentFragment();
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/book_item_bg"
+    android:orientation="horizontal"
+    android:paddingHorizontal="2dp"
+    android:paddingVertical="2dp">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/master_card"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginStart="5dp"
+        android:layout_gravity="center_vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="13258541"
+        style="@style/previewBookingSubTitleTV"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Expires:12/30"
+            style="@style/blackBookingSubTitleTV"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_gravity="center_vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5">
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:src="@drawable/delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:tint="@color/red" />
+    </RelativeLayout>
+</LinearLayout>

@@ -11,6 +11,8 @@ import com.iotsmartaliv.apiAndSocket.models.SuccessArrayResponse;
 import com.iotsmartaliv.apiAndSocket.models.SuccessDeviceListResponse;
 import com.iotsmartaliv.apiAndSocket.models.SuccessResponse;
 import com.iotsmartaliv.apiAndSocket.models.VideoDeviceListModel;
+import com.iotsmartaliv.model.AppFeatureModel;
+import com.iotsmartaliv.model.AuthTokenModel;
 import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.model.BookRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
@@ -22,6 +24,11 @@ import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
 import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
+import com.iotsmartaliv.model.booking.BookingDetailsModel;
+import com.iotsmartaliv.model.booking.CreateCustomerOnStripRequest;
+import com.iotsmartaliv.model.booking.CreateCustomerResponse;
+import com.iotsmartaliv.model.booking.RoomModel;
+import com.iotsmartaliv.model.booking.TimeSlotModel;
 import com.iotsmartaliv.model.feedback.AddFeedbackRequest;
 import com.iotsmartaliv.model.feedback.AddFeedbackResponse;
 import com.iotsmartaliv.model.feedback.FeedBackCategoryModel;
@@ -68,6 +75,8 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.CHANGE_PASSWORD_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.CHECK_DEVICE_BOOKINGS;
 import static com.iotsmartaliv.constants.Constant.UrlPath.COMMUNITY_DEVICE_LIST_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.COMMUNITY_LIST_API;
+import static com.iotsmartaliv.constants.Constant.UrlPath.COMM_FEATURES_APP_USER;
+import static com.iotsmartaliv.constants.Constant.UrlPath.CREATE_CUSTOMER_IN_STRIPE;
 import static com.iotsmartaliv.constants.Constant.UrlPath.DELETE_APPUSER;
 import static com.iotsmartaliv.constants.Constant.UrlPath.DELETE_SCHEDULE;
 import static com.iotsmartaliv.constants.Constant.UrlPath.DEVICE_LIST_API;
@@ -77,9 +86,11 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.END_CALL_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.FORGOT_PASSWORD_API;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GETVISITORSGROUP;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GETVISITORSINGROUP;
+import static com.iotsmartaliv.constants.Constant.UrlPath.GET_ALL_ROOMS;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_AUTOMATION_SCHEDULE;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_BOOKED_ROOMS;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_BOOKINGS;
+import static com.iotsmartaliv.constants.Constant.UrlPath.GET_BOOKING_AUTH_TOKEN;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_CARD_SYNC_LIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_CARD_USERLIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_COUNTRY_CODES;
@@ -90,6 +101,8 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.GET_FEEDBACK_DETAILS;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_FEED_CATEGORY;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_GROUP_LIST;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_INSTRUCTOR_INFO;
+import static com.iotsmartaliv.constants.Constant.UrlPath.GET_ROOM_DETAILS;
+import static com.iotsmartaliv.constants.Constant.UrlPath.GET_TIME_SLOT;
 import static com.iotsmartaliv.constants.Constant.UrlPath.GET_USER_VISITORS;
 import static com.iotsmartaliv.constants.Constant.UrlPath.INSTRUCTOR_INDUCTION;
 import static com.iotsmartaliv.constants.Constant.UrlPath.INSTRUCTOR_INDUCTION_HR_RESPONSE;
@@ -143,7 +156,7 @@ public interface ApiServices {
     Call<SuccessResponse> performUpdateProfile(@FieldMap HashMap<String, String> paramHashMap);
 
     @GET(DEVICE_LIST_API)
-    Call<SuccessDeviceListResponse> getAllDeviceList(@Query("appuser_ID") String userId,@Query("app_version") String appVersion);
+    Call<SuccessDeviceListResponse> getAllDeviceList(@Query("appuser_ID") String userId, @Query("app_version") String appVersion);
 
     @GET(COMMUNITY_DEVICE_LIST_API)
     Call<SuccessResponse> getCommunityDeviceList(@Query("appuser_ID") String userId, @Query("community_ID") String community_ID);
@@ -170,6 +183,7 @@ public interface ApiServices {
 
     @GET(VOIP)
     Call<VoIpModel> getVoip();
+
     @FormUrlEncoded
     @POST(END_CALL_API)
     Call<SuccessResponse> callAPIForENDCall(@Field("user_id") String userId);
@@ -318,6 +332,7 @@ public interface ApiServices {
 
     @GET(GET_FEED)
     Call<FeedbackModel> getFeedList(@Query("appuser_ID") String userId, @Query("status") String status, @Query("limit") String limit, @Query("page") String page);
+
     @GET(GET_FEED_CATEGORY)
     Call<FeedBackCategoryModel> getFeedbackCatergory();
 
@@ -331,13 +346,34 @@ public interface ApiServices {
             @Part("feedback_doc_name") RequestBody feedbackDocName,
             @Part MultipartBody.Part feedbackDocument
     );
+
     @GET(GET_FEEDBACK_DETAILS)
     Call<FeedbackDetails> getFeedbackDetails(@Query("feedback_ID") String feedback_ID);
+
     @GET(GET_FEEDBACK_CHAT)
     Call<MessageHistory> getFeedBackMessages(@Query("feedback_ID") String feedback_ID, @Query("appuser_ID") String appuser_ID, @Query("page") String page, @Query("limit") String limit);
 
     @POST(UPDATE_FEEDBACK_MESSAGE_STATUS)
     Call<MessageStatusResponse> updateFeedbackMessageStatus(@Body MessageStatusUpdateRequest messageStatusUpdateRequest);
+
+
+    @GET(GET_ALL_ROOMS)
+    Call<RoomModel> getRoomList(@Query("appuser_ID") String userId, @Query("limit") String limit, @Query("page") String page);
+
+    @GET(GET_TIME_SLOT)
+    Call<TimeSlotModel> getTimeSlot(@Query("room_ID") String roomId, @Query("start_date") String startDate, @Query("end_date") String endDate);
+
+    @POST(GET_ROOM_DETAILS)
+    Call<BookingDetailsModel> getBookedRoomDetails(@Query("room_ID") String roomID, @Query("slot_ID") String slotID, @Query("start_date") String startDate, @Query("end_date") String endDate);
+
+    @GET(COMM_FEATURES_APP_USER)
+    Call<AppFeatureModel> getAppFeature(@Query("appuser_ID") String userId);
+
+    @GET(GET_BOOKING_AUTH_TOKEN)
+    Call<AuthTokenModel> getAuthToken(@Query("appuser_ID") String userId);
+
+    @POST(CREATE_CUSTOMER_IN_STRIPE)
+    Call<CreateCustomerResponse> createCustomer(@Body CreateCustomerOnStripRequest customerRequest);
 
 }
 

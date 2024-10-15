@@ -106,6 +106,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
         } else {
 
             holder.txtDoc.setTypeface(null, Typeface.NORMAL);
+            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.white));
 
         }
 

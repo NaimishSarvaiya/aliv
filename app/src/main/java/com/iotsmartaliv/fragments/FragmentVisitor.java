@@ -61,7 +61,7 @@ public class FragmentVisitor extends Fragment implements AddVisitorDialog.Visito
 binding = FragmentVsitorsBinding.inflate(inflater,container,false);
         //        View view = inflater.inflate(R.layout.fragment_vsitors, container, false);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
 //        if (Util.checkInternet(requireActivity())) {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override

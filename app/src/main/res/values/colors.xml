@@ -38,6 +38,9 @@
     <color name="newNavyBuleBaseColor">#012433</color>
     <color name="newLightBlueBaseColor">#0AB0C6</color>
     <color name="lightBlueBooking">#E3F5F7</color>
+    <color name="unAvilableDate">#80CDCDCD</color>
+    <color name="textunAvilableDate">#80FFFFFF</color>
+    <color name="avilableDate">#CDCDCD</color>
 
 </resources>
 

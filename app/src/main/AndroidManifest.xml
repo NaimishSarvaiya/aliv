@@ -71,7 +71,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.BODY_SENSORS" />
+<!--    <uses-permission android:name="android.permission.BODY_SENSORS" />-->
 
     <application
         android:name=".dmvphonedemotest.MVDPApplication"
@@ -85,6 +85,26 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="label,icon,theme,android:allowBackup">
+        <activity
+            android:name=".adapter.booking.AddCardForBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.booking.CardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.booking.PaymentActivity"
+            android:exported="false" >
+
+        </activity>
+        <activity
+            android:name=".activity.booking.PreviewBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.booking.BookingTermsAndConditionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.booking.RoomBookingActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.booking.BookingDetailsActivity"
             android:exported="false" />

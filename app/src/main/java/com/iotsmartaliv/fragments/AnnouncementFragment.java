@@ -15,7 +15,7 @@ import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 
 import java.util.ArrayList;
 
-public class MessageCommunityBroadcastFragment extends Fragment {
+public class AnnouncementFragment extends Fragment {
 
     RecyclerView recyclerView;
     MassageAdapter adapter;

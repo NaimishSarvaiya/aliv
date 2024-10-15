@@ -100,7 +100,7 @@ public class CreateFeedbackActivity extends AppCompatActivity implements Retrofi
         imgDoc = findViewById(R.id.img_doc);
         etFeedbackTitle.setFilters(new InputFilter[]{Util.filterEmoji});
         etFeedbackDiscription.setFilters(new InputFilter[]{Util.filterEmoji});
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 
         rlSelectCommunity.setOnClickListener(v -> getCommunity());
         rlSelectCategory.setOnClickListener(v -> getFeedbackCategory());

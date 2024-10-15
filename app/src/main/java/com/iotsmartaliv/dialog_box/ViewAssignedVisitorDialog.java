@@ -50,7 +50,7 @@ public class ViewAssignedVisitorDialog extends Dialog implements View.OnClickLis
         this.groupData = groupData;
         this.adapter = adapter;
         this.mainDataList = mDataset;
-        apiServiceProvider = ApiServiceProvider.getInstance(activity);
+        apiServiceProvider = ApiServiceProvider.getInstance(activity,false);
         adapter.setOnUnassignedListener((data, position) -> {
             apiServiceProvider.callForAssignOrUnssignVisitorsToGroups(LOGIN_DETAIL.getAppuserID(), "delete",
                     new ArrayList<VisitorData>() {{

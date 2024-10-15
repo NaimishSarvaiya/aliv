@@ -82,8 +82,8 @@ public class CameraSource {
   private final int requestedPreviewHeight = 720;
   private final boolean requestedAutoFocus = true;*/
     private final float requestedFps = 20.0f;
-    private final int requestedPreviewWidth = 480;
-    private final int requestedPreviewHeight = 360;
+    private final int requestedPreviewWidth = 1280;
+    private final int requestedPreviewHeight = 960;
     private final boolean requestedAutoFocus = true;
     private final GraphicOverlay graphicOverlay;
 

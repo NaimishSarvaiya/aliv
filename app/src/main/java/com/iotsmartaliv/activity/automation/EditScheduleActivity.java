@@ -89,7 +89,7 @@ public class EditScheduleActivity extends AppCompatActivity implements CompoundB
         binding = ActivityEditScheduleBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         automationScheduleData = (AutomationScheduleData) getIntent().getSerializableExtra(SCHEDULE_DATA);
         binding.checkboxSun.setOnCheckedChangeListener(this);
         binding.checkboxMon.setOnCheckedChangeListener(this);

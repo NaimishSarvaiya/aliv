@@ -32,7 +32,7 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Community Broadcast"
+                android:text="@string/notice_board"
                 android:textColor="@color/Orange"
                 android:textSize="20dp"
                 android:textStyle="bold" />

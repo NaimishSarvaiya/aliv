@@ -30,7 +30,7 @@ public class VisitorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityVisitorBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 //        ButterKnife.bind(this);
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

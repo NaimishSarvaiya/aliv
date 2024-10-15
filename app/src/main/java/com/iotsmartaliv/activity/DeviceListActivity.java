@@ -83,7 +83,7 @@ ActivityDeviceListBinding binding;
         myAdapter = new DevicelistAdapter(this, deviceLIST);
         binding.lvDevice.setAdapter(myAdapter);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

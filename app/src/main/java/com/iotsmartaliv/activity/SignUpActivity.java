@@ -116,7 +116,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         firebaseToken();
         initView();
         initListener();
@@ -621,11 +621,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
-                    showLoader(SignUpActivity.this);
                     apiServiceProvider.performSignUp(fullName, userName, userEmailID, password, confirmPassword, authProvider, authUid, intate_code, token, SignUpActivity.this);
 
-                } else {
-                    hideLoader();
                 }
             }
         });

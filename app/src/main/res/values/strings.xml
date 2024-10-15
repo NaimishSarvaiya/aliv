@@ -65,7 +65,7 @@
     <string name="add_card">Add Card</string>
     <string name="card_number">Card Number</string>
     <string name="card_holder_name">Card Holder Name</string>
-    <string name="exp_date">Exp Date</string>
+    <string name="exp_date">Expiry Date</string>
     <string name="cvv">cvv</string>
     <string name="live_video">Live video</string>
     <string name="open_door">Open Door</string>
@@ -279,7 +279,7 @@
     <string name="send_feedback">Send Feedback</string>
     <string name="tap_to_upload_n_jpg_jpeg_png_or_pdf">Tap to upload\n JPG,JPEG,PNG or PDF</string>
     <string name="type">Type</string>
-    <string name="discription">Discription</string>
+    <string name="discription">Description</string>
     <string name="select_type">Select Type</string>
     <string name="booking">Booking</string>
     <string name="we_couldn_t_find_any_result">We Couldn\'t Find Any Result</string>
@@ -288,6 +288,9 @@
     <string name="you_currently_have_no_active_bookings_please_check_back_later_or_add_a_new_booking">You currently have no active bookings. please check back later or add a new booking.</string>
     <string name="no_active_deposit">No Active Deposit</string>
     <string name="currently_there_are_no_active_deposits_please_note_that_your_deposit_amount_will_be_held_on_your_debit_credit_card_but_no_transaction_will_occur_unless_your_deposit_is_forfeited_check_back_later">Currently, there are no active deposits. Please note that your deposit amount will be held on your debit/credit card but no transaction will occur unless your deposit is forfeited. Check back later.</string>
+    <string name="notice_board">Notice Board</string>
+    <string name="terms_and_conditions_for_nmeeting_room">Terms and Conditions for\nMeeting Room</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

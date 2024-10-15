@@ -60,7 +60,7 @@ public class FragmentGroup extends Fragment implements RetrofitListener<GroupRes
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentGroupBinding.inflate(inflater,container,false);
 //        View view = inflater.inflate(R.layout.fragment_group, container, false);
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
 
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

@@ -56,6 +56,14 @@
         android:layout_margin="@dimen/_12dp"
         android:background="@color/white"/>
 
+    <ImageView
+        android:id="@+id/img_doc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header_layout1"
+        android:visibility="gone"
+        android:layout_margin="@dimen/_12dp"/>
+
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

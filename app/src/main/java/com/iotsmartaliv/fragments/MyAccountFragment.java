@@ -46,6 +46,7 @@ import com.iotsmartaliv.utils.Util;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 
 //import butterknife.OnClick;
@@ -65,8 +66,8 @@ import static com.iotsmartaliv.constants.Constant.hideLoader;
  */
 public class MyAccountFragment extends Fragment implements RetrofitListener<SuccessResponse> {
     ApiServiceProvider apiServiceProvider;
-
     MyAccountFragmentBinding binding;
+    ArrayList<String> appFeture;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,10 +75,14 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
         View view;
         binding = MyAccountFragmentBinding.inflate(inflater,container,false);
 //        view = inflater.inflate(R.layout.my_account_fragment, container, false);
-
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        appFeture = (ArrayList<String>) SharePreference.getInstance(getActivity()).getFeatureForApp();
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
+        if (appFeture.contains(Constant.USER_APP_NAME)){
+            binding.imgChangeName.setVisibility(View.VISIBLE);
+        }else {
+            binding.imgChangeName.setVisibility(View.GONE);
+        }
         setDataUI();
-
         binding.imgChangeName.setOnClickListener(this::onViewClicked);
         binding.imgChangeUname.setOnClickListener(this::onViewClicked);
         binding.edtFaceRegistration.setOnClickListener(this::onViewClicked);
@@ -88,6 +93,7 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
     }
 
     public void setDataUI() {
+
         binding.tvName.setText(LOGIN_DETAIL.getUserFullName());
         binding.edtUserName.setText(LOGIN_DETAIL.getUsername());
         binding.edtEmailLogIn.setText(LOGIN_DETAIL.getUserEmail());
@@ -279,7 +285,7 @@ public class MyAccountFragment extends Fragment implements RetrofitListener<Succ
             public void onNetworkCheckComplete(boolean isAvailable) {
 
                 if (isAvailable) {
-                    apiServiceProvider = ApiServiceProvider.getInstance(requireActivity());
+                    apiServiceProvider = ApiServiceProvider.getInstance(requireActivity(),false);
                     DeleteUserRequest deleteUserRequest = new DeleteUserRequest(LOGIN_DETAIL.getAppuserID());
                     apiServiceProvider.DeleteUser(deleteUserRequest, new RetrofitListener<SuccessResponseModel>() {
                         @Override

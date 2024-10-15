@@ -49,12 +49,15 @@ import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.ResponseData;
 import com.iotsmartaliv.apiAndSocket.models.SuccessDeviceListResponse;
 import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.fragments.HomeFragment;
 import com.iotsmartaliv.fragments.community.CommunityJoinFragment;
 import com.iotsmartaliv.fragments.community.CommunitySubListFragment;
+import com.iotsmartaliv.model.AppFeatureModel;
+import com.iotsmartaliv.model.AuthTokenModel;
 import com.iotsmartaliv.roomDB.DatabaseClient;
 import com.iotsmartaliv.services.DeviceLogSyncService;
 import com.iotsmartaliv.utils.SharePreference;
@@ -65,6 +68,7 @@ import java.util.ArrayList;
 
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
 import static com.iotsmartaliv.constants.Constant.deviceLIST;
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     private Fragment fragment;
     private String manufacturer = "";
-    String sCurrentVersion,sLatestVersion;
+    String sCurrentVersion, sLatestVersion;
     private static final int REQUEST_CODE_UPDATE = 1;
 
     @Override
@@ -119,9 +123,10 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         manufacturer = Build.MANUFACTURER;
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this, false);
 
-        Intent service = new Intent(this, DeviceLogSyncService.class);
+        Intent service;
+        service = new Intent(this, DeviceLogSyncService.class);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(service);
@@ -237,7 +242,22 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         try {
             listApicall();
         } catch (Exception e) {
-            hideLoader();
+            finish();
+        }
+//        try {
+//
+//            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH)!= null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
+//                getAuthToken();
+//            }
+//        } catch (Exception e) {
+//            finish();
+//        }
+
+        try {
+            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) != null || SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
+            getFeture();
+            }
+        } catch (Exception e) {
             finish();
         }
 
@@ -303,43 +323,45 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         super.onResume();
         checkAndPromptExactAlarmPermission();
     }
+
     void listApicall() {
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
-                    showLoader(MainActivity.this);
                     String userIdApp = "";
                     SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
-                    if (LOGIN_DETAIL.getAppuser() == null){
+                    if (LOGIN_DETAIL.getAppuser() == null) {
                         userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
-                    }else {
-                      userIdApp =  LOGIN_DETAIL.getAppuserID();
+                    } else {
+                        userIdApp = LOGIN_DETAIL.getAppuserID();
                     }
-                    Log.e("UserId",LOGIN_DETAIL.getAppuserID() );
-                    apiServiceProvider.callForDeviceList(userIdApp,BuildConfig.VERSION_NAME.toString(), MainActivity.this);
+                    Log.e("UserId", LOGIN_DETAIL.getAppuserID());
+                    apiServiceProvider.callForDeviceList(userIdApp, BuildConfig.VERSION_NAME.toString(), MainActivity.this);
 
-                } else {
-                    hideLoader();
                 }
             }
         });
 
     }
 
+
     private void intercomLogin() {
         if (!SharePreference.getInstance(this).getBoolean(Constant.IS_INTERCOM_LOGIN)) {
-            LOGIN_DETAIL = new Gson().fromJson(SharePreference.getInstance(MainActivity.this).getString(LOGIN_PREFRENCE), com.iotsmartaliv.apiAndSocket.models.ResponseData.class);
-
+            LOGIN_DETAIL = new Gson().fromJson(SharePreference.getInstance(MainActivity.this).getString(LOGIN_PREFRENCE), ResponseData.class);
+            showLoader(this);
             //  todo uncomment the following code when you want to login in video Intercom server
             Util.checkInternet(this, new Util.NetworkCheckCallback() {
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {
                     if (isAvailable) {
-                        DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(),LOGIN_DETAIL.getAccountTokenPwd(), 1, MainActivity.this, new DMCallback() {
-                            //DMVPhoneModel.loginVPhoneServer("ashishagrawal0108@gmail.com", "c5be8bcL88496f2bd778bfebeabc78208801efe3", 1, this, new DMModelCallBack.DMCallback() {
+//                        DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(),LOGIN_DETAIL.getAccountTokenPwd(),"test123",1,MainActivity.this, new DMCallback() {
+
+                        DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(), LOGIN_DETAIL.getAccountTokenPwd(), 1, MainActivity.this, new DMCallback() {
+                            //                            DMVPhoneModel.loginVPhoneServer("ashishagrawal0108@gmail.com", "c5be8bcL88496f2bd778bfebeabc78208801efe3", 1, this, new DMModelCallBack.DMCallback() {
                             @Override
                             public void setResult(int errorCode, DMException e) {
+                                hideLoader();
                                 Log.d(TAG, "DMCallback: " + "errorCode=" + errorCode);
                                 if (e == null) {
                                     SharePreference.getInstance(MainActivity.this).putBoolean(Constant.IS_INTERCOM_LOGIN, true);
@@ -362,11 +384,13 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
                         });
 
+                    } else {
+                        hideLoader();
                     }
                 }
             });
         } else {
-              hideLoader();
+            hideLoader();
         }
     }
 
@@ -418,7 +442,6 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     @Override
     public void onResponseSuccess(SuccessDeviceListResponse successDeviceListResponse, String apiFlag) {
-        hideLoader();
         switch (apiFlag) {
             case Constant.UrlPath.DEVICE_LIST_API:
                 if (successDeviceListResponse.getStatus().equalsIgnoreCase("OK")) {
@@ -467,7 +490,6 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     @Override
     public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-        hideLoader();
         switch (apiFlag) {
             case Constant.UrlPath.DEVICE_LIST_API:
                 Util.firebaseEvent(Constant.APIERROR, MainActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
@@ -537,6 +559,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             }
         }
     }
+
     private void checkAndPromptExactAlarmPermission() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -545,6 +568,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             }
         }
     }
+
     private void showPermissionDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Permission Required")
@@ -561,18 +585,18 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                 .show();
     }
 
-    private class GetLatestVersion extends AsyncTask<String,Void,String> {
+    private class GetLatestVersion extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
             try {
-                sLatestVersion= Jsoup
+                sLatestVersion = Jsoup
                         .connect("https://play.google.com//store/apps/details?id="
-                                +getPackageName())
+                                + getPackageName())
                         .timeout(30000)
                         .get()
-                        .select("div.hAyfc:nth-child(4)>"+
-                                "span:nth-child(2) > div:nth-child(1)"+
+                        .select("div.hAyfc:nth-child(4)>" +
+                                "span:nth-child(2) > div:nth-child(1)" +
                                 "> span:nth-child(1)")
                         .first()
                         .ownText();
@@ -586,22 +610,20 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         @Override
         protected void onPostExecute(String s) {
             // Get current version
-            sCurrentVersion= BuildConfig.VERSION_NAME;
+            sCurrentVersion = BuildConfig.VERSION_NAME;
             // Set current version on Text view
 //            tvCurrentVersion.setText(sCurrentVersion);
 //            // Set latest version on TextView
 //            tvLatestVersion.setText(sLatestVersion);
 
-            if(sLatestVersion != null)
-            {
+            if (sLatestVersion != null) {
                 // Version convert to float
-                float cVersion=Float.parseFloat(sCurrentVersion);
-                float lVersion=Float.parseFloat(sLatestVersion);
+                float cVersion = Float.parseFloat(sCurrentVersion);
+                float lVersion = Float.parseFloat(sLatestVersion);
 
                 // Check condition(latest version is
                 // greater than the current version)
-                if(lVersion > cVersion)
-                {
+                if (lVersion > cVersion) {
                     // Create update AlertDialog
                     updateAlertDialog();
                 }
@@ -611,7 +633,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
 
     private void updateAlertDialog() {
         // Initialize AlertDialog
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // Set title
         builder.setTitle(getResources().getString(R.string.app_name));
         // set message
@@ -624,8 +646,8 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Open play store
-                startActivity(new Intent(Intent .ACTION_VIEW,
-                        Uri.parse("market://details?id"+getPackageName())));
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id" + getPackageName())));
                 // Dismiss alert dialog
                 dialogInterface.dismiss();
             }
@@ -667,6 +689,86 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             }
         }).addOnFailureListener(e -> {
             Log.e("MainActivity", "Update check failed", e);
+        });
+    }
+
+    void getAuthToken() {
+        Util.checkInternet(this, new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable) {
+                    String userIdApp = "";
+                    SharedPreferences sharePreferenceNew = MainActivity.this.getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+                    if (LOGIN_DETAIL.getAppuser() == null) {
+                        userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
+                    } else {
+                        userIdApp = LOGIN_DETAIL.getAppuserID();
+                    }
+                    apiServiceProvider.getAuthToken(userIdApp, new RetrofitListener<AuthTokenModel>() {
+                        @Override
+                        public void onResponseSuccess(AuthTokenModel sucessRespnse, String apiFlag) {
+                            if (sucessRespnse.getStatusCode() == 200) {
+                                if (sucessRespnse.getAuthToken() != null && !sucessRespnse.getAuthToken().isEmpty()) {
+                                    SharePreference.getInstance(MainActivity.this).putString(API_AUTH, sucessRespnse.getAuthToken());
+                                    LOGIN_DETAIL.setApiAuthToken(sucessRespnse.getAuthToken());
+                                }
+//
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            try {
+                                Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    void getFeture() {
+        Util.checkInternet(MainActivity.this, new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable) {
+                    String userIdApp = "";
+                    SharedPreferences sharePreferenceNew = MainActivity.this.getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+                    if (LOGIN_DETAIL.getAppuser() == null) {
+                        userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
+                    } else {
+                        userIdApp = LOGIN_DETAIL.getAppuserID();
+                    }
+                    Log.e("UserId", LOGIN_DETAIL.getAppuserID());
+//                    Log.e("UserAuthToken",LOGIN_DETAIL.getApiAuthToken());
+                    apiServiceProvider.callFeature(userIdApp, new RetrofitListener<AppFeatureModel>() {
+                        @Override
+                        public void onResponseSuccess(AppFeatureModel sucessRespnse, String apiFlag) {
+                            if (sucessRespnse.getStatusCode() == 200) {
+                                if (sucessRespnse.getMsg().equals("Features empty")) {
+                                    ArrayList<String> emptyList = new ArrayList<>();
+                                    SharePreference.getInstance(MainActivity.this).putFeatureForApp(emptyList);
+                                } else {
+                                    SharePreference.getInstance(MainActivity.this).putFeatureForApp(sucessRespnse.getData());
+//                                Toast.makeText(MainActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            try {
+                                Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
         });
     }
 }

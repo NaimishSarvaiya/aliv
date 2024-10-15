@@ -14,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.activity.DocumentPdfActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastDetailActivity;
 import com.iotsmartaliv.apiAndSocket.models.Broadcast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +44,7 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
     @Override
     public DocumentListAdapter.DocumentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mcx);
-        View view = inflater.inflate(R.layout.document_list_items,null);
+        View view = inflater.inflate(R.layout.document_list_items, null);
         return new DocumentListViewHolder(view);
     }
 
@@ -70,11 +72,11 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
 
         holder.txtDocList.setText(mDocument.getBroadcastTitle());
 
-        if (mDocument.getReadStatus().equalsIgnoreCase("0")){
+        if (mDocument.getReadStatus().equalsIgnoreCase("0")) {
 
             holder.txtDocList.setTypeface(null, Typeface.BOLD);
 
-        }else {
+        } else {
 
             holder.txtDocList.setTypeface(null, Typeface.NORMAL);
 
@@ -87,7 +89,7 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
         return documentlListModel.size();
     }
 
-    public class DocumentListViewHolder extends RecyclerView.ViewHolder{
+    public class DocumentListViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtDocList;
         ImageView imgDocList;

@@ -179,10 +179,19 @@ public class CommanUtils {
      * @return
      */
     public static String bitmapToBase64(Bitmap bitmap) {
+        // Define the target width and height
+        int targetWidth = 480;
+        int targetHeight = 640;
+
+        // Resize the bitmap to the specified dimensions
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+
+        // Convert the resized bitmap to Base64
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
         return encoded;
     }
 

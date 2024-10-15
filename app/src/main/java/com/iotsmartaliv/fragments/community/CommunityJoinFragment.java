@@ -64,7 +64,7 @@ public class CommunityJoinFragment extends Fragment implements RetrofitListener<
         binding =  FragmentCommunityJoinBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         setupUI(view);
         binding.submitBtn.setOnClickListener( v-> onViewClicked() );
         return binding.getRoot();

@@ -62,8 +62,8 @@ public class InProgressFeedbackFragment extends Fragment implements RetrofitList
         rv_inProgressFeed.setLayoutManager(new LinearLayoutManager(requireActivity()));
         feedbackListAdapter = new FeedbackListAdapter(requireActivity(), Constant.INPROGRESS_FEED, feedbackList);
         rv_inProgressFeed.setAdapter(feedbackListAdapter);
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
-        loadFeed(page);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+
 
         // Handle scroll for pagination
         rv_inProgressFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -151,5 +151,11 @@ public class InProgressFeedbackFragment extends Fragment implements RetrofitList
         // Reset the refreshing flag in case of an error
         isRefreshing = false;
         pullToRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFeed(page);
     }
 }

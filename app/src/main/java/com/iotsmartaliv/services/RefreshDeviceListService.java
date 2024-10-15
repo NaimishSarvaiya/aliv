@@ -44,7 +44,7 @@ public class RefreshDeviceListService extends Service implements RetrofitListene
     @Override
     public void onCreate() {
         super.onCreate();
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         Log.i(TAG, "onCreate: " + apiServiceProvider);
     }
 

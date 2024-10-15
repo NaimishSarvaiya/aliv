@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
@@ -29,6 +32,7 @@ import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.PrivacyPolicyActivity;
 import com.iotsmartaliv.activity.SettingActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
+import com.iotsmartaliv.activity.automation.HomeAutomationActivity;
 import com.iotsmartaliv.activity.feedback.FeedBackActivity;
 import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 import com.iotsmartaliv.constants.Constant;
@@ -38,11 +42,13 @@ import com.iotsmartaliv.fragments.community.CommunitySubListFragment;
 import com.iotsmartaliv.services.ShakeOpenService;
 import com.iotsmartaliv.utils.SharePreference;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
 import static com.iotsmartaliv.activity.MainActivity.drawerLayout;
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 /**
@@ -52,11 +58,12 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * @version 1.0
  * @since 2018-10-24
  */
-public class  DrawerFragment extends Fragment implements View.OnClickListener, CommunityJoinFragment.OnJoinCommunityFragmentInListener, CommunityListFragment.OnFragmentInteractionListener, HomeFragment.OnJoinCommunityFragmentInListener {
+public class DrawerFragment extends Fragment implements View.OnClickListener, CommunityJoinFragment.OnJoinCommunityFragmentInListener, CommunityListFragment.OnFragmentInteractionListener, HomeFragment.OnJoinCommunityFragmentInListener {
     TextView tv_profile_name;
     private RelativeLayout relHome, rlSetting, relMyAccount, relNotifications, relPayment, relHelp, relAboutUs,
-            relMessage, rel_community, rel_logout, rel_instructor,rel_communityBroadcast/*,rl_tutorial*/,rel_feedback,rel_privacyPolicy;
+            relMessage, rel_community, rel_logout, rel_instructor, rel_communityBroadcast/*,rl_tutorial*/, rel_feedback, rel_privacyPolicy;
     private ImageView imgCross;
+    ArrayList <String> appFeture;
 
     public DrawerFragment() {
     }
@@ -117,12 +124,13 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
      * Initialize views
      */
     private void initViews(View layout) {
+        appFeture = (ArrayList<String>) SharePreference.getInstance(getActivity()).getFeatureForApp();
         rel_instructor = layout.findViewById(R.id.rel_instructor);
         relHome = layout.findViewById(R.id.rel_home);
         rlSetting = layout.findViewById(R.id.rl_setting);
         rel_community = layout.findViewById(R.id.rel_community);
         rel_logout = layout.findViewById(R.id.rel_logout);
-        rel_communityBroadcast=layout.findViewById(R.id.rl_communitybroadcast);
+        rel_communityBroadcast = layout.findViewById(R.id.rl_communitybroadcast);
         /*rl_tutorial = layout.findViewById(R.id.rl_tutorial);*/
         relMyAccount = layout.findViewById(R.id.rel_my_account);
         relNotifications = layout.findViewById(R.id.rel_notification);
@@ -144,7 +152,7 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                 drawerLayout.closeDrawer(GravityCompat.START);
                 HomeFragment homeFragment = new HomeFragment();
                 homeFragment.setOnonJoinCommunityFragmentInListener(this);
-                loadFragments(homeFragment, false);
+                loadFragments(homeFragment, true);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     ((MainActivity) Objects.requireNonNull(getActivity())).tvHeader.setText("");
                 }
@@ -156,60 +164,70 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                 communityListFragment.setOnFragmentInteractionListener(this);
                 ((MainActivity) getActivity()).tvHeader.setText("Communities");
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(communityListFragment, false);
+                loadFragments(communityListFragment, true);
                 break;
             case R.id.rel_my_account:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.my_account));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
                 Fragment fragmentMyAccount = new MyAccountFragment();
-                loadFragments(fragmentMyAccount, false);
+                loadFragments(fragmentMyAccount, true);
                 break;
             case R.id.rel_notification:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentNotification = new NotificationFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.notification));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(fragmentNotification, false);
+                loadFragments(fragmentNotification, true);
                 break;
             case R.id.rel_payment:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentPayment = new PaymentFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.payment));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(fragmentPayment, false);
+                loadFragments(fragmentPayment, true);
                 break;
             case R.id.rel_help:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentHelp = new HelpFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.help));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(fragmentHelp, false);
+                loadFragments(fragmentHelp, true);
                 break;
             case R.id.rel_about_us:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment fragmentAboutUs = new AboutUsFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.about_us));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(fragmentAboutUs, false);
+                loadFragments(fragmentAboutUs, true);
                 break;
             case R.id.rel_message:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Fragment messageFragment = new MessageFragment();
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.message));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(messageFragment, false);
+                loadFragments(messageFragment, true);
                 break;
 
             case R.id.rl_communitybroadcast:
                 drawerLayout.closeDrawer(GravityCompat.START);
-                Intent intent1 = new Intent(getContext(), BroadcastCommunityActivity.class);
-                startActivity(intent1);
+                if (appFeture.contains(Constant.BROADCAST_MANAGMENT)) {
+                    Intent intent1 = new Intent(getContext(), BroadcastCommunityActivity.class);
+                    startActivity(intent1);
+                }else {
+                    Toast.makeText(requireActivity(),"Notice Board is not enabled for your community. Please contact your admin. Thanks!",Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.rel_feedback:
                 drawerLayout.closeDrawer(GravityCompat.START);
-                Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
-                startActivity(feddbackintent);
+                        if (appFeture.contains(Constant.FEEDBACK_MANAGMENT)) {
+                            Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
+                            startActivity(feddbackintent);
+                        }else {
+                            Toast.makeText(requireActivity(),"Feedback Management is not enabled for your community. Please contact your admin. Thanks!",Toast.LENGTH_LONG).show();
+                        }
+//                Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
+//                startActivity(feddbackintent);
                 break;
             case R.id.rel_privacyPolicy:
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -245,13 +263,13 @@ public class  DrawerFragment extends Fragment implements View.OnClickListener, C
                                     }
                                     return null;
                                 }
-
                                 @Override
                                 protected void onPostExecute(Void result) {
                                     Log.d("FCMTOKEN", "doInBackground: Done");
                                 }
                             }.execute();
                             getActivity().stopService(new Intent(getContext(), ShakeOpenService.class));
+                            SharePreference.getInstance(getContext()).delete(API_AUTH);
                             SharePreference.getInstance(getContext()).clearPref();
                             SharePreference.getInstance(getContext()).putBoolean(Constant.HAS_ON_BOARDING_SHOWN, true);
                             // startActivity(new Intent(getContext(), SplashActivity.class));

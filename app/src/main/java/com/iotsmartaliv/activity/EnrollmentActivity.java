@@ -68,7 +68,7 @@ public class EnrollmentActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enrollment);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         imgPlus = findViewById(R.id.plus_image);
         tvSubmit = findViewById(R.id.submit);
         tvSuggetion = findViewById(R.id.please_click_on_plus);
@@ -156,11 +156,11 @@ public class EnrollmentActivity extends AppCompatActivity implements View.OnClic
 
                                     @Override
                                     public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
-                                        if (throwable.getMessage()!=null) {
-                                            Toast.makeText(EnrollmentActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                        try {
+                                            Toast.makeText(EnrollmentActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(EnrollmentActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
                                         }
-                                        Util.firebaseEvent(Constant.APIERROR, EnrollmentActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
-
                                     }
                                 });
                             }

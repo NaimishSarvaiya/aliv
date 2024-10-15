@@ -22,6 +22,8 @@ import com.iotsmartaliv.apiAndSocket.models.TimeSlot;
 import com.iotsmartaliv.apiAndSocket.models.VideoDeviceListModel;
 import com.iotsmartaliv.apiAndSocket.utils.HttpUtil;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.model.AppFeatureModel;
+import com.iotsmartaliv.model.AuthTokenModel;
 import com.iotsmartaliv.model.AutomationRoomsResponse;
 import com.iotsmartaliv.model.BookRoomsResponse;
 import com.iotsmartaliv.model.BookingResponse;
@@ -34,6 +36,12 @@ import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorData;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
+import com.iotsmartaliv.model.booking.BookingDetailsModel;
+import com.iotsmartaliv.model.booking.CreateCustomerOnStripRequest;
+import com.iotsmartaliv.model.booking.CreateCustomerResponse;
+import com.iotsmartaliv.model.booking.RoomData;
+import com.iotsmartaliv.model.booking.RoomModel;
+import com.iotsmartaliv.model.booking.TimeSlotModel;
 import com.iotsmartaliv.model.feedback.AddFeedbackRequest;
 import com.iotsmartaliv.model.feedback.AddFeedbackResponse;
 import com.iotsmartaliv.model.feedback.FeedBackCategoryModel;
@@ -83,18 +91,18 @@ import static com.iotsmartaliv.constants.Constant.UrlPath.UPDATE_BROADCAST_READ_
 public class ApiServiceProvider<context> extends RetrofitBase {
     private ApiServices apiServices;
 
-    private ApiServiceProvider(Context context) {
-        super(context, true);
+    private ApiServiceProvider(Context context,Boolean authHeader) {
+        super(context, true,authHeader);
         apiServices = retrofit.create(ApiServices.class);
     }
 
-    public static ApiServiceProvider getInstance(Context context) {
-        ApiServiceProvider apiServiceProvider = new ApiServiceProvider(context);
+    public static ApiServiceProvider getInstance(Context context,Boolean authHeader) {
+        ApiServiceProvider apiServiceProvider = new ApiServiceProvider(context,authHeader);
         return apiServiceProvider;
     }
 
-    public static ApiServiceProvider getInstance1(Activity activity) {
-        ApiServiceProvider apiServiceProvider = new ApiServiceProvider(activity);
+    public static ApiServiceProvider getInstance1(Activity activity,Boolean authHeader) {
+        ApiServiceProvider apiServiceProvider = new ApiServiceProvider(activity,authHeader);
         return apiServiceProvider;
     }
 
@@ -940,7 +948,6 @@ public class ApiServiceProvider<context> extends RetrofitBase {
      */
 
     public void callForAssignOrUnssignVisitorsToGroups(String appuser_ID, String oprationType, ArrayList<VisitorData> visitorList, ArrayList<GroupData> groupsList, final RetrofitListener<SuccessResponse> responseRetrofitListener) {
-
         HashMap<String, String> stringStringHashMap = new HashMap<>();
         stringStringHashMap.put("appuser_ID", appuser_ID);
         stringStringHashMap.put("operation", oprationType);
@@ -958,7 +965,6 @@ public class ApiServiceProvider<context> extends RetrofitBase {
                 super.onResponse(call, response);
                 validateResponse(response, responseRetrofitListener, Constant.UrlPath.VISITORSTOGROUPS);
             }
-
             @Override
             public void onFailure(Call<SuccessResponse> call, Throwable t) {
                 super.onFailure(call, t);
@@ -1648,4 +1654,112 @@ public class ApiServiceProvider<context> extends RetrofitBase {
             }
         });
     }
+
+    public void getRoomList(String appuser_ID,String pageLimit,String page, final RetrofitListener<RoomModel> retrofitArrayListener) {
+
+        Call<RoomModel> call = apiServices.getRoomList(appuser_ID,pageLimit,page);
+        call.enqueue(new CallBackWithProgress<RoomModel>(context) {
+            @Override
+            public void onResponse(Call<RoomModel> call, Response<RoomModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+
+            @Override
+            public void onFailure(Call<RoomModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+    public void getTimeSlot(String roomId,String startDate,String endDate, final RetrofitListener<FeedbackModel> retrofitArrayListener) {
+
+        Call<TimeSlotModel> call = apiServices.getTimeSlot(roomId,startDate,endDate);
+        call.enqueue(new CallBackWithProgress<TimeSlotModel>(context) {
+            @Override
+            public void onResponse(Call<TimeSlotModel> call, Response<TimeSlotModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+
+            @Override
+            public void onFailure(Call<TimeSlotModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void getBookingDetails(String roomID,String slotID,String startDate,String endDate, final RetrofitListener<BookingDetailsModel> retrofitArrayListener) {
+        Call<BookingDetailsModel> call = apiServices.getBookedRoomDetails(roomID,slotID,startDate,endDate);
+        call.enqueue(new CallBackWithProgress<BookingDetailsModel>(context) {
+            @Override
+            public void onResponse(Call<BookingDetailsModel> call, Response<BookingDetailsModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+            @Override
+            public void onFailure(Call<BookingDetailsModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void callFeature(String appuser_ID,final RetrofitListener<AppFeatureModel> retrofitArrayListener) {
+
+        Call<AppFeatureModel> call = apiServices.getAppFeature(appuser_ID);
+        call.enqueue(new CallBackWithProgress<AppFeatureModel>(context) {
+            @Override
+            public void onResponse(Call<AppFeatureModel> call, Response<AppFeatureModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+
+            }
+
+            @Override
+            public void onFailure(Call<AppFeatureModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void createCustomerOnStripe(CreateCustomerOnStripRequest customerOnStripRequest, RetrofitListener<CreateCustomerResponse> retrofitListener) {
+        Call<CreateCustomerResponse> dataResponseCall = apiServices.createCustomer(customerOnStripRequest);
+        dataResponseCall.enqueue(new CallBackWithProgress<CreateCustomerResponse>(context) {
+            @Override
+            public void onResponse(Call<CreateCustomerResponse> call, Response<CreateCustomerResponse> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+
+            @Override
+            public void onFailure(Call<CreateCustomerResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void getAuthToken(String appuser_ID,final RetrofitListener<AuthTokenModel> retrofitArrayListener) {
+
+        Call<AuthTokenModel> call = apiServices.getAuthToken(appuser_ID);
+        call.enqueue(new CallBackWithProgress<AuthTokenModel>(context) {
+            @Override
+            public void onResponse(Call<AuthTokenModel> call, Response<AuthTokenModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+
+            }
+
+            @Override
+            public void onFailure(Call<AuthTokenModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+
 }

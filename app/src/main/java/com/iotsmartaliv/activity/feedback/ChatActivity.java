@@ -97,7 +97,7 @@ public class ChatActivity extends AppCompatActivity {
             // Retrieve the values using the keys
         }
 
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         setupRecyclerView();
         getChatHistory();
         setupSocket(); // Initialize Socket.IO connection
