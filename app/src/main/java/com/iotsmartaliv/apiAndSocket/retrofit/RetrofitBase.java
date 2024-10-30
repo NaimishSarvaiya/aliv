@@ -1,5 +1,6 @@
 package com.iotsmartaliv.apiAndSocket.retrofit;
 
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.iotsmartaliv.BuildConfig;
+import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
 import com.iotsmartaliv.apiAndSocket.models.SuccessResponse;
@@ -17,6 +19,7 @@ import com.iotsmartaliv.apiAndSocket.utils.HttpUtil;
 import com.iotsmartaliv.apiAndSocket.utils.Logger;
 import com.iotsmartaliv.apiAndSocket.utils.RequestInterceptor;
 import com.iotsmartaliv.constants.Constant;
+import com.iotsmartaliv.utils.SharePreference;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.concurrent.TimeUnit;
@@ -100,7 +103,7 @@ public class RetrofitBase {
 //        final String value = "RetroKit";
         builder.interceptors().add(chain -> {
             Request request = chain.request().newBuilder()
-                    .addHeader(header, LOGIN_DETAIL.getApiAuthToken())
+                    .addHeader(header, SharePreference.getInstance(context).getString(API_AUTH))
                     .build();
             return chain.proceed(request);
         });

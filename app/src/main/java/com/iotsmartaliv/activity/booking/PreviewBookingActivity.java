@@ -16,7 +16,7 @@ import com.iotsmartaliv.model.booking.BookingDetailsModel;
 
 public class PreviewBookingActivity extends AppCompatActivity {
     ActivityPreviewBookingBinding binding;
-    String startDate, endDate, timeSlot;
+    String startDate, endDate, timeSlot,slotId;
     BookingDetailsModel bookingDetails;
 
     @Override
@@ -31,6 +31,7 @@ public class PreviewBookingActivity extends AppCompatActivity {
             intent.putExtra(Constant.SELECTED_TIME_SLOT, timeSlot);
             intent.putExtra(Constant.ROOM_START_DATE, startDate);
             intent.putExtra(Constant.ROOM_END_DATE, endDate);
+            intent.putExtra(Constant.TIME_SLOT_ID, slotId);
             startActivity(intent);
         });
 
@@ -42,6 +43,10 @@ public class PreviewBookingActivity extends AppCompatActivity {
 
     private void setData() {
         Intent intent = getIntent();
+
+        if (intent.getStringExtra(Constant.TIME_SLOT_ID)!=null){
+            slotId = intent.getStringExtra(Constant.TIME_SLOT_ID);
+        }
         if (intent.getSerializableExtra(Constant.BOOKING_DETAILS) != null) {
             bookingDetails = (BookingDetailsModel) intent.getSerializableExtra(Constant.BOOKING_DETAILS);
         }

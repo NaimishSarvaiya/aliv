@@ -75,6 +75,7 @@ import java.util.Set;
 
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
@@ -777,10 +778,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                             Toast.makeText(SignUpActivity.this, "login successful", Toast.LENGTH_SHORT).show();
                                             SharePreference.getInstance(SignUpActivity.this).putString(LOGIN_PREFRENCE, new Gson().toJson(sucessRespnse.getData()));
                                             Constant.LOGIN_DETAIL = sucessRespnse.getData();
+                                            if (sucessRespnse.getData().getApiAuthToken()!=null) {
+                                                SharePreference.getInstance(SignUpActivity.this).putString(API_AUTH, sucessRespnse.getData().getApiAuthToken());
+                                            }
                                             SharePreference.getInstance(SignUpActivity.this).putBoolean(Constant.IS_LOGIN, true);
                                             Intent service = new Intent(SignUpActivity.this, DeviceLogSyncService.class);
 //                                startService(service);
-                                            Intent intent1 = new Intent(SignUpActivity.this, MainActivity.class);
+                                            Intent intent1 = new Intent( SignUpActivity.this, MainActivity.class);
                                             startActivity(intent1);
                                             finishAffinity();
                                         } else {

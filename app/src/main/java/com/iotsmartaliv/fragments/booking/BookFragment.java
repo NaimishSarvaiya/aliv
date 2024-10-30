@@ -4,7 +4,6 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.FragmentBookBinding;
 import com.iotsmartaliv.model.booking.RoomData;
 import com.iotsmartaliv.model.booking.RoomModel;
-import com.iotsmartaliv.model.feedback.FeedbackData;
 import com.iotsmartaliv.utils.Util;
 
 import java.util.ArrayList;
@@ -49,10 +47,10 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
     }
 
     private void init() {
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),true);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), true);
         binding.layoutNoData.tvTitle.setText(R.string.we_couldn_t_find_any_result);
         binding.layoutNoData.tvDetail.setText(R.string.we_couldn_t_locate_any_relevant_results_in_your_communities_right_now_please_try_again_later);
-        binding.layoutNoData.llNoFeedback.setVisibility(View.VISIBLE);
+        binding.layoutNoData.llNoBooking.setVisibility(View.VISIBLE);
         binding.rvBooking.setVisibility(View.GONE);
         binding.rvBooking.setLayoutManager(new LinearLayoutManager(requireActivity()));
         adapter = new BookListAdapter(requireActivity(), roomList);
@@ -66,7 +64,7 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
                     // Check if there are more records to load
                     if (page <= totalRecords) {
                         page++; // Increase page number
-                        loadFeed(page); // Load next page
+                        getRooms(page); // Load next page
                     } else {
                         // Show message if maximum records are loaded
 //                        Toast.makeText(requireActivity(), "All feeds loaded.", Toast.LENGTH_SHORT).show();
@@ -80,11 +78,11 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
             page = 1; // Reset page number for refresh
             roomList.clear(); // Clear current list
             adapter.refreshItems(new ArrayList<>()); // Clear adapter data
-            loadFeed(page); // Load the first page
+            getRooms(page); // Load the first page
         });
     }
 
-    void loadFeed(int page) {
+    void getRooms(int page) {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -104,7 +102,7 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
             ArrayList<RoomData> newData = (ArrayList<RoomData>) successResponse.getData();
 
             if (newData != null && newData.size() > 0) {
-                binding.layoutNoData.llNoFeedback.setVisibility(View.GONE);
+                binding.layoutNoData.llNoBooking.setVisibility(View.GONE);
                 binding.rvBooking.setVisibility(View.VISIBLE);
 
                 if (page == 1) {
@@ -117,7 +115,7 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
                 }
             } else {
                 if (page == 1) {
-                    binding.layoutNoData.llNoFeedback.setVisibility(View.VISIBLE);
+                    binding.layoutNoData.llNoBooking.setVisibility(View.VISIBLE);
                     binding.rvBooking.setVisibility(View.GONE);
                 }
             }
@@ -143,6 +141,8 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
     @Override
     public void onResume() {
         super.onResume();
-        loadFeed(page);
+        if (isAdded()) {
+            getRooms(page);
+        }
     }
 }

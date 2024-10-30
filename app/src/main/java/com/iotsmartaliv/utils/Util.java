@@ -4,6 +4,7 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -39,6 +41,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -818,5 +823,67 @@ public class Util {
             e.printStackTrace();
             return null;  // Return null if parsing fails
         }
+    }
+
+    public static void showNoDefaultCaedAlertDialog(Context context,String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setCancelable(false) // Prevents the dialog from being dismissed by clicking outside
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss(); // Dismiss the dialog when "Ok" is clicked
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    public static String getBookingStatusDescription(String statusCode) {
+        switch (statusCode) {
+            case "0":
+                return "Payment Due";
+            case "1":
+                return "Confirmed";
+            case "2":
+                return "Canceled";
+            case "3":
+                return "Payment Failed";
+            default:
+                return "Unknown Status";
+        }
+    }
+
+    // Method to calculate the date count using java.util.Calendar
+    public static int getDateCount(String startDateStr, String endDateStr) {
+        // Define the date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            // Parse the start and end dates
+            Date startDate = dateFormat.parse(startDateStr);
+            Date endDate = dateFormat.parse(endDateStr);
+
+            // Get calendar instances for start and end dates
+            Calendar startCal = Calendar.getInstance();
+            Calendar endCal = Calendar.getInstance();
+            startCal.setTime(startDate);
+            endCal.setTime(endDate);
+
+            // Calculate the number of days between start and end dates (inclusive)
+            int dayCount = 0;
+            while (!startCal.after(endCal)) {
+                dayCount++;
+                startCal.add(Calendar.DATE, 1); // Move to the next day
+            }
+
+            // Return the date count
+            return dayCount;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Return 0 if an error occurs
+        return 0;
     }
 }

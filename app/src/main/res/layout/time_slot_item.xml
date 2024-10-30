@@ -5,7 +5,8 @@
     android:id="@+id/rl_timeSlot"
     android:background="@drawable/bg_available_time_slot"
     android:orientation="vertical"
-    android:padding="7dp">
+    android:padding="7dp"
+    android:layout_marginBottom="7dp">
     <TextView
         android:id="@+id/tv_timestart"
         android:layout_width="wrap_content"

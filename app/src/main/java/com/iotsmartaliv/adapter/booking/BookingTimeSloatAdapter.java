@@ -18,12 +18,17 @@ import com.iotsmartaliv.model.booking.TimeSlotModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class BookingTimeSloatAdapter extends RecyclerView.Adapter<BookingTimeSloatAdapter.BookListViewHolder> {
     private Context context;
     private List<TimeSlotDataModel> timeSlotList;
+    String startDate;
     private int selectedPosition = -1; // Track the selected time slot
     private OnTimeSlotClickListener listener;
 
@@ -49,8 +54,8 @@ public class BookingTimeSloatAdapter extends RecyclerView.Adapter<BookingTimeSlo
         String formattedEndTime;
         String formattedStartTime;
         try {
-             formattedEndTime = outputFormat.format(inputFormat.parse(timeSlot.getEndTime()));
-             formattedStartTime = outputFormat.format(inputFormat.parse(timeSlot.getStartTime()));
+            formattedEndTime = outputFormat.format(inputFormat.parse(timeSlot.getEndTime()));
+            formattedStartTime = outputFormat.format(inputFormat.parse(timeSlot.getStartTime()));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -59,9 +64,68 @@ public class BookingTimeSloatAdapter extends RecyclerView.Adapter<BookingTimeSlo
         // Bind the time slot data to UI elements
         holder.tvStartTime.setText(formattedStartTime);
         holder.tvEndTime.setText(formattedEndTime);
+        boolean isToday = isCurrentDate(startDate);
+        Calendar currentTime = Calendar.getInstance();
+        String currentTimeString = inputFormat.format(currentTime.getTime());
+        Date startTime;
+        Date now;
+        try {
+            startTime = inputFormat.parse(timeSlot.getStartTime());
+            now = inputFormat.parse(currentTimeString);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
-        // Set the background based on the slot's state
-        if (timeSlot.getIsBooked() != null && timeSlot.getIsBooked()) {
+
+        if (isToday) {
+            // Set the background based on the slot's state
+            if (startTime != null && now != null && startTime.before(now)) {
+                // The slot's start time has passed, mark as unavailable
+                holder.rlTimeSlot.setBackgroundResource(R.drawable.bg_unavailable_slot);
+                holder.rlTimeSlot.setOnClickListener(null); // Disable clicking on unavailable slots
+                holder.tvStartTime.setTextColor(ContextCompat.getColor(context, R.color.white));
+                holder.tvEndTime.setTextColor(ContextCompat.getColor(context, R.color.white));
+            } else {
+                if (timeSlot.getIsBooked() != null && timeSlot.getIsBooked()) {
+                    // Unavailable time slot (Booked)
+                    holder.rlTimeSlot.setBackgroundResource(R.drawable.bg_unavailable_slot);
+                    holder.rlTimeSlot.setOnClickListener(null);// Disable clicking on unavailable slots
+                    holder.tvStartTime.setTextColor(ContextCompat.getColor(context, R.color.white));
+                    holder.tvEndTime.setTextColor(ContextCompat.getColor(context, R.color.white));
+                } else {
+                    // Available slot
+                    if (selectedPosition == position) {
+                        // Slot is selected
+                        holder.rlTimeSlot.setBackgroundResource(R.drawable.bg_selected_time_slot);
+                        holder.tvStartTime.setTextColor(ContextCompat.getColor(context, R.color.white));
+                        holder.tvEndTime.setTextColor(ContextCompat.getColor(context, R.color.white));
+                    } else {
+                        // Slot is available but not selected
+                        holder.rlTimeSlot.setBackgroundResource(R.drawable.bg_available_time_slot);
+                        holder.tvStartTime.setTextColor(ContextCompat.getColor(context, R.color.newNavyBuleBaseColor));
+                        holder.tvEndTime.setTextColor(ContextCompat.getColor(context, R.color.newNavyBuleBaseColor));
+                    }
+
+                    // Set click listener for available time slot
+                    holder.rlTimeSlot.setOnClickListener(v -> {
+                        if (selectedPosition == holder.getAdapterPosition()) {
+                            // Deselect if the same slot is clicked
+                            int previousPosition = selectedPosition;
+                            selectedPosition = -1; // Clear selection
+                            notifyItemChanged(previousPosition);
+                            listener.onTimeSlotSelected(null); // Notify listener of deselection
+                        } else {
+                            // Select the new slot
+                            int previousPosition = selectedPosition;
+                            selectedPosition = holder.getAdapterPosition();
+                            notifyItemChanged(previousPosition); // Update old selection
+                            notifyItemChanged(selectedPosition); // Update new selection
+                            listener.onTimeSlotSelected(timeSlot); // Notify listener of selection
+                        }
+                    });
+                }
+            }
+        } else if (timeSlot.getIsBooked() != null && timeSlot.getIsBooked()) {
             // Unavailable time slot (Booked)
             holder.rlTimeSlot.setBackgroundResource(R.drawable.bg_unavailable_slot);
             holder.rlTimeSlot.setOnClickListener(null);// Disable clicking on unavailable slots
@@ -107,8 +171,9 @@ public class BookingTimeSloatAdapter extends RecyclerView.Adapter<BookingTimeSlo
     }
 
     // Method to update the adapter with new data
-    public void setTimeSlotList(List<TimeSlotDataModel> timeSlotList) {
+    public void setTimeSlotList(List<TimeSlotDataModel> timeSlotList, String startDate) {
         this.timeSlotList = timeSlotList;
+        this.startDate = startDate;
         notifyDataSetChanged();
     }
 
@@ -133,5 +198,22 @@ public class BookingTimeSloatAdapter extends RecyclerView.Adapter<BookingTimeSlo
     // Listener interface inside the adapter
     public interface OnTimeSlotClickListener {
         void onTimeSlotSelected(TimeSlotDataModel timeSlotData);
+    }
+
+    public static boolean isCurrentDate(String dateString) {
+        // Parse the input date string to LocalDate
+        LocalDate givenDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            givenDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);
+        }
+
+        // Get the current date
+        LocalDate currentDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            currentDate = LocalDate.now();
+        }
+
+        // Return true if the given date matches the current date, otherwise false
+        return givenDate.equals(currentDate);
     }
 }

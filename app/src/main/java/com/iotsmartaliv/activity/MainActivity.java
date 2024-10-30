@@ -245,21 +245,22 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             finish();
         }
 //        try {
-//
-//            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH)!= null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
+//            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) == null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
 //                getAuthToken();
+//            }else {
+//                Log.e("Auth",SharePreference.getInstance(MainActivity.this).getString(API_AUTH));
 //            }
 //        } catch (Exception e) {
 //            finish();
 //        }
 
-        try {
-            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) != null || SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
+//        try {
+//            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) != null || SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
             getFeture();
-            }
-        } catch (Exception e) {
-            finish();
-        }
+//            }
+//        } catch (Exception e) {
+//            finish();
+//        }
 
         initViews();
         initListeners();
@@ -452,9 +453,9 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                         st.execute();
                     } else {
                         deviceLIST = new ArrayList<>();
+                        Toast.makeText(this, "Device List Empty", Toast.LENGTH_LONG).show();
                         SaveTask st = new SaveTask();
                         st.execute();
-                        Toast.makeText(this, "Device List Empty", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(this, successDeviceListResponse.getMsg(), Toast.LENGTH_LONG).show();
@@ -711,6 +712,7 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                                 if (sucessRespnse.getAuthToken() != null && !sucessRespnse.getAuthToken().isEmpty()) {
                                     SharePreference.getInstance(MainActivity.this).putString(API_AUTH, sucessRespnse.getAuthToken());
                                     LOGIN_DETAIL.setApiAuthToken(sucessRespnse.getAuthToken());
+                                    Log.e("Auth",sucessRespnse.getAuthToken());
                                 }
 //
                             }

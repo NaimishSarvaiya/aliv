@@ -1,4 +1,5 @@
 package com.iotsmartaliv.dmvphonedemotest;
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.VO_IP;
 import static com.iotsmartaliv.constants.Constant.VO_PORT;
 
@@ -11,6 +12,7 @@ import com.facebook.stetho.Stetho;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.iotsmartaliv.BuildConfig;
+import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.apiAndSocket.retrofit.ApiServices;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.VoIpModel;
@@ -54,7 +56,13 @@ public class MVDPApplication extends Application {
         }else {
             Log.e("BuildVeriant","Debug");
         }
-        getVoip();
+        ip = SharePreference.getInstance(this).getString(VO_IP);
+        port = SharePreference.getInstance(this).getString(VO_PORT);
+        if ((ip == null || ip.isEmpty()) && (port == null || port.isEmpty())) {
+            getVoip();
+        } else {
+            configure(ip, port);
+        }
 
         // DMVPhoneModel.addPushIntentService(DemoIntentService.class);//添加自定义推送透传监听
         // ChangeServerUtil.getInstance().setAppServer(ServerContainer.THINMOO_HUAWEI_APP_SERVER);
@@ -70,8 +78,7 @@ public class MVDPApplication extends Application {
     }
 
     public void configure(String ip,String port){
-        SharePreference.getInstance(this).putString(VO_IP, ip);
-        SharePreference.getInstance(this).putString(VO_PORT, port);
+
         ConnectivityHelper.initialize(this);
         FirebaseApp.initializeApp(this);
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
@@ -137,21 +144,28 @@ public class MVDPApplication extends Application {
                         port = "5061";
                     }
                     configure(ip, port);
+                    SharePreference.getInstance(MVDPApplication.this).putString(VO_IP, ip);
+                    SharePreference.getInstance(MVDPApplication.this).putString(VO_PORT, port);
                 } else {
                     // when ever api gives null data we set a static ip and port for configure device sdk
                     configure("113.197.36.196", "5061");
+                    SharePreference.getInstance(MVDPApplication.this).putString(VO_IP, ip);
+                    SharePreference.getInstance(MVDPApplication.this).putString(VO_PORT, port);
                 }
-
             }
-
             @Override
             public void onFailure(Call<VoIpModel> call, Throwable t) {
-                configure("113.197.36.196", "5061");
+                ip = "113.197.36.196";
+                port = "5061";
+                SharePreference.getInstance(MVDPApplication.this).putString(VO_IP, ip);
+                SharePreference.getInstance(MVDPApplication.this).putString(VO_PORT, port);
+                configure(ip, port);
 
                 // This method is called when the API request fails.
 //                Toast.makeText(this, "Request Fail", Toast.LENGTH_SHORT).show();
                 Log.e("","");
             }
         });
+
     }
 }

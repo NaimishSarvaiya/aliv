@@ -33,6 +33,7 @@ import com.iotsmartaliv.activity.PrivacyPolicyActivity;
 import com.iotsmartaliv.activity.SettingActivity;
 import com.iotsmartaliv.activity.ViewPager.BroadcastCommunityActivity;
 import com.iotsmartaliv.activity.automation.HomeAutomationActivity;
+import com.iotsmartaliv.activity.booking.PaymentActivity;
 import com.iotsmartaliv.activity.feedback.FeedBackActivity;
 import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 import com.iotsmartaliv.constants.Constant;
@@ -50,6 +51,9 @@ import java.util.Objects;
 import static com.iotsmartaliv.activity.MainActivity.drawerLayout;
 import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
+import static com.iotsmartaliv.constants.Constant.STRIPE_CUSTOMER_ID;
+import static com.iotsmartaliv.constants.Constant.VO_IP;
+import static com.iotsmartaliv.constants.Constant.VO_PORT;
 
 /**
  * This fragment class is used for left fragment drawer.
@@ -270,6 +274,9 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
                             }.execute();
                             getActivity().stopService(new Intent(getContext(), ShakeOpenService.class));
                             SharePreference.getInstance(getContext()).delete(API_AUTH);
+                            SharePreference.getInstance(getContext()).delete(STRIPE_CUSTOMER_ID);
+                            SharePreference.getInstance(getContext()).delete(VO_IP);
+                            SharePreference.getInstance(getContext()).delete(VO_PORT);
                             SharePreference.getInstance(getContext()).clearPref();
                             SharePreference.getInstance(getContext()).putBoolean(Constant.HAS_ON_BOARDING_SHOWN, true);
                             // startActivity(new Intent(getContext(), SplashActivity.class));

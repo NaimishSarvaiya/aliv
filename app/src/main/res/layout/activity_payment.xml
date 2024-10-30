@@ -11,10 +11,12 @@
         android:id="@+id/ll_toolbar"
         layout="@layout/booking_toolbar"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/rl_confirmBooking"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/ll_toolbar">
 
         <LinearLayout
@@ -62,8 +64,8 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/previewBookingSubTitleTV"
                         android:id="@+id/tv_BookingDate"
+                        style="@style/previewBookingSubTitleTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -118,8 +120,8 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/previewBookingSubTitleTV"
                         android:id="@+id/tv_roomName"
+                        style="@style/previewBookingSubTitleTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -138,210 +140,445 @@
 
             </LinearLayout>
 
-            <TextView
-                style="@style/headerBookingTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Payment"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
-
             <LinearLayout
+                android:id="@+id/ll_fees"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingVertical="5dp">
+                android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="@drawable/book_item_bg"
-                    android:padding="7dp">
+                <TextView
+                    style="@style/headerBookingTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Payment"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
 
-                    <ImageView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <RelativeLayout
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/fees"
-                        app:tint="@color/newLightBlueBaseColor" />
-                </RelativeLayout>
+                        android:background="@drawable/book_item_bg"
+                        android:padding="7dp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/fees"
+                            app:tint="@color/newLightBlueBaseColor" />
+                    </RelativeLayout>
 
-                    <TextView
-                        style="@style/previewBookingSubTitleTV"
-
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Booking Fee" />
-
-                    <TextView
-                        style="@style/paymentTotalTitleTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="3dp"
-                        android:text="Total" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_bookinFees"
-                        style="@style/previewBookingSubTitleTV"
-                        android:textAlignment="textEnd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="$90.0" />
-
-                    <TextView
-                        android:id="@+id/tv_total"
-                        android:textAlignment="textEnd"
-                        style="@style/paymentTotalTitleTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="3dp"
-                        android:text="$90.0" />
-                </LinearLayout>
-            </LinearLayout>
-            <TextView
-                style="@style/headerBookingTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Deposit"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingVertical="5dp">
-
-                <RelativeLayout
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="@drawable/book_item_bg"
-                    android:padding="7dp">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/transaction"
-                        app:tint="@color/newLightBlueBaseColor" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/previewBookingSubTitleTV"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Deposit Hold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_deposit"
-                        style="@style/previewBookingSubTitleTV"
-                        android:textAlignment="textEnd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="$90.0" />
-
-                </LinearLayout>
-            </LinearLayout>
-            <TextView
-                style="@style/headerBookingTitleTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Card"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingVertical="5dp">
-
-                    <ImageView
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/previewBookingSubTitleTV"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Booking Fee" />
+
+                        <TextView
+                            style="@style/paymentTotalTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="3dp"
+                            android:text="Total" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_bookingFees"
+                            style="@style/previewBookingSubTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="$90.0"
+                            android:textAlignment="textEnd" />
+
+                        <TextView
+                            android:id="@+id/tv_total"
+                            style="@style/paymentTotalTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="3dp"
+                            android:text="$90.0"
+                            android:textAlignment="textEnd" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bookingFees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_titlePayFess"
+                    style="@style/headerBookingTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="How whould you like to pay fees?"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
+
+                <LinearLayout
+                    android:id="@+id/ll_payNowFees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/pay_now" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/previewBookingSubTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Paynow" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_cbPayNowfees"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_paynowFees"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/custom_checkbox"
+                            android:padding="4dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_cardPayFees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_cardFees"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/visa_card" />
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/no_card" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/previewBookingSubTitleTV"
-
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="Deposit Hold" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1.5"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/tv_cardNumberFees"
+                            style="@style/previewBookingSubTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="No card added" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_changeCardFees"
+                            style="@style/feedbackTitleTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:background="@drawable/bg_booking_nevy_blue"
+                            android:paddingHorizontal="17dp"
+                            android:paddingVertical="6dp"
+                            android:text="Add" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_cbCardFees"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+                        <CheckBox
+                            android:id="@+id/checkbox_cardFees"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/custom_checkbox"
+                            android:padding="4dp"/>
+
+                    </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_deposit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/headerBookingTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Deposit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
 
                 <LinearLayout
-
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
 
-                    <TextView
-                        android:id="@+id/tv_changeCard"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="2dp"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/book_item_bg"
+                        android:padding="7dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/transaction"
+                            app:tint="@color/newLightBlueBaseColor" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Change"
-                        android:paddingVertical="8dp"
-                        android:background="@drawable/bg_booking_nevy_blue"
-                        android:paddingHorizontal="8dp"
-                        style="@style/feedbackTitleTextStyle"/>
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
+                        <TextView
+                            style="@style/previewBookingSubTitleTV"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Deposit Hold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_deposit"
+                            style="@style/previewBookingSubTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="$90.0"
+                            android:textAlignment="textEnd" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bookingDeposit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_payDepost"
+                    style="@style/headerBookingTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="How whould you like to pay Deposit?"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dotsLayout" />
+
+                <LinearLayout
+                    android:id="@+id/ll_payNowDepost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/pay_now" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/previewBookingSubTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="Paynow" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+android:id="@+id/ll_cbPaynowDeposit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/checkbox_paynowDeposit"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/custom_checkbox"
+                            android:padding="4dp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_payCarDepost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:paddingVertical="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_card"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/no_card" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_cardNumberDepost"
+                            style="@style/previewBookingSubTitleTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="No card added" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_changeCardDeposit"
+                            style="@style/feedbackTitleTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:background="@drawable/bg_booking_nevy_blue"
+                            android:paddingHorizontal="17dp"
+                            android:paddingVertical="6dp"
+                            android:text="Add" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+android:id="@+id/ll_cbPayCardDeposit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+                        <CheckBox
+                            android:id="@+id/checkbox_cardDepost"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/custom_checkbox"
+                            android:padding="4dp"/>
+
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 

@@ -22,19 +22,23 @@ import com.iotsmartaliv.adapter.booking.RoomImageViewPagerAdapter;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityBookingTermsAndConditionBinding;
 import com.iotsmartaliv.model.booking.BookingDetailsModel;
+import com.iotsmartaliv.model.booking.ComFeature;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookingTermsAndConditionActivity extends AppCompatActivity {
     ActivityBookingTermsAndConditionBinding binding;
     RoomImageViewPagerAdapter adapter;
     BookingDetailsModel bookingDetails;
-    private int[] imageList = {
-            R.mipmap.ic_room,
-            R.mipmap.ic_room,
-            R.mipmap.ic_room,
-            R.mipmap.ic_room,
-    };
+    List<ComFeature> comFeatures = new ArrayList<>();
+//    private int[] imageList = {
+//            R.mipmap.ic_room,
+//    };
+
+    private List<String> roomImageList = new ArrayList<>();
     private ImageView[] dots;
-    String startDate, endDate, timeSlot;
+    String startDate, endDate, timeSlot,slotId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +50,8 @@ public class BookingTermsAndConditionActivity extends AppCompatActivity {
 
     void init() {
         setData();
-        adapter = new RoomImageViewPagerAdapter(this, imageList);
+        adapter = new RoomImageViewPagerAdapter(this, roomImageList);
         binding.viewPager.setAdapter(adapter);
-
         binding.viewPager.post(() -> addDotsIndicator(0));
         binding.viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -63,8 +66,9 @@ public class BookingTermsAndConditionActivity extends AppCompatActivity {
             intent.putExtra(Constant.SELECTED_TIME_SLOT, timeSlot);
             intent.putExtra(Constant.ROOM_START_DATE, startDate);
             intent.putExtra(Constant.ROOM_END_DATE, endDate);
+            intent.putExtra(Constant.TIME_SLOT_ID, slotId);
+
             startActivity(intent);
-            finish();
         });
         binding.llToolbar.imgBack.setOnClickListener(v -> {
             finish();
@@ -75,6 +79,9 @@ public class BookingTermsAndConditionActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getSerializableExtra(Constant.BOOKING_DETAILS)!=null) {
             bookingDetails = (BookingDetailsModel) intent.getSerializableExtra(Constant.BOOKING_DETAILS);
+        }
+        if (intent.getStringExtra(Constant.TIME_SLOT_ID)!=null){
+            slotId = intent.getStringExtra(Constant.TIME_SLOT_ID);
         }
         if (intent.getStringExtra(Constant.ROOM_START_DATE)!=null) {
             startDate = intent.getStringExtra(Constant.ROOM_START_DATE);
@@ -91,17 +98,14 @@ public class BookingTermsAndConditionActivity extends AppCompatActivity {
         }else {
             timeSlot = "";
         }
+        if (intent.getStringExtra(Constant.ROOM_IMAGE)!=null ){
+            roomImageList.add(intent.getStringExtra(Constant.ROOM_IMAGE));
+        }
 
         if (bookingDetails != null) {
 
             binding.llToolbar.tvHeader.setText(bookingDetails.getData().getRoomName());
             Spanned formattedText;
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                formattedText = Html.fromHtml(bookingDetails.getData().getTermConditions(), Html.FROM_HTML_MODE_LEGACY);
-            } else {
-                formattedText = Html.fromHtml(bookingDetails.getData().getTermConditions());
-            }
             if (bookingDetails.getData().getRoomName()!=null) {
                 binding.llToolbar.tvHeader.setText(bookingDetails.getData().getRoomName());
             }else {
@@ -133,7 +137,7 @@ public class BookingTermsAndConditionActivity extends AppCompatActivity {
     }
 
     private void addDotsIndicator(int currentPage) {
-        dots = new ImageView[imageList.length];
+        dots = new ImageView[roomImageList.size()];
         binding.dotsLayout.removeAllViews(); // Clear previous dots
 
         for (int i = 0; i < dots.length; i++) {

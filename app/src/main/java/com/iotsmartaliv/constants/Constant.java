@@ -68,6 +68,7 @@ public class Constant {
     public static final String FROM_DRAWER = "from_drawer";
     public static final String VO_IP = "VoIp";
     public static final String VO_PORT = "VoPort";
+
     /**
      * deviceList is a list of device list of particular user.
      */
@@ -99,6 +100,7 @@ public class Constant {
     public static final String HISTORY_FEED_STATUS = "3";
     public static final String FEED_PAGE_LIMIT = "20";
     public static final String ROOM_PAGE_LIMIT = "5";
+    public static final String HiSTORY_PAGE_LIMIT = "10";
     public static final String FEEDBACK_ID = "feedback_ID";
     public static final String FILE_URI = "file_uri";
     public static final String MIME_TYPE = "mime_type";
@@ -116,6 +118,7 @@ public class Constant {
     public static final String ROOM_TITLE = "roomTitle";
     public static final String ROOM_TYPE = "roomType";
     public static final String BOOKING_DETAILS = "roomType";
+    public static final String ROOM_IMAGE = "roomImage";
     public static final String SELECTED_TIME_SLOT = "selectedTimeSlot";
     public static final String APP_FEATURE = "selectedTimeSlot";
     public static final String BOOKING_MANAGMENT = "booking_management";
@@ -124,6 +127,25 @@ public class Constant {
     public static final String USER_APP_NAME = "userapp_name";
     public static final String FEEDBACK_MANAGMENT = "Feedback_Management";
     public static final String API_AUTH = "apiAuth";
+    public static final String DEFAULT_CARD_ID = "defaultCardId";
+    public static final String STRIPE_CUSTOMER_ID = "stripeCustomerId";
+    public static final String BOOKING_ID = "bookingID";
+    public static final String STRIPE_TEST_KEY = "pk_test_51Pdoiz2NBH7SqlrSURz4eZLGP0Jf0EC1dRHLuHFQxJ4ZOCvm1poYR5uGrty0e3dos9LiRVzdOrvl9XS1LixaAqCU00Y92SLNXQ";
+    public static  boolean FROM_BOOKING = false;
+    public static  String TIME_SLOT_ID = "slotID";
+    public static  String NAVIGATION_PATH = "path";
+    public static String RESCHEDUL = "reschedule";
+    public static String BOOKING_DETAIL_DATA = "reschedule";
+    public static String OUTSTANDING_AMOUNT = "outStandingAmount";
+    public static final String FROM_ACTIVE_BOOKING = "fromActiveBooking";
+    public static final String FROM_HISTORY_BOOKING = "fromHistoryBooking";
+    public static final String PAYMENT_FEATURE_ARRAY = "paymentFeatureArray";
+    public static final String PAY_FEES_BY_CARD = "payFeesByCard";
+    public static final String PAY_FEES_BY_PAYNOW = "PayFeesByPaynow";
+    public static final String PAY_DEPOSIT_BY_CARD = "payDepositByCard";
+    public static final String PAY_DEPOSIT_BY_PAYNOW = "PayDepositByPaynow";
+
+
 
     /**
      * This method is used for showing message in snack bar.
@@ -228,10 +250,9 @@ public class Constant {
         int SOCKET_TIME_OUT = 60;
         int CONNECTION_TIME_OUT = 60;
     }
-
     public interface UrlPath {
-                String BASEURL = "https://aliv.com.sg/"; // Live server.
-//        String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
+//                String BASEURL = "https://aliv.com.sg/"; // Live server.
+        String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
         String PATH = "alivapp/";                  // Here is the path path of API.
         String SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
 
@@ -251,6 +272,7 @@ public class Constant {
          * This are the End Point list of Device API.
          */
         String DEVICE_LIST_API = "userDevices";
+//        String DEVICE_LIST_API = "userDevicesTest";
 
         /**
          * This is the End Point list of Community Device API.
@@ -391,7 +413,23 @@ public class Constant {
         String COMM_FEATURES_APP_USER = "commfeaturesAppUser";
         String CREATE_CUSTOMER_IN_STRIPE = "createCustomerInStripe";
         String GET_BOOKING_AUTH_TOKEN = "getBookingAuthToken";
-
+        String GET_DEFAULT_CARD_STRIPE = "getDefaultCardStripe";
+        String GET_CUSTOMER_CARD_STRIPE = "getCustomerCardsStripe";
+        String ATTACHE_PAYMENT_METHOD_STRIPE = "attechPaymentMethodStripe";
+        String DELETE_CARD_STRIPE = "deleteCardStripe";
+        String SET_DEFAULT_CARD_STRIPE = "setDefaultCardStripe";
+        String CREATE_PAYMENT_STRIPE = "createPaymentStripe";
+        String CREATE_PAYMENT_PAYNOW = "createPaymentPayNow";
+        String CONFIRM_BOOKING_SLOT = "confirmBookingSlot";
+        String ADD_BOOKING_SLOT = "addBookingSlot";
+        String ACTIVE_BOOKING_SLOT = "activeBookingSlot";
+        String PAST_BOOKING = "pastBookingSlot";
+        String CANCEL_BOOKING_SLOT = "cancelBookingSlot";
+        String BOOKING_SLOT_DETAIL = "bookingSlotDetail";
+        String CANCEL_BOOKING = "cancelBooking";
+        String GET_CUSTOMER_TRANSACTION = "getCustomerTransactions";
+        String GET_TOTAL_DEPOSIT_OF_CUSTOMER = "getTotalDepositOfCustomer";
+        String UPDATE_BOOKING_DATES = "updateBookingDates";
 
     }
 

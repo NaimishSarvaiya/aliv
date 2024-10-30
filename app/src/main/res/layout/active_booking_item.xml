@@ -47,7 +47,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_room_type"
+                        android:id="@+id/tv_bookingId"
                         style="@style/blackBookingboldSubTitleTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
 
                     <TextView
                         android:layout_marginTop="2dp"
-                        android:id="@+id/txt_feedbackTitle"
+                        android:id="@+id/tv_community"
                         style="@style/blackBookingTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -63,13 +63,14 @@
 
                     <TextView
                         android:layout_marginTop="2dp"
-                        android:id="@+id/txt_categoryName"
+                        android:id="@+id/tv_bookingFrom"
                         style="@style/blackBookingTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="FROM : 22-Aug-2024" />
 
                     <TextView
+                        android:id="@+id/tv_bookingTo"
                         android:layout_marginTop="2dp"
                         style="@style/blackBookingTV"
                         android:layout_width="wrap_content"
@@ -77,6 +78,7 @@
                         android:text="TO : 22-Aug-2024" />
 
                     <TextView
+                        android:id="@+id/tv_bookingSlot"
                         android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

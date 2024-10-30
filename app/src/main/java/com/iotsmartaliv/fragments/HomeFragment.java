@@ -55,6 +55,8 @@ import com.iotsmartaliv.activity.automation.HomeAutomationActivity;
 import com.iotsmartaliv.activity.booking.BookingActivity;
 import com.iotsmartaliv.activity.booking.BookingDetailsActivity;
 import com.iotsmartaliv.activity.booking.BookingFacilityActivity;
+import com.iotsmartaliv.activity.booking.PaymentActivity;
+import com.iotsmartaliv.activity.booking.TestPayment;
 import com.iotsmartaliv.adapter.HomePageSliderAdpter;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
@@ -172,7 +174,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             if (deviceLIST.size() == 0) {
                 pressed = false;
                 if (deviceList.size() != 0) {
-                    apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+                    apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
                     CheckBookingRequest checkBookingRequest = new CheckBookingRequest(LOGIN_DETAIL.getAppuserID(), deviceList.get(0));
                     apiServiceProvider.checkDeviceBooking(checkBookingRequest, new RetrofitListener<SuccessDeviceListResponse>() {
                         @Override
@@ -204,7 +206,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                 if (deviceListNearby.get(0).getRssi() > -70) {
                                     LibDevModel libDev = getLibDev(deviceListNearby.get(0));
                                     openingDoorDeviceSN = deviceListNearby.get(0).getDeviceSno();
-
+//                                    Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
                                     int ret = LibDevModel.openDoor(getContext(), libDev, callback);
                                     if (ret == 0) {
                                         return;
@@ -282,6 +284,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                 LibDevModel libDev = getLibDev(deviceLIST.get(0));
                                 openingDoorDeviceSN = deviceLIST.get(0).getDeviceSno();
 //                changeStatus(  LOGIN_DETAIL.getAppuserID(),deviceLIST.get(0).getDeviceSno());
+//                                Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
                                 int ret = LibDevModel.openDoor(getContext(), libDev, callback);
                                 if (ret == 0) {
                                     return;
@@ -299,7 +302,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                             Toast.makeText(getActivity(), "User can not access at this time", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+                        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
                         CheckBookingRequest checkBookingRequest = new CheckBookingRequest(LOGIN_DETAIL.getAppuserID(), deviceList.get(0));
                         apiServiceProvider.checkDeviceBooking(checkBookingRequest, new RetrofitListener<SuccessDeviceListResponse>() {
                             @Override
@@ -331,7 +334,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                     if (deviceListNearby.get(0).getRssi() > -70) {
                                         LibDevModel libDev = getLibDev(deviceListNearby.get(0));
                                         openingDoorDeviceSN = deviceListNearby.get(0).getDeviceSno();
-
+//                                        Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
                                         int ret = LibDevModel.openDoor(getContext(), libDev, callback);
                                         if (ret == 0) {
                                             return;
@@ -386,7 +389,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
 //        getFeture();
         rippleBackground = view.findViewById(R.id.id_circle_menu_item_center);
         mCircleMenuLayout = view.findViewById(R.id.id_menulayout);
@@ -479,17 +482,14 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         }
                         break;
                     case 4:
-//                        startActivity(new Intent(getActivity(), BookingActivity.class));
-
-////                        startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
-//                        startActivity(new Intent(getActivity(), BookingActivity.class));
-//
-                        if (appFeture.contains(Constant.BOOKING_MANAGMENT)) {
-                            startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
-//                            startActivity(new Intent(getActivity(), BookingActivity.class));
-                        } else {
-                            Toast.makeText(requireActivity(), "Booking of Facilities is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
-                        }
+                        startActivity(new Intent(getActivity(), BookingActivity.class));
+//                    startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+//                        if (appFeture.contains(Constant.BOOKING_MANAGMENT)) {
+//                            startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+////                            startActivity(new Intent(getActivity(), BookingActivity.class));
+//                        } else {
+//                            Toast.makeText(requireActivity(), "Booking of Facilities is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
+//                        }
                         break;
                     case 5:
                       /*  if (deviceLIST.size() == 0) {
@@ -618,7 +618,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
     private void callGetServerAPI() {
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
 
         try {
             Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
@@ -811,7 +811,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     }
 
     public void changeStatus(String appUserId, String deviceSN) {
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
         CheckBookingRequest checkBookingRequest = new CheckBookingRequest(appUserId, deviceSN);
         apiServiceProvider.checkDeviceBooking(checkBookingRequest, new RetrofitListener<BookingResponse>() {
             @Override
@@ -857,6 +857,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             }
         });
     }
+
     void getFeture() {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override
@@ -884,6 +885,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                 }
                             }
                         }
+
                         @Override
                         public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
                             try {

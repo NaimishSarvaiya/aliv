@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_noFeedback"
+    android:id="@+id/ll_noBooking"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:src="@drawable/no_data_booking"
-            app:tint="@color/orange" />
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -25,14 +25,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            style="@style/nofeedbackTitleTextStyle" />
+            android:text=""
+            style="@style/blackTransactionboldSubTitleTV" />
         <TextView
             android:id="@+id/tv_detail"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            style="@style/feedbackTitleTextStyle"
+            android:text=""
+            style="@style/previewBookingSubTitleTV"
             />
     </LinearLayout>
 

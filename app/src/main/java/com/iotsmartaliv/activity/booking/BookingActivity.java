@@ -15,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.ViewPager.ViewPagerAdapter;
+import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityBookingBinding;
 import com.iotsmartaliv.fragments.booking.ActiveBookingFragment;
 import com.iotsmartaliv.fragments.booking.BookFragment;
@@ -59,9 +61,6 @@ public class BookingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-//                showCustomDialog("Your booking was successful! We look forward to your visit.");
-//                showCustomDialog("Booking Failed!Unfortunately, your reservation couldn't be completed.",1);
-//                showCustomDialog("Payment Failed! \nyour payment could not be processed. Please try again.",1);
             }
         });
 
@@ -77,7 +76,7 @@ public class BookingActivity extends AppCompatActivity {
 
     private void setupViewPagerTablayout() {
 
-        binding.vpBooking.setOffscreenPageLimit(3);
+
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -92,6 +91,7 @@ public class BookingActivity extends AppCompatActivity {
         adapter.addFragment(bookingHistoryFragment, "History");
 
         binding.vpBooking.setAdapter(adapter);
+        binding.vpBooking.setOffscreenPageLimit(1);
 
         binding.tablayoutBooking.setupWithViewPager(binding.vpBooking);
         // Apply the custom ColorStateList for the tab icons
@@ -107,37 +107,11 @@ public class BookingActivity extends AppCompatActivity {
         binding.tablayoutBooking.getTabAt(3).setIcon(tabIcons[3]);
     }
 
-    private void showCustomDialog(String message, int status) {
-        // Create an AlertDialog builder
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        // Inflate the custom layout
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.booking_dialog, null);
-        dialogBuilder.setView(dialogView);
-        // Get references to the TextView and Button in the custom layout
-        TextView tvMessage = dialogView.findViewById(R.id.tv_message);
-        TextView tv_title = dialogView.findViewById(R.id.tv_title);
-        RelativeLayout btnOk = dialogView.findViewById(R.id.rl_ok);
-        ImageView imgIcon = dialogView.findViewById(R.id.img_icon);
-        if (status == 1) {
-            imgIcon.setImageResource(R.mipmap.ic_error);
-            imgIcon.setColorFilter(ContextCompat.getColor(this, R.color.Red), android.graphics.PorterDuff.Mode.MULTIPLY);
-            tv_title.setText("Payment Failed!");
-        }
-        // Set the dialog message
-        tvMessage.setText(message);
-        // Set button click listener\
-        // Create the dialog
-        AlertDialog dialog = dialogBuilder.create();
-        // Set the dialog background to be transparent, so the rounded corners are visible
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        btnOk.setOnClickListener(v -> {
-            // Dismiss the dialog on button click
-            dialog.dismiss();
-        });
-        // Show the dialog
-        dialog.show();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }
+

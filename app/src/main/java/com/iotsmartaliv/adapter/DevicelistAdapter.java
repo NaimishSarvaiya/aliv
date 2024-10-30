@@ -223,7 +223,7 @@ public class DevicelistAdapter extends BaseAdapter {
     }
 
     private void callGetServerAPI(boolean isOnline, LibDevModel libDev, int position) {
-        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context,false);
+        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context, false);
         apiServiceProvider.callGetServerCurrentTime(new RetrofitListener<ResponseBody>() {
             @Override
             public void onResponseSuccess(ResponseBody sucessRespnse, String apiFlag) {
@@ -261,14 +261,16 @@ public class DevicelistAdapter extends BaseAdapter {
         if (goInsideToOpenDoor) {
             if (isOnline) {
                 openingDoorDeviceSN = deviceLIST.get(position).getDeviceSno();
+                Toast.makeText(context, "deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey, Toast.LENGTH_LONG).show();
                 int ret = LibDevModel.openDoor(context, libDev, (result, bundle) -> context.runOnUiThread(() -> {
                     progress.dismiss();
                     if (result == 0x00) {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
                         new SaveAccessLogTask(context, new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date()))).execute();
-                        logs(LOGIN_DETAIL.getAppuserID(),new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date())));
-                        Toast.makeText(context, "Door open successfully", Toast.LENGTH_SHORT).show();
-//                        Util.logDoorOpenEvent("DeviceList", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
+                        logs(LOGIN_DETAIL.getAppuserID(), new AccessLogModel("", openingDoorDeviceSN, "open door from device list", dateFormat.format(new Date())));
+//                        Util.showNoDefaultCaedAlertDialog(context, "deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
+
+                        //                        Util.logDoorOpenEvent("DeviceList", true, LOGIN_DETAIL.getAppuserID(), openingDoorDeviceSN);
                     } else {
                         if (result == 48) {
                             Toast.makeText(context, "Result Error Time Out", Toast.LENGTH_SHORT).show();
@@ -363,12 +365,12 @@ public class DevicelistAdapter extends BaseAdapter {
         ImageView image;
     }
 
-    public void logs(String userId,AccessLogModel accessLogModel){
+    public void logs(String userId, AccessLogModel accessLogModel) {
         Util.checkInternet(context, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
-                if (isAvailable){
-                    ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context,false);
+                if (isAvailable) {
+                    ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(context, false);
                     apiServiceProvider.postAccessLog(userId, accessLogModel, new RetrofitListener<AccessLogModel>() {
 
                         @Override

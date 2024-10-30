@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.iotsmartaliv.model.booking.ActiveBookingModel;
+import com.iotsmartaliv.model.booking.BookingSlotDetailResponse;
+import com.iotsmartaliv.model.booking.CancelBookingRequest;
+import com.iotsmartaliv.model.booking.CancelBookingResponse;
+import com.iotsmartaliv.model.booking.ConfirmBookingRequest;
 import com.iotsmartaliv.apiAndSocket.listeners.CallBackWithProgress;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.AutomationScheduleResponse;
@@ -36,12 +41,34 @@ import com.iotsmartaliv.model.SuccessResponseModel;
 import com.iotsmartaliv.model.VisitorData;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
 import com.iotsmartaliv.model.VoIpModel;
+import com.iotsmartaliv.model.booking.AddBookingSlotRequest;
+import com.iotsmartaliv.model.booking.AddBookingSlotResponseModel;
+import com.iotsmartaliv.model.booking.AttacheCardOnStripeRequest;
+import com.iotsmartaliv.model.booking.AttachedCardResponseModel;
 import com.iotsmartaliv.model.booking.BookingDetailsModel;
+import com.iotsmartaliv.model.booking.ConfirmBookingRequestWithoutDeposit;
+import com.iotsmartaliv.model.booking.ConfirmBookingResponse;
 import com.iotsmartaliv.model.booking.CreateCustomerOnStripRequest;
 import com.iotsmartaliv.model.booking.CreateCustomerResponse;
-import com.iotsmartaliv.model.booking.RoomData;
+import com.iotsmartaliv.model.booking.CreatePaymentStripeRequest;
+import com.iotsmartaliv.model.booking.CreatePaymentStripeRequestWithoutDepost;
+import com.iotsmartaliv.model.booking.CustomerCardRequestBody;
+import com.iotsmartaliv.model.booking.CustomerCardsResponse;
+import com.iotsmartaliv.model.booking.CustomerDepositModel;
+import com.iotsmartaliv.model.booking.DefaultCardModel;
+import com.iotsmartaliv.model.booking.DeleteCardModel;
+import com.iotsmartaliv.model.booking.DeleteCardRequestModel;
+import com.iotsmartaliv.model.booking.PayNowRequest;
+import com.iotsmartaliv.model.booking.PayNowResponseModel;
+import com.iotsmartaliv.model.booking.PayNowWithoutDepositRequest;
+import com.iotsmartaliv.model.booking.PaymentResponseModel;
 import com.iotsmartaliv.model.booking.RoomModel;
+import com.iotsmartaliv.model.booking.SetDefaultCardResponseModel;
 import com.iotsmartaliv.model.booking.TimeSlotModel;
+import com.iotsmartaliv.model.booking.TransactionModel;
+import com.iotsmartaliv.model.booking.TransactionResponse;
+import com.iotsmartaliv.model.booking.UpdateBookingDatesRequest;
+import com.iotsmartaliv.model.booking.UpdateBookingResponse;
 import com.iotsmartaliv.model.feedback.AddFeedbackRequest;
 import com.iotsmartaliv.model.feedback.AddFeedbackResponse;
 import com.iotsmartaliv.model.feedback.FeedBackCategoryModel;
@@ -65,7 +92,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Query;
 
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_EVENT;
 import static com.iotsmartaliv.constants.Constant.UrlPath.ADD_INSTRUCTOR;
@@ -1689,25 +1715,35 @@ public class ApiServiceProvider<context> extends RetrofitBase {
             }
         });
     }
-
-    public void getBookingDetails(String roomID,String slotID,String startDate,String endDate, final RetrofitListener<BookingDetailsModel> retrofitArrayListener) {
-        Call<BookingDetailsModel> call = apiServices.getBookedRoomDetails(roomID,slotID,startDate,endDate);
-        call.enqueue(new CallBackWithProgress<BookingDetailsModel>(context) {
+    public void getBookingWithSlotDetails(String roomID,String slotID,String startDate,String endDate, final RetrofitListener<BookingDetailsModel> retrofitArrayListener) {
+        Call<BookingDetailsModel> call = apiServices.getBookedRoomWithSloatDetails(roomID,slotID,startDate,endDate);
+        call.enqueue(new Callback<BookingDetailsModel>() {
             @Override
             public void onResponse(Call<BookingDetailsModel> call, Response<BookingDetailsModel> response) {
-                super.onResponse(call, response);
+
                 validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
             }
             @Override
             public void onFailure(Call<BookingDetailsModel> call, Throwable t) {
-                super.onFailure(call, t);
                 retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
             }
         });
     }
+    public void getBookingWithoutSlotDetails(String roomID,String startDate,String endDate, final RetrofitListener<BookingDetailsModel> retrofitArrayListener) {
+        Call<BookingDetailsModel> call = apiServices.getBookedRoomWithOutSloatDetails(roomID,startDate,endDate);
+        call.enqueue(new Callback<BookingDetailsModel>() {
+            @Override
+            public void onResponse(Call<BookingDetailsModel> call, Response<BookingDetailsModel> response) {
 
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+            @Override
+            public void onFailure(Call<BookingDetailsModel> call, Throwable t) {
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
     public void callFeature(String appuser_ID,final RetrofitListener<AppFeatureModel> retrofitArrayListener) {
-
         Call<AppFeatureModel> call = apiServices.getAppFeature(appuser_ID);
         call.enqueue(new CallBackWithProgress<AppFeatureModel>(context) {
             @Override
@@ -1716,7 +1752,6 @@ public class ApiServiceProvider<context> extends RetrofitBase {
                 validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
 
             }
-
             @Override
             public void onFailure(Call<AppFeatureModel> call, Throwable t) {
                 super.onFailure(call, t);
@@ -1733,7 +1768,6 @@ public class ApiServiceProvider<context> extends RetrofitBase {
                 super.onResponse(call, response);
                 validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
             }
-
             @Override
             public void onFailure(Call<CreateCustomerResponse> call, Throwable t) {
                 super.onFailure(call, t);
@@ -1752,7 +1786,6 @@ public class ApiServiceProvider<context> extends RetrofitBase {
                 validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
 
             }
-
             @Override
             public void onFailure(Call<AuthTokenModel> call, Throwable t) {
                 super.onFailure(call, t);
@@ -1761,5 +1794,322 @@ public class ApiServiceProvider<context> extends RetrofitBase {
         });
     }
 
+    public void getDefaultCardStripe(String customerId, RetrofitListener<DefaultCardModel> retrofitListener) {
+        Call<DefaultCardModel> dataResponseCall = apiServices.getDefaultCard(customerId);
+        dataResponseCall.enqueue(new CallBackWithProgress<DefaultCardModel>(context) {
+            @Override
+            public void onResponse(Call<DefaultCardModel> call, Response<DefaultCardModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
 
+            @Override
+            public void onFailure(Call<DefaultCardModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void getCustomerCardStripe(CustomerCardRequestBody customerCardRequestBody, final RetrofitListener<CustomerCardsResponse> retrofitListener) {
+
+        Call<CustomerCardsResponse> call = apiServices.getCustomerCardStripe(customerCardRequestBody);
+        call.enqueue(new CallBackWithProgress<CustomerCardsResponse>(context) {
+            @Override
+            public void onResponse(Call<CustomerCardsResponse> call, Response<CustomerCardsResponse> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+
+            @Override
+            public void onFailure(Call<CustomerCardsResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+        });
+    }
+    public void attachPaymentMethodStripe(AttacheCardOnStripeRequest request, final RetrofitListener<AttachedCardResponseModel> retrofitListener) {
+
+        Call<AttachedCardResponseModel> call = apiServices.attachPaymentMethodStripe(request);
+        call.enqueue(new CallBackWithProgress<AttachedCardResponseModel>(context) {
+            @Override
+            public void onResponse(Call<AttachedCardResponseModel> call, Response<AttachedCardResponseModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+
+            @Override
+            public void onFailure(Call<AttachedCardResponseModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+        });
+    }
+    public void deleteCard(DeleteCardRequestModel requestBody, final RetrofitListener<DeleteCardModel> retrofitListener) {
+
+        Call<DeleteCardModel> call = apiServices.deleteCard(requestBody);
+        call.enqueue(new CallBackWithProgress<DeleteCardModel>(context) {
+            @Override
+            public void onResponse(Call<DeleteCardModel> call, Response<DeleteCardModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+
+            @Override
+            public void onFailure(Call<DeleteCardModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+        });
+    }
+
+    public void setDefaultCard(DeleteCardRequestModel requestBody, final RetrofitListener<SetDefaultCardResponseModel> retrofitListener) {
+
+        Call<SetDefaultCardResponseModel> call = apiServices.setDefaultCard(requestBody);
+        call.enqueue(new CallBackWithProgress<SetDefaultCardResponseModel>(context) {
+            @Override
+            public void onResponse(Call<SetDefaultCardResponseModel> call, Response<SetDefaultCardResponseModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+
+            @Override
+            public void onFailure(Call<SetDefaultCardResponseModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.FORGOT_PASSWORD_API);
+            }
+        });
+    }
+
+
+
+    public void addBookingSlot(AddBookingSlotRequest request, final RetrofitListener<AddBookingSlotResponseModel> retrofitArrayListener) {
+        Call<AddBookingSlotResponseModel> call = apiServices.addBookingSlot(request);
+        call.enqueue(new Callback<AddBookingSlotResponseModel>() {
+            @Override
+            public void onResponse(Call<AddBookingSlotResponseModel> call, Response<AddBookingSlotResponseModel> response) {
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+            @Override
+            public void onFailure(Call<AddBookingSlotResponseModel> call, Throwable t) {
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void createPaymentStripe(CreatePaymentStripeRequest customerOnStripRequest, RetrofitListener<PaymentResponseModel> retrofitListener) {
+        Call<PaymentResponseModel> dataResponseCall = apiServices.createPaymentStripe(customerOnStripRequest);
+        dataResponseCall.enqueue(new Callback<PaymentResponseModel>() {
+            @Override
+            public void onResponse(Call<PaymentResponseModel> call, Response<PaymentResponseModel> response) {
+
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+            @Override
+            public void onFailure(Call<PaymentResponseModel> call, Throwable t) {
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+    public void createPaymentStripeWithOutDepost(CreatePaymentStripeRequestWithoutDepost customerOnStripRequest, RetrofitListener<PaymentResponseModel> retrofitListener) {
+        Call<PaymentResponseModel> dataResponseCall = apiServices.createPaymentStripeWithOut(customerOnStripRequest);
+        dataResponseCall.enqueue(new Callback<PaymentResponseModel>() {
+            @Override
+            public void onResponse(Call<PaymentResponseModel> call, Response<PaymentResponseModel> response) {
+
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+            @Override
+            public void onFailure(Call<PaymentResponseModel> call, Throwable t) {
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+
+    public void payNow(PayNowRequest customerOnStripRequest, RetrofitListener<PayNowResponseModel> retrofitListener) {
+        Call<PayNowResponseModel> dataResponseCall = apiServices.payNow(customerOnStripRequest);
+        dataResponseCall.enqueue(new Callback<PayNowResponseModel>() {
+            @Override
+            public void onResponse(Call<PayNowResponseModel> call, Response<PayNowResponseModel> response) {
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+            @Override
+            public void onFailure(Call<PayNowResponseModel> call, Throwable t) {
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+
+    public void payNowWithOutDeposit(PayNowWithoutDepositRequest customerOnStripRequest, RetrofitListener<PayNowResponseModel> retrofitListener) {
+        Call<PayNowResponseModel> dataResponseCall = apiServices.payNowWithoutDeposit(customerOnStripRequest);
+        dataResponseCall.enqueue(new Callback<PayNowResponseModel>() {
+            @Override
+            public void onResponse(Call<PayNowResponseModel> call, Response<PayNowResponseModel> response) {
+
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+            @Override
+            public void onFailure(Call<PayNowResponseModel> call, Throwable t) {
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+    public void confirmBooking(ConfirmBookingRequest customerOnStripRequest, RetrofitListener<ConfirmBookingResponse> retrofitListener) {
+        Call<ConfirmBookingResponse> dataResponseCall = apiServices.confirmBookingSlot(customerOnStripRequest);
+        dataResponseCall.enqueue(new Callback<ConfirmBookingResponse>() {
+            @Override
+            public void onResponse(Call<ConfirmBookingResponse> call, Response<ConfirmBookingResponse> response) {
+
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+            @Override
+            public void onFailure(Call<ConfirmBookingResponse> call, Throwable t) {
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+    public void confirmBookingWithout(ConfirmBookingRequestWithoutDeposit customerOnStripRequest, RetrofitListener<ConfirmBookingResponse> retrofitListener) {
+        Call<ConfirmBookingResponse> dataResponseCall = apiServices.confirmBookingSlotWithoutDeposit(customerOnStripRequest);
+        dataResponseCall.enqueue(new Callback<ConfirmBookingResponse>() {
+            @Override
+            public void onResponse(Call<ConfirmBookingResponse> call, Response<ConfirmBookingResponse> response) {
+
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+            @Override
+            public void onFailure(Call<ConfirmBookingResponse> call, Throwable t) {
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void getActiveBooking(String appuser_ID,final RetrofitListener<ActiveBookingModel> retrofitArrayListener) {
+
+        Call<ActiveBookingModel> call = apiServices.getActiveBooking(appuser_ID);
+        call.enqueue(new CallBackWithProgress<ActiveBookingModel>(context) {
+            @Override
+            public void onResponse(Call<ActiveBookingModel> call, Response<ActiveBookingModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+
+            }
+            @Override
+            public void onFailure(Call<ActiveBookingModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void getHistoryBooking(String appuser_ID,String pageLimit,String page, final RetrofitListener<ActiveBookingModel> retrofitArrayListener) {
+
+        Call<ActiveBookingModel> call = apiServices.getPastBooking(appuser_ID,pageLimit,page);
+        call.enqueue(new CallBackWithProgress<ActiveBookingModel>(context) {
+            @Override
+            public void onResponse(Call<ActiveBookingModel> call, Response<ActiveBookingModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+
+            @Override
+            public void onFailure(Call<ActiveBookingModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+    public void getBookingSlotDetail(String booking_ID,final RetrofitListener<BookingSlotDetailResponse> retrofitArrayListener) {
+
+        Call<BookingSlotDetailResponse> call = apiServices.bookingSlotDetail(booking_ID);
+        call.enqueue(new CallBackWithProgress<BookingSlotDetailResponse>(context) {
+            @Override
+            public void onResponse(Call<BookingSlotDetailResponse> call, Response<BookingSlotDetailResponse> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+
+            }
+            @Override
+            public void onFailure(Call<BookingSlotDetailResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+    public void cancelBookingSlot(CancelBookingRequest request, final RetrofitListener<CancelBookingResponse> retrofitArrayListener) {
+        Call<CancelBookingResponse> call = apiServices.cancelBookingSlot(request);
+        call.enqueue(new Callback<CancelBookingResponse>() {
+            @Override
+            public void onResponse(Call<CancelBookingResponse> call, Response<CancelBookingResponse> response) {
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+            @Override
+            public void onFailure(Call<CancelBookingResponse> call, Throwable t) {
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void cancelBooking(CancelBookingRequest request, final RetrofitListener<CancelBookingResponse> retrofitArrayListener) {
+        Call<CancelBookingResponse> call = apiServices.cancelBoking(request);
+        call.enqueue(new Callback<CancelBookingResponse>() {
+            @Override
+            public void onResponse(Call<CancelBookingResponse> call, Response<CancelBookingResponse> response) {
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+            @Override
+            public void onFailure(Call<CancelBookingResponse> call, Throwable t) {
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
+
+    public void getTransaction(String customerId, RetrofitListener<TransactionResponse> retrofitListener) {
+        Call<TransactionResponse> dataResponseCall = apiServices.getTransaction(customerId);
+        dataResponseCall.enqueue(new CallBackWithProgress<TransactionResponse>(context) {
+            @Override
+            public void onResponse(Call<TransactionResponse> call, Response<TransactionResponse> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+
+            @Override
+            public void onFailure(Call<TransactionResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void getTotalDepositOfCustome(String customerId, RetrofitListener<CustomerDepositModel> retrofitListener) {
+        Call<CustomerDepositModel> dataResponseCall = apiServices.getTotalDepositOfCustomer(customerId);
+        dataResponseCall.enqueue(new CallBackWithProgress<CustomerDepositModel>(context) {
+            @Override
+            public void onResponse(Call<CustomerDepositModel> call, Response<CustomerDepositModel> response) {
+                super.onResponse(call, response);
+                validateResponse(response, retrofitListener, Constant.UrlPath.ADHOC);
+            }
+
+            @Override
+            public void onFailure(Call<CustomerDepositModel> call, Throwable t) {
+                super.onFailure(call, t);
+                retrofitListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.ADHOC);
+            }
+        });
+    }
+
+    public void updateBooking(UpdateBookingDatesRequest request, final RetrofitListener<UpdateBookingResponse> retrofitArrayListener) {
+        Call<UpdateBookingResponse> call = apiServices.updateBooking(request);
+        call.enqueue(new Callback<UpdateBookingResponse>() {
+            @Override
+            public void onResponse(Call<UpdateBookingResponse> call, Response<UpdateBookingResponse> response) {
+                validateResponse(response, retrofitArrayListener, Constant.UrlPath.DEVICE_LIST_API);
+            }
+            @Override
+            public void onFailure(Call<UpdateBookingResponse> call, Throwable t) {
+                retrofitArrayListener.onResponseError(HttpUtil.getServerErrorPojo(context), t, Constant.UrlPath.DEVICE_LIST_API);
+            }
+        });
+    }
 }

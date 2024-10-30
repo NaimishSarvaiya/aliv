@@ -156,6 +156,11 @@
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_light</item>
     </style>
+    <style name="montserratregular17" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
 
     <style name="blackBookingTV" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">15sp</item>

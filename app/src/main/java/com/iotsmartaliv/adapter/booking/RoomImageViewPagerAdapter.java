@@ -13,12 +13,14 @@
     import com.iotsmartaliv.R;
     import com.iotsmartaliv.utils.Util;
 
+    import java.util.List;
+
     public class RoomImageViewPagerAdapter extends RecyclerView.Adapter<RoomImageViewPagerAdapter.ImageViewHolder> {
 
-        private int[] imageList;
+        private List<String> imageList;
         private Context context;
 
-        public RoomImageViewPagerAdapter(Context context, int[] imageList) {
+        public RoomImageViewPagerAdapter(Context context, List<String> imageList) {
             this.context = context;
             this.imageList = imageList;
         }
@@ -32,15 +34,14 @@
 
         @Override
         public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-            int image = imageList[position];
             // Load image using Glide or any other method
-            Glide.with(context).load(image).placeholder(R.mipmap.ic_room).into(holder.imageView);
+            Glide.with(context).load(imageList.get(position)).placeholder(R.mipmap.ic_room).into(holder.imageView);
             Util.setBrightness(holder.imageView, 2.0f);
         }
 
         @Override
         public int getItemCount() {
-            return imageList.length;
+            return imageList.size();
         }
 
         public static class ImageViewHolder extends RecyclerView.ViewHolder {
