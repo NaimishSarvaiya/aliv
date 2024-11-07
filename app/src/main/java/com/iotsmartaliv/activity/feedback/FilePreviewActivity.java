@@ -4,6 +4,7 @@ import static com.iotsmartaliv.constants.Constant.hideLoader;
 import static com.iotsmartaliv.constants.Constant.showLoader;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -16,14 +17,26 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.activity.DocumentPdfActivity;
 import com.iotsmartaliv.activity.LoginActivity;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityFilePreviewBinding;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 public class FilePreviewActivity extends AppCompatActivity {
 
     ActivityFilePreviewBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +48,9 @@ public class FilePreviewActivity extends AppCompatActivity {
         }else {
             feedDetailsFilePreview();
         }
-        binding.rlBackCreateFeedBack.setOnClickListener(v -> {
+        binding.imgBack.setOnClickListener(v -> {
             onBackPressed();
         });
-
 
     }
 
@@ -63,6 +75,7 @@ public class FilePreviewActivity extends AppCompatActivity {
                         .enableSwipe(true) // Allows to block changing pages using swipe
                         .swipeHorizontal(false)
                         .enableDoubletap(true)
+                        .spacing(20)
                         .load();
 //                binding.pdfPreview.setWebViewClient(new WebViewClient());
 //                binding.pdfPreview.getSettings().setJavaScriptEnabled(true);
@@ -80,13 +93,12 @@ public class FilePreviewActivity extends AppCompatActivity {
 
     void feedDetailsFilePreview() {
         String fileUri = getIntent().getStringExtra(Constant.FILE_URI);
-
         if (fileUri.endsWith(".pdf")) {
             binding.imgPreview.setVisibility(View.GONE);
-            binding.pdfPreview.setVisibility(View.GONE);
-            binding.webPreview.setVisibility(View.VISIBLE);
-
-            displayPdfInWebView(fileUri);
+            binding.pdfPreview.setVisibility(View.VISIBLE);
+            binding.webPreview.setVisibility(View.GONE);
+            new RetrivePDFfromUrl().execute(fileUri);
+//            displayPdfInWebView(fileUri);
         } else if (fileUri.endsWith(".jpg") || fileUri.endsWith(".png") || fileUri.endsWith(".jpeg")) {
             binding.pdfPreview.setVisibility(View.GONE);
             binding.webPreview.setVisibility(View.GONE);
@@ -95,12 +107,6 @@ public class FilePreviewActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(fileUri)
                     .into(binding.imgPreview);
-        } else {
-            binding.imgPreview.setVisibility(View.GONE);
-            binding.pdfPreview.setVisibility(View.GONE);
-            binding.webPreview.setVisibility(View.VISIBLE);
-
-            displayPdfInWebView(fileUri);
         }
     }
     private void displayPdfInWebView(String pdfUrl) {
@@ -128,4 +134,49 @@ public class FilePreviewActivity extends AppCompatActivity {
 
         binding.webPreview.loadUrl(googleDocsUrl);
     }
+    class RetrivePDFfromUrl extends AsyncTask<String, Void, InputStream> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            binding.progressForDoc.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected InputStream doInBackground(String... strings) {
+
+            InputStream inputStream = null;
+            try {
+                URL url = new URL(strings[0]);
+
+                HttpURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+                if (urlConnection.getResponseCode() == 200) {
+                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
+                }
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                return null;
+            }
+            return inputStream;
+        }
+
+        @Override
+        protected void onPostExecute(InputStream inputStream) {
+
+            OnLoadCompleteListener onLoadCompleteListener = nbPages -> binding.progressForDoc.setVisibility(View.GONE);
+
+            binding.pdfPreview.fromStream(inputStream)
+                    .defaultPage(0)
+                    .onPageChange(null)
+                    .enableAnnotationRendering(true)
+                    .onLoad(onLoadCompleteListener)
+                    .scrollHandle(new DefaultScrollHandle(FilePreviewActivity.this))
+                    .spacing(20)
+                    .load();
+
+        }
+    }
+
 }

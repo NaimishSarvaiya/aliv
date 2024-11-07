@@ -45,7 +45,7 @@ public class ListOfInstructorFragment extends Fragment implements RetrofitListen
         binding = ListInstructorFragmentBinding.inflate(inflater,container,false);
 //        View view = inflater.inflate(R.layout.list_instructor_fragment, container, false);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         initiate();
         return binding.getRoot();
     }

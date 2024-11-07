@@ -49,7 +49,7 @@ public class BookedRoomsActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,true);
         booking_ID = getIntent().getStringExtra("booking_ID");
         bookedRoomsAdapter = new BookedRoomsAdapter(BookedRoomsActivity.this, new ArrayList<>(),
                 (roomData, position) ->

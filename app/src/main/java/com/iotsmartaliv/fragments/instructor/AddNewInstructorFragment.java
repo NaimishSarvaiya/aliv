@@ -96,7 +96,7 @@ public class AddNewInstructorFragment extends Fragment implements View.OnClickLi
         initView(view);
         clickListener();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         apiServiceProvider.callForListOfCommunity(LOGIN_DETAIL.getAppuserID(), new RetrofitListener<SuccessArrayResponse>() {
             @Override
             public void onResponseSuccess(SuccessArrayResponse successArrayResponse, String apiFlag) {

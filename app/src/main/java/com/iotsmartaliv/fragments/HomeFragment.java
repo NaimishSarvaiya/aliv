@@ -8,10 +8,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.Context;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -47,10 +49,15 @@ import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.ChatBoxActivity;
 import com.iotsmartaliv.activity.DeviceListActivity;
 import com.iotsmartaliv.activity.EnrollmentActivity;
+import com.iotsmartaliv.activity.MainActivity;
 import com.iotsmartaliv.activity.VideoIntercomActivity;
 import com.iotsmartaliv.activity.VisitorActivity;
 import com.iotsmartaliv.activity.automation.HomeAutomationActivity;
+import com.iotsmartaliv.activity.booking.BookingActivity;
+import com.iotsmartaliv.activity.booking.BookingDetailsActivity;
 import com.iotsmartaliv.activity.booking.BookingFacilityActivity;
+import com.iotsmartaliv.activity.booking.PaymentActivity;
+import com.iotsmartaliv.activity.booking.TestPayment;
 import com.iotsmartaliv.adapter.HomePageSliderAdpter;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
@@ -60,6 +67,7 @@ import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.constants.Request;
 import com.iotsmartaliv.dialog_box.GpsEnableDialog;
+import com.iotsmartaliv.model.AppFeatureModel;
 import com.iotsmartaliv.model.BookingResponse;
 import com.iotsmartaliv.model.CheckBookingRequest;
 import com.iotsmartaliv.model.DeviceBean;
@@ -123,6 +131,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     Date serverDate;
 
     TextView tvTodayDate;
+    ArrayList<String> appFeture;
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
     private String[] mItemTexts = new String[]{
             "Face Enroll", "Video Intercom",
             /* "Rewards",*/ "Visitor", /*"Market Place",*/
@@ -166,7 +176,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             if (deviceLIST.size() == 0) {
                 pressed = false;
                 if (deviceList.size() != 0) {
-                    apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+                    apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
                     CheckBookingRequest checkBookingRequest = new CheckBookingRequest(LOGIN_DETAIL.getAppuserID(), deviceList.get(0));
                     apiServiceProvider.checkDeviceBooking(checkBookingRequest, new RetrofitListener<SuccessDeviceListResponse>() {
                         @Override
@@ -198,7 +208,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                 if (deviceListNearby.get(0).getRssi() > -70) {
                                     LibDevModel libDev = getLibDev(deviceListNearby.get(0));
                                     openingDoorDeviceSN = deviceListNearby.get(0).getDeviceSno();
-
+//                                    Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
                                     int ret = LibDevModel.openDoor(getContext(), libDev, callback);
                                     if (ret == 0) {
                                         return;
@@ -276,6 +286,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                 LibDevModel libDev = getLibDev(deviceLIST.get(0));
                                 openingDoorDeviceSN = deviceLIST.get(0).getDeviceSno();
 //                changeStatus(  LOGIN_DETAIL.getAppuserID(),deviceLIST.get(0).getDeviceSno());
+//                                Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
                                 int ret = LibDevModel.openDoor(getContext(), libDev, callback);
                                 if (ret == 0) {
                                     return;
@@ -293,7 +304,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                             Toast.makeText(getActivity(), "User can not access at this time", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+                        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
                         CheckBookingRequest checkBookingRequest = new CheckBookingRequest(LOGIN_DETAIL.getAppuserID(), deviceList.get(0));
                         apiServiceProvider.checkDeviceBooking(checkBookingRequest, new RetrofitListener<SuccessDeviceListResponse>() {
                             @Override
@@ -325,7 +336,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                     if (deviceListNearby.get(0).getRssi() > -70) {
                                         LibDevModel libDev = getLibDev(deviceListNearby.get(0));
                                         openingDoorDeviceSN = deviceListNearby.get(0).getDeviceSno();
-
+//                                        Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
                                         int ret = LibDevModel.openDoor(getContext(), libDev, callback);
                                         if (ret == 0) {
                                             return;
@@ -380,6 +391,8 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
+//        getFeture();
         rippleBackground = view.findViewById(R.id.id_circle_menu_item_center);
         mCircleMenuLayout = view.findViewById(R.id.id_menulayout);
         imgChat = view.findViewById(R.id.imageView);
@@ -388,10 +401,9 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
         tvTodayDate = view.findViewById(R.id.tv_todaysDate);
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", Locale.getDefault());
         String formattedDate = dateFormat.format(new Date());
-
         tvTodayDate.setText(formattedDate);
         setShakeSettings();
-
+        appFeture = (ArrayList<String>) SharePreference.getInstance(getActivity()).getFeatureForApp();
 
         Boolean isShakeToOpen = SharePreference.getInstance(getActivity()).getBoolean(SHAKE_ENABLE);
 
@@ -460,11 +472,26 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         startActivity(new Intent(getActivity(), ServicesMaintenanceActivity.class));
                         break;*/
                     case 3:
-                        // startActivity(new Intent(getActivity(), GuestActivity.class));
-                        startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
+//                        startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
+
+                        if (appFeture.contains(Constant.AUTOMATION_MANAGMENT)) {
+
+                            // startActivity(new Intent(getActivity(), GuestActivity.class));
+                            startActivity(new Intent(getActivity(), HomeAutomationActivity.class));
+                        } else {
+                            Toast.makeText(requireActivity(), "Automation Management is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
+
+                        }
                         break;
                     case 4:
-                        startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+                        startActivity(new Intent(getActivity(), BookingActivity.class));
+//                    startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+//                        if (appFeture.contains(Constant.BOOKING_MANAGMENT)) {
+//                            startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+////                            startActivity(new Intent(getActivity(), BookingActivity.class));
+//                        } else {
+//                            Toast.makeText(requireActivity(), "Booking of Facilities is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
+//                        }
                         break;
                     case 5:
                       /*  if (deviceLIST.size() == 0) {
@@ -522,11 +549,11 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-                    getContext().startForegroundService(shakeService);
+                    requireContext().startForegroundService(shakeService);
 
                 } else {
 
-                    getContext().startService(shakeService);
+                    requireContext().startService(shakeService);
 
                 }
             }
@@ -558,7 +585,6 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     }
 
     private void performOpenDoorOperation() {
-
         try {
 //            String isAcessible = SharePreference.getInstance(getActivity()).getString("isAccessable");
 //            if (isAcessible.equals("1")) {
@@ -594,7 +620,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
     private void callGetServerAPI() {
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
 
         try {
             Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
@@ -620,7 +646,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                     } else {
                                         goInsideToOpenDoor = true;
                                     }
-                                    callOpenDoor();
+                                    checkAndRequestBluetoothPermissions();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -650,56 +676,67 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
         Log.e("UNLOCK", "TRUE");
 
         try {
-//            if (goInsideToOpenDoor) {
             pressed = true;
             progress.show();
 
             int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-            //Naimish
             if (ret1 != 0) {
                 Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
                 pressed = false;
                 progress.dismiss();
             }
-            // startActivity(new Intent(getActivity(), OpenDoorActivity.class));
-//                }
-//            } else {
-//                int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-////                Toast.makeText(getActivity(), "User can not access at this time", Toast.LENGTH_SHORT).show();
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean isGotList() {
-        String clientId = SharePreference.getInstance(getActivity()).getString("CLIENTID");
-        try {
-            devList = Request.reqDeviceList(clientId);
-            if (devList == null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "No device configured.", Toast.LENGTH_SHORT);
-                    }
-                });
-                devList = new ArrayList<DeviceBean>();
-                tempDevDic = new HashMap<String, DeviceBean>();
-            } else {
-                for (DeviceBean devBean : devList) {
-                    tempDevDic.put(devBean.getDevSn(), devBean);
-                }
+    private void checkAndRequestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            List<String> permissionsToRequest = new ArrayList<>();
+
+            // Check BLUETOOTH_CONNECT and BLUETOOTH_SCAN permissions
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
-            Constant.hideLoader();
-            return true;
-        } catch (JSONException e) {
-            Constant.hideLoader();
-            e.printStackTrace();
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+
+            if (!permissionsToRequest.isEmpty()) {
+                ActivityCompat.requestPermissions(requireActivity(), permissionsToRequest.toArray(new String[0]), REQUEST_BLUETOOTH_PERMISSIONS);
+                return;
+            }
         }
-        return false;
+
+        // If permissions are already granted, proceed with the door opening
+        callOpenDoor();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            boolean allPermissionsGranted = true;
+
+            // Check if all requested permissions were granted
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (allPermissionsGranted) {
+                // Permissions granted, proceed with the door unlocking process
+                callOpenDoor();
+            } else {
+                // Permissions denied, show a message to the user
+                Toast.makeText(requireActivity(), "Bluetooth permissions are required to unlock the door.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @Override
     public void googleLocationEnable(Status locationStatus) {
 
@@ -787,7 +824,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
     }
 
     public void changeStatus(String appUserId, String deviceSN) {
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(), false);
         CheckBookingRequest checkBookingRequest = new CheckBookingRequest(appUserId, deviceSN);
         apiServiceProvider.checkDeviceBooking(checkBookingRequest, new RetrofitListener<BookingResponse>() {
             @Override
@@ -834,4 +871,45 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
         });
     }
 
+    void getFeture() {
+        Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable) {
+                    String userIdApp = "";
+                    SharedPreferences sharePreferenceNew = requireActivity().getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
+                    if (LOGIN_DETAIL.getAppuser() == null) {
+                        userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
+                    } else {
+                        userIdApp = LOGIN_DETAIL.getAppuserID();
+                    }
+                    Log.e("UserId", LOGIN_DETAIL.getAppuserID());
+//                    Log.e("UserAuthToken",LOGIN_DETAIL.getApiAuthToken());
+                    apiServiceProvider.callFeature(userIdApp, new RetrofitListener<AppFeatureModel>() {
+                        @Override
+                        public void onResponseSuccess(AppFeatureModel sucessRespnse, String apiFlag) {
+                            if (sucessRespnse.getStatusCode() == 200) {
+                                if (sucessRespnse.getMsg().equals("Features empty")) {
+                                    ArrayList<String> emptyList = new ArrayList<>();
+                                    SharePreference.getInstance(requireActivity()).putFeatureForApp(emptyList);
+                                } else {
+                                    SharePreference.getInstance(requireActivity()).putFeatureForApp(sucessRespnse.getData());
+//                                Toast.makeText(MainActivity.this, sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            try {
+                                Toast.makeText(requireActivity(), throwable.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(requireActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
 }

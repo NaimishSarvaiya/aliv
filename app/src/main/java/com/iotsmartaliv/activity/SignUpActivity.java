@@ -75,6 +75,7 @@ import java.util.Set;
 
 //import io.fabric.sdk.android.services.concurrency.AsyncTask;
 
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
 import static com.iotsmartaliv.constants.Constant.hideLoader;
@@ -116,7 +117,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         firebaseToken();
         initView();
         initListener();
@@ -621,11 +622,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
-                    showLoader(SignUpActivity.this);
                     apiServiceProvider.performSignUp(fullName, userName, userEmailID, password, confirmPassword, authProvider, authUid, intate_code, token, SignUpActivity.this);
 
-                } else {
-                    hideLoader();
                 }
             }
         });
@@ -780,10 +778,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                             Toast.makeText(SignUpActivity.this, "login successful", Toast.LENGTH_SHORT).show();
                                             SharePreference.getInstance(SignUpActivity.this).putString(LOGIN_PREFRENCE, new Gson().toJson(sucessRespnse.getData()));
                                             Constant.LOGIN_DETAIL = sucessRespnse.getData();
+                                            if (sucessRespnse.getData().getApiAuthToken()!=null) {
+                                                SharePreference.getInstance(SignUpActivity.this).putString(API_AUTH, sucessRespnse.getData().getApiAuthToken());
+                                            }
                                             SharePreference.getInstance(SignUpActivity.this).putBoolean(Constant.IS_LOGIN, true);
                                             Intent service = new Intent(SignUpActivity.this, DeviceLogSyncService.class);
 //                                startService(service);
-                                            Intent intent1 = new Intent(SignUpActivity.this, MainActivity.class);
+                                            Intent intent1 = new Intent( SignUpActivity.this, MainActivity.class);
                                             startActivity(intent1);
                                             finishAffinity();
                                         } else {

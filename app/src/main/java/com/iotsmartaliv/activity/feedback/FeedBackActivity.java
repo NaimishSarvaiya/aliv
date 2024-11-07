@@ -47,6 +47,7 @@ public class FeedBackActivity extends AppCompatActivity {
         imgBack = findViewById(R.id.img_back);
         rlHeader = findViewById(R.id.header_layout);
         rl_createFeedBack = findViewById(R.id.rl_createFeedBack);
+
         setupViewPagerTablayout();
         rl_createFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,9 +75,7 @@ public class FeedBackActivity extends AppCompatActivity {
     }
 
     private void setupViewPagerTablayout() {
-
-        viewPager.setOffscreenPageLimit(3);
-
+        viewPager.setOffscreenPageLimit(1);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         sentFeedbackFragment = new SentFeedbackFragment();

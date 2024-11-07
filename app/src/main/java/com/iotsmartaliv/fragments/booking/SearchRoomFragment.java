@@ -56,7 +56,7 @@ public class SearchRoomFragment extends Fragment {
         binding = FragmentSearchRoomBinding.inflate(inflater,container,false);
         View view = inflater.inflate(R.layout.fragment_search_room, container, false);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
 
                 binding.tvStart.setOnClickListener(this::onViewClicked);
                 binding.tvEndDate.setOnClickListener(this::onViewClicked);
@@ -101,8 +101,6 @@ public class SearchRoomFragment extends Fragment {
                                             if (customCommunityDialog != null) {
                                                 customCommunityDialog.show();
                                             }
-
-
 
 //                                        }
 
@@ -280,7 +278,6 @@ public class SearchRoomFragment extends Fragment {
         } else if (!isStartDate && startDate != null) {
             datePicker.getDatePicker().setMinDate(startDate.getTimeInMillis());
         }
-
         datePicker.show();
     }
 

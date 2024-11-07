@@ -40,7 +40,7 @@ public class ForgotActivity extends AppCompatActivity implements RetrofitListene
         binding = ActivityForgotBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         binding.btnSendPwd.setOnClickListener(v ->onViewClicked());
     }
 

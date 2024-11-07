@@ -133,7 +133,7 @@ public class CreateSchedulesActivity extends AppCompatActivity implements Compou
         super.onCreate(savedInstanceState);
         binding = CreateSchedulesActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 
         binding.checkboxSun.setOnCheckedChangeListener(this);
         binding.checkboxMon.setOnCheckedChangeListener(this);
@@ -174,7 +174,7 @@ public class CreateSchedulesActivity extends AppCompatActivity implements Compou
         binding.recyclerViewTimeSun.setAdapter(timeSlotsSundayAdapter);
 
         binding.tvStartDate.setOnClickListener(v-> showDatePicker(true));
-        binding.tvEndDate.setOnClickListener(v -> showDatePicker(true));
+        binding.tvEndDate.setOnClickListener(v -> showDatePicker(false));
 
         binding.tvAddTimeSlot.setOnClickListener(this::onViewClicked);
         binding.addSlotTue.setOnClickListener(this::onViewClicked);

@@ -179,7 +179,7 @@
                         android:layout_centerInParent="true"
                         android:layout_marginLeft="@dimen/twenty_dp"
                         android:layout_toRightOf="@+id/img_communitybroadcast"
-                        android:text="Community Broadcast"
+                        android:text="@string/notice_board"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/eighteen_dp" />
 
@@ -194,7 +194,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/rel_feedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

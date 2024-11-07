@@ -92,7 +92,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         binding.deviceTypeValueTv.setText(selectDevice.getDeviceType());
         binding.deviceNameValueTv.setText(selectDevice.getCdeviceName());
         communityId = getIntent().getStringExtra(Constant.COMMUNITY_ID);

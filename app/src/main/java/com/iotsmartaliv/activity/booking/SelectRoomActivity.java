@@ -51,7 +51,7 @@ public class SelectRoomActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         binding = SelectRoomActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,true);
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

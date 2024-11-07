@@ -62,6 +62,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.iotsmartaliv.constants.Constant.API_AUTH;
 import static com.iotsmartaliv.constants.Constant.BACKGROUND_SHAKE_ENABLE;
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.LOGIN_PREFRENCE;
@@ -145,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         if (getIntent().getExtras() != null) {
             showAlertForServices = getIntent().getBooleanExtra("showAlert", false);
         }
@@ -841,6 +842,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SharedPreferences.Editor editShared = sharePreferenceNew.edit();
                     editShared.putString("APP_USER_ID", LOGIN_DETAIL.getAppuserID());
                     editShared.apply();
+                    if (sucessRespnse.getData().getApiAuthToken()!=null) {
+                        SharePreference.getInstance(LoginActivity.this).putString(API_AUTH, sucessRespnse.getData().getApiAuthToken());
+                    }
                     Intent intent1;
                     if (LOGIN_DETAIL.getLoginStatus().equalsIgnoreCase("1")) {
                         intent1 = new Intent(LoginActivity.this, MainActivity.class);

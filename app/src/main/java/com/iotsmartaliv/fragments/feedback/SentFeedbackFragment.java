@@ -62,8 +62,7 @@ public class SentFeedbackFragment extends Fragment implements RetrofitListener<F
         rv_sendedFeed.setLayoutManager(new LinearLayoutManager(requireActivity()));
         feedbackListAdapter = new FeedbackListAdapter(requireActivity(), Constant.SENT_FEED, feedbackList);
         rv_sendedFeed.setAdapter(feedbackListAdapter);
-        apiServiceProvider = ApiServiceProvider.getInstance(getActivity());
-        loadFeed(page);
+        apiServiceProvider = ApiServiceProvider.getInstance(getActivity(),false);
 
         // Handle scroll for pagination
         rv_sendedFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -151,5 +150,11 @@ public class SentFeedbackFragment extends Fragment implements RetrofitListener<F
         // Reset the refreshing flag in case of an error
         isRefreshing = false;
         pullToRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFeed(page);
     }
 }

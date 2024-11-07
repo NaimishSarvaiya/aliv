@@ -61,7 +61,7 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
         binding = FragmentCommunityListBinding.inflate(inflater,container,false);
 //        View view = inflater.inflate(R.layout.fragment_community_list, container, false);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         communityListAdapter = new CommunityListAdapter(getContext(), mListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         binding.recyclerViewCommunity.setLayoutManager(mLayoutManager);

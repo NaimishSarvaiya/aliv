@@ -78,7 +78,7 @@ public class DocumentDetailFragment extends Fragment {
 
         if (mBroadcast.getReadStatus().equalsIgnoreCase("0")){
 
-            apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+            apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
             apiServiceProvider.callUpdateBroadcastReadStatus(mBroadcast.getBuID(), new RetrofitListener<SuccessResponse>() {
                 @Override
                 public void onResponseSuccess(SuccessResponse sucessRespnse, String apiFlag) {

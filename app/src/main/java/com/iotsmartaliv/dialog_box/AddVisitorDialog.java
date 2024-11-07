@@ -58,7 +58,7 @@ public class AddVisitorDialog extends Dialog implements View.OnClickListener {
         super(activity);
         this.activity = activity;
         this.countryArrayData = countryArrayData;
-        apiServiceProvider = ApiServiceProvider.getInstance(activity);
+        apiServiceProvider = ApiServiceProvider.getInstance(activity,false);
         this.visitorAddedRefresh = visitorAddedRefresh;
     }
 

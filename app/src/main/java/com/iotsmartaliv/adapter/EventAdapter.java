@@ -95,6 +95,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             holder.eventDate.setTypeface(null, Typeface.NORMAL);
 
             holder.eventOrganizer.setTypeface(null, Typeface.NORMAL);
+            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.white));
 
         }
     }

@@ -63,7 +63,7 @@ public class DeviceLogSyncService extends Service {
     public void onCreate() {
         super.onCreate();
         deviceDao = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().deviceDao();
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 
         setupBroadcastReceivers();
 

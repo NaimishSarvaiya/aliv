@@ -214,7 +214,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
     public void getVideoDevice() {
         SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
         String userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         apiServiceProvider.callForVideoDeviceWithoutProgres(userIdApp, new RetrofitListener<VideoDeviceListModel>() {
             @Override
             public void onResponseSuccess(VideoDeviceListModel sucessRespnse, String apiFlag) {
@@ -356,7 +356,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
     }
 
     private void callGetServerAPI() {
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 
         Util.checkInternet(YJCallActivity.this, new Util.NetworkCheckCallback() {
             @Override
@@ -610,7 +610,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
             public void onNetworkCheckComplete(boolean isAvailable) {
 
                 if (isAvailable) {
-                    apiServiceProvider = ApiServiceProvider.getInstance(YJCallActivity.this);
+                    apiServiceProvider = ApiServiceProvider.getInstance(YJCallActivity.this,false);
                     OpenVideoDeviceRelayRequest relayRequest = new OpenVideoDeviceRelayRequest(relayItem.getAutomationDeviceID(), String.valueOf(relayItem.getAttachedRelay()));
                     apiServiceProvider.openVideoDeviceRelay(relayRequest, new RetrofitListener<SuccessResponseModel>() {
                         @Override

@@ -47,6 +47,7 @@ import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.dmvphonedemotest.CheckPermissionUtils;
 import com.iotsmartaliv.dmvphonedemotest.DmCallIncomingActivity;
 import com.iotsmartaliv.dmvphonedemotest.DmCallOutgoingActivity;
+import com.iotsmartaliv.dmvphonedemotest.YJCallActivity;
 import com.iotsmartaliv.interfaces.VideoIntercomItemClick;
 import com.iotsmartaliv.model.OpenVideoDeviceRelayRequest;
 import com.iotsmartaliv.model.SuccessResponseModel;
@@ -143,7 +144,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_intercom);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         Log.e("INTERCOM", "TRUE");
         SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
         String userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
@@ -227,6 +228,8 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
+//                    DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(),LOGIN_DETAIL.getAccountTokenPwd(),"test123",1,VideoIntercomActivity.this, new DMCallback() {
+
                     DMVPhoneModel.loginVPhoneServer(LOGIN_DETAIL.getUserEmail(), LOGIN_DETAIL.getAccountTokenPwd(), 1, VideoIntercomActivity.this, new DMCallback() {
                         //DMVPhoneModel.loginVPhoneServer("ashishagrawal0108@gmail.com", "c5be8bcL88496f2bd778bfebeabc78208801efe3", 1, this, new DMModelCallBack.DMCallback() {
                         @Override
@@ -399,7 +402,13 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
                         @Override
                         public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
                             Util.firebaseEvent(Constant.APIERROR, VideoIntercomActivity.this, Constant.UrlPath.SERVER_URL + apiFlag, LOGIN_DETAIL.getUsername(), LOGIN_DETAIL.getAppuserID(), errorObject.getStatus());
-                            Toast.makeText(VideoIntercomActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+                            try {
+                                Toast.makeText(VideoIntercomActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(VideoIntercomActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                            }
+//                            Toast.makeText(VideoIntercomActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                             Util.logDoorOpenEvent("VideoDeviceList", false, LOGIN_DETAIL.getAppuserID(), device_sn);
                         }
                     });
@@ -429,7 +438,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
                 if (isAvailable) {
-                    apiServiceProvider = ApiServiceProvider.getInstance(VideoIntercomActivity.this);
+                    apiServiceProvider = ApiServiceProvider.getInstance(VideoIntercomActivity.this,false);
                     OpenVideoDeviceRelayRequest relayRequest = new OpenVideoDeviceRelayRequest( relayItem.getAutomationDeviceID(),String.valueOf(relayItem.getAttachedRelay()));
                     apiServiceProvider.openVideoDeviceRelay(relayRequest, new RetrofitListener<SuccessResponseModel>() {
                         @Override
@@ -522,7 +531,7 @@ public class VideoIntercomActivity extends AppCompatActivity implements View.OnC
     }
 
     private void callGetServerAPI(VideoDeviceData deviceData) {
-        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(this);
+        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {

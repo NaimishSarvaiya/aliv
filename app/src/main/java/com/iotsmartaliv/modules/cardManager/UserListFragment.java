@@ -67,7 +67,7 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
             deviceId = getArguments().getString(Constant.DEVICE_ID);
             communityId = getArguments().getString(Constant.COMMUNITY_ID);
         }
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         apiServiceProvider.callForCardUserList(communityId, deviceId, LOGIN_DETAIL.getAppuserID(), this);
         return binding.getRoot();
     }

@@ -83,7 +83,7 @@ public class RoomOneFragment extends Fragment implements CompoundButton.OnChecke
         binding.recyclerViewSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerViewSchedules.setNestedScrollingEnabled(false);
         binding.recyclerViewSchedules.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         if (!automationRoomsData.getRolePermission().equalsIgnoreCase("") ||automationRoomsData.getRolePermission()!=null ) {
             isAutomationManagementEnable = getAutomationManagementEnable(automationRoomsData.getRolePermission());
         }

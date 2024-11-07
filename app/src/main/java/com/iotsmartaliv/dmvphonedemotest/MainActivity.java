@@ -275,45 +275,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 登录
      */
-    private void login() {
-        account = et_account.getText().toString().trim();
-        password = et_password.getText().toString().trim();
-        String type = et_login_type.getText().toString().trim();
-        if (TextUtils.isEmpty(type)) {
-            Toast.makeText(this, R.string.type_is_wrong, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        login_type = Integer.parseInt(type);
-        if (TextUtils.isEmpty(account)) {
-            Toast.makeText(this, R.string.account_cannot_be_empty, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, R.string.password_cannot_be_empty, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Log.d(TAG, "account=" + account + ",password=" + password);
-
-        String token;
-        if (account.equals("18816764052")) {
-            token = "ceb2bd26cb33c4d8cce85a85a0fdaf7bd13ea20d";
-        } else if (account.equals("13533754937")) {
-            token = "22539ebb31d7c0383fc4e81c43334d477ae94703";
-        } else if (account.equals("13986001110")) {
-            token = "1c168bd8f8f4dc8L5e8ca85a3e1c68d0fc922b3a";
-        } else {
-            token = password;
-        }
-        //参数：呼叫号码、sdk-token、呼叫类型、上下文、回调callBack
-        // DMVPhoneModel.loginVPhoneServer(account, token, login_type, this, loginCallback);
-        DMVPhoneModel.loginVPhoneServer("18june@mailinator.com", "179f76dLeb2c9a8ea72aa895f427f8c745b73490", login_type, this, loginCallback);
-
-//        DMVPhoneModel.setCameraId(1,this);
-
-        //720p(1280*720),vga(640*480),qvga(320*240),qcif(176*144)
-//        DMVPhoneModel.setVideoSize("vga",this);
-//        DMVPhoneModel.setVideoRotation(90, this);
-    }
+//    private void login() {
+//        account = et_account.getText().toString().trim();
+//        password = et_password.getText().toString().trim();
+//        String type = et_login_type.getText().toString().trim();
+//        if (TextUtils.isEmpty(type)) {
+//            Toast.makeText(this, R.string.type_is_wrong, Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        login_type = Integer.parseInt(type);
+//        if (TextUtils.isEmpty(account)) {
+//            Toast.makeText(this, R.string.account_cannot_be_empty, Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        if (TextUtils.isEmpty(password)) {
+//            Toast.makeText(this, R.string.password_cannot_be_empty, Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        Log.d(TAG, "account=" + account + ",password=" + password);
+//
+//        String token;
+//        if (account.equals("18816764052")) {
+//            token = "ceb2bd26cb33c4d8cce85a85a0fdaf7bd13ea20d";
+//        } else if (account.equals("13533754937")) {
+//            token = "22539ebb31d7c0383fc4e81c43334d477ae94703";
+//        } else if (account.equals("13986001110")) {
+//            token = "1c168bd8f8f4dc8L5e8ca85a3e1c68d0fc922b3a";
+//        } else {
+//            token = password;
+//        }
+//        //参数：呼叫号码、sdk-token、呼叫类型、上下文、回调callBack
+//        // DMVPhoneModel.loginVPhoneServer(account, token, login_type, this, loginCallback);
+//        DMVPhoneModel.loginVPhoneServer("18june@mailinator.com", "179f76dLeb2c9a8ea72aa895f427f8c745b73490", login_type, this, loginCallback);
+////        DMVPhoneModel.loginVPhoneServer("18june@mailinator.com","179f76dLeb2c9a8ea72aa895f427f8c745b73490","test123",1,this,loginCallback);
+//
+////        DMVPhoneModel.setCameraId(1,this);
+//
+//        //720p(1280*720),vga(640*480),qvga(320*240),qcif(176*144)
+////        DMVPhoneModel.setVideoSize("vga",this);
+////        DMVPhoneModel.setVideoRotation(90, this);
+//    }
 
     /**
      * 呼叫

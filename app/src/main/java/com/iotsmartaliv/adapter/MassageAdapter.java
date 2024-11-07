@@ -90,6 +90,8 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MassageV
         }else {
             holder.txtHead.setTypeface(null, Typeface.NORMAL);
             holder.txtDate.setTypeface(null, Typeface.NORMAL);
+            holder.llMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.white));
+
         }
     }
 

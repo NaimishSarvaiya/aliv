@@ -41,7 +41,7 @@ public class AddGroupDialog extends Dialog implements View.OnClickListener {
     public AddGroupDialog(Activity activity, GroupAddedRefresh groupAddedRefresh) {
         super(activity);
         this.activity = activity;
-        apiServiceProvider = ApiServiceProvider.getInstance(activity);
+        apiServiceProvider = ApiServiceProvider.getInstance(activity,false);
         this.groupAddedRefresh = groupAddedRefresh;
     }
 

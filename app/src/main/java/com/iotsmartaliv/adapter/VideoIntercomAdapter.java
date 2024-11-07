@@ -148,7 +148,7 @@ public class VideoIntercomAdapter extends ArrayAdapter<VideoDeviceData> {
 
 
     private void callGetServerAPI(int position, int type) {
-        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(mContext);
+        ApiServiceProvider apiServiceProvider = ApiServiceProvider.getInstance(mContext,false);
         Util.checkInternet(mContext, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {

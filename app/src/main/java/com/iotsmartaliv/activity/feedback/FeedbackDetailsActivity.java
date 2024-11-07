@@ -52,7 +52,7 @@ public class FeedbackDetailsActivity extends AppCompatActivity implements Retrof
         super.onCreate(savedInstanceState);
         binding = ActivityFeedbackDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         if (getIntent().getExtras().getString("feedback_ID") != null) {
             feedbackId = getIntent().getStringExtra("feedback_ID");
         } else {

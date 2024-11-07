@@ -80,6 +80,7 @@
         <!--     </android.support.v4.widget.SwipeRefreshLayout>-->
     </RelativeLayout>
 
+
     <fragment
         android:id="@+id/fragment_navigation_drawer"
         android:name="com.iotsmartaliv.fragments.DrawerFragment"

@@ -4,8 +4,11 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,8 +16,11 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -35,6 +41,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -442,10 +451,13 @@ public class Util {
             // Log the throwable in case of an error
             event.setThrowable(throwable);
         }
-
         // Attach any additional context like user info, environment, etc.
         User user = new User();
-        user.setId("user-id"); // Replace with actual user ID if available
+        if (LOGIN_DETAIL.getAppuserID()!=null) {
+            user.setId(LOGIN_DETAIL.getAppuserID());
+        }else {
+            user.setId("");
+        }// Replace with actual user ID if available
         event.setUser(user);
 
         event.setTag("Environment", BuildConfig.DEBUG ? "Development" : "Production");
@@ -780,5 +792,115 @@ public class Util {
             e.printStackTrace();
             return "Invalid date";
         }
+
+    }
+    public static  void setBrightness(ImageView imageView, float brightnessFactor) {
+        ColorMatrix colorMatrix = new ColorMatrix();
+
+        // Adjust the brightness. 1 means no change, values > 1 increase brightness
+        colorMatrix.set(new float[] {
+                brightnessFactor, 0, 0, 0, 0,
+                0, brightnessFactor, 0, 0, 0,
+                0, 0, brightnessFactor, 0, 0,
+                0, 0, 0, 1, 0
+        });
+
+        // Apply the color matrix to the image view
+        imageView.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+    }
+     public static String convertDateFormatForBooking(String inputDate) {
+        // Define the input and output date formats
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        SimpleDateFormat outputFormat = new SimpleDateFormat("d MMM, yyyy", Locale.ENGLISH);
+
+        try {
+            // Parse the input date string to a Date object
+            Date date = inputFormat.parse(inputDate);
+
+            // Format the Date object to the desired output format
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;  // Return null if parsing fails
+        }
+    }
+
+    public static void showNoDefaultCaedAlertDialog(Context context,String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setCancelable(false) // Prevents the dialog from being dismissed by clicking outside
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss(); // Dismiss the dialog when "Ok" is clicked
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+    public static String getBookingStatusDescription(String statusCode) {
+        switch (statusCode) {
+            case "0":
+                return "Payment Due";
+            case "1":
+                return "Confirmed";
+            case "2":
+                return "Canceled";
+            case "3":
+                return "Payment Failed";
+            case "4":
+                return "Checkout";
+            case "5":
+                return "Canceled by admin";
+            default:
+                return "Completed";
+        }
+    }
+
+    public static String getDepostiReturnStatusDescription(String statusCode) {
+        switch (statusCode) {
+            case "0":
+                return "Payment authorised, but not yet captured";
+            case "1":
+                return "Pyment has been successfully released";
+            default:
+                return "";
+        }
+    }
+
+
+
+    // Method to calculate the date count using java.util.Calendar
+    public static int getDateCount(String startDateStr, String endDateStr) {
+        // Define the date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            // Parse the start and end dates
+            Date startDate = dateFormat.parse(startDateStr);
+            Date endDate = dateFormat.parse(endDateStr);
+
+            // Get calendar instances for start and end dates
+            Calendar startCal = Calendar.getInstance();
+            Calendar endCal = Calendar.getInstance();
+            startCal.setTime(startDate);
+            endCal.setTime(endDate);
+
+            // Calculate the number of days between start and end dates (inclusive)
+            int dayCount = 0;
+            while (!startCal.after(endCal)) {
+                dayCount++;
+                startCal.add(Calendar.DATE, 1); // Move to the next day
+            }
+
+            // Return the date count
+            return dayCount;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Return 0 if an error occurs
+        return 0;
     }
 }

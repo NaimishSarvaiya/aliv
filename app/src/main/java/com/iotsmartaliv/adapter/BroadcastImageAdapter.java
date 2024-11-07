@@ -63,7 +63,7 @@ public class BroadcastImageAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 
-                if (list.get(position).endsWith(".pdf")){
+//                if (list.get(position).endsWith(".pdf")){
                     ArrayList<String> mUrl = new ArrayList<>();
                     mUrl.add(list.get(position));
 
@@ -71,7 +71,7 @@ public class BroadcastImageAdapter extends PagerAdapter {
 //                    intent.putExtra("PDFUrl",list.get(position));
                     intent.putStringArrayListExtra("PDFUrl",mUrl);
                     context.startActivity(intent);                }
-            }
+//            }
         });
         return itemView;
     }

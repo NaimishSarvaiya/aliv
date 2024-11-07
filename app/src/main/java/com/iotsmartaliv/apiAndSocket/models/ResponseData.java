@@ -95,6 +95,9 @@ public class ResponseData {
     @SerializedName("account_token_pwd")
     @Expose
     private String accountTokenPwd;
+    @SerializedName("api_auth_token")
+    @Expose
+    private String apiAuthToken;
     @SerializedName("appuser_type")
     @Expose
     private String appuserType;
@@ -398,5 +401,13 @@ public class ResponseData {
 
     public void setFacialImage(String facialImage) {
         this.facialImage = facialImage;
+    }
+
+    public String getApiAuthToken() {
+        return apiAuthToken;
+    }
+
+    public void setApiAuthToken(String apiAuthToken) {
+        this.apiAuthToken = apiAuthToken;
     }
 }

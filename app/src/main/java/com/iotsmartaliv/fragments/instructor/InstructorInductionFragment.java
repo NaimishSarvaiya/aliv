@@ -46,7 +46,7 @@ public class InstructorInductionFragment extends Fragment implements RetrofitLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = InstructorInductionFragmentBinding.inflate(inflater,container,false);
         View view = inflater.inflate(R.layout.instructor_induction_fragment, container, false);
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         initiate();
         return binding.getRoot();
     }

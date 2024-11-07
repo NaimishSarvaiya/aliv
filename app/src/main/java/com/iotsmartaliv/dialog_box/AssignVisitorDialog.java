@@ -50,7 +50,7 @@ public class AssignVisitorDialog extends Dialog implements View.OnClickListener 
         this.adapter = adapter;
         this.mainDataList = mDataset;
         this.groupData = groupData;
-        apiServiceProvider = ApiServiceProvider.getInstance(activity);
+        apiServiceProvider = ApiServiceProvider.getInstance(activity,false);
 
     }
 

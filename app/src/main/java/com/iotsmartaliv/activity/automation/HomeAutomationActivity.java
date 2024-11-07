@@ -56,7 +56,7 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
         setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
         setSupportActionBar(binding.toolbar);
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         binding.tabLayout.setupWithViewPager(binding.viewPager);

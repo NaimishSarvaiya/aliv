@@ -89,7 +89,7 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
         binding.deviceList.addItemDecoration(new DividerItemDecoration(VisitorAuthorizationActivity.this, DividerItemDecoration.VERTICAL));
         binding.deviceList.setAdapter(selectDeviceListAdapter);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(this);
+        apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
