@@ -48,7 +48,7 @@
 
                     <TextView
                         android:id="@+id/tv_bookingId"
-                        style="@style/blackBookingboldSubTitleTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="#954785411" />
@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_marginTop="2dp"
                         android:id="@+id/tv_community"
-                        style="@style/blackBookingTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Santa fe" />
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_marginTop="2dp"
                         android:id="@+id/tv_bookingFrom"
-                        style="@style/blackBookingTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="FROM : 22-Aug-2024" />
@@ -72,7 +72,7 @@
                     <TextView
                         android:id="@+id/tv_bookingTo"
                         android:layout_marginTop="2dp"
-                        style="@style/blackBookingTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="TO : 22-Aug-2024" />

@@ -89,6 +89,4 @@
         android:layout_gravity="start"
         android:layout="@layout/fragment_navigation_drawer" />
 
-
-
 </androidx.drawerlayout.widget.DrawerLayout>

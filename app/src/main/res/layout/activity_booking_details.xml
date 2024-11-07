@@ -37,7 +37,7 @@
 
             <TextView
                 android:id="@+id/tv_header"
-                style="@style/headerBookingTitleTV"
+                style="@style/headerTvLightblueBold20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -45,7 +45,7 @@
 
             <TextView
                 android:id="@+id/tv_community"
-                style="@style/headerSubTitleBookingTitleTV"
+                style="@style/headerTvLightblueBold15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_header"
@@ -141,7 +141,7 @@
                             android:text="Rescheduled" />
 
                         <TextView
-                            style="@style/headerBookingTitleTV"
+                            style="@style/headerTvLightblueBold20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -149,7 +149,7 @@
                     </RelativeLayout>
 
                     <TextView
-                        style="@style/blackBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
@@ -157,7 +157,7 @@
 
                     <TextView
                         android:id="@+id/tvBookingID"
-                        style="@style/blackBookingboldSubTitleTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp" />
@@ -170,7 +170,7 @@
                         android:background="@color/newNavyBuleBaseColor" />
 
                     <TextView
-                        style="@style/blackBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
@@ -178,7 +178,7 @@
 
                     <TextView
                         android:id="@+id/tvRoomName"
-                        style="@style/blackBookingboldSubTitleTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp" />
@@ -192,7 +192,7 @@
                     android:background="@color/newNavyBuleBaseColor" />
 
                 <TextView
-                    style="@style/blackBookingSubTitleTV"
+                    style="@style/headerTvNevyblueLight17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Booking Slot" />
@@ -219,12 +219,13 @@
 
                         <TextView
                             android:id="@+id/tvBookingDate"
-                            style="@style/blackBookingboldSubTitleTV"
+                            style="@style/headerTvNevyblueBold15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical" />
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/tvBookingSlot"
                             style="@style/feedbackTitleTextStyle"
                             android:layout_width="wrap_content"
@@ -253,14 +254,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/blackBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Booking Status: " />
 
                     <TextView
                         android:id="@+id/tv_BookingStatus"
-                        style="@style/blackBookingboldSubTitleTV"
+                        style="@style/headerTvNevyblueBold15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
@@ -287,14 +288,14 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/headerBookingTitleTV"
+                            style="@style/headerTvLightblueBold20"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Transaction Info" />
 
 
                         <TextView
-                            style="@style/blackBookingSubTitleTV"
+                            style="@style/headerTvNevyblueLight17"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -302,14 +303,14 @@
 
                         <TextView
                             android:id="@+id/tvBookingFees"
-                            style="@style/blackBookingboldSubTitleTV"
+                            style="@style/headerTvNevyblueBold15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp" />
 
 
                         <TextView
-                            style="@style/blackBookingSubTitleTV"
+                            style="@style/headerTvNevyblueLight17"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -317,7 +318,7 @@
 
                         <TextView
                             android:id="@+id/tvBookigPaymnetID"
-                            style="@style/blackBookingboldSubTitleTV"
+                            style="@style/headerTvNevyblueBold15"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -337,7 +338,7 @@
                                 android:background="@color/newNavyBuleBaseColor" />
 
                             <TextView
-                                style="@style/blackBookingSubTitleTV"
+                                style="@style/headerTvNevyblueLight17"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp"
@@ -345,14 +346,14 @@
 
                             <TextView
                                 android:id="@+id/tvDepositAmt"
-                                style="@style/blackBookingboldSubTitleTV"
+                                style="@style/headerTvNevyblueBold15"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp" />
 
 
                             <TextView
-                                style="@style/blackBookingSubTitleTV"
+                                style="@style/headerTvNevyblueLight17"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp"
@@ -360,7 +361,7 @@
 
                             <TextView
                                 android:id="@+id/tvDepostPaymentID"
-                                style="@style/blackBookingboldSubTitleTV"
+                                style="@style/headerTvNevyblueBold15"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp" />
@@ -378,7 +379,7 @@
                                     android:alpha="0.6"
                                     android:background="@color/newNavyBuleBaseColor" />
                                 <TextView
-                                    style="@style/blackBookingSubTitleTV"
+                                    style="@style/headerTvNevyblueLight17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -387,14 +388,14 @@
 
                                 <TextView
                                     android:id="@+id/tvPenltyAmt"
-                                    style="@style/blackBookingboldSubTitleTV"
+                                    style="@style/headerTvNevyblueBold15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
                                     android:visibility="visible" />
 
                                 <TextView
-                                    style="@style/blackBookingSubTitleTV"
+                                    style="@style/headerTvNevyblueLight17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -403,7 +404,7 @@
 
                                 <TextView
                                     android:id="@+id/tvPenaltyResoan"
-                                    style="@style/blackBookingboldSubTitleTV"
+                                    style="@style/headerTvNevyblueBold15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -425,7 +426,7 @@
                                     android:alpha="0.6"
                                     android:background="@color/newNavyBuleBaseColor" />
                                 <TextView
-                                    style="@style/blackBookingSubTitleTV"
+                                    style="@style/headerTvNevyblueLight17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -434,7 +435,7 @@
 
                                 <TextView
                                     android:id="@+id/tvDepositReturnAmt"
-                                    style="@style/blackBookingboldSubTitleTV"
+                                    style="@style/headerTvNevyblueBold15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -442,7 +443,7 @@
 
 
                                 <TextView
-                                    style="@style/blackBookingSubTitleTV"
+                                    style="@style/headerTvNevyblueLight17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -451,7 +452,7 @@
 
                                 <TextView
                                     android:id="@+id/tvDepReturnStatus"
-                                    style="@style/blackBookingboldSubTitleTV"
+                                    style="@style/headerTvNevyblueBold15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp"
@@ -467,14 +468,14 @@
                                 android:visibility="gone">
 
                                 <TextView
-                                    style="@style/blackBookingSubTitleTV"
+                                    style="@style/headerTvNevyblueLight17"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Transaction ID: " />
 
                                 <TextView
                                     android:id="@+id/tvDepReturnID"
-                                    style="@style/blackBookingboldSubTitleTV"
+                                    style="@style/headerTvNevyblueBold15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="7dp" />

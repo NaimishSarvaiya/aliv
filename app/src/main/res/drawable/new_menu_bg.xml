@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Bottom Half Shadow -->
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:startColor="#43000000"
+            android:endColor="#14000000"
+            android:angle="270" />
+            <size android:width="80dp" android:height="5dp" />
+        </shape>
+    </item>
+
+    <!-- White Circle -->
+    <item android:bottom="4dp"> <!-- Slight offset to make shadow more prominent -->
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF" />
+            <size android:width="76dp" android:height="72dp" />
+        </shape>
+    </item>
+</layer-list>

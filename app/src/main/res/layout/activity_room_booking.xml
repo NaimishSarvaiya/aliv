@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/tvDateRange"
-            style="@style/headerBookingTitleTV"
+            style="@style/headerTvLightblueBold20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_16sp"
@@ -44,7 +44,7 @@
 
                 <TextView
                     android:id="@+id/tv_month_year"
-                    style="@style/previewBookingSubTitleTV"
+                    style="@style/headerTvNevyblueLight17"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -60,7 +60,7 @@
 
                     <TextView
                         android:id="@+id/tv_calendarType"
-                        style="@style/previewBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Week View" />
@@ -109,7 +109,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/headerBookingTitleTV"
+                style="@style/headerTvLightblueBold20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_16sp"

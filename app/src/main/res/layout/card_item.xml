@@ -34,13 +34,13 @@
             android:id="@+id/cardNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/previewBookingSubTitleTV"/>
+            style="@style/headerTvNevyblueLight17"/>
 
         <TextView
             android:id="@+id/cardExpiry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/blackBookingSubTitleTV"/>
+            style="@style/headerTvNevyblueLight17"/>
     </LinearLayout>
 
     <RelativeLayout

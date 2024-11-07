@@ -21,5 +21,5 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/booking"
-        style="@style/headerBookingTitleTV" />
+        style="@style/headerTvLightblueBold20" />
 </RelativeLayout>

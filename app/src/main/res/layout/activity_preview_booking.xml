@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/tv_termsAndConditionTitle"
-                style="@style/headerBookingTitleTV"
+                style="@style/headerTvLightblueBold20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/booking"
@@ -64,7 +64,7 @@
 
                     <TextView
                         android:id="@+id/tv_BookingDate"
-                        style="@style/previewBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -72,7 +72,7 @@
 
                     <TextView
                         android:id="@+id/tv_BookingSlot"
-                        style="@style/previewBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -82,7 +82,7 @@
             </LinearLayout>
 
             <TextView
-                style="@style/headerBookingTitleTV"
+                style="@style/headerTvLightblueBold20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -120,7 +120,7 @@
 
                     <TextView
                         android:id="@+id/tv_roomName"
-                        style="@style/previewBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -128,7 +128,7 @@
 
                     <TextView
                         android:id="@+id/tv_community"
-                        style="@style/previewBookingSubTitleTV"
+                        style="@style/headerTvNevyblueLight17"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -141,7 +141,7 @@
 
             <TextView
                 android:id="@+id/tv_headerCancelPolicy"
-                style="@style/headerBookingTitleTV"
+                style="@style/headerTvLightblueBold20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -173,7 +173,7 @@
 
                 <TextView
                     android:id="@+id/tv_cancelPolicy"
-                    style="@style/previewBookingSubTitleTV"
+                    style="@style/headerTvNevyblueLight17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -184,7 +184,7 @@
 
             <TextView
                 android:id="@+id/tv_headerReschedule"
-                style="@style/headerBookingTitleTV"
+                style="@style/headerTvLightblueBold20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -215,7 +215,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    style="@style/previewBookingSubTitleTV"
+                    style="@style/headerTvNevyblueLight17"
 android:id="@+id/tv_reschedulePolicy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

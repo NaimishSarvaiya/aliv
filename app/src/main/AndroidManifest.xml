@@ -85,6 +85,9 @@
         android:usesCleartextTraffic="true"
         tools:replace="label,icon,theme,android:allowBackup">
         <activity
+            android:name=".activity.NewMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.booking.TestPayment"
             android:exported="false" />
         <activity

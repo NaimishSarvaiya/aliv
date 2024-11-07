@@ -188,7 +188,9 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
+            binding.tvBookingSlot.setVisibility(View.VISIBLE);
             binding.tvBookingSlot.setText(formattedStartTime + " : " + formattedEndTime);
+
         } else {
             binding.tvBookingSlot.setVisibility(View.GONE);
         }

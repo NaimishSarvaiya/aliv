@@ -95,88 +95,100 @@
         <item name="android:textColor">@color/orange</item>
         <item name="android:textStyle">bold</item>
     </style>
-    android:textColor="@android:color/white"
-    android:textSize="18sp"
-    android:textStyle="bold"
 
-    <style name="bookingTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="titleTvWhiteBold" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
 
-    <style name="bookingboldSubTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="subTitleTvWhiteBold" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
 
-    <style name="bookingSubTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="subTitleTvWhiteLight" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_light</item>
     </style>
 
-    <style name="bookingTV" parent="Widget.AppCompat.TextView">
+    <style name="tvWhiteRegular" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_regular</item>
     </style>
 
-    <style name="headerBookingTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="headerTvLightblueBold20" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/newLightBlueBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
-    <style name="headerSubTitleBookingTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="headerTvLightblueBold15" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/newLightBlueBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
-    <style name="paymentTotalTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="headerTvLightblueBold17" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/newLightBlueBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
+    <style name="headerTvLightblueRegular17" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/newLightBlueBaseColor</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
 
 
-    <style name="blackTransactionboldSubTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="headerTvNevyblueBold20" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
-    <style name="blackBookingboldSubTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="headerTvNevyblueBold15" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
+    <style name="headerTvNevyblueBold13" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+    <style name="headerTvNevyblueBold17" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
+    </style>
 
-    <style name="blackBookingSubTitleTV" parent="Widget.AppCompat.TextView">
+    <style name="headerTvNevyblueLight17" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_light</item>
     </style>
-    <style name="montserratregular17" parent="Widget.AppCompat.TextView">
+    <style name="titleTvNevyblueRgular17" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_regular</item>
     </style>
-
-    <style name="blackBookingTV" parent="Widget.AppCompat.TextView">
+    <style name="titleTvNevyblueRgular15" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_regular</item>
     </style>
-    <style name="previewBookingSubTitleTV" parent="Widget.AppCompat.TextView">
-        <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
-        <item name="fontFamily">@font/montserrat_semi_bold</item>
-    </style>
 
-    <style name="whiteBoaldBookingTV" parent="Widget.AppCompat.TextView">
+
+    <style name="tvWhiteBoald20" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+    <style name="tvWhiteRegular13" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
     </style>
 
     <!-- Style for the date text in CalendarView -->
@@ -193,10 +205,6 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="timeSlotTV" parent="Widget.AppCompat.TextView">
-        <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="fontFamily">@font/montserrat_regular</item>
-    </style>
+
 
 </resources>

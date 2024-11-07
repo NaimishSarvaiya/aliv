@@ -290,6 +290,10 @@
     <string name="currently_there_are_no_active_deposits_please_note_that_your_deposit_amount_will_be_held_on_your_debit_credit_card_but_no_transaction_will_occur_unless_your_deposit_is_forfeited_check_back_later">Currently, there are no active deposits. Please note that your deposit amount will be held on your debit/credit card but no transaction will occur unless your deposit is forfeited. Check back later.</string>
     <string name="notice_board">Notice Board</string>
     <string name="terms_and_conditions_for_nmeeting_room">Terms and Conditions for\nMeeting Room</string>
+    <string name="facility">Facility</string>
+    <string name="visitor">Visitor</string>
+    <string name="form">Form</string>
+    <string name="face_enroll">Face Enroll</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
