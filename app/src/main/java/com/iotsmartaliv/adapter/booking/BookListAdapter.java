@@ -64,7 +64,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         }
         if (roomData.getRoomImage()!=null) {
             Glide.with(context)
-                    .load(roomData.getRoomImage())
+                    .load(roomData.getRoomImage().get(0))
 //                .override(800, 800) // Resize the image for preview
                     .placeholder(R.mipmap.ic_room) // Placeholder while loading
                     .into(holder.imgRoom);

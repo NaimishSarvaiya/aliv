@@ -82,6 +82,7 @@ public class OpenDoorRemotelyActivity extends AppCompatActivity {
                 });
             }
         };
+
         int ret = LibDevModel.scanDevice(OpenDoorRemotelyActivity.this, true, 2000, callback);
         if (ret != 0x00) {
 //            Toast.makeText(OpenDoorRemotelyActivity.this, "" + ret, Toast.LENGTH_SHORT).show();

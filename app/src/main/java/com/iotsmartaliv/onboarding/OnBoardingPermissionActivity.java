@@ -108,10 +108,6 @@ public class OnBoardingPermissionActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(OnBoardingPermissionActivity.this, permissions, REQUEST_ID_MULTIPLE_PERMISSIONS);
                 else
                     moveToNxtScreen();
-//                } else {
-//                    changeView();
-//                    page++;
-//                }
             }
 
             @Override

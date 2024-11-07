@@ -848,10 +848,27 @@ public class Util {
                 return "Canceled";
             case "3":
                 return "Payment Failed";
+            case "4":
+                return "Checkout";
+            case "5":
+                return "Canceled by admin";
             default:
-                return "Unknown Status";
+                return "Completed";
         }
     }
+
+    public static String getDepostiReturnStatusDescription(String statusCode) {
+        switch (statusCode) {
+            case "0":
+                return "Payment authorised, but not yet captured";
+            case "1":
+                return "Pyment has been successfully released";
+            default:
+                return "";
+        }
+    }
+
+
 
     // Method to calculate the date count using java.util.Calendar
     public static int getDateCount(String startDateStr, String endDateStr) {

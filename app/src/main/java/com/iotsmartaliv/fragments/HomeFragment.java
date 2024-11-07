@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -131,6 +132,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
 
     TextView tvTodayDate;
     ArrayList<String> appFeture;
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
     private String[] mItemTexts = new String[]{
             "Face Enroll", "Video Intercom",
             /* "Rewards",*/ "Visitor", /*"Market Place",*/
@@ -644,7 +646,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                     } else {
                                         goInsideToOpenDoor = true;
                                     }
-                                    callOpenDoor();
+                                    checkAndRequestBluetoothPermissions();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -674,56 +676,67 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
         Log.e("UNLOCK", "TRUE");
 
         try {
-//            if (goInsideToOpenDoor) {
             pressed = true;
             progress.show();
 
             int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-            //Naimish
             if (ret1 != 0) {
                 Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
                 pressed = false;
                 progress.dismiss();
             }
-            // startActivity(new Intent(getActivity(), OpenDoorActivity.class));
-//                }
-//            } else {
-//                int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-////                Toast.makeText(getActivity(), "User can not access at this time", Toast.LENGTH_SHORT).show();
-//            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean isGotList() {
-        String clientId = SharePreference.getInstance(getActivity()).getString("CLIENTID");
-        try {
-            devList = Request.reqDeviceList(clientId);
-            if (devList == null) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "No device configured.", Toast.LENGTH_SHORT);
-                    }
-                });
-                devList = new ArrayList<DeviceBean>();
-                tempDevDic = new HashMap<String, DeviceBean>();
-            } else {
-                for (DeviceBean devBean : devList) {
-                    tempDevDic.put(devBean.getDevSn(), devBean);
-                }
+    private void checkAndRequestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            List<String> permissionsToRequest = new ArrayList<>();
+
+            // Check BLUETOOTH_CONNECT and BLUETOOTH_SCAN permissions
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
-            Constant.hideLoader();
-            return true;
-        } catch (JSONException e) {
-            Constant.hideLoader();
-            e.printStackTrace();
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+
+            if (!permissionsToRequest.isEmpty()) {
+                ActivityCompat.requestPermissions(requireActivity(), permissionsToRequest.toArray(new String[0]), REQUEST_BLUETOOTH_PERMISSIONS);
+                return;
+            }
         }
-        return false;
+
+        // If permissions are already granted, proceed with the door opening
+        callOpenDoor();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            boolean allPermissionsGranted = true;
+
+            // Check if all requested permissions were granted
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (allPermissionsGranted) {
+                // Permissions granted, proceed with the door unlocking process
+                callOpenDoor();
+            } else {
+                // Permissions denied, show a message to the user
+                Toast.makeText(requireActivity(), "Bluetooth permissions are required to unlock the door.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @Override
     public void googleLocationEnable(Status locationStatus) {
 

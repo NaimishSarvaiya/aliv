@@ -39,6 +39,7 @@ import com.iotsmartaliv.model.booking.ConfirmBookingRequest;
 import com.iotsmartaliv.model.booking.ConfirmBookingResponse;
 import com.iotsmartaliv.model.booking.PaymentMethodModel;
 import com.iotsmartaliv.model.booking.PaymentResponseModel;
+import com.iotsmartaliv.model.booking.PaymentType;
 import com.iotsmartaliv.model.booking.TimeSlotDataModel;
 import com.iotsmartaliv.model.booking.TimeSlotModel;
 import com.iotsmartaliv.model.booking.UpdateBookingDatesRequest;
@@ -47,6 +48,9 @@ import com.iotsmartaliv.model.feedback.FeedbackModel;
 import com.iotsmartaliv.model.feedback.MessageHistory;
 import com.iotsmartaliv.model.feedback.MessageHistoryData;
 import com.iotsmartaliv.utils.Util;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -663,9 +667,6 @@ public class RoomBookingActivity extends AppCompatActivity {
                                 intent.putExtra(Constant.TIME_SLOT_ID, selectedSlotId);
                                 intent.putExtra(Constant.ROOM_START_DATE, startDate);
                                 intent.putExtra(Constant.ROOM_END_DATE, endDate);
-                                if (sucessRespnse.getData().getRoomImage() != null) {
-                                    intent.putExtra(Constant.ROOM_IMAGE, sucessRespnse.getData().getRoomImage());
-                                }
                                 startActivity(intent);
 //                                finish();
                             } else {
@@ -708,9 +709,6 @@ public class RoomBookingActivity extends AppCompatActivity {
                                 intent.putExtra(Constant.TIME_SLOT_ID, selectedSlotId);
                                 intent.putExtra(Constant.ROOM_START_DATE, startDate);
                                 intent.putExtra(Constant.ROOM_END_DATE, endDate);
-                                if (sucessRespnse.getData().getRoomImage() != null) {
-                                    intent.putExtra(Constant.ROOM_IMAGE, sucessRespnse.getData().getRoomImage());
-                                }
                                 startActivity(intent);
 //                                finish();
                             } else {
@@ -812,9 +810,24 @@ public class RoomBookingActivity extends AppCompatActivity {
     void confirmBooking(int bookingID) {
         Log.e("Naimish", "BookingID" + bookingID);
 
+        JSONObject jsonObject = null;
+        int fees = 0;
+        int deposit = 0;
+        try {
+            jsonObject = new JSONObject(bookingData.getPaymentType());
+             fees = jsonObject.getInt("fees");
+             deposit = jsonObject.getInt("deposit");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Get values from JSON and initialize the PaymentType object
+
+
+        PaymentType paymentType = new PaymentType(fees, deposit);
 //        ConfirmBookingRequest request;
 //            if (bookingDetails.getData().getAdvanceDeposit() !=null || bookingDetails.getData().getAdvanceDeposit() != 0) {
-        ConfirmBookingRequest request = new ConfirmBookingRequest(bookingData.getPaymentID(), bookingID);
+        ConfirmBookingRequest request = new ConfirmBookingRequest(bookingData.getPaymentID(), bookingID,bookingData.getDepositPaymentID(),paymentType);
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {

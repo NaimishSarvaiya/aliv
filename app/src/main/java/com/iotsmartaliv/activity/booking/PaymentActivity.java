@@ -62,7 +62,7 @@ import java.util.List;
 public class PaymentActivity extends AppCompatActivity {
     ActivityPaymentBinding binding;
     BookingDetailsModel bookingDetails;
-    BookingSlotDetailData bookingData;
+    BookingSlotDetailData bookingSlotData;
     String startDate, endDate, timeSlot, slotId;
     private ApiServiceProvider apiServiceProvider;
     String defaultCardId = "";
@@ -83,6 +83,7 @@ public class PaymentActivity extends AppCompatActivity {
     String payFeesBy = "";
     int paymentypeFees = 0;
     int paymentypeDeposit = 0;
+    int reSchedulepaymentType = 0;
 
 
     @Override
@@ -129,6 +130,7 @@ public class PaymentActivity extends AppCompatActivity {
                 payFeesBy = Constant.PAY_FEES_BY_CARD;
             }
         });
+
         binding.checkboxPaynowDeposit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -136,12 +138,12 @@ public class PaymentActivity extends AppCompatActivity {
                     binding.checkboxCardDepost.setChecked(false); // Uncheck Visa if PayNow is selected
                     isCardPayDeposit = false;
                     isPaynowDeposit = true;
-                    if (feesPaymentTpe.equals("2") && depositPaymentTpe.equals("2")){
+//                    if (feesPaymentTpe.equals("2") && depositPaymentTpe.equals("2")) {
+//                        payDeposityBy = Constant.PAY_DEPOSIT_BY_PAYNOW;
+//                        payFeesBy = Constant.PAY_FEES_BY_PAYNOW;
+//                    } else {
                         payDeposityBy = Constant.PAY_DEPOSIT_BY_PAYNOW;
-                        payFeesBy = Constant.PAY_FEES_BY_PAYNOW;
-                    }else {
-                        payDeposityBy = Constant.PAY_DEPOSIT_BY_PAYNOW;
-                    }
+//                    }
                 }
             }
         });
@@ -154,45 +156,55 @@ public class PaymentActivity extends AppCompatActivity {
                     binding.checkboxPaynowDeposit.setChecked(false);
                     isPaynowDeposit = false;
                     isCardPayDeposit = true;
-                    if (feesPaymentTpe.equals("2")&& depositPaymentTpe.equals("2")) {
+//                    if (feesPaymentTpe.equals("2") && depositPaymentTpe.equals("2")) {
+//                        payDeposityBy = Constant.PAY_DEPOSIT_BY_CARD;
+//                        payFeesBy = Constant.PAY_FEES_BY_CARD;
+//                    } else {
                         payDeposityBy = Constant.PAY_DEPOSIT_BY_CARD;
-                        payFeesBy = Constant.PAY_FEES_BY_CARD;
-                    }else {
-                        payDeposityBy = Constant.PAY_DEPOSIT_BY_CARD;
-                    }
+//                    }
                 }
             }
         });
         binding.rlConfirmBooking.setOnClickListener(v -> {
-            if (feesPaymentTpe.equalsIgnoreCase("2") && depositPaymentTpe.equalsIgnoreCase("2")) {
-                boolean isDepositValid = binding.checkboxPaynowDeposit.isChecked() || binding.checkboxCardDepost.isChecked();
-                if (!isDepositValid) {
-                    Toast.makeText(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
-                    return;
+            if (path != null) {
+                if (bookingSlotData.getFeesType() == 0) {
+                    createPaymentWithDeposit();
+                } else if (bookingSlotData.getFeesType() == 1) {
+                    payNowWithDeposit("");
                 } else {
-                    addBookingSlot();
 
                 }
-            }else {
-                if (feesPaymentTpe.equalsIgnoreCase("2")) {
-                    boolean isFeesValid = binding.checkboxPaynowFees.isChecked() || binding.checkboxCardFees.isChecked();
-                    if (!isFeesValid) {
-                        Toast.makeText(this, "Please select a payment method for Fees.", Toast.LENGTH_SHORT).show();
+            } else {
+                if (feesPaymentTpe.equalsIgnoreCase("2") && depositPaymentTpe.equalsIgnoreCase("2")) {
+                    boolean isDepositValid = binding.checkboxPaynowDeposit.isChecked() || binding.checkboxCardDepost.isChecked();
+                    if (!isDepositValid) {
+                        Toast.makeText(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         addBookingSlot();
 
                     }
-                }else if (depositPaymentTpe.equalsIgnoreCase("2")) {
-                    boolean isDepositValid = binding.checkboxPaynowDeposit.isChecked() || binding.checkboxCardDepost.isChecked();
-                    if (!isDepositValid) {
-                        Toast.makeText(this, "Please select a payment method for Deposit.", Toast.LENGTH_SHORT).show();
-                        return;
+                } else {
+                    if (feesPaymentTpe.equalsIgnoreCase("2")) {
+                        boolean isFeesValid = binding.checkboxPaynowFees.isChecked() || binding.checkboxCardFees.isChecked();
+                        if (!isFeesValid) {
+                            Toast.makeText(this, "Please select a payment method for Fees.", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            addBookingSlot();
+
+                        }
+                    } else if (depositPaymentTpe.equalsIgnoreCase("2")) {
+                        boolean isDepositValid = binding.checkboxPaynowDeposit.isChecked() || binding.checkboxCardDepost.isChecked();
+                        if (!isDepositValid) {
+                            Toast.makeText(this, "Please select a payment method for Deposit.", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            addBookingSlot();
+                        }
                     } else {
                         addBookingSlot();
                     }
-                }else {
-                    addBookingSlot();
                 }
             }
 //          else {
@@ -227,7 +239,7 @@ public class PaymentActivity extends AppCompatActivity {
                 slotId = intent.getStringExtra(Constant.TIME_SLOT_ID);
             }
             if (intent.getSerializableExtra(Constant.BOOKING_DETAILS) != null) {
-                bookingData = (BookingSlotDetailData) intent.getSerializableExtra(Constant.BOOKING_DETAILS);
+                bookingSlotData = (BookingSlotDetailData) intent.getSerializableExtra(Constant.BOOKING_DETAILS);
             }
             if (intent.getStringExtra(Constant.ROOM_START_DATE) != null) {
                 startDate = intent.getStringExtra(Constant.ROOM_START_DATE);
@@ -245,17 +257,17 @@ public class PaymentActivity extends AppCompatActivity {
                 timeSlot = "";
             }
 
-            if (bookingData.getRoomName() != null) {
-                binding.tvRoomName.setText(bookingData.getRoomName());
-                binding.llToolbar.tvHeader.setText(bookingData.getRoomName());
-                roomName = bookingData.getRoomName();
+            if (bookingSlotData.getRoomName() != null) {
+                binding.tvRoomName.setText(bookingSlotData.getRoomName());
+                binding.llToolbar.tvHeader.setText(bookingSlotData.getRoomName());
+                roomName = bookingSlotData.getRoomName();
             } else {
                 binding.tvRoomName.setText("");
                 binding.llToolbar.tvHeader.setText("");
                 roomName = "";
             }
-            if (bookingData.getCommunityName() != null) {
-                binding.tvCommunity.setText(bookingData.getCommunityName());
+            if (bookingSlotData.getCommunityName() != null) {
+                binding.tvCommunity.setText(bookingSlotData.getCommunityName());
             } else {
                 binding.tvCommunity.setText("");
             }
@@ -270,6 +282,7 @@ public class PaymentActivity extends AppCompatActivity {
             binding.tvTotal.setText("$ " + String.valueOf(outStandingAmt).toString());
             bookingID = intent.getIntExtra(Constant.BOOKING_ID, 0);
             binding.llDeposit.setVisibility(View.GONE);
+            setReschedulePaymentMethod(bookingSlotData.getFeesType());
         } else {
             binding.llDeposit.setVisibility(View.VISIBLE);
             if (intent.getStringExtra(Constant.TIME_SLOT_ID) != null) {
@@ -335,6 +348,38 @@ public class PaymentActivity extends AppCompatActivity {
         }
     }
 
+    void setReschedulePaymentMethod(int reSchedulepaymentType) {
+        binding.llCardPayFees.setVisibility(View.GONE);
+        binding.llPayNowFees.setVisibility(View.GONE);
+        binding.llPayCarDepost.setVisibility(View.GONE);
+        binding.llPayNowDepost.setVisibility(View.GONE);
+        binding.llCbPayCardDeposit.setVisibility(View.GONE);
+        binding.llCbPayNowfees.setVisibility(View.GONE);
+        binding.llCbCardFees.setVisibility(View.GONE);
+        binding.llCbPaynowDeposit.setVisibility(View.GONE);
+        binding.tvTitlePayFess.setVisibility(View.GONE);
+        binding.tvPayDepost.setVisibility(View.GONE);
+        binding.llBookingFees.setVisibility(View.GONE);
+
+        if (reSchedulepaymentType == 0) {
+            binding.tvPayDepost.setVisibility(View.VISIBLE);
+            binding.tvPayDepost.setText("Pay fee by card");
+            binding.llPayCarDepost.setVisibility(View.VISIBLE);
+            binding.llCbPayCardDeposit.setVisibility(View.GONE);
+            binding.llPayNowDepost.setVisibility(View.GONE);
+            payFeesBy = PAY_FEES_BY_CARD;
+        } else if (reSchedulepaymentType == 1) {
+            binding.tvPayDepost.setVisibility(View.VISIBLE);
+            binding.tvPayDepost.setText("Pay fee by paynow");
+            binding.llPayNowDepost.setVisibility(View.VISIBLE);
+            binding.llCbPaynowDeposit.setVisibility(View.GONE);
+            binding.llPayCarDepost.setVisibility(View.GONE);
+            payFeesBy = PAY_FEES_BY_PAYNOW;
+        } else {
+
+        }
+    }
+
     void setPaymentMethod(List<ComFeature> comFeatures) {
         for (int i = 0; i < comFeatures.size(); i++) {
             if (comFeatures.get(i).getModuleName() != null && comFeatures.get(i).getModuleName().equalsIgnoreCase("BPM_Fees")) {
@@ -351,44 +396,6 @@ public class PaymentActivity extends AppCompatActivity {
         binding.llCbPayNowfees.setVisibility(View.GONE);
         binding.llCbCardFees.setVisibility(View.GONE);
         binding.llCbPaynowDeposit.setVisibility(View.GONE);
-
-//        // Handle visibility based on feesPaymentTpe
-//        if (feesPaymentTpe.equals("0")) {
-//            // Show card for fees and hide PayNow
-//            binding.llCardPayFees.setVisibility(View.VISIBLE);
-//            binding.llCbCardFees.setVisibility(View.GONE);
-//            binding.llPayNowFees.setVisibility(View.GONE);
-//        } else if (feesPaymentTpe.equals("1")) {
-//            // Show PayNow for fees and hide card
-//            binding.llPayNowFees.setVisibility(View.VISIBLE);
-//            binding.llCbPaynowDeposit.setVisibility(View.GONE);
-//            binding.llCardPayFees.setVisibility(View.GONE);
-//        } else if (feesPaymentTpe.equals("2")) {
-//            // Show both card and PayNow for fees
-//            binding.llCardPayFees.setVisibility(View.VISIBLE);
-//            binding.llPayNowFees.setVisibility(View.VISIBLE);
-//            binding.llCbCardFees.setVisibility(View.VISIBLE);
-//            binding.llCbPayNowfees.setVisibility(View.VISIBLE);
-//        }
-//
-//        // Handle visibility based on depositPaymentTpe
-//        if (depositPaymentTpe.equals("0")) {
-//            // Show card for deposit and hide PayNow
-//            binding.llPayCarDepost.setVisibility(View.VISIBLE);
-//            binding.llCbCardFees.setVisibility(View.GONE);
-//            binding.llPayNowDepost.setVisibility(View.GONE);
-//        } else if (depositPaymentTpe.equals("1")) {
-//            // Show PayNow for deposit and hide card
-//            binding.llPayNowDepost.setVisibility(View.VISIBLE);
-//            binding.llCbPaynowDeposit.setVisibility(View.GONE);
-//            binding.llPayCarDepost.setVisibility(View.GONE);
-//        } else if (depositPaymentTpe.equals("2")) {
-//            // Show both card and PayNow for deposit
-//            binding.llPayCarDepost.setVisibility(View.VISIBLE);
-//            binding.llPayNowDepost.setVisibility(View.VISIBLE);
-//            binding.llCbPaynowDeposit.setVisibility(View.VISIBLE);
-//            binding.llCbPayCardDeposit.setVisibility(View.VISIBLE);
-//        }
         // If both fees and deposit have the same type, only show the deposit layout
         if (feesPaymentTpe.equals(depositPaymentTpe)) {
             // Handle visibility based on depositPaymentTpe
@@ -401,7 +408,8 @@ public class PaymentActivity extends AppCompatActivity {
                 binding.llPayNowDepost.setVisibility(View.GONE);
                 payFeesBy = PAY_FEES_BY_CARD;
                 payDeposityBy = PAY_DEPOSIT_BY_CARD;
-            } else if (depositPaymentTpe.equals("1")) {
+            }
+            if (depositPaymentTpe.equals("1")) {
                 binding.tvPayDepost.setText("Payment Method");
                 binding.tvTitlePayFess.setVisibility(View.GONE);
                 // Show PayNow for deposit and hide card
@@ -410,10 +418,17 @@ public class PaymentActivity extends AppCompatActivity {
                 binding.llPayCarDepost.setVisibility(View.GONE);
                 payFeesBy = PAY_FEES_BY_PAYNOW;
                 payDeposityBy = PAY_DEPOSIT_BY_PAYNOW;
-            } else if (depositPaymentTpe.equals("2")) {
+            } if (depositPaymentTpe.equals("2")) {
                 // Show both card and PayNow for deposit
-                binding.tvPayDepost.setText("How whould you like to pay ?");
-                binding.tvTitlePayFess.setVisibility(View.GONE);
+                binding.tvTitlePayFess.setText("How whould you like to pay Fees?");
+                // Show both card and PayNow for fees
+                binding.llCardPayFees.setVisibility(View.VISIBLE);
+                binding.llPayNowFees.setVisibility(View.VISIBLE);
+                binding.llCbCardFees.setVisibility(View.VISIBLE);
+                binding.llCbPayNowfees.setVisibility(View.VISIBLE);
+
+                binding.tvPayDepost.setText("How whould you like to pay Deposit?");
+                // Show both card and PayNow for deposit
                 binding.llPayCarDepost.setVisibility(View.VISIBLE);
                 binding.llPayNowDepost.setVisibility(View.VISIBLE);
                 binding.llCbPaynowDeposit.setVisibility(View.VISIBLE);
@@ -422,14 +437,14 @@ public class PaymentActivity extends AppCompatActivity {
         } else {
             // Handle visibility based on feesPaymentTpe
             if (feesPaymentTpe.equals("0")) {
-                binding.tvTitlePayFess.setText("Payment Method");
+                binding.tvTitlePayFess.setText("Pay fee by card");
                 // Show card for fees and hide PayNow
                 binding.llCardPayFees.setVisibility(View.VISIBLE);
                 binding.llCbCardFees.setVisibility(View.GONE);
                 binding.llPayNowFees.setVisibility(View.GONE);
                 payFeesBy = PAY_FEES_BY_CARD;
             } else if (feesPaymentTpe.equals("1")) {
-                binding.tvTitlePayFess.setText("Payment Method");
+                binding.tvTitlePayFess.setText("Pay fee by paynow");
                 // Show PayNow for fees and hide card
                 binding.llPayNowFees.setVisibility(View.VISIBLE);
                 binding.llCbPaynowDeposit.setVisibility(View.GONE);
@@ -446,14 +461,14 @@ public class PaymentActivity extends AppCompatActivity {
 
             // Handle visibility based on depositPaymentTpe
             if (depositPaymentTpe.equals("0")) {
-                binding.tvPayDepost.setText("Payment Method");
+                binding.tvPayDepost.setText("Pay deposit by card");
                 // Show card for deposit and hide PayNow
                 binding.llPayCarDepost.setVisibility(View.VISIBLE);
                 binding.llCbCardFees.setVisibility(View.GONE);
                 binding.llPayNowDepost.setVisibility(View.GONE);
                 payDeposityBy = PAY_DEPOSIT_BY_CARD;
             } else if (depositPaymentTpe.equals("1")) {
-                binding.tvPayDepost.setText("Payment Method");
+                binding.tvPayDepost.setText("Pay deposit by paynow");
                 // Show PayNow for deposit and hide card
                 binding.llPayNowDepost.setVisibility(View.VISIBLE);
                 binding.llCbPaynowDeposit.setVisibility(View.GONE);
@@ -697,23 +712,45 @@ public class PaymentActivity extends AppCompatActivity {
                 fees = bookingDetails.getData().getFees();
                 paymentypeDeposit = 0;
                 paymentypeFees = 0;
-            }else {
+            } else {
                 if (payDeposityBy.equals(PAY_DEPOSIT_BY_CARD)) {
                     paymentFor = 1;
                     fees = 0;
-                    deposit = bookingDetails.getData().getAdvanceDeposit();
+                    if (path != null) {
+                        if (bookingSlotData.getDeposit() != null) {
+                            deposit = Integer.parseInt(bookingSlotData.getDeposit());
+                        } else {
+                            deposit = 0;
+                        }
+                    } else {
+                        deposit = bookingDetails.getData().getAdvanceDeposit();
+                    }
                     paymentypeDeposit = 0;
                     paymentypeFees = 1;
                 }
                 if (payFeesBy.equals(PAY_FEES_BY_CARD)) {
                     paymentFor = 0;
                     deposit = 0;
-                    fees = bookingDetails.getData().getFees();
+                    if (path != null) {
+                        if (bookingSlotData.getFees() != null) {
+                            fees = outStandingAmt;
+                        } else {
+                            fees = 0;
+                        }
+                    } else {
+                        fees = bookingDetails.getData().getFees();
+                    }
                     paymentypeDeposit = 1;
                     paymentypeFees = 0;
                 }
             }
-            CreatePaymentStripeRequest request = new CreatePaymentStripeRequest(SharePreference.getInstance(PaymentActivity.this).getString(STRIPE_CUSTOMER_ID), fees, defaultCardId, deposit, bookingDetails.getData().getRoomName(), bookingID, paymentFor);
+            String roomName = "";
+            if (path!=null){
+                roomName = bookingSlotData.getRoomName();
+            }else {
+                roomName =  bookingDetails.getData().getRoomName();
+            }
+            CreatePaymentStripeRequest request = new CreatePaymentStripeRequest(SharePreference.getInstance(PaymentActivity.this).getString(STRIPE_CUSTOMER_ID), fees, defaultCardId, deposit, roomName, bookingID, paymentFor);
             Util.checkInternet(this, new Util.NetworkCheckCallback() {
                 @Override
                 public void onNetworkCheckComplete(boolean isAvailable) {
@@ -723,7 +760,7 @@ public class PaymentActivity extends AppCompatActivity {
                             public void onResponseSuccess(PaymentResponseModel sucessRespnse, String apiFlag) {
                                 if (sucessRespnse.getStatusCode() == 200) {
                                     if (paymentFor == 2) {
-                                        confirmBooking(sucessRespnse.getAmountIntent().getId(),sucessRespnse.getDepositIntent().getId());
+                                        confirmBooking(sucessRespnse.getAmountIntent().getId(), sucessRespnse.getDepositIntent().getId());
                                     } else {
                                         if (paymentFor == 1) {
                                             payNowWithDeposit(sucessRespnse.getDepositIntent().getId());
@@ -764,28 +801,57 @@ public class PaymentActivity extends AppCompatActivity {
     private void payNowWithDeposit(String intentId) {
         int deposit = 0;
         int fees = 0;
+        String paymentId = "";
+        String depositId = "";
 
         if (payDeposityBy.equals(PAY_DEPOSIT_BY_PAYNOW) && payFeesBy.equals(PAY_FEES_BY_PAYNOW)) {
             deposit = bookingDetails.getData().getAdvanceDeposit();
             fees = bookingDetails.getData().getFees();
             paymentypeDeposit = 1;
             paymentypeFees = 1;
-        }else {
+            paymentId = intentId;
+            depositId = intentId;
+        } else {
             if (payDeposityBy.equals(PAY_DEPOSIT_BY_PAYNOW)) {
                 paymentypeDeposit = 1;
                 paymentypeFees = 0;
                 fees = 0;
-                deposit = bookingDetails.getData().getAdvanceDeposit();
+                if (path != null) {
+                    if (bookingSlotData.getDeposit() != null) {
+                        deposit = Integer.parseInt(bookingSlotData.getDeposit());
+                    } else {
+                        deposit = 0;
+                    }
+                    depositId = bookingSlotData.getDepositPaymentID();
+                    paymentId = bookingSlotData.getPaymentID();
+                } else {
+                    deposit = bookingDetails.getData().getAdvanceDeposit();
+                    paymentId = intentId;
+                }
+
             }
             if (payFeesBy.equals(PAY_FEES_BY_PAYNOW)) {
                 paymentypeDeposit = 0;
                 paymentypeFees = 1;
                 deposit = 0;
-                fees = bookingDetails.getData().getFees();
+                if (path != null) {
+                    fees = Integer.parseInt(bookingSlotData.getFees());
+                    depositId = bookingSlotData.getDepositPaymentID();
+                    paymentId = bookingSlotData.getPaymentID();
+                } else {
+                    fees = bookingDetails.getData().getFees();
+                    depositId = intentId;
+                }
             }
         }
-        PaymentType paymentTypeRequest = new PaymentType(paymentypeFees,paymentypeDeposit);
-        PayNowRequest request = new PayNowRequest(SharePreference.getInstance(PaymentActivity.this).getString(STRIPE_CUSTOMER_ID), fees, deposit, bookingDetails.getData().getRoomName(), bookingID,intentId, paymentTypeRequest);
+        String roomName = "";
+        if (path != null) {
+            roomName = bookingSlotData.getRoomName();
+        } else {
+            roomName = bookingDetails.getData().getRoomName();
+        }
+        PaymentType paymentTypeRequest = new PaymentType(paymentypeFees, paymentypeDeposit);
+        PayNowRequest request = new PayNowRequest(SharePreference.getInstance(PaymentActivity.this).getString(STRIPE_CUSTOMER_ID), fees, deposit, roomName, bookingID, paymentId, paymentTypeRequest, depositId);
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -827,13 +893,12 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
 
-
-    void confirmBooking(String paymentID,String depositId) {
-        PaymentType paymentTypeRequest = new PaymentType(paymentypeFees,paymentypeDeposit);
+    void confirmBooking(String paymentID, String depositId) {
+        PaymentType paymentTypeRequest = new PaymentType(paymentypeFees, paymentypeDeposit);
 
         Log.e("Naimish", "BookingID" + bookingID);
         paymentypeDeposit = 0;
-        ConfirmBookingRequest request = new ConfirmBookingRequest(paymentID, bookingID, depositId,paymentTypeRequest);
+        ConfirmBookingRequest request = new ConfirmBookingRequest(paymentID, bookingID, depositId, paymentTypeRequest);
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -918,10 +983,10 @@ public class PaymentActivity extends AppCompatActivity {
         } else if (from == 0) {
             title.setText("Payment Required");
             message.setText("To proceed with your booking payment,\nplease select or add a card");
-        } else if (from == 2){
+        } else if (from == 2) {
             title.setText("Payment Due");
             message.setText("Your payment was unsuccessful, and your room booking has been canceled. Please check your payment method and try again.");
-        }else {
+        } else {
             title.setText("Payment Failed");
             message.setText("Your payment was unsuccessful, and your room booking has been canceled. Please check your payment method and try again.");
         }
@@ -986,10 +1051,10 @@ public class PaymentActivity extends AppCompatActivity {
                             String bookingStatus = getBookingStatusDescription(sucessRespnse.getData().get(0).getBookingStatus());
 //                            if (bookingStatus)
                             if (sucessRespnse.getData().get(0).getBookingStatus().equalsIgnoreCase("1")) {
-                                confirmBooking(sucessRespnse.getData().get(0).getPaymentID(),sucessRespnse.getData().get(0).getDepositPaymentID());
+                                confirmBooking(sucessRespnse.getData().get(0).getPaymentID(), sucessRespnse.getData().get(0).getDepositPaymentID());
                             } else if (sucessRespnse.getData().get(0).getBookingStatus().equalsIgnoreCase("0")) {
                                 noDefaultCard(2);
-                            }else if (sucessRespnse.getData().get(0).getBookingStatus().equalsIgnoreCase("3")){
+                            } else if (sucessRespnse.getData().get(0).getBookingStatus().equalsIgnoreCase("3")) {
                                 noDefaultCard(3);
                             }
                         }

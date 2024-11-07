@@ -53,10 +53,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
     private ImageView[] dots;
     private ApiServiceProvider apiServiceProvider;
     String bookingID;
-    String cancelPolicy,reSchedulePolicy;
+    String cancelPolicy, reSchedulePolicy;
     BookingSlotDetailData bookingData;
-    private String startDate="";
-    private String endDate="";
+    private String startDate = "";
+    private String endDate = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +67,9 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
     }
 
     void init() {
-        if (getIntent().getStringExtra(Constant.PATH).equalsIgnoreCase(Constant.FROM_HISTORY_BOOKING)){
-         binding.llButtons.setVisibility(View.GONE);
-        }else {
+        if (getIntent().getStringExtra(Constant.PATH).equalsIgnoreCase(Constant.FROM_HISTORY_BOOKING)) {
+            binding.llButtons.setVisibility(View.GONE);
+        } else {
             binding.llButtons.setVisibility(View.VISIBLE);
         }
         if (getIntent().getStringExtra(BOOKING_ID) != null && !getIntent().getStringExtra(BOOKING_ID).isEmpty()) {
@@ -137,7 +137,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
             if (!sucessRespnse.getData().isEmpty()) {
                 setDate(sucessRespnse.getData().get(0));
                 bookingData = sucessRespnse.getData().get(0);
-            }else {
+            } else {
                 Toast.makeText(this, sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
             }
 
@@ -147,14 +147,23 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
     }
 
     private void setDate(BookingSlotDetailData data) {
-        if (data.getRoomBookLimit()!=null){
+        if (data.getRoomBookLimit() != null) {
             dayCount(Integer.parseInt(data.getRoomBookLimit()));
-        }else {
+        } else {
             dayCount(10);
         }
+
         cancelPolicy = data.getCancellationPolicy();
         reSchedulePolicy = data.getReschedulingPolicy();
-        roomImageList.add(data.getRoomImage());
+        if (data.getRoomImage() != null) {
+            roomImageList.addAll(data.getRoomImage());
+            binding.ccRoomImage.setVisibility(View.GONE);
+            binding.viewPager.setVisibility(View.VISIBLE);
+        } else {
+            binding.imgRoom.setImageResource(R.mipmap.ic_room);
+            binding.viewPager.setVisibility(View.GONE);
+            binding.ccRoomImage.setVisibility(View.VISIBLE);
+        }
         adapter = new RoomImageViewPagerAdapter(this, roomImageList);
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.post(() -> addDotsIndicator(0));
@@ -167,7 +176,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
             binding.tvBookingDate.setText(convertDateFormatForBooking(data.getStartDate()) + " - " + convertDateFormatForBooking(data.getEndDate()));
         }
 
-        if (data.getStartTime()!=null) {
+        if (data.getStartTime() != null) {
             SimpleDateFormat inputFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             SimpleDateFormat outputFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
             String formattedEndTime;
@@ -183,10 +192,10 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
         } else {
             binding.tvBookingSlot.setVisibility(View.GONE);
         }
-        if (data.getFees()!=null) {
+        if (data.getFees() != null) {
             binding.tvBookingFees.setText("$" + data.getFees());
         }
-        if (data.getDeposit()!= null && !data.getDeposit().isEmpty() && !data.getDeposit().equalsIgnoreCase("0")) {
+        if (data.getDeposit() != null && !data.getDeposit().isEmpty() && !data.getDeposit().equalsIgnoreCase("0")) {
             binding.tvDepositAmt.setText("$" + data.getDeposit());
             binding.tvDepostPaymentID.setText(data.getDepositPaymentID());
             binding.llDeposit.setVisibility(View.VISIBLE);
@@ -194,15 +203,70 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
         } else {
             binding.llDeposit.setVisibility(View.GONE);
         }
-        if (data.getPaymentID()!=null) {
+        if (data.getPaymentID() != null) {
             binding.tvBookigPaymnetID.setText(data.getPaymentID());
         }
         binding.tvCommunity.setText(data.getCommunityName());
         String bookingStatus = getBookingStatusDescription(data.getBookingStatus());
         binding.tvBookingStatus.setText(bookingStatus);
-//        if (data.getCommunity_name()) {
-//            binding.tvCommunity.setText(Long);
+
+// Reschedule Tag
+        if (data.getRescheduled().equals("1")) {
+            binding.tvReScheduled.setVisibility(View.VISIBLE);
+            binding.rlReSchedule.setVisibility(View.GONE);
+        } else {
+            if (data.getReschedulingPolicy() != null &&
+                    !data.getReschedulingPolicy().equals("")
+                    && Integer.parseInt(data.getRescheduleLimit()) > 0
+                    && data.getRescheduled().equals("0")) {
+
+                binding.tvReScheduled.setVisibility(View.GONE);
+                binding.rlReSchedule.setVisibility(View.VISIBLE);
+            } else {
+                    binding.tvReScheduled.setVisibility(View.GONE);
+                    binding.rlReSchedule.setVisibility(View.GONE);
+            }
+        }
+//        Deposit return detail
+//        if (data.getIsRefunded() != null && data.getIsRefunded().equals("1")) {
+//            binding.llDepositReturn.setVisibility(View.VISIBLE);
+//            if (data.getDepositRefunded().equals("0")) {
+//                binding.tvDepositReturnAmt.setText(data.getDepositRefunded());
+//            } else {
+//                binding.tvDepositReturnAmt.setText("-");
+//            }
+//            binding.tvDepReturnStatus.setText(Util.getDepostiReturnStatusDescription(data.getDepositStatus()));
 //        }
+
+        if (data.getDepositRefunded() != null && !data.getDepositRefunded().equals("0")) {
+            binding.llDepositReturn.setVisibility(View.VISIBLE);
+            if (data.getDepositRefunded().equals("0")) {
+                binding.tvDepositReturnAmt.setText(data.getDepositRefunded());
+            } else {
+                binding.tvDepositReturnAmt.setText("-");
+            }
+            binding.tvDepReturnStatus.setText(Util.getDepostiReturnStatusDescription(data.getDepositStatus()));
+
+        } else {
+            if (data.getIsRefunded() != null && data.getIsRefunded().equals("1")) {
+                binding.llDepositReturn.setVisibility(View.VISIBLE);
+//                if (data.getDepositRefunded().equals("0")) {
+                binding.tvDepositReturnAmt.setText(data.getDeposit());
+//                } else {
+//                    binding.tvDepositReturnAmt.setText("-");
+//                }
+                binding.tvDepReturnStatus.setText("Payment refunded. It may take a few days for the money to reach the customer's bank account.");
+            }
+        }
+
+//        Penelty Details
+        if ( data.getPenaltyAmount() != null && data.getPenaltyAmount().equals("0") ) {
+            binding.llPenelty.setVisibility(View.GONE);
+        } else {
+            binding.llPenelty.setVisibility(View.VISIBLE);
+            binding.tvPenltyAmt.setText(data.getPenaltyAmount());
+            binding.tvPenaltyResoan.setText(data.getPenaltyFor());
+        }
 
     }
 
@@ -373,13 +437,13 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
                     cancelBooking();
                 } else {
                     Intent intent = new Intent(BookingDetailsActivity.this, RoomBookingActivity.class);
-                    intent.putExtra(Constant.ROOM_ID,bookingData.getRoomID());
-                    intent.putExtra(Constant.ROOM_START_DATE,startDate);
-                    intent.putExtra(Constant.ROOM_END_DATE,endDate);
-                    intent.putExtra(Constant.ROOM_TITLE,bookingData.getRoomName());
-                    intent.putExtra(Constant.ROOM_TYPE,bookingData.getRoomType());
-                    intent.putExtra(Constant.NAVIGATION_PATH,Constant.RESCHEDUL);
-                    intent.putExtra(Constant.BOOKING_DETAIL_DATA,bookingData);
+                    intent.putExtra(Constant.ROOM_ID, bookingData.getRoomID());
+                    intent.putExtra(Constant.ROOM_START_DATE, startDate);
+                    intent.putExtra(Constant.ROOM_END_DATE, endDate);
+                    intent.putExtra(Constant.ROOM_TITLE, bookingData.getRoomName());
+                    intent.putExtra(Constant.ROOM_TYPE, bookingData.getRoomType());
+                    intent.putExtra(Constant.NAVIGATION_PATH, Constant.RESCHEDUL);
+                    intent.putExtra(Constant.BOOKING_DETAIL_DATA, bookingData);
                     startActivity(intent);
                 }
             }
@@ -424,7 +488,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
         });
     }
 
-    void dayCount(int count){
+    void dayCount(int count) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         // Get today's date
@@ -435,8 +499,7 @@ public class BookingDetailsActivity extends AppCompatActivity implements Retrofi
         calendar.add(Calendar.DAY_OF_YEAR, count - 1);
         endDate = dateFormat.format(calendar.getTime());
         Log.e("count", String.valueOf(count));
-        Log.e("startDate",startDate);
-        Log.e("endDate",endDate);
-
+        Log.e("startDate", startDate);
+        Log.e("endDate", endDate);
     }
 }

@@ -1,5 +1,8 @@
 package com.iotsmartaliv.activity.booking;
 
+import static com.iotsmartaliv.constants.Constant.hideLoader;
+import static com.iotsmartaliv.constants.Constant.showLoader;
+
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -10,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityPaymentWebViewBinding;
 
 public class PaymentWebView extends AppCompatActivity {
@@ -22,6 +26,7 @@ public class PaymentWebView extends AppCompatActivity {
         // Inflate the layout using ViewBinding
         binding = ActivityPaymentWebViewBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.llToolbar.tvHeader.setText("Payment");
 
         // Get the URL from the intent
         if (getIntent().getStringExtra("url") != null) {
@@ -51,12 +56,18 @@ public class PaymentWebView extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 // Handle page load finished event (e.g., hide loading indicator)
-                Toast.makeText(PaymentWebView.this, "Page Loaded", Toast.LENGTH_SHORT).show();
+                hideLoader();
+//                Toast.makeText(PaymentWebView.this, "Page Loaded", Toast.LENGTH_SHORT).show();
             }
-
+            @Override
+            public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
+                // Show the loading indicator when page starts loading
+               showLoader(PaymentWebView.this);
+            }
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 // Handle page load errors
+                hideLoader();
                 Toast.makeText(PaymentWebView.this, "Failed to load page: " + description, Toast.LENGTH_SHORT).show();
             }
         });
@@ -65,14 +76,21 @@ public class PaymentWebView extends AppCompatActivity {
         if (!webUrl.isEmpty()) {
             binding.wvPayment.loadUrl(webUrl);
         } else {
+            hideLoader();
             Toast.makeText(this, "Invalid URL", Toast.LENGTH_SHORT).show();
         }
 
         // Handle the back button click
-        binding.imgBack.setOnClickListener(v -> {
+        binding.llToolbar.imgBack.setOnClickListener(v -> {
+            onBackPressed();
             // Set the result code to RESULT_OK
-            setResult(RESULT_OK);
-            finish();
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(RESULT_OK);
+        finish();
     }
 }

@@ -18,7 +18,7 @@ public class BookingDetailsData implements Serializable {
     private String roomName;
     @SerializedName("room_image")
     @Expose
-    private String roomImage;
+    private List<String> roomImage;
     @SerializedName("room_type")
     @Expose
     private String roomType;
@@ -80,11 +80,11 @@ public class BookingDetailsData implements Serializable {
         this.roomName = roomName;
     }
 
-    public String getRoomImage() {
+    public List<String> getRoomImage() {
         return roomImage;
     }
 
-    public void setRoomImage(String roomImage) {
+    public void setRoomImage(List<String> roomImage) {
         this.roomImage = roomImage;
     }
 

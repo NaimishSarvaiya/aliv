@@ -70,10 +70,35 @@
             android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp" />
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cc_roomImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="15dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imgRoom"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:scaleType="fitXY"
+                            />
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/dotsLayout"
@@ -98,11 +123,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        style="@style/headerBookingTitleTV"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Room Info" />
+                        android:layout_marginVertical="4dp">
+
+                        <TextView
+                            android:id="@+id/tv_reScheduled"
+                            style="@style/feedbackTitleTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_booking_nevy_blue"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="10dp"
+                            android:text="Rescheduled" />
+
+                        <TextView
+                            style="@style/headerBookingTitleTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Room Info" />
+                    </RelativeLayout>
 
                     <TextView
                         style="@style/blackBookingSubTitleTV"
@@ -182,11 +226,14 @@
 
                         <TextView
                             android:id="@+id/tvBookingSlot"
-                            style="@style/blackBookingboldSubTitleTV"
+                            style="@style/feedbackTitleTextStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginTop="7dp" />
+                            android:layout_marginTop="7dp"
+                            android:paddingVertical="2dp"
+                            android:background="@drawable/bg_booking_nevy_blue"
+                            android:paddingHorizontal="8dp" />
 
                     </LinearLayout>
 
@@ -280,7 +327,8 @@
                             android:id="@+id/llDeposit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginBottom="10dp">
 
                             <View
                                 android:layout_width="match_parent"
@@ -317,38 +365,98 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="7dp" />
 
-
-                            <TextView
-                                style="@style/blackBookingSubTitleTV"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:id="@+id/ll_penelty"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:text="Deposit Return Amount"
-                                android:visibility="gone" />
+                                android:layout_marginBottom="10dp"
+                                android:orientation="vertical">
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.3dp"
+                                    android:alpha="0.6"
+                                    android:background="@color/newNavyBuleBaseColor" />
+                                <TextView
+                                    style="@style/blackBookingSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:text="Penalty Amount:"
+                                    android:visibility="visible" />
 
-                            <TextView
-                                style="@style/blackBookingboldSubTitleTV"
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:id="@+id/tvPenltyAmt"
+                                    style="@style/blackBookingboldSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    style="@style/blackBookingSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:text="Penalty Reason:"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    android:id="@+id/tvPenaltyResoan"
+                                    style="@style/blackBookingboldSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:id="@+id/ll_depositReturn"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:visibility="gone" />
+                                android:orientation="vertical"
+                                android:visibility="gone"
+                                android:layout_marginBottom="10dp">
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.3dp"
+                                    android:alpha="0.6"
+                                    android:background="@color/newNavyBuleBaseColor" />
+                                <TextView
+                                    style="@style/blackBookingSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:text="Deposit Return Amount"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    android:id="@+id/tvDepositReturnAmt"
+                                    style="@style/blackBookingboldSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:visibility="visible" />
 
 
-                            <TextView
-                                style="@style/blackBookingSubTitleTV"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:text="Deposit Return Status: "
-                                android:visibility="gone" />
+                                <TextView
+                                    style="@style/blackBookingSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:text="Deposit Return Status: "
+                                    android:visibility="visible" />
 
-                            <TextView
-                                android:id="@+id/tvDepReturnStatus"
-                                style="@style/blackBookingboldSubTitleTV"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="7dp"
-                                android:visibility="gone" />
+                                <TextView
+                                    android:id="@+id/tvDepReturnStatus"
+                                    style="@style/blackBookingboldSubTitleTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:visibility="visible" />
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -393,8 +501,8 @@
         <RelativeLayout
             android:id="@+id/rl_reSchedule"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="56dp"
+            android:layout_weight="1"
             android:paddingVertical="10dp">
 
             <TextView
@@ -404,17 +512,18 @@
                 android:layout_centerInParent="true"
                 android:text="RESCHEDULE" />
         </RelativeLayout>
+
         <View
             android:layout_width="1dp"
+            android:layout_height="match_parent"
             android:layout_marginVertical="4dp"
-            android:background="@color/white"
-            android:layout_height="match_parent"/>
+            android:background="@color/white" />
 
         <RelativeLayout
             android:id="@+id/rl_cancel"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="56dp"
+            android:layout_weight="1"
             android:paddingVertical="10dp">
 
             <TextView

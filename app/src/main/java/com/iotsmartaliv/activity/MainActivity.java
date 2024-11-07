@@ -238,21 +238,21 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
         } catch (Exception e) {
             finish();
         }
-
         try {
             listApicall();
         } catch (Exception e) {
             finish();
         }
-//        try {
-//            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) == null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
-//                getAuthToken();
-//            }else {
-//                Log.e("Auth",SharePreference.getInstance(MainActivity.this).getString(API_AUTH));
-//            }
-//        } catch (Exception e) {
-//            finish();
-//        }
+
+        try {
+            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) == null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
+                getAuthToken();
+            }else {
+                Log.e("Auth",SharePreference.getInstance(MainActivity.this).getString(API_AUTH));
+            }
+        } catch (Exception e) {
+            finish();
+        }
 
 //        try {
 //            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) != null || SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
@@ -332,10 +332,10 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
                 if (isAvailable) {
                     String userIdApp = "";
                     SharedPreferences sharePreferenceNew = getSharedPreferences("ALIV_NEW", Context.MODE_PRIVATE);
-                    if (LOGIN_DETAIL.getAppuser() == null) {
-                        userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
-                    } else {
+                    if (LOGIN_DETAIL.getAppuserID() != null) {
                         userIdApp = LOGIN_DETAIL.getAppuserID();
+                    } else {
+                        userIdApp = sharePreferenceNew.getString("APP_USER_ID", "");
                     }
                     Log.e("UserId", LOGIN_DETAIL.getAppuserID());
                     apiServiceProvider.callForDeviceList(userIdApp, BuildConfig.VERSION_NAME.toString(), MainActivity.this);

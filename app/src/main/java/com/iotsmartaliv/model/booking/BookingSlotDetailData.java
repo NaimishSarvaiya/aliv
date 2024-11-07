@@ -3,7 +3,11 @@ package com.iotsmartaliv.model.booking;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class BookingSlotDetailData implements Serializable {
     @SerializedName("room_ID")
@@ -17,7 +21,7 @@ public class BookingSlotDetailData implements Serializable {
     private String roomBookLimit;
     @SerializedName("room_image")
     @Expose
-    private String roomImage;
+    private List<String> roomImage;
     @SerializedName("room_name")
     @Expose
     private String roomName;
@@ -27,6 +31,12 @@ public class BookingSlotDetailData implements Serializable {
     @SerializedName("rescheduling_policy")
     @Expose
     private String reschedulingPolicy;
+    @SerializedName("rescheduled")
+    @Expose
+    private String rescheduled;
+    @SerializedName("is_refunded")
+    @Expose
+    private String isRefunded;
     @SerializedName("booking_ID")
     @Expose
     private String bookingID;
@@ -42,6 +52,12 @@ public class BookingSlotDetailData implements Serializable {
     @SerializedName("end_time")
     @Expose
     private String endTime;
+    @SerializedName("refunded_amount")
+    @Expose
+    private String refundedAmount;
+    @SerializedName("cancellation_charge")
+    @Expose
+    private String cancellationCharge;
     @SerializedName("booking_status")
     @Expose
     private String bookingStatus;
@@ -63,9 +79,24 @@ public class BookingSlotDetailData implements Serializable {
     @SerializedName("slot_ID")
     @Expose
     private String slotID;
+    @SerializedName("payment_type")
+    @Expose
+    private String paymentType;
+    @SerializedName("reschedule_limit")
+    @Expose
+    private String rescheduleLimit;
     @SerializedName("community_name")
     @Expose
     private String communityName;
+    @SerializedName("penalty_for")
+    @Expose
+    private String penaltyFor;
+    @SerializedName("deposit_refunded")
+    @Expose
+    private String depositRefunded;
+    @SerializedName("penalty_amount")
+    @Expose
+    private String penaltyAmount;
 
     public String getRoomID() {
         return roomID;
@@ -91,11 +122,11 @@ public class BookingSlotDetailData implements Serializable {
         this.roomBookLimit = roomBookLimit;
     }
 
-    public String getRoomImage() {
+    public List<String> getRoomImage() {
         return roomImage;
     }
 
-    public void setRoomImage(String roomImage) {
+    public void setRoomImage(List<String> roomImage) {
         this.roomImage = roomImage;
     }
 
@@ -121,6 +152,22 @@ public class BookingSlotDetailData implements Serializable {
 
     public void setReschedulingPolicy(String reschedulingPolicy) {
         this.reschedulingPolicy = reschedulingPolicy;
+    }
+
+    public String getRescheduled() {
+        return rescheduled;
+    }
+
+    public void setRescheduled(String rescheduled) {
+        this.rescheduled = rescheduled;
+    }
+
+    public String getIsRefunded() {
+        return isRefunded;
+    }
+
+    public void setIsRefunded(String isRefunded) {
+        this.isRefunded = isRefunded;
     }
 
     public String getBookingID() {
@@ -161,6 +208,22 @@ public class BookingSlotDetailData implements Serializable {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getRefundedAmount() {
+        return refundedAmount;
+    }
+
+    public void setRefundedAmount(String refundedAmount) {
+        this.refundedAmount = refundedAmount;
+    }
+
+    public String getCancellationCharge() {
+        return cancellationCharge;
+    }
+
+    public void setCancellationCharge(String cancellationCharge) {
+        this.cancellationCharge = cancellationCharge;
     }
 
     public String getBookingStatus() {
@@ -219,11 +282,71 @@ public class BookingSlotDetailData implements Serializable {
         this.slotID = slotID;
     }
 
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getRescheduleLimit() {
+        return rescheduleLimit;
+    }
+
+    public void setRescheduleLimit(String rescheduleLimit) {
+        this.rescheduleLimit = rescheduleLimit;
+    }
+
     public String getCommunityName() {
         return communityName;
     }
 
     public void setCommunityName(String communityName) {
         this.communityName = communityName;
+    }
+
+    public String getPenaltyFor() {
+        return penaltyFor;
+    }
+
+    public void setPenaltyFor(String penaltyFor) {
+        this.penaltyFor = penaltyFor;
+    }
+
+    public String getDepositRefunded() {
+        return depositRefunded;
+    }
+
+    public void setDepositRefunded(String depositRefunded) {
+        this.depositRefunded = depositRefunded;
+    }
+
+    public String getPenaltyAmount() {
+        return penaltyAmount;
+    }
+
+    public void setPenaltyAmount(String penaltyAmount) {
+        this.penaltyAmount = penaltyAmount;
+    }
+
+    // Method to retrieve the 'fees' value from paymentType JSON string
+    public int getFeesType() {
+        try {
+            JSONObject jsonObject = new JSONObject(paymentType);
+            return jsonObject.getInt("fees");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return -1; // Return -1 if parsing fails
+        }
+    }
+    public int getDepositType() {
+        try {
+            JSONObject jsonObject = new JSONObject(paymentType);
+            return jsonObject.getInt("deposit");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return -1; // Return -1 if parsing fails
+        }
     }
 }

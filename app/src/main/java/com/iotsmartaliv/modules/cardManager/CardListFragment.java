@@ -1,9 +1,15 @@
 package com.iotsmartaliv.modules.cardManager;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -47,6 +53,7 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
     FragmentCardListBinding binding;
     List<String> addDataList = new ArrayList<String>();
     List<String> removeDataList = new ArrayList<String>();
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,12 +93,67 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
                 removeDataList.add(data.getUidNumber());
             }
         }
-        updateCardPatch(removeDataList, addDataList);
+        checkAndRequestBluetoothPermissions();
+
 //        removeCardPatch(removeDataList, addDataList);
 
 
     }
+    private void checkAndRequestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            List<String> permissionsToRequest = new ArrayList<>();
 
+            // Check BLUETOOTH_CONNECT and BLUETOOTH_SCAN permissions
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT);
+            }
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+
+            if (!permissionsToRequest.isEmpty()) {
+                ActivityCompat.requestPermissions(requireActivity(), permissionsToRequest.toArray(new String[0]), REQUEST_BLUETOOTH_PERMISSIONS);
+                return;
+            }
+        }
+
+        // If permissions are already granted, proceed with the door opening
+        updateCardPatch();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            boolean allPermissionsGranted = true;
+
+            // Check if all requested permissions were granted
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (allPermissionsGranted) {
+                // Permissions granted, proceed with the door unlocking process
+                updateCardPatch();
+            } else {
+                // Permissions denied, show a message to the user
+                Toast.makeText(requireActivity(), "Bluetooth permissions are required to unlock the door.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    public void updateCardPatch() {
+        int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
+        //Naimish
+        if (ret1 != 0) {
+            Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
+            progress.dismiss();
+        }
+    }
 
     public void updateCardDataOnServer() {
         HashMap<String, String> stringHashMap = new HashMap<>();
@@ -147,39 +209,7 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
         }
     }
 
-    public void updateCardPatch(List<String> removeDataList, List<String> dataList) {
-        int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-        //Naimish
-        if (ret1 != 0) {
-            Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
-            progress.dismiss();
-        }
 
-//        if (dataList.size() > 0) {
-//            Toast.makeText(requireActivity(), "Add Card Count" + String.valueOf(dataList.size()), Toast.LENGTH_LONG).show();
-//            addCardPatch(dataList, () -> {
-//                if (removeDataList.size() > 0) {
-//                    final Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            deleteCardPatch(removeDataList);
-//                            //Do something after 100ms
-//                        }
-//                    }, 2000);
-//
-//                } else {
-//                    progress.dismiss();
-//                    updateCardDataOnServer();
-//                }
-//            });
-//        } else if (removeDataList.size() > 0) {
-//            deleteCardPatch(removeDataList);
-//        } else {
-//            Toast.makeText(getContext(), "No card data in the list.", Toast.LENGTH_SHORT).show();
-//            progress.dismiss();
-//        }
-    }
 
     public void addCardPatch(List<String> addDataList, Runnable onSuccess) {
         int ret3 = LibDevModel.writeCard(getContext(), DeviceObject.getLibDev(selectDevice), addDataList, (result, bundle) -> {

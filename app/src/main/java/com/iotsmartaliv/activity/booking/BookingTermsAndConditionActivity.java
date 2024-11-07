@@ -98,8 +98,10 @@ public class BookingTermsAndConditionActivity extends AppCompatActivity {
         }else {
             timeSlot = "";
         }
-        if (intent.getStringExtra(Constant.ROOM_IMAGE)!=null ){
-            roomImageList.add(intent.getStringExtra(Constant.ROOM_IMAGE));
+        if (bookingDetails.getData().getRoomImage()!=null){
+            for (int i = 0;i< bookingDetails.getData().getRoomImage().size();i++) {
+                roomImageList.add(bookingDetails.getData().getRoomImage().get(i));
+            }
         }
 
         if (bookingDetails != null) {

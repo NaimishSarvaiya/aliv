@@ -171,15 +171,6 @@ public class SplashActivity extends AppCompatActivity {
             listPermissionsNeeded.add(Manifest.permission.READ_MEDIA_IMAGES);
         }
 
-//        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//                ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, 2);
-//                listPermissionsNeeded.add(Manifest.permission.BLUETOOTH_SCAN);
-//            }
-//        }
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-//            listPermissionsNeeded.add(Manifest.permission.RECORD_AUDIO);
-//        }
 
         // Permissions for Android below API 30
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {

@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class RoomData implements Serializable {
     @SerializedName("room_ID")
@@ -14,7 +15,7 @@ public class RoomData implements Serializable {
     private String roomName;
     @SerializedName("room_image")
     @Expose
-    private String roomImage;
+    private List<String> roomImage;
     @SerializedName("room_base_price")
     @Expose
     private String roomBasePrice;
@@ -44,13 +45,6 @@ public class RoomData implements Serializable {
         this.roomName = roomName;
     }
 
-    public String getRoomImage() {
-        return roomImage;
-    }
-
-    public void setRoomImage(String roomImage) {
-        this.roomImage = roomImage;
-    }
 
     public String getRoomBasePrice() {
         return roomBasePrice;
@@ -84,4 +78,11 @@ public class RoomData implements Serializable {
         this.communityName = communityName;
     }
 
+    public List<String> getRoomImage() {
+        return roomImage;
+    }
+
+    public void setRoomImage(List<String> roomImage) {
+        this.roomImage = roomImage;
+    }
 }

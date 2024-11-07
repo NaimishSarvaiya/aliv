@@ -60,7 +60,7 @@ public class ActiveBookingAdapter extends RecyclerView.Adapter<ActiveBookingAdap
         Util.setBrightness(holder.img_preview, 2.0f);
         if (activeBookingData.getRoomImage() != null) {
             Glide.with(context)
-                    .load(activeBookingData.getRoomImage())
+                    .load(activeBookingData.getRoomImage().get(0))
 //                .override(800, 800) // Resize the image for preview
                     .placeholder(R.mipmap.ic_room) // Placeholder while loading
                     .into(holder.img_preview);

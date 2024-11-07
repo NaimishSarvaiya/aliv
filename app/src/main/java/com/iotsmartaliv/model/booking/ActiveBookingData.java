@@ -3,6 +3,8 @@ package com.iotsmartaliv.model.booking;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ActiveBookingData {
     @SerializedName("booking_ID")
     @Expose
@@ -12,7 +14,7 @@ public class ActiveBookingData {
     private String roomName;
     @SerializedName("room_image")
     @Expose
-    private String roomImage;
+    private List<String> roomImage;
     @SerializedName("start_date")
     @Expose
     private String startDate;
@@ -43,14 +45,6 @@ public class ActiveBookingData {
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
-    }
-
-    public String getRoomImage() {
-        return roomImage;
-    }
-
-    public void setRoomImage(String roomImage) {
-        this.roomImage = roomImage;
     }
 
     public String getStartDate() {
@@ -91,5 +85,13 @@ public class ActiveBookingData {
 
     public void setCommunityName(Boolean communityName) {
         this.communityName = communityName;
+    }
+
+    public List<String> getRoomImage() {
+        return roomImage;
+    }
+
+    public void setRoomImage(List<String> roomImage) {
+        this.roomImage = roomImage;
     }
 }
