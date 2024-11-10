@@ -206,9 +206,9 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
         int color;
 
         if (selected)
-            color = ContextCompat.getColor(getApplicationContext(), R.color.Orange);
+            color = ContextCompat.getColor(getApplicationContext(), R.color.newLightBlueBaseColor);
         else
-            color = ContextCompat.getColor(getApplicationContext(), R.color.black);
+            color = ContextCompat.getColor(getApplicationContext(), R.color.newNavyBuleBaseColor);
 
         TextView title = (TextView) tab.getCustomView().findViewById(R.id.tv_tab_title);
 
@@ -216,7 +216,7 @@ public class BroadcastCommunityActivity extends AppCompatActivity implements Ret
 
         title.setTextColor(color);
 
-        DrawableCompat.setTint(icon.getDrawable(), color);
+        DrawableCompat.setTint(icon.getDrawable(),color);
 
     }
 

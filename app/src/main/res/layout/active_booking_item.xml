@@ -10,7 +10,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="4dp"
         android:paddingVertical="4dp"
-        android:background="@drawable/bg_booking_with_boarder">
+        android:background="@drawable/bg_light_blue_with_boarder">
 
 
         <LinearLayout

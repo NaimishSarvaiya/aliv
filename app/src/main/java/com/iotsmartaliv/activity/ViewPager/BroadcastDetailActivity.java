@@ -60,7 +60,7 @@ public class BroadcastDetailActivity extends AppCompatActivity {
             switch (broadcastItem.getBroadcastType()) {
 
                 case "0":
-                    tvHeader.setText("Messages");
+                    tvHeader.setText("Announcement");
                     loadFragment(new MessageDetailFragment(broadcastItem));
                     break;
 

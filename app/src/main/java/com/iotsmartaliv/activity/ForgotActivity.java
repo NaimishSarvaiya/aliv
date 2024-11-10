@@ -2,6 +2,7 @@ package com.iotsmartaliv.activity;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,22 +54,23 @@ public class ForgotActivity extends AppCompatActivity implements RetrofitListene
         switch (apiFlag) {
             case Constant.UrlPath.FORGOT_PASSWORD_API:
                 if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
-                    new AwesomeSuccessDialog(this)
-                            .setTitle("Forgot Password")
-                            .setMessage("Mail has been sent successfully")
-                            .setColoredCircle(R.color.colorPrimary)
-                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orange)
-                            .setCancelable(false)
-                            .setDoneButtonClick(new Closure() {
-                                @Override
-                                public void exec() {
-                                    onBackPressed();
-                                }
-                            })
-                            .setDoneButtonText(getString(R.string.ok))
-                            .setDoneButtonbackgroundColor(R.color.Orange)
-                            .setDoneButtonTextColor(R.color.white)
-                            .show();
+                    Util.customeDialogForNotify(this,"Forgot Password","Mail has been sent successfully","OK",true,null);
+//                    new AwesomeSuccessDialog(this)
+//                            .setTitle("Forgot Password")
+//                            .setMessage("Mail has been sent successfully")
+//                            .setColoredCircle(R.color.colorPrimary)
+//                            .setDialogIconAndColor(R.drawable.ic_success, R.color.Orange)
+//                            .setCancelable(false)
+//                            .setDoneButtonClick(new Closure() {
+//                                @Override
+//                                public void exec() {
+//                                    onBackPressed();
+//                                }
+//                            })
+//                            .setDoneButtonText(getString(R.string.ok))
+//                            .setDoneButtonbackgroundColor(R.color.Orange)
+//                            .setDoneButtonTextColor(R.color.white)
+//                            .show();
                 } else {
                     Toast.makeText(this, sucessRespnse.getMsg(), Toast.LENGTH_LONG).show();
                 }

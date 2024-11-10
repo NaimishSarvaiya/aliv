@@ -136,7 +136,7 @@
         android:paddingVertical="10dp">
 
         <TextView
-            style="@style/whiteBoaldBookingTV"
+            style="@style/whiteBoald20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

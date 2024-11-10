@@ -62,7 +62,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.light_blue));
         manufacturer = Build.MANUFACTURER;
         initView();
-        btnNext.getBackground().setColorFilter(getResources().getColor(R.color.orange_text_heading), PorterDuff.Mode.SRC_IN);
+        btnNext.getBackground().setColorFilter(getResources().getColor(R.color.newLightBlueBaseColor), PorterDuff.Mode.SRC_IN);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             viewPager.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
@@ -70,25 +70,25 @@ public class OnBoardingActivity extends AppCompatActivity {
                     switch (viewPager.getCurrentItem()) {
 
                         case 0: {
-                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.orange_text_heading), PorterDuff.Mode.SRC_IN);
+                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.newLightBlueBaseColor), PorterDuff.Mode.SRC_IN);
                             btnNext.setText(getResources().getString(R.string.next));
                             tvTapHere.setVisibility(View.VISIBLE);
                             break;
                         }
                         case 1: {
-                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.orange_text_heading), PorterDuff.Mode.SRC_IN);
+                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.newLightBlueBaseColor), PorterDuff.Mode.SRC_IN);
                             btnNext.setText(getResources().getString(R.string.next));
                             tvTapHere.setVisibility(View.VISIBLE);
                             break;
                         }
                         case 2: {
-                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.orange_text_heading), PorterDuff.Mode.SRC_IN);
+                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.newLightBlueBaseColor), PorterDuff.Mode.SRC_IN);
                             btnNext.setText(getResources().getString(R.string.next));
                             tvTapHere.setVisibility(View.VISIBLE);
                             break;
                         }
                         case 3: {
-                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.getstarted_button), PorterDuff.Mode.SRC_IN);
+                            btnNext.getBackground().setColorFilter(getResources().getColor(R.color.newLightBlueBaseColor), PorterDuff.Mode.SRC_IN);
                             btnNext.setText(getResources().getString(R.string.lets_get_started));
                             tvTapHere.setVisibility(View.GONE);
                         }
@@ -199,8 +199,8 @@ public class OnBoardingActivity extends AppCompatActivity {
         /* tvSkip = findViewById(R.id.tvSkip);*/
         /*imgNext = findViewById(R.id.imgNext);*/
         ArrayList<Fragment> pages = new ArrayList<>();
-        pages.add(getPage(R.string.onboarding_page2_title, R.string.onboarding_page2_desc, R.mipmap.iv_bluetooth_permission));
-        pages.add(getPage(R.string.onboarding_page3_title, R.string.onboarding_page3_desc, R.mipmap.iv_location));
+        pages.add(getPage(R.string.onboarding_page2_title, R.string.onboarding_page2_desc, R.drawable.iv_bluetooth_permission));
+        pages.add(getPage(R.string.onboarding_page3_title, R.string.onboarding_page3_desc, R.drawable.iv_location));
         pages.add(getPage(R.string.onboarding_page1_title, R.string.onboarding_page1_desc, R.mipmap.iv_alert_setting));
         pages.add(new LastPageFragment());
         adapter = new OnBoardingPagerAdapter(getSupportFragmentManager(), pages);

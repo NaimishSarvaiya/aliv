@@ -294,6 +294,10 @@
     <string name="visitor">Visitor</string>
     <string name="form">Form</string>
     <string name="face_enroll">Face Enroll</string>
+    <string name="enter_your_username_nwe_will_send_temporary_password_on_your_email">Enter your username.\nWe will send temporary password on your email.</string>
+    <string name="send_password">Send Password</string>
+    <string name="please_enter_the_community_code_below_to_join_community">Please enter the community code below to join community.</string>
+    <string name="lorem_ipsum_dolor_sit_amet_ut_distinctio_illum_aut_praesentium_quia_ut_voluptas_impedit_qui_mollitia_quae_est_molestiae_fuga">Lorem ipsum dolor sit amet. Ut distinctio illum aut praesentium quia ut voluptas impedit qui mollitia quae est molestiae fuga.</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

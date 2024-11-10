@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                     Integer x2 = o2.getRssi();
                                     return x2.compareTo(x1);
                                 });
-                                if (deviceListNearby.get(0).getRssi() > -70) {
+                                if (deviceListNearby.get(0).getRssi() > -80) {
                                     LibDevModel libDev = getLibDev(deviceListNearby.get(0));
                                     openingDoorDeviceSN = deviceListNearby.get(0).getDeviceSno();
 //                                    Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
@@ -282,7 +282,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                 Integer x2 = o2.getRssi();
                                 return x2.compareTo(x1);
                             });
-                            if (deviceLIST.get(0).getRssi() > -70) {
+                            if (deviceLIST.get(0).getRssi() > -80) {
                                 LibDevModel libDev = getLibDev(deviceLIST.get(0));
                                 openingDoorDeviceSN = deviceLIST.get(0).getDeviceSno();
 //                changeStatus(  LOGIN_DETAIL.getAppuserID(),deviceLIST.get(0).getDeviceSno());
@@ -333,7 +333,7 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                                         Integer x2 = o2.getRssi();
                                         return x2.compareTo(x1);
                                     });
-                                    if (deviceListNearby.get(0).getRssi() > -70) {
+                                    if (deviceListNearby.get(0).getRssi() > -80) {
                                         LibDevModel libDev = getLibDev(deviceListNearby.get(0));
                                         openingDoorDeviceSN = deviceListNearby.get(0).getDeviceSno();
 //                                        Util.showNoDefaultCaedAlertDialog(requireActivity(),"deviceSno :" + libDev.devSn + "," + "deviceMAC :" + libDev.devMac + "," + "devType" + libDev.devType + "," + "eKey" + libDev.eKey);
@@ -484,14 +484,14 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
                         }
                         break;
                     case 4:
-                        startActivity(new Intent(getActivity(), BookingActivity.class));
+//                        startActivity(new Intent(getActivity(), BookingActivity.class));
 //                    startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
-//                        if (appFeture.contains(Constant.BOOKING_MANAGMENT)) {
-//                            startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
-////                            startActivity(new Intent(getActivity(), BookingActivity.class));
-//                        } else {
-//                            Toast.makeText(requireActivity(), "Booking of Facilities is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
-//                        }
+                        if (appFeture.contains(Constant.BOOKING_MANAGMENT)) {
+                            startActivity(new Intent(getActivity(), BookingFacilityActivity.class));
+//                            startActivity(new Intent(getActivity(), BookingActivity.class));
+                        } else {
+                            Toast.makeText(requireActivity(), "Booking of Facilities is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
+                        }
                         break;
                     case 5:
                       /*  if (deviceLIST.size() == 0) {

@@ -251,8 +251,8 @@ public class Constant {
         int CONNECTION_TIME_OUT = 60;
     }
     public interface UrlPath {
-                String BASEURL = "https://aliv.com.sg/"; // Live server.
-//        String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
+//                String BASEURL = "https://aliv.com.sg/"; // Live server.
+        String BASEURL = "https://dev-1.aliv.com.sg/"; // Alpha server
         String PATH = "alivapp/";                  // Here is the path path of API.
         String SERVER_URL = BASEURL + PATH;        // Here is API Calling Complete URL.
 

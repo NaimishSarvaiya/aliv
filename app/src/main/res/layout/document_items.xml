@@ -28,9 +28,7 @@
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:text="Meeting Mintus"
-                android:textColor="#000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                style="@style/titleTvNevyblueRgular17"/>
 
             <ImageView
                 android:id="@+id/img_forward_doc"
@@ -40,7 +38,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="15dp"
                 android:src="@drawable/iv_forward"
-                app:tint="@color/black"
+                app:tint="@color/newLightBlueBaseColor"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>

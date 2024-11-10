@@ -99,13 +99,13 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
 
         if (mDocument.getReadStatus().equalsIgnoreCase("0")) {
 
-            holder.txtDoc.setTypeface(null, Typeface.BOLD);
-            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.unReadBroacastColor));
+//            holder.txtDoc.setTypeface(null, Typeface.BOLD);
+            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.newLightBlueBaseColor));
 
 
         } else {
 
-            holder.txtDoc.setTypeface(null, Typeface.NORMAL);
+//            holder.txtDoc.setTypeface(null, Typeface.NORMAL);
             holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.white));
 
         }

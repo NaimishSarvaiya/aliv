@@ -113,7 +113,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/book_item_bg"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:visibility="visible">
@@ -273,7 +273,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/book_item_bg"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -507,7 +507,7 @@
             android:paddingVertical="10dp">
 
             <TextView
-                style="@style/whiteBoaldBookingTV"
+                style="@style/whiteBoald20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -528,7 +528,7 @@
             android:paddingVertical="10dp">
 
             <TextView
-                style="@style/whiteBoaldBookingTV"
+                style="@style/whiteBoald20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

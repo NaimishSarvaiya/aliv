@@ -158,7 +158,7 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
                 homeFragment.setOnonJoinCommunityFragmentInListener(this);
                 loadFragments(homeFragment, true);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    ((MainActivity) Objects.requireNonNull(getActivity())).tvHeader.setText("");
+                    ((MainActivity) requireActivity()).tvHeader.setText("");
                 }
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.VISIBLE);
                 break;
@@ -224,14 +224,15 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
                 break;
             case R.id.rel_feedback:
                 drawerLayout.closeDrawer(GravityCompat.START);
-                        if (appFeture.contains(Constant.FEEDBACK_MANAGMENT)) {
-                            Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
-                            startActivity(feddbackintent);
-                        }else {
-                            Toast.makeText(requireActivity(),"Feedback Management is not enabled for your community. Please contact your admin. Thanks!",Toast.LENGTH_LONG).show();
-                        }
-//                Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
-//                startActivity(feddbackintent);
+
+//                        if (appFeture.contains(Constant.FEEDBACK_MANAGMENT)) {
+//                            Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
+//                            startActivity(feddbackintent);
+//                        }else {
+//                            Toast.makeText(requireActivity(),"Feedback Management is not enabled for your community. Please contact your admin. Thanks!",Toast.LENGTH_LONG).show();
+//                        }
+                Intent feddbackintent = new Intent(getContext(), FeedBackActivity.class);
+                startActivity(feddbackintent);
                 break;
             case R.id.rel_privacyPolicy:
                 drawerLayout.closeDrawer(GravityCompat.START);

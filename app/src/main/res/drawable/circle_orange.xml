@@ -4,8 +4,8 @@
     android:shape="ring"
     android:thicknessRatio="2.2"
     android:useLevel="false">
-    <solid android:color="@color/Orange" />
+    <solid android:color="@color/newLightBlueBaseColor" />
 
-    <stroke android:color="@color/Orange" />
+    <stroke android:color="@color/newLightBlueBaseColor" />
 
 </shape>

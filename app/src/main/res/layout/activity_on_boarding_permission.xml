@@ -113,8 +113,8 @@
                 android:paddingTop="@dimen/_12dp"
                 android:paddingRight="@dimen/_12dp"
                 android:text="@string/the_following_standard_android_permissions_need_to_be_granted_to_enjoy_alive_app"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_16sp" />
+                style="@style/titleTvNevyblueRgular17"
+                />
 
 
             <TextView
@@ -127,8 +127,7 @@
                 android:paddingTop="@dimen/fifteen_dp"
                 android:paddingRight="@dimen/_12dp"
                 android:text="@string/by_allowing_these_permission"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_16sp" />
+                style="@style/titleTvNevyblueRgular17" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,9 +137,7 @@
                 android:onClick="onPrivacyPolicyClick"
                 android:padding="@dimen/_12dp"
                 android:text="@string/privacy_policy"
-                android:textColor="@color/orange_text_heading"
-                android:textSize="@dimen/_16sp"
-                android:textStyle="bold"
+                style="@style/headerTvLightblueBold17"
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
 
@@ -256,10 +253,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon_margin="10dp"
-            app:outer_color="@color/getstarted_button"
+            app:outer_color="@color/newLightBlueBaseColor"
             app:slider_height="50dp"
             app:slider_icon="@drawable/right_arrow"
-            app:slider_icon_color="@color/orange_text_heading"
+            app:slider_icon_color="@color/newLightBlueBaseColor"
             app:text="@string/slide_to_continue"
             app:text_style="bold" />
     </RelativeLayout>

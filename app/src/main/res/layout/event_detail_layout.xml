@@ -55,9 +55,7 @@
                         android:id="@+id/txt_event_head"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#000"
-                        android:textStyle="bold"
+                       style="@style/headerTvNevyblueBold17"
                         android:text="Community Broadcast Event, Indore"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="12dp"/>
@@ -67,15 +65,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
+                        <RelativeLayout
                             android:id="@+id/img_event_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/light_blue_bg"
+                            android:padding="7dp">
 
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/celender_new"
-                            android:padding="10dp"
-                            />
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/calendar"
+                                app:tint="@color/newLightBlueBaseColor" />
+                        </RelativeLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_event_date"
@@ -84,9 +88,7 @@
                             android:layout_marginLeft="12dp"
                             android:layout_toRightOf="@+id/img_event_1"
                             android:text="Monday 22 March 2021"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            style="@style/headerTvNevyblueBold15" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_event_time"
@@ -95,7 +97,8 @@
                             android:text="10:00 AM-8:00 PM"
                             android:layout_toRightOf="@+id/img_event_1"
                             android:layout_below="@id/tv_event_date"
-                            android:layout_marginLeft="12dp"/>
+                            android:layout_marginLeft="12dp"
+                            style="@style/titleTvNevyblueRgular12"/>
 
 
                     </RelativeLayout>
@@ -105,15 +108,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/img_event_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/pointer_new"
-                            android:padding="10dp"
-                            />
 
+                        <RelativeLayout
+                            android:id="@+id/img_event_2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/light_blue_bg"
+                            android:padding="7dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/location_pin"
+                                app:tint="@color/newLightBlueBaseColor" />
+                        </RelativeLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_location"
                             android:layout_width="wrap_content"
@@ -121,9 +131,7 @@
                             android:layout_marginLeft="13dp"
                             android:layout_toRightOf="@+id/img_event_2"
                             android:text="Central Park"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            style="@style/headerTvNevyblueBold15"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_location_city"
@@ -133,6 +141,7 @@
                             android:layout_marginLeft="12dp"
                             android:layout_marginTop="0dp"
                             android:layout_toRightOf="@+id/img_event_2"
+                            style="@style/titleTvNevyblueRgular12"
                             android:text="Indore" />
 
 
@@ -143,23 +152,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/img_event_3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/user_new"
-                            android:padding="10dp"
-                            />
+                        <RelativeLayout
+                            android:id="@+id/img_event_3"                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/light_blue_bg"
+                            android:padding="7dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_community"
+                                app:tint="@color/newLightBlueBaseColor" />
+                        </RelativeLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_organizer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="IOT Smart"
-                            android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:textSize="16sp"
+                            style="@style/headerTvNevyblueBold15"
                             android:layout_toRightOf="@+id/img_event_3"
                             android:layout_marginLeft="12dp"/>
 
@@ -169,6 +182,7 @@
                             android:text="Organizer"
                             android:layout_toRightOf="@+id/img_event_3"
                             android:layout_below="@id/tv_organizer"
+                            style="@style/titleTvNevyblueRgular12"
                             android:layout_marginLeft="12dp"/>
 
 
@@ -178,9 +192,7 @@
                         android:id="@+id/txt_message_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="#000"
-                        android:textStyle="bold"
+                      style="@style/headerTvNevyblueBold17"
                         android:text="Description"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="4dp"/>
@@ -190,7 +202,7 @@
                         android:id="@+id/txt_event_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                      style="@style/titleTvNevyblueRgular17"
                         android:text="Lorem ipsum dolor sit amet. Eos omnis similique 33 assumenda soluta et atque necessitatibus in perferendis fugit!"/>
 
                 </LinearLayout>

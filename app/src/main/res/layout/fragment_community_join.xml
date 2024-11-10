@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     tools:context=".fragments.community.CommunityJoinFragment">
 
 
@@ -20,20 +20,19 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="@dimen/twenty_dp"
         android:layout_marginRight="@dimen/twenty_dp"
-        android:background="@drawable/edit_back"
         android:hint="Enter Community Code"
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:padding="@dimen/twelve_sp"
         android:singleLine="true"
-        android:textColor="@color/White"
         android:textColorHint="@color/gray"
         android:textCursorDrawable="@null"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:background="@drawable/light_blue_bg"
+        style="@style/titleEdtNevyblueRgular17"/>
 
     <Button
         android:id="@+id/submit_btn"
@@ -51,9 +50,8 @@
         android:padding="@dimen/ten"
         android:text="Submit"
         android:textAllCaps="true"
+        style="@style/tvWhitebold17"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/eighteen_dp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/edt_invitation_code"
         app:layout_constraintStart_toStartOf="@+id/edt_invitation_code"
         app:layout_constraintTop_toBottomOf="@+id/edt_invitation_code" />
@@ -69,16 +67,15 @@
         android:layout_marginRight="@dimen/twenty_dp"
         android:layout_marginBottom="8dp"
         android:gravity="center|start"
-        android:text="Please enter the community code below to join community."
+        android:text="@string/please_enter_the_community_code_below_to_join_community"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@color/white"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/edt_invitation_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        style="@style/headerTvNevyblueBold20"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

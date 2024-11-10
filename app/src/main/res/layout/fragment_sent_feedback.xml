@@ -24,7 +24,7 @@
             <include
                 android:id="@+id/ll_noSentFeedback"
                 layout="@layout/no_feedback"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@drawable/bg_booking_with_boarder"
+            android:background="@drawable/bg_light_blue_with_boarder"
             android:fontFamily="@font/montserrat_medium"
             android:hint="@string/card_holder_name"
             android:imeOptions="actionNext"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@drawable/bg_booking_with_boarder"
+            android:background="@drawable/bg_light_blue_with_boarder"
             android:fontFamily="@font/montserrat_medium"
             android:hint="@string/card_number"
             android:imeOptions="actionNext"
@@ -87,7 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.4"
-                android:background="@drawable/bg_booking_with_boarder"
+                android:background="@drawable/bg_light_blue_with_boarder"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/exp_date"
                 android:imeOptions="actionNext"
@@ -109,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.4"
-                android:background="@drawable/bg_booking_with_boarder"
+                android:background="@drawable/bg_light_blue_with_boarder"
                 android:orientation="horizontal">
 
                 <EditText
@@ -150,7 +150,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            style="@style/whiteBoaldBookingTV"
+            style="@style/whiteBoald20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

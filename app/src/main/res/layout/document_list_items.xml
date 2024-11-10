@@ -13,6 +13,7 @@
         android:layout_marginEnd="@dimen/_12dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="4dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
         >
 
@@ -26,21 +27,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Access Card Application"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:padding="15dp"
-                android:textSize="15sp"/>
+               style="@style/titleTvNevyblueRgular17"
+                android:padding="15dp" />
 
             <ImageView
                 android:id="@+id/img_forward_doc_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/iv_forward"
-                android:layout_alignRight="@+id/txt_doc"
                 android:padding="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                app:tint="@color/black"/>
+                app:tint="@color/newLightBlueBaseColor"/>
 
         </RelativeLayout>
 

@@ -21,7 +21,7 @@
             android:padding="15dp"
             android:src="@drawable/ic_back_y"
             android:layout_centerVertical="true"
-            />
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_header"
@@ -31,9 +31,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="Documents"
-            android:textColor="@color/Orange"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+         style="@style/headerTvLightblueBold20" />
 
         <ImageView
             android:id="@+id/img_share"
@@ -42,7 +40,8 @@
             android:padding="15dp"
             android:src="@drawable/ic_share_yellow"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            app:tint="@color/newLightBlueBaseColor" />
 
     </RelativeLayout>
 

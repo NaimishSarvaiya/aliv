@@ -70,7 +70,7 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
             communityId = getArguments().getString(Constant.COMMUNITY_ID);
         }
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
+        apiServiceProvider = ApiServiceProvider.getInstance(getContext(), false);
         apiServiceProvider.callForCardList(communityId, deviceId, LOGIN_DETAIL.getAppuserID(), this);
         binding.syncBtn.setOnClickListener(v -> onViewClicked());
         return binding.getRoot();
@@ -93,67 +93,12 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
                 removeDataList.add(data.getUidNumber());
             }
         }
-        checkAndRequestBluetoothPermissions();
-
+        updateCardPatch(removeDataList, addDataList);
 //        removeCardPatch(removeDataList, addDataList);
 
 
     }
-    private void checkAndRequestBluetoothPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            List<String> permissionsToRequest = new ArrayList<>();
 
-            // Check BLUETOOTH_CONNECT and BLUETOOTH_SCAN permissions
-            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
-                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT);
-            }
-            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
-                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN);
-            }
-
-            if (!permissionsToRequest.isEmpty()) {
-                ActivityCompat.requestPermissions(requireActivity(), permissionsToRequest.toArray(new String[0]), REQUEST_BLUETOOTH_PERMISSIONS);
-                return;
-            }
-        }
-
-        // If permissions are already granted, proceed with the door opening
-        updateCardPatch();
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
-            boolean allPermissionsGranted = true;
-
-            // Check if all requested permissions were granted
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    allPermissionsGranted = false;
-                    break;
-                }
-            }
-
-            if (allPermissionsGranted) {
-                // Permissions granted, proceed with the door unlocking process
-                updateCardPatch();
-            } else {
-                // Permissions denied, show a message to the user
-                Toast.makeText(requireActivity(), "Bluetooth permissions are required to unlock the door.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    public void updateCardPatch() {
-        int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
-        //Naimish
-        if (ret1 != 0) {
-            Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
-            progress.dismiss();
-        }
-    }
 
     public void updateCardDataOnServer() {
         HashMap<String, String> stringHashMap = new HashMap<>();
@@ -209,7 +154,39 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
         }
     }
 
+    public void updateCardPatch(List<String> removeDataList, List<String> dataList) {
+        int ret1 = LibDevModel.scanDevice(getContext(), false, 1300, oneKeyScanCallback);         // A key to open the door
+        //Naimish
+        if (ret1 != 0) {
+            Toast.makeText(getContext(), ErrorMsgDoorMasterSDK.getErrorMsg(ret1), Toast.LENGTH_SHORT).show();
+            progress.dismiss();
+        }
 
+//        if (dataList.size() > 0) {
+//            Toast.makeText(requireActivity(), "Add Card Count" + String.valueOf(dataList.size()), Toast.LENGTH_LONG).show();
+//            addCardPatch(dataList, () -> {
+//                if (removeDataList.size() > 0) {
+//                    final Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            deleteCardPatch(removeDataList);
+//                            //Do something after 100ms
+//                        }
+//                    }, 2000);
+//
+//                } else {
+//                    progress.dismiss();
+//                    updateCardDataOnServer();
+//                }
+//            });
+//        } else if (removeDataList.size() > 0) {
+//            deleteCardPatch(removeDataList);
+//        } else {
+//            Toast.makeText(getContext(), "No card data in the list.", Toast.LENGTH_SHORT).show();
+//            progress.dismiss();
+//        }
+    }
 
     public void addCardPatch(List<String> addDataList, Runnable onSuccess) {
         int ret3 = LibDevModel.writeCard(getContext(), DeviceObject.getLibDev(selectDevice), addDataList, (result, bundle) -> {
@@ -333,8 +310,43 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
         public void onScanResult(ArrayList<String> deviceList,
                                  ArrayList<Integer> rssi) {
             if (deviceList.size() != 0) {
+                DeviceObject nearByDevice = null;
                 for (int i = 0; deviceList.size() > i; i++) {
-                    if (deviceList.get(0).equals(selectDevice.getDeviceSnoWithoutAlphabet())) {
+                    if (deviceList.get(i).equals(selectDevice.getDeviceSnoWithoutAlphabet())) {
+                        nearByDevice = selectDevice;
+//                        if (selectDevice.getRssi() > -80) {
+//                            if (addDataList.size() > 0) {
+//                                addCardPatch(addDataList, () -> {
+//                                    if (removeDataList.size() > 0) {
+//                                        final Handler handler = new Handler();
+//                                        handler.postDelayed(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                deleteCardPatch(removeDataList);
+//                                            }
+//                                        }, 2000);
+//                                    } else {
+//                                        progress.dismiss();
+//                                        updateCardDataOnServer();
+//                                    }
+//                                });
+//                            } else if (removeDataList.size() > 0) {
+//                                deleteCardPatch(removeDataList);
+//                            } else {
+//                                Toast.makeText(getContext(), "No card data in the list.", Toast.LENGTH_SHORT).show();
+//                                progress.dismiss();
+//                            }
+//                        } else {
+//                            Toast.makeText(getContext(), "No Nearby device found.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        progress.dismiss();
+//                        Toast.makeText(getContext(), "No Nearby device found.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                if (nearByDevice != null) {
+                    if (selectDevice.getRssi() > -80) {
                         if (addDataList.size() > 0) {
                             addCardPatch(addDataList, () -> {
                                 if (removeDataList.size() > 0) {
@@ -345,7 +357,6 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
                                             deleteCardPatch(removeDataList);
                                         }
                                     }, 2000);
-
                                 } else {
                                     progress.dismiss();
                                     updateCardDataOnServer();
@@ -358,15 +369,16 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
                             progress.dismiss();
                         }
                     } else {
-                        progress.dismiss();
                         Toast.makeText(getContext(), "No Nearby device found.", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(getContext(), "No Nearby device found.", Toast.LENGTH_SHORT).show();
+
                 }
             } else {
                 progress.dismiss();
                 Toast.makeText(getContext(), "No Nearby device found.", Toast.LENGTH_SHORT).show();
             }
-
         }
 
         @Override

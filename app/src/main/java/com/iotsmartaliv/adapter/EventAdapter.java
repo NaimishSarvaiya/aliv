@@ -80,21 +80,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         if (mEvent.getReadStatus().equalsIgnoreCase("0")){
 
-            holder.eventHead.setTypeface(null, Typeface.BOLD);
-
-            holder.eventDate.setTypeface(null, Typeface.BOLD);
-
-            holder.eventOrganizer.setTypeface(null, Typeface.BOLD);
-            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.unReadBroacastColor));
+//            holder.eventHead.setTypeface(null, Typeface.BOLD);
+//
+//            holder.eventDate.setTypeface(null, Typeface.BOLD);
+//
+//            holder.eventOrganizer.setTypeface(null, Typeface.BOLD);
+            holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.newLightBlueBaseColor));
 
 
         }else {
 
-            holder.eventHead.setTypeface(null, Typeface.BOLD);
-
-            holder.eventDate.setTypeface(null, Typeface.NORMAL);
-
-            holder.eventOrganizer.setTypeface(null, Typeface.NORMAL);
+//            holder.eventHead.setTypeface(null, Typeface.BOLD);
+//
+//            holder.eventDate.setTypeface(null, Typeface.NORMAL);
+//
+//            holder.eventOrganizer.setTypeface(null, Typeface.NORMAL);
             holder.rlMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.white));
 
         }

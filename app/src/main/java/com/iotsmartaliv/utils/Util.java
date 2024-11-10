@@ -2,9 +2,11 @@ package com.iotsmartaliv.utils;
 
 import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 
+import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
@@ -16,8 +18,10 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,25 +29,18 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import com.iotsmartaliv.BuildConfig;
+import com.iotsmartaliv.R;
+import com.iotsmartaliv.activity.booking.BookingActivity;
+import com.iotsmartaliv.activity.booking.RoomBookingActivity;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.model.CountryPhoneFormat;
+import com.iotsmartaliv.model.Images;
 import com.iotsmartaliv.utils.faceenroll.ConnectionManager;
 
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,7 +58,6 @@ import io.sentry.protocol.User;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import okio.Buffer;
 import retrofit2.Response;
 
 public class Util {
@@ -902,5 +898,39 @@ public class Util {
 
         // Return 0 if an error occurs
         return 0;
+    }
+
+    public static void customeDialogForNotify(Context context, String title, String detail,String buttonTitle,boolean showIcon,View.OnClickListener onOkClickListener) {
+        // Create a new dialog
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.booking_dialog);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(false);
+        // Find the buttons from the custom layout
+        RelativeLayout rlOk = dialog.findViewById(R.id.rl_ok);
+        TextView dialogtMessage = dialog.findViewById(R.id.tv_message);
+        TextView dialogtTitle = dialog.findViewById(R.id.tv_title);
+        TextView tvButtonText = dialog.findViewById(R.id.tv_btnText);
+        ImageView successIcon = dialog.findViewById(R.id.img_icon);
+        if (showIcon){
+            successIcon.setVisibility(View.VISIBLE);
+        }else {
+           successIcon.setVisibility(View.GONE);
+        }
+        dialogtTitle.setText(title);
+        dialogtMessage.setText(detail);
+       tvButtonText.setText(buttonTitle);
+        rlOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Call the provided onOkClickListener action
+                if (onOkClickListener != null) {
+                    onOkClickListener.onClick(view);
+                }
+                dialog.dismiss();
+            }
+        });
+        // Show the dialog
+        dialog.show();
     }
 }

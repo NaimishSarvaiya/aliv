@@ -244,15 +244,15 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
             finish();
         }
 
-        try {
-            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) == null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
-                getAuthToken();
-            }else {
-                Log.e("Auth",SharePreference.getInstance(MainActivity.this).getString(API_AUTH));
-            }
-        } catch (Exception e) {
-            finish();
-        }
+//        try {
+//            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) == null ||SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {
+//                getAuthToken();
+//            }else {
+//                Log.e("Auth",SharePreference.getInstance(MainActivity.this).getString(API_AUTH));
+//            }
+//        } catch (Exception e) {
+//            finish();
+//        }
 
 //        try {
 //            if (SharePreference.getInstance(MainActivity.this).getString(API_AUTH) != null || SharePreference.getInstance(MainActivity.this).getString(API_AUTH).equalsIgnoreCase("")) {

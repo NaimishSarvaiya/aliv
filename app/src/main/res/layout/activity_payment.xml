@@ -46,7 +46,7 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/book_item_bg"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="7dp">
 
                     <ImageView
@@ -102,7 +102,7 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/book_item_bg"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="7dp">
 
                     <ImageView
@@ -165,7 +165,7 @@
                     <RelativeLayout
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:background="@drawable/book_item_bg"
+                        android:background="@drawable/light_blue_bg"
                         android:padding="7dp">
 
                         <ImageView
@@ -393,7 +393,7 @@
                     <RelativeLayout
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:background="@drawable/book_item_bg"
+                        android:background="@drawable/light_blue_bg"
                         android:padding="7dp">
 
                         <ImageView
@@ -595,7 +595,7 @@ android:id="@+id/ll_cbPayCardDeposit"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            style="@style/whiteBoaldBookingTV"
+            style="@style/whiteBoald20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

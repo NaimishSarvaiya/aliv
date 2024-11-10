@@ -81,15 +81,13 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MassageV
         holder.txtDate.setText(mEvent.getBuCreatedAt());
 
         if (mEvent.getReadStatus().equalsIgnoreCase("0")){
-
-            holder.txtHead.setTypeface(null, Typeface.BOLD);
-
-            holder.txtDate.setTypeface(null, Typeface.BOLD);
-            holder.llMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.unReadBroacastColor));
+//
+//            holder.txtHead.setTypeface(null, Typeface.BOLD);
+            holder.llMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.lightBlueBooking));
             
         }else {
-            holder.txtHead.setTypeface(null, Typeface.NORMAL);
-            holder.txtDate.setTypeface(null, Typeface.NORMAL);
+//            holder.txtHead.setTypeface(null, Typeface.NORMAL);
+//            holder.txtDate.setTypeface(null, Typeface.NORMAL);
             holder.llMain.setBackgroundColor(ContextCompat.getColor(mcx, R.color.white));
 
         }

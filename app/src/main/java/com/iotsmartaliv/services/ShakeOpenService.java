@@ -323,7 +323,7 @@ public class ShakeOpenService extends Service implements SensorEventListener {
         }
         Collections.sort(deviceLIST, (o1, o2) -> Integer.compare(o2.getRssi(), o1.getRssi()));
 
-        if (deviceLIST.get(0).getRssi() > -70) {
+        if (deviceLIST.get(0).getRssi() > -80) {
             LibDevModel libDev = getLibDev(deviceLIST.get(0));
             openingDoorDeviceSN = deviceLIST.get(0).getDeviceSno();
             if (isReadyToOpenDoor) {

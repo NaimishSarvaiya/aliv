@@ -24,9 +24,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/onboarding_page1_title"
-            android:textColor="@color/bg_login_unpress"
-            android:textSize="@dimen/twenty_sp"
-            android:textStyle="bold" />
+           style="@style/headerTvLightblueBold20" />
 
         <TextView
             android:id="@+id/tvDesc"
@@ -39,8 +37,7 @@
             android:gravity="center"
             android:lineSpacingExtra="4dp"
             android:text="@string/onboarding_page1_desc"
-            android:textColor="@color/black"
-            android:textSize="@dimen/twenty_sp" />
+           style="@style/titleTvNevyblueRgular17" />
 
 
 

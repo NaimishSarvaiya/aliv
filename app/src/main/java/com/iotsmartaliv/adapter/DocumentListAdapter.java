@@ -72,15 +72,15 @@ public class DocumentListAdapter extends RecyclerView.Adapter<DocumentListAdapte
 
         holder.txtDocList.setText(mDocument.getBroadcastTitle());
 
-        if (mDocument.getReadStatus().equalsIgnoreCase("0")) {
-
-            holder.txtDocList.setTypeface(null, Typeface.BOLD);
-
-        } else {
-
-            holder.txtDocList.setTypeface(null, Typeface.NORMAL);
-
-        }
+//        if (mDocument.getReadStatus().equalsIgnoreCase("0")) {
+//
+//            holder.txtDocList.setTypeface(null, Typeface.BOLD);
+//
+//        } else {
+//
+//            holder.txtDocList.setTypeface(null, Typeface.NORMAL);
+//
+//        }
 
     }
 
