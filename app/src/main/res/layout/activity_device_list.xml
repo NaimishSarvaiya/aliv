@@ -43,7 +43,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="@dimen/ten_dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_header"
@@ -53,9 +54,7 @@
             android:gravity="center"
             android:padding="@dimen/ten_dp"
             android:text="@string/device_list"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+            style="@style/headerTvLightblueBold20" />
 
         <TextView
             android:id="@+id/tv_refresh"
@@ -65,9 +64,7 @@
             android:gravity="center"
             android:padding="@dimen/ten_dp"
             android:text="@string/refresh"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+           style="@style/headerTvLightblueBold20"/>
     </RelativeLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -81,7 +78,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/ic_background"
+            android:background="@color/white"
             android:padding="15dp"
             android:orientation="vertical">
         <EditText
@@ -89,14 +86,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@drawable/edit_back"
+            android:background="@drawable/light_gray_bg"
             android:hint="Search Device"
             android:maxLines="1"
             android:padding="8dp"
             android:inputType="text"
             android:imeOptions="actionDone"
-            android:textColor="@color/white"
-            android:textColorHint="@color/yoho_grey" />
+            style="@style/titleEdtNevyblueRgular17"/>
 
         <ListView
             android:id="@+id/lv_device"

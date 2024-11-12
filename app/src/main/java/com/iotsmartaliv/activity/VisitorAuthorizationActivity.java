@@ -263,7 +263,7 @@ public class VisitorAuthorizationActivity extends AppCompatActivity implements R
                     responseDataDevice = successDeviceListResponse.getData();
                     if (successDeviceListResponse.getData().getDevices().size() > 0) {
                         deviceMultiSelectDialogAdapter = new DeviceMultiSelectDialogAdapter(successDeviceListResponse.getData().getDevices());
-                        customDeviceListDialog = new CustomDeviceListDialog(VisitorAuthorizationActivity.this, deviceMultiSelectDialogAdapter, mDataset -> {
+                        customDeviceListDialog = new CustomDeviceListDialog(VisitorAuthorizationActivity.this, deviceMultiSelectDialogAdapter, successDeviceListResponse.getData().getDevices(), mDataset -> {
                             selectDeviceListAdapter.updateItem(mDataset);
                             customDeviceListDialog.setCanceledOnTouchOutside(false);
                         });

@@ -61,6 +61,7 @@ public class AssignVisitorDialog extends Dialog implements View.OnClickListener 
         setContentView(R.layout.custom_dialog_for_visitor_layout);
         Window window = getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         cancel_btn = findViewById(R.id.cancel_btn);
         done_btn = findViewById(R.id.done_btn);
         title = findViewById(R.id.title);

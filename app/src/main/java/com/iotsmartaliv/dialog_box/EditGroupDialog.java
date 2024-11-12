@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -53,7 +55,20 @@ public class EditGroupDialog extends Dialog implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog_edit_group_layout);
         Window window = getWindow();
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+
+        // Get screen width using the context
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+
+        // Adjust window layout parameters
+        WindowManager.LayoutParams params = window.getAttributes();
+        params.width = (int) (screenWidth * 0.9); // Set width to 90% of screen width
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT; // Set height to wrap content
+        window.setAttributes(params);
+
         add_btn = findViewById(R.id.add_btn);
         title = findViewById(R.id.title);
         group_name_ed = findViewById(R.id.group_name_ed);

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background">
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/fifty_sp"
+        android:layout_height="?actionBarSize"
         android:background="@color/colorWhite"
         android:padding="@dimen/five_dp">
 
@@ -17,16 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            android:padding="10dp"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/enrollment"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+            style="@style/headerTvLightblueBold20" />
 
         <ImageView
             android:layout_width="30dp"
@@ -34,7 +35,8 @@
             android:visibility="gone"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_info" />
+            android:src="@mipmap/ic_info"
+            app:tint="@color/newLightBlueBaseColor" />
     </RelativeLayout>
 
 
@@ -53,9 +55,7 @@
             android:gravity="center"
             android:padding="@dimen/eighteen_sp"
             android:text="@string/please_click_on_plus"
-            android:textColor="@color/colorWhite"
-            android:textSize="22dp"
-            android:textStyle="bold" />
+            style="@style/headerTvNevyblueBold20"/>
 
 
         <RelativeLayout
@@ -71,7 +71,7 @@
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_plus_big" />
+                android:src="@drawable/add_face" />
         </RelativeLayout>
 
         <RelativeLayout

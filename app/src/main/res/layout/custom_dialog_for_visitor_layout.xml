@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_blue_bg"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -15,9 +15,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="Select Visitor"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/light_blue"
-        android:textStyle="bold" />
+        style="@style/headerTvNevyblueBold20" />
 
     <EditText
         android:id="@+id/search_ed"
@@ -25,11 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
         android:layout_margin="8dp"
-        android:background="@drawable/edit_back"
         android:hint="Search Visitor"
         android:maxLines="1"
         android:padding="8dp"
-        android:textColor="@color/white"
+        android:background="@drawable/light_gray_bg"
+        style="@style/titleEdtNevyblueRgular17"
         android:textColorHint="@color/yoho_grey" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -63,7 +61,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="Cancel"
-            android:textColor="@color/colorWhite" />
+            style="@style/tvWhiteBoald20"/>
 
         <Button
             android:id="@+id/done_btn"
@@ -74,7 +72,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="Assign"
-            android:textColor="@color/colorWhite" />
+            style="@style/tvWhiteBoald20" />
 
 
     </LinearLayout>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/ic_background">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:id="@+id/rel_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -34,13 +35,11 @@
                     android:layout_toStartOf="@+id/img_change_name"
                     android:layout_toLeftOf="@+id/img_change_name"
                     android:background="@null"
-                    android:hint="name"
+                    android:hint="Name"
                     android:padding="@dimen/twelve_sp"
                     android:singleLine="true"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/gray"
                     android:textCursorDrawable="@null"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17"/>
 
                 <TextView
                     android:id="@+id/img_change_name"
@@ -56,8 +55,7 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="3dp"
                     android:text="Edit"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    style="@style/tvWhiteMedium15"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -65,7 +63,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/light_blue_bg"
+               >
 
                 <TextView
                     android:id="@+id/edt_user_name"
@@ -76,14 +75,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/img_change_uname"
                     android:layout_toLeftOf="@+id/img_change_uname"
-                    android:background="@null"
+                    android:background="@drawable/light_blue_bg"
                     android:hint="@string/user_name"
                     android:padding="@dimen/twelve_sp"
                     android:singleLine="true"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/gray"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17"/>
 
                 <TextView
                     android:id="@+id/img_change_uname"
@@ -99,8 +95,7 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="3dp"
                     android:text="Edit"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    style="@style/tvWhiteMedium15" />
 
 
             </RelativeLayout>
@@ -111,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:id="@+id/edt_email_log_in"
@@ -120,14 +115,11 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@null"
                     android:hint="@string/email"
                     android:padding="@dimen/twelve_sp"
                     android:singleLine="true"
-                    android:textColor="@color/White"
-                    android:textColorHint="@color/gray"
                     android:textCursorDrawable="@null"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17" />
 
 
             </RelativeLayout>
@@ -137,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -145,13 +137,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@null"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="@dimen/twelve_sp"
                     android:text="@string/change_password"
-                    android:textColor="@color/colorWhite"
                     android:textColorHint="@color/gray"
                     android:textCursorDrawable="@null"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17" />
 
                 <ImageView
                     android:layout_marginRight="8dp"
@@ -159,8 +150,8 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/right_arrow"
-                    android:backgroundTint="@color/colorWhite" />
+                    android:src="@drawable/right_arrow"
+                    app:tint="@color/newLightBlueBaseColor" />
             </RelativeLayout>
 
 
@@ -169,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:id="@+id/edt_face_registration"
@@ -178,14 +169,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@null"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="@dimen/twelve_sp"
                     android:singleLine="true"
                     android:text="@string/face_registration"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/gray"
                     android:textCursorDrawable="@null"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17" />
 
 
                 <ImageView
@@ -194,8 +183,8 @@
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/right_arrow"
-                    android:backgroundTint="@color/colorWhite" />
+                    android:src="@drawable/right_arrow"
+                    app:tint="@color/newLightBlueBaseColor" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -203,7 +192,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:id="@+id/edt_removeAccount"
@@ -212,14 +201,12 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@null"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="@dimen/twelve_sp"
                     android:singleLine="true"
                     android:text="@string/delete_account"
-                    android:textColor="@color/colorWhite"
-                    android:textColorHint="@color/gray"
                     android:textCursorDrawable="@null"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17" />
 
 
                 <ImageView
@@ -228,8 +215,8 @@
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/ic_delete"
-                    android:backgroundTint="@color/colorWhite" />
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/newLightBlueBaseColor" />
             </RelativeLayout>
 
 

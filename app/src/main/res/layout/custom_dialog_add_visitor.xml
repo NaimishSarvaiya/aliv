@@ -3,23 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_blue_bg">
+    android:background="@drawable/bg_light_blue_with_boarder">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/five_dp"
-        android:background="@color/white"
         android:gravity="center"
         android:padding="5dp"
         android:text="Add Visitor"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/light_blue"
-        android:textStyle="bold"
+        style="@style/headerTvNevyblueBold20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/newNavyBuleBaseColor"
+        android:layout_marginHorizontal="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <RelativeLayout
         android:id="@+id/rel_name"
@@ -28,7 +32,7 @@
         android:layout_margin="@dimen/five_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/viewLine">
 
         <EditText
             android:id="@+id/edt_name"
@@ -39,15 +43,14 @@
             android:layout_alignParentTop="true"
             android:layout_margin="8dp"
             android:layout_marginTop="@dimen/ten"
-            android:background="@drawable/edit_back"
             android:hint="Name"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:padding="@dimen/twelve_sp"
             android:singleLine="true"
-            android:textColor="@color/White"
             android:textColorHint="@color/gray"
-            android:textSize="18sp" />
+            android:background="@drawable/light_blue_bg"
+            style="@style/titleEdtNevyblueRgular17"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -55,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:background="@drawable/edit_back"
+        android:background="@drawable/light_blue_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rel_name">
@@ -68,14 +71,13 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:drawableEnd="@drawable/ic_arrow_down"
-            android:drawableRight="@drawable/ic_arrow_down"
             android:maxLines="1"
             android:padding="5dp"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+          style="@style/headerTvNevyblueBold15"
+            android:drawableTint="@color/newLightBlueBaseColor"/>
 
         <EditText
+            android:layout_centerVertical="true"
             android:id="@+id/edt_contact_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,9 +93,8 @@
             android:maxLines="1"
             android:padding="@dimen/twelve_sp"
             android:singleLine="true"
-            android:textColor="@color/White"
             android:textColorHint="@color/gray"
-            android:textSize="18sp" />
+            style="@style/titleEdtNevyblueRgular17"/>
     </RelativeLayout>
 
     <EditText
@@ -103,17 +104,16 @@
         android:layout_alignParentTop="true"
         android:layout_margin="12dp"
         android:layout_marginTop="@dimen/ten"
-        android:background="@drawable/edit_back"
         android:hint="License plate"
         android:imeOptions="actionNext"
         android:maxLength="15"
         android:maxLines="1"
         android:padding="@dimen/twelve_sp"
         android:singleLine="true"
-        android:textColor="@color/White"
         android:textColorHint="@color/gray"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/light_blue_bg"
+        style="@style/titleEdtNevyblueRgular17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rel_contact_number" />
 
@@ -132,7 +132,7 @@
         android:layout_weight="1"
         android:background="@drawable/btn_bg"
         android:text="Add"
-        android:textColor="@color/white"
+        style="@style/tvWhitebold17"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonCancel"
@@ -152,7 +152,7 @@
         android:layout_weight="1"
         android:background="@drawable/btn_bg"
         android:text="Cancel"
-        android:textColor="@color/white"
+        style="@style/tvWhitebold17"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonSubmit"
         app:layout_constraintStart_toStartOf="parent"

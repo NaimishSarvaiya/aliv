@@ -32,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.Glide;
 import com.doormaster.vphone.config.DMCallState;
 import com.doormaster.vphone.inter.DMModelCallBack.DMCallStateListener;
@@ -70,6 +72,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
         callingDeviceName = findViewById(R.id.callingDeviceName);
         blurView = findViewById(R.id.blurView);
         topLayout = findViewById(R.id.topLayout);
+        topLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.white));
         speaker.setOnClickListener(this);
 
         if (!DMVPhoneModel.isSpeakerEnable()) {
@@ -106,8 +109,8 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
         DMVPhoneModel.addCallStateListener(mListener);
         super.onCreate(savedInstanceState);
         callingDeviceName.setText("Calling....\n" + getIntent().getStringExtra("DeviceName"));
-        Blurry.with(this).radius(25).sampling(2).from(BitmapFactory.decodeResource(getResources(),
-                R.mipmap.ic_background)).into(blurView);
+//        Blurry.with(this).radius(25).sampling(2).from(BitmapFactory.decodeResource(getResources(),
+//                R.mipmap.ic_background)).into(blurView);
         Glide.with(this).asGif().load(R.raw.incoming_call).into(contact_picture);
 
 

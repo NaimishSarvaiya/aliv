@@ -2,5 +2,5 @@
     android:shape="rectangle">
     <size
         android:height="4dp" /> <!-- Height of the line -->
-    <solid android:color="@color/orange" /> <!-- Orange color for selected -->
+    <solid android:color="@color/newLightBlueBaseColor" /> <!-- Orange color for selected -->
 </shape>

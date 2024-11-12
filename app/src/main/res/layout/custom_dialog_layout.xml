@@ -2,67 +2,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/dm_bg_round_white"
+    android:id="@+id/rlMain"
     android:gravity="center"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/five_dp"
-        android:background="@color/white"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Select Community"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        style="@style/headerTvNevyblueBold20"/>
-
-    <EditText
-        android:id="@+id/search_ed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_margin="8dp"
-        android:hint="Search Community"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:textColorHint="@color/yoho_grey"
-        android:background="@drawable/light_blue_bg"
-        style="@style/titleEdtNevyblueRgular17"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_lay"
-        android:layout_below="@+id/search_ed"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="8dp" />
-
-    <LinearLayout
-        android:id="@+id/btn_lay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <Button
-            android:id="@+id/cancel_btn"
+        <TextView
+            android:id="@+id/title"
+            style="@style/headerTvNevyblueBold20"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@color/newLightBlueBaseColor"
-            android:text="Cancel"
-            style="@style/tvWhitebold17"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Select Community" />
+
+        <EditText
+            android:id="@+id/search_ed"
+            style="@style/titleEdtNevyblueRgular17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_margin="10dp"
+            android:background="@drawable/light_gray_bg"
+            android:hint="Search Community"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:textColorHint="@color/yoho_grey" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_lay"
+            android:layout_below="@+id/search_ed"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:scrollbars="none"
+            android:layout_marginEnd="10dp" />
+
+        <LinearLayout
+            android:id="@+id/btn_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/cancel_btn"
+                style="@style/tvWhitebold17"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/newLightBlueBaseColor"
+                android:text="Cancel" />
 
 
-    </LinearLayout>
-
+        </LinearLayout>
 </RelativeLayout>

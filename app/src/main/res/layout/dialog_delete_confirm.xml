@@ -2,31 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_blue_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/bg_light_blue_with_boarder"
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/five_dp"
-        android:background="@color/white"
         android:gravity="center"
         android:padding="5dp"
         android:text="Delete!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/light_blue"
-        android:textStyle="bold" />
+        style="@style/headerTvNevyblueBold20" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/newNavyBuleBaseColor" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:gravity="center"
+        android:layout_marginTop="15dp"
         android:text="Are you sure you want to delete ?"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+       style="@style/headerTvNevyblueBold17" />
 
     <TextView
         android:id="@+id/tv_delete_notes"
@@ -43,7 +46,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
         android:weightSum="2">
 
         <Button
@@ -55,8 +58,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="@string/dialog_no_button"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+           style="@style/tvWhiteBoald20" />
 
         <Button
             android:id="@+id/buttonAdd"
@@ -67,8 +69,7 @@
             android:layout_weight="1"
             android:background="@drawable/btn_bg"
             android:text="@string/dialog_yes_button"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            style="@style/tvWhiteBoald20" />
 
     </LinearLayout>
 

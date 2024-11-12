@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     tools:context=".activity.ShakeActivity">
 
     <RelativeLayout
@@ -23,7 +23,8 @@
             android:gravity="center"
             android:onClick="goBack"
             android:padding="@dimen/ten_dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_header"
@@ -33,9 +34,7 @@
             android:gravity="center"
             android:padding="@dimen/ten_dp"
             android:text="Shake Setting"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+            style="@style/headerTvLightblueBold20" />
 
     </RelativeLayout>
 
@@ -58,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
-            android:background="@drawable/edit_back"
+            android:background="@drawable/light_blue_bg"
             android:gravity="center"
             android:padding="8dp">
 
@@ -70,8 +69,7 @@
                 android:layout_toLeftOf="@+id/lock_info_shake_open"
                 android:maxLines="1"
                 android:text="shake to open"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+              style="@style/headerTvNevyblueBold17" />
 
             <Switch
                 android:id="@+id/lock_info_shake_open"
@@ -93,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
-            android:background="@drawable/edit_back"
+            android:background="@drawable/light_blue_bg"
             android:gravity="center"
             android:padding="8dp">
 
@@ -105,8 +103,7 @@
                 android:layout_toLeftOf="@+id/background_shake"
                 android:maxLines="1"
                 android:text="@string/background_shake"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+                style="@style/headerTvNevyblueBold17" />
 
             <Switch
                 android:id="@+id/background_shake"

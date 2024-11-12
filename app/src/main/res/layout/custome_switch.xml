@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/ten_dp"
-    android:background="@color/colorTransparentBlue"
+    android:background="@drawable/light_blue_bg"
     android:padding="@dimen/ten_dp">
 
 
@@ -13,14 +13,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="Lights"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            style="@style/headerTvNevyblueBold17" />
 
         <ToggleButton
             android:id="@+id/toggle_button"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="45dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/toggle_background"

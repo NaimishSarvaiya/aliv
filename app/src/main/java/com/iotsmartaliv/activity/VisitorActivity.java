@@ -32,9 +32,6 @@ public class VisitorActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         apiServiceProvider = ApiServiceProvider.getInstance(this,false);
 //        ButterKnife.bind(this);
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new FragmentEvent(), "Event");
@@ -43,6 +40,9 @@ public class VisitorActivity extends AppCompatActivity {
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.viewPager.setOffscreenPageLimit(3);
+        binding.imgBackVisitor.setOnClickListener(v -> {
+            onBackPressed();
+        });
     }
 
     @Override

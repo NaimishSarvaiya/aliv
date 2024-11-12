@@ -5,6 +5,7 @@
     <item
         android:id="@+id/add_card"
         android:icon="@drawable/ic_add_nav"
+        android:iconTint="@color/newLightBlueBaseColor"
         android:title="Add Card"
         app:showAsAction="ifRoom" />
 
@@ -12,12 +13,14 @@
         android:id="@+id/delete_card"
         android:icon="@drawable/ic_delete_nav"
         android:title="Delete Card"
+        android:iconTint="@color/newLightBlueBaseColor"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/delete_all_card"
         android:icon="@drawable/ic_delete_nav"
         android:title="Clear All Card"
+        android:iconTint="@color/newLightBlueBaseColor"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -27,9 +27,7 @@
             android:gravity="center"
             android:text="@string/face_enroll_successfully"
             android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+          style="@style/headerTvNevyblueBold17" />
 
     </RelativeLayout>
 

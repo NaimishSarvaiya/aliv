@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     tools:context=".activity.feedback.ChatActivity">
 
     <RelativeLayout
@@ -28,7 +28,8 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:padding="10dp"
-                android:src="@drawable/back" />
+                android:src="@drawable/back"
+                app:tint="@color/newLightBlueBaseColor" />
 
 
                 <TextView
@@ -36,10 +37,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:layout_centerInParent="true"
-                    android:textStyle="bold" />
+                    style="@style/headerTvLightblueBold20"
+                    android:layout_centerInParent="true" />
 
             <ImageView
                 android:layout_width="56dp"
@@ -80,23 +79,24 @@
                 android:layout_weight="0.3"
                 android:layout_height="match_parent"
                 android:src="@drawable/add_file_in_chat"
-                app:tint="@color/Orange" />
+                app:tint="@color/newLightBlueBaseColor" />
             <EditText
                 android:id="@+id/et_message"
                 android:layout_width="0dp"
-                android:background="@drawable/bg_feedback_sent"
+                android:background="@drawable/bg_light_blue_with_boarder"
                 android:layout_height="40dp"
                 android:padding="7dp"
-                style="@style/chatEditTextStyle"
                 android:layout_marginHorizontal="8dp"
-                android:layout_weight="2.4"/>
+                style="@style/titleEdtNevyblueRgular17"
+                android:layout_weight="2.4"
+                />
             <ImageView
                 android:id="@+id/btn_sendMessage"
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
                 android:layout_height="match_parent"
                 android:src="@drawable/send_chat"
-                app:tint="@color/Orange" />
+                app:tint="@color/newLightBlueBaseColor" />
 
 
         </LinearLayout>

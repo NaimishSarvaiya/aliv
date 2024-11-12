@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     tools:context=".activity.feedback.FeedbackDetailsActivity">
 
     <RelativeLayout
@@ -29,7 +29,8 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:padding="10dp"
-                android:src="@drawable/back" />
+                android:src="@drawable/back"
+                app:tint="@color/newLightBlueBaseColor" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -44,28 +45,22 @@
                     android:id="@+id/tv_feedbackID"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:text="test"
+                    style="@style/headerTvLightblueBold20"/>
 
                 <TextView
                     android:id="@+id/tv_userName"
-                    style="@style/feedbackTitleTextStyle"
+                    style="@style/titleTvNevyblueRgular15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="17dp" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/tv_CommunityName"
-                    style="@style/feedbackTitleTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    style="@style/titleTvNevyblueRgular15" />
             </LinearLayout>
 
             <ImageView
@@ -115,7 +110,8 @@
                             android:layout_weight="1"
                             android:layout_alignParentStart="true"
                             android:text=""
-                            android:textColor="@color/orange" />
+                            style="@style/titleTvNevyblueRgular15"
+                            />
                         <TextView
                             android:textAlignment="center"
                             android:id="@+id/tv_timeforCloss"
@@ -124,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:text=""
-                            android:textColor="@color/orange" />
+                            style="style/titleTvNevyblueRgular15"/>
 
                     </LinearLayout>
                     <RelativeLayout
@@ -194,7 +190,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:text="sent"
-                            android:textColor="@android:color/white" />
+                           style="@style/titleTvNevyblueRgular15" />
 
                         <TextView
                             android:id="@+id/sentDate"
@@ -202,7 +198,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/sentLabel"
                             android:text=""
-                            android:textColor="@android:color/white" />
+                            style="@style/titleTvNevyblueRgular15"
+                            />
 
                         <!-- SeekBar -->
 
@@ -214,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:text="in progress"
-                            android:textColor="@android:color/white" />
+                            style="@style/titleTvNevyblueRgular15"/>
 
                         <TextView
                             android:id="@+id/inProgressDate"
@@ -223,7 +220,7 @@
                             android:layout_below="@id/inProgressLabel"
                             android:layout_centerHorizontal="true"
                             android:text=""
-                            android:textColor="@android:color/white" />
+                            style="@style/titleTvNevyblueRgular15" />
 
                         <!-- Closed -->
                         <TextView
@@ -232,7 +229,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="closed"
-                            android:textColor="@android:color/white" />
+                            style="@style/titleTvNevyblueRgular15" />
 
                         <TextView
                             android:id="@+id/closedDate"
@@ -242,7 +239,7 @@
                             android:layout_alignParentEnd="true"
                             android:text=""
                             android:textAlignment="textEnd"
-                            android:textColor="@android:color/white" />
+                            style="@style/titleTvNevyblueRgular15"/>
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -250,20 +247,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_back"
+                    android:background="@drawable/light_blue_bg"
                     android:orientation="vertical"
                     android:padding="7dp">
 
                     <TextView
-                        style="@style/feedbackDetailsTextStyle"
+                        style="@style/headerTvLightblueBold17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/type"
-                        android:textStyle="bold" />
+                        android:text="@string/type" />
 
                     <TextView
                         android:id="@+id/tv_categoryName"
-                        style="@style/feedbackTitleTextStyle"
+                        style="@style/titleTvNevyblueRgular17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -274,12 +270,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_back"
+                    android:background="@drawable/light_blue_bg"
                     android:orientation="vertical"
                     android:padding="7dp">
 
                     <TextView
-                        style="@style/feedbackDetailsTextStyle"
+                        style="@style/headerTvLightblueBold17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Title"
@@ -287,7 +283,7 @@
 
                     <TextView
                         android:id="@+id/tv_feedbackTitle"
-                        style="@style/feedbackTitleTextStyle"
+                        style="@style/titleTvNevyblueRgular17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -299,20 +295,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/edit_back"
+                    android:background="@drawable/light_blue_bg"
                     android:orientation="vertical"
                     android:padding="7dp">
 
                     <TextView
-                        style="@style/feedbackDetailsTextStyle"
+                        style="@style/headerTvLightblueBold17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Description"
-                        android:textStyle="bold" />
+                        android:text="Description" />
 
                     <TextView
                         android:id="@+id/tv_feedbackDescription"
-                        style="@style/feedbackTitleTextStyle"
+                        style="@style/titleTvNevyblueRgular17"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -324,14 +319,14 @@
                     android:id="@+id/rl_docPreview"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:background="@drawable/edit_back"
+                    android:background="@drawable/light_blue_bg"
                     android:layout_marginTop="10dp"
                    >
 
                     <RelativeLayout
                         android:layout_marginVertical="15dp"
                         android:layout_marginHorizontal="75dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:id="@+id/rl_attachedDoc"
                         android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
@@ -365,31 +360,28 @@
                     android:nestedScrollingEnabled="false"
                     android:visibility="gone" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_retusOrChat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="15dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/btn_bg"
-                    android:padding="10dp"
-                    android:visibility="visible">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="Chat with Us"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:id= "@+id/rl_retusOrChat"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/newLightBlueBaseColor"
+            android:padding="10dp"
+            android:visibility="visible">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Chat with Us"
+                android:textColor="@color/white"
+                style="@style/tvWhiteBoald20"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

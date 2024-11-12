@@ -79,7 +79,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Admin\Desktop\active_switch.png" />
+                                                <entry key="imagePath" value="C:\Users\Admin\Desktop\toggle_off.png" />
                                                 <entry key="scalingPercent" value="61" />
                                               </map>
                                             </option>
@@ -113,7 +113,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundColor" value="000000" />
-                                      <entry key="outputName" value="active_switch" />
+                                      <entry key="foregroundLayerName" value="toggle_off" />
+                                      <entry key="outputName" value="test_image" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -307,7 +308,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/credit_card/baseline_credit_card_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/add_circle/baseline_add_circle_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -317,8 +318,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="cdcdcd" />
-                            <entry key="outputName" value="no_card" />
+                            <entry key="color" value="0ab0c6" />
+                            <entry key="outputName" value="add_icon_blue" />
                             <entry key="sourceFile" value="D:\Android\Client\aliv-iot-android" />
                           </map>
                         </option>

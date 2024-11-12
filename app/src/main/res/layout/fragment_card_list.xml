@@ -26,13 +26,11 @@
         android:background="@drawable/btn_bg"
         android:gravity="center"
         android:minHeight="0dp"
-        android:paddingStart="18dp"
+        android:paddingStart="25dp"
         android:paddingTop="8dp"
-        android:paddingEnd="18dp"
+        android:paddingEnd="25dp"
         android:paddingBottom="8dp"
         android:text="Synchronize"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold" />
+        style="@style/tvWhiteBoald20" />
 
 </RelativeLayout>

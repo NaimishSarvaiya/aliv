@@ -22,8 +22,7 @@
             android:padding="5dp"
             android:text="Choose Device"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            style="@style/headerTvNevyblueBold20"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,9 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                  style="@style/headerTvNevyblueBold17" />
 
                 <LinearLayout
                     android:id="@+id/ll_callAndOpenDoor"
@@ -68,7 +65,7 @@
                         android:focusableInTouchMode="false"
                         android:padding="5dp"
                         android:src="@drawable/ic_open_exit_door"
-                        android:tint="@color/Orange" />
+                        app:tint="@color/newLightBlueBaseColor" />
 
                     <View
                         android:id="@+id/view_verticale_line"
@@ -86,7 +83,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:src="@drawable/ic_video_call_white_24dp"
-                        android:tint="@color/Orange" />
+                        app:tint="@color/newLightBlueBaseColor" />
                 </LinearLayout>
             </LinearLayout>
 

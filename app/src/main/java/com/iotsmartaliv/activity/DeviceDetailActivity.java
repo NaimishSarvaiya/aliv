@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.view.View;
 import android.widget.Toast;
 
 import com.intelligoo.sdk.LibDevModel;
+import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
@@ -89,9 +91,6 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
         super.onCreate(savedInstanceState);
         binding = ActivityDeviceDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         apiServiceProvider = ApiServiceProvider.getInstance(this,false);
         binding.deviceTypeValueTv.setText(selectDevice.getDeviceType());
         binding.deviceNameValueTv.setText(selectDevice.getCdeviceName());
@@ -113,6 +112,9 @@ public class DeviceDetailActivity extends AppCompatActivity implements RetrofitL
         }else {
             binding.deviceValidity.setText("Forever");
         }
+        binding.imgBackDeviceListing.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
 
 

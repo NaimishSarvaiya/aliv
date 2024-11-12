@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
+import com.iotsmartaliv.apiAndSocket.models.ResArrayObjectData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,11 @@ public class DeviceMultiSelectDialogAdapter extends RecyclerView.Adapter<DeviceM
             checkbox = v.findViewById(R.id.checkbox);
         }
 
+    }
+
+    public void updateList(List<DeviceObject> temp) {
+        mDataset = temp;
+        notifyDataSetChanged();
     }
 }
 

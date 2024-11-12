@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/five_dp"
-    android:background="@drawable/white_background_with_corners">
+    android:paddingHorizontal="8dp"
+    android:background="@drawable/black_borderd_light_blue_bg">
 
     <TextView
         android:id="@+id/tv_time"
@@ -11,8 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/rl_delete"
-        android:padding="5dp"
-        android:textColor="@color/black" />
+      style="@style/headerTvNevyblueBold12" />
 
     <RelativeLayout
         android:id="@+id/rl_delete"

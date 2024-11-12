@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     tools:context=".activity.SettingActivity">
 
     <RelativeLayout
@@ -23,50 +23,134 @@
             android:gravity="center"
             android:onClick="goBack"
             android:padding="@dimen/ten_dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_header"
+            style="@style/headerTvLightblueBold20"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:padding="@dimen/ten_dp"
-            android:text="Setting"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+            android:text="Setting" />
 
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_margin="24dp"
-        android:background="@drawable/edit_back"
-        android:gravity="center"
-        android:onClick="deviceShake"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:weightSum="1"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/config_wifi_title">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/llShake"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Shake Device Setting"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@color/White" />
+            android:layout_gravity="center"
+            android:background="@drawable/light_blue_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/shake_device"
-            android:backgroundTint="@color/White" />
+            <TextView
+                style="@style/headerTvNevyblueBold17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Shake Device Setting" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/shake_device"
+                app:tint="@color/newLightBlueBaseColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAboutUs"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/light_blue_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
+
+            <TextView
+                style="@style/headerTvNevyblueBold17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/about_us" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_about_us_drawer"
+                app:tint="@color/newLightBlueBaseColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llPrivacyPolicy"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/light_blue_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
+
+            <TextView
+                style="@style/headerTvNevyblueBold17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/privacy_policy" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/add_doc_feedback"
+                app:tint="@color/newLightBlueBaseColor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llLogout"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/light_blue_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
+
+            <TextView
+                style="@style/headerTvNevyblueBold17"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/logout" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_logout"
+                app:tint="@color/newLightBlueBaseColor" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

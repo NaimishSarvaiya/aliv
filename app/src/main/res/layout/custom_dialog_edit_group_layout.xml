@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_blue_bg"
+    android:background="@drawable/bg_light_blue_with_boarder"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/title"
@@ -15,32 +16,38 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="Edit Group"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/light_blue"
-        android:textStyle="bold" />
+        style="@style/headerTvNevyblueBold20"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/newNavyBuleBaseColor" />
 
     <EditText
+        android:layout_marginTop="15dp"
         android:id="@+id/group_name_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_margin="8dp"
-        android:background="@drawable/edit_back"
+        android:layout_below="@+id/view"
         android:gravity="center"
         android:hint="Enter Group Name"
         android:maxLines="1"
         android:padding="8dp"
-        android:textColor="@color/white"
+        style="@style/titleTvNevyblueRgular17"
+        android:background="@drawable/light_blue_bg"
         android:textColorHint="@color/yoho_grey" />
 
     <Button
         android:id="@+id/add_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/group_name_ed"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
         android:background="@drawable/btn_bg"
         android:text="Update"
         android:textColor="@color/colorWhite"

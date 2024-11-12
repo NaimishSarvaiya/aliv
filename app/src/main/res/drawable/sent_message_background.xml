@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/Orange"/> <!-- Orange color -->
+    <solid android:color="@color/newLightBlueBaseColor"/> <!-- Orange color -->
     <corners
         android:bottomRightRadius="0dp"
         android:bottomLeftRadius="16dp"

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
@@ -33,6 +34,7 @@ public class CustomCommunityDialog extends Dialog implements View.OnClickListene
     CommunityDialogAdapter adapter;
     List<ResArrayObjectData> mainDataList;
     private RecyclerView.LayoutManager mLayoutManager;
+    RelativeLayout rlMain;
 
     public CustomCommunityDialog(Context context, int themeResId) {
         super(context, themeResId);
@@ -61,7 +63,9 @@ public class CustomCommunityDialog extends Dialog implements View.OnClickListene
         setContentView(R.layout.custom_dialog_layout);
         Window window = getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         cancel_btn = findViewById(R.id.cancel_btn);
+
         title = findViewById(R.id.title);
         search_ed = findViewById(R.id.search_ed);
         recyclerView = findViewById(R.id.recycler_view);

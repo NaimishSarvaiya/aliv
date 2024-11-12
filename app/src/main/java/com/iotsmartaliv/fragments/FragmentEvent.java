@@ -1,6 +1,7 @@
 package com.iotsmartaliv.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,10 +13,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -56,6 +59,7 @@ import com.iotsmartaliv.dialog_box.SingleSelectVisitorDialog;
 import com.iotsmartaliv.model.AddVisitor;
 import com.iotsmartaliv.model.VisitorData;
 import com.iotsmartaliv.model.VisitorsListDataResponse;
+import com.iotsmartaliv.model.booking.PaymentMethodModel;
 import com.iotsmartaliv.utils.CommanUtils;
 import com.iotsmartaliv.utils.Util;
 
@@ -512,6 +516,19 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_dialog_add_visitor, null);
+
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        // Get the screen width
+        DisplayMetrics metrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+
+        // Set dialog width to 80% of screen width
+        WindowManager.LayoutParams params = dialogBuilder.getWindow().getAttributes();
+        params.width = (int) (screenWidth * 0.9);
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialogBuilder.getWindow().setAttributes(params);
+
         final EditText edt_name = dialogView.findViewById(R.id.edt_name);
         final EditText edt_contact_number = dialogView.findViewById(R.id.edt_contact_number);
         final TextView tv_country_code = dialogView.findViewById(R.id.tv_country_code);
@@ -604,6 +621,17 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_dialog_add_visitor, null);
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        // Get the screen width
+        DisplayMetrics metrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+
+        // Set dialog width to 80% of screen width
+        WindowManager.LayoutParams params = dialogBuilder.getWindow().getAttributes();
+        params.width = (int) (screenWidth * 0.9);
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialogBuilder.getWindow().setAttributes(params);
         final EditText edt_name = dialogView.findViewById(R.id.edt_name);
         final EditText edt_contact_number = dialogView.findViewById(R.id.edt_contact_number);
         final TextView tv_country_code = dialogView.findViewById(R.id.tv_country_code);
@@ -869,6 +897,7 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
         });
     }
 
+
     private void callApiForSubmitBasicEvent() {
         if (communityID == null) {
             Toast.makeText(getContext(), "Select community ID.", Toast.LENGTH_SHORT).show();
@@ -994,6 +1023,17 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_dialog_add_visitor, null);
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        // Get the screen width
+        DisplayMetrics metrics = new DisplayMetrics();
+       requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+
+        // Set dialog width to 80% of screen width
+        WindowManager.LayoutParams params = dialogBuilder.getWindow().getAttributes();
+        params.width = (int) (screenWidth * 0.9);
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialogBuilder.getWindow().setAttributes(params);
         final EditText edt_name = dialogView.findViewById(R.id.edt_name);
         final EditText edt_contact_number = dialogView.findViewById(R.id.edt_contact_number);
         final TextView tv_country_code = dialogView.findViewById(R.id.tv_country_code);
@@ -1205,7 +1245,7 @@ public class FragmentEvent extends Fragment implements  RetrofitListener<Success
                     responseDataDevice = successDeviceListResponse.getData();
                     if (successDeviceListResponse.getData().getDevices().size() > 0) {
                         deviceDialogAdapter = new DeviceMultiSelectDialogAdapter(successDeviceListResponse.getData().getDevices());
-                        customDeviceListDialog = new CustomDeviceListDialog(getActivity(), deviceDialogAdapter, mDataset -> {
+                        customDeviceListDialog = new CustomDeviceListDialog(getActivity(), deviceDialogAdapter,successDeviceListResponse.getData().getDevices(), mDataset -> {
                             selectDeviceListAdapter.updateItem(mDataset);
                             if (mDataset.size() > 0) {
                                 binding.deviceList.setVisibility(View.VISIBLE);

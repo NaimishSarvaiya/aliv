@@ -11,10 +11,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -142,9 +144,9 @@ public class CreateSchedulesActivity extends AppCompatActivity implements Compou
         binding.checkboxThurs.setOnCheckedChangeListener(this);
         binding.checkboxFri.setOnCheckedChangeListener(this);
         binding.checkboxSat.setOnCheckedChangeListener(this);
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+     binding.imgBackCreateSchedule.setOnClickListener(v -> {
+         onBackPressed();
+     });
         timeSlotsMondayAdapter = new TimeSlotsMondayAdapter();
         binding.recyclerViewTimeSlot.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2)); // set LayoutManager to RecyclerView
         binding.recyclerViewTimeSlot.setAdapter(timeSlotsMondayAdapter);
@@ -196,9 +198,9 @@ public class CreateSchedulesActivity extends AppCompatActivity implements Compou
         dialog.setTextBtnPositive("Accept");
         dialog.setTextBtnNegative("Close");
         dialog.setValidateRange(false);
-        dialog.setColorBackgroundHeader(R.color.orange);
-        dialog.setColorBackgroundTimePickerHeader(R.color.orange);
-        dialog.setColorTextButton(R.color.colorPrimaryDark);
+        dialog.setColorBackgroundHeader(R.color.lightBlueBooking);
+        dialog.setColorBackgroundTimePickerHeader(R.color.newLightBlueBaseColor);
+        dialog.setColorTextButton(R.color.newLightBlueBaseColor);
         dialog.enableMinutes(true);
         dialog.setStartTabIcon(R.drawable.ic_access_time_black_24dp);
         dialog.setEndTabIcon(R.drawable.ic_timelapse_black_24dp);
@@ -419,6 +421,18 @@ public class CreateSchedulesActivity extends AppCompatActivity implements Compou
         dialogBuilder.setCancelable(false);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_successful_booked, null);
+        dialogBuilder.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        // Get the screen width
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+
+        // Set dialog width to 80% of screen width
+        WindowManager.LayoutParams params = dialogBuilder.getWindow().getAttributes();
+        params.width = (int) (screenWidth * 0.9);
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialogBuilder.getWindow().setAttributes(params);
+
         RelativeLayout rlOk = dialogView.findViewById(R.id.rl_ok);
         TextView tvMessage = dialogView.findViewById(R.id.tv_message);
         tvMessage.setText(msg);

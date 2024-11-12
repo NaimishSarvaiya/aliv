@@ -113,7 +113,6 @@ public class VideoIntercomAdapter extends ArrayAdapter<VideoDeviceData> {
                 String isAcessible = dataSet.get(position).getIsAccessTimeEnabled();
 
                 if (isAcessible.equals("1")) {
-
                     callGetServerAPI(position, 1);
                 } else {
                     videoIntercomItemClick.onOptionClickIntercomeDevice(guestList);

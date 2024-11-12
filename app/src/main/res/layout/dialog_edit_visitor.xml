@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_blue_bg">
+    android:padding="15dp"
+    android:background="@drawable/bg_light_blue_with_boarder">
 
     <TextView
         android:id="@+id/textView"
@@ -14,21 +15,25 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="Edit Visitor"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/light_blue"
-        android:textStyle="bold"
+        style="@style/headerTvNevyblueBold20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/newNavyBuleBaseColor"
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
     <RelativeLayout
+        android:layout_marginTop="15dp"
         android:id="@+id/rel_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/five_dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/view">
 
         <EditText
             android:id="@+id/edt_name"
@@ -37,17 +42,15 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="8dp"
             android:layout_marginTop="@dimen/ten"
-            android:background="@drawable/edit_back"
             android:hint="Enter Visitor Name"
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:padding="@dimen/twelve_sp"
             android:singleLine="true"
-            android:textColor="@color/White"
-            android:textColorHint="@color/gray"
-            android:textSize="18sp" />
+            style="@style/titleTvNevyblueRgular17"
+            android:background="@drawable/light_blue_bg"
+            android:textColorHint="@color/gray" />
     </RelativeLayout>
 
     <!--<RelativeLayout

@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_bg_img"
+    android:background="@color/white"
     tools:context=".fragments.FragmentVisitor">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_dark"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         tools:listitem="@layout/item_visitor">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -43,7 +40,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:tint="@color/White"
-        app:backgroundTint="@color/Orange"
+        app:backgroundTint="@color/newLightBlueBaseColor"
         app:srcCompat="@drawable/ic_add_white" />
 
 </RelativeLayout>

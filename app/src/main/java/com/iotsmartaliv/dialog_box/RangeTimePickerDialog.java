@@ -44,10 +44,10 @@ public class RangeTimePickerDialog extends DialogFragment {
     private int startTabIcon = R.drawable.ic_start_time_black_24dp;
     private int endTabIcon = R.drawable.ic_end_time_black_24dp;
     private int colorTabUnselected = R.color.White;
-    private int colorTabSelected = R.color.Yellow;
-    private int colorTextButton = R.color.Yellow;
-    private int colorBackgroundHeader = R.color.CyanWater;
-    private int colorBackgroundTimePickerHeader = R.color.CyanWater;
+    private int colorTabSelected = R.color.newLightBlueBaseColor;
+    private int colorTextButton = R.color.newLightBlueBaseColor;
+    private int colorBackgroundHeader = R.color.white;
+    private int colorBackgroundTimePickerHeader = R.color.white;
     private boolean is24HourView = true;
     private String messageErrorRangeTime = "Error: set a end time greater than start time";
     private String textBtnPositive = "Ok";

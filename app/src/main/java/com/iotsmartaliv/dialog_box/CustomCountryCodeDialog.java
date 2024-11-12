@@ -62,6 +62,7 @@ public class CustomCountryCodeDialog extends Dialog implements View.OnClickListe
         setContentView(R.layout.custom_dialog_country_code_layout);
         Window window = getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         cancel_btn = findViewById(R.id.cancel_btn);
         title = findViewById(R.id.title);
         search_ed = findViewById(R.id.search_ed);

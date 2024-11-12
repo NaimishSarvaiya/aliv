@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/textView"
+        style="@style/headerTvLightblueBold20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -14,7 +15,6 @@
         android:padding="8dp"
         android:text="Have a Invitation Code ?"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,30 +35,28 @@
 
     <Button
         android:id="@+id/buttonSubmit"
+        style="@style/tvWhitebold15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/dialog_btn_rounded"
+        android:background="@drawable/bg_booking_nevy_blue"
         android:text="Submit"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_comment" />
 
     <Button
         android:id="@+id/buttonCancel"
+        style="@style/tvWhitebold15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/dialog_btn_rounded"
+        android:background="@drawable/bg_booking_nevy_blue"
         android:text="Skip"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_comment" />

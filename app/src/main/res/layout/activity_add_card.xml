@@ -63,7 +63,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/rel_img"
         android:layout_marginTop="@dimen/thirty_sp"
-        android:background="@mipmap/ic_bg_back"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <EditText

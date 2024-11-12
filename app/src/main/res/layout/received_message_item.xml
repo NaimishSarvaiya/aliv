@@ -15,7 +15,7 @@
 
 
         <RelativeLayout
-            android:layout_gravity="start"
+            android:layout_gravity="center"
             android:id="@+id/rl_reciveDocument"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -39,8 +39,7 @@
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
             android:text="Received message"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
+            style="@style/tvWhiteMedium15"
             android:visibility="visible" />
 
         <TextView
@@ -50,7 +49,7 @@
             android:layout_gravity="end"
             android:paddingHorizontal="8sp"
             android:text="11:30"
-            android:textColor="@android:color/black"
-            android:textSize="10sp" />
+            android:textAlignment="textEnd"
+            style="@style/tvWhiteRegular11"  />
     </LinearLayout>
 </LinearLayout>

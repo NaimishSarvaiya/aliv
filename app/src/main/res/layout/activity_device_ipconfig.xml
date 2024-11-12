@@ -4,7 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     tool:context=".activity.DeviceIPConfigActivity">
 
@@ -24,7 +24,8 @@
             android:gravity="center"
             android:onClick="goBack"
             android:padding="@dimen/ten_dp"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_header"
@@ -34,9 +35,7 @@
             android:gravity="center"
             android:padding="@dimen/ten_dp"
             android:text="IP Config"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+         style="@style/headerTvLightblueBold20" />
 
     </RelativeLayout>
 
@@ -69,7 +68,7 @@
             android:id="@+id/ed_server_ip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_back"
+            android:background="@drawable/light_blue_bg"
             android:digits="0123456789."
             android:hint="Server IP"
             android:imeOptions="actionNext"
@@ -77,9 +76,8 @@
             android:padding="@dimen/twelve_sp"
             android:singleLine="true"
             android:text="43.229.85.122"
-            android:textColor="@color/White"
             android:textColorHint="@color/gray"
-            android:textSize="18dp" />
+            style="@style/titleTvNevyblueRgular17"/>
 
 
         <EditText
@@ -87,17 +85,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/ten"
-            android:background="@drawable/edit_back"
+            android:background="@drawable/light_blue_bg"
             android:hint="PORT"
             android:imeOptions="actionDone"
             android:inputType="number"
             android:padding="@dimen/twelve_sp"
             android:singleLine="true"
             android:text="8089"
-            android:textColor="@color/White"
             android:textColorHint="@color/gray"
             android:textCursorDrawable="@null"
-            android:textSize="18dp" />
+            style="@style/titleTvNevyblueRgular17"/>
 
         <Button
             android:layout_width="match_parent"
@@ -115,9 +112,7 @@
             android:padding="@dimen/ten"
             android:text="Config"
             android:textAllCaps="true"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/eighteen_dp"
-            android:textStyle="bold"
+            style="@style/tvWhiteBoald20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/edt_password"
             app:layout_constraintHorizontal_bias="0.0"

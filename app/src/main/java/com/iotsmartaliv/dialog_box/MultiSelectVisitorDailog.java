@@ -67,7 +67,7 @@ public class MultiSelectVisitorDailog extends Dialog implements View.OnClickList
         cancel_btn = findViewById(R.id.cancel_btn);
         done_btn = findViewById(R.id.done_btn);
         title = findViewById(R.id.title);
-        search_ed = findViewById(R.id.search_ed);
+        search_ed = findViewById(R.id.search_device);
         recyclerView = findViewById(R.id.recycler_view);
         mLayoutManager = new LinearLayoutManager(activity);
         recyclerView.setLayoutManager(mLayoutManager);

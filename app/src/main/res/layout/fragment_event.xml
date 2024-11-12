@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_bg_img"
+    android:background="@color/white"
     tools:context=".fragments.FragmentEvent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rlSubmitEvent"
+        android:paddingHorizontal="10dp"
+        android:layout_marginBottom="7dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,7 +24,6 @@
                 android:id="@+id/rl_upper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/blue_dark"
                 android:paddingBottom="5dp">
 
                 <RelativeLayout
@@ -29,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@drawable/bg_light_blue"
+                    android:background="@drawable/light_blue_bg"
                     android:paddingLeft="@dimen/ten"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp">
@@ -39,10 +42,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/select_community"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:hint="@string/select_community"
+                        android:textColorHint="@color/gray"
+                        style="@style/headerTvNevyblueBold17" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -50,7 +52,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/ic_arrow_down" />
+                        app:srcCompat="@drawable/ic_arrow_down"
+                        app:tint="@color/newLightBlueBaseColor" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -61,12 +64,13 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@color/Orange"
+                    android:background="@drawable/light_blue_bg"
                     android:paddingStart="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten_dp"
                     android:visibility="gone">
 
                     <CheckBox
+                        android:layout_centerVertical="true"
                         android:id="@+id/cbEnableEnhance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -75,8 +79,7 @@
                         android:paddingTop="@dimen/ten_dp"
                         android:paddingBottom="@dimen/ten_dp"
                         android:text="@string/enhanced_event_and_visitor_management"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
+                        style="@style/headerTvNevyblueBold17" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -92,7 +95,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:background="@drawable/bg_light_blue"
+                        android:background="@drawable/light_blue_bg"
                         android:paddingLeft="@dimen/ten"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
@@ -102,10 +105,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="@string/select_device"
-                            android:textColor="@color/gray"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:hint="@string/select_device"
+                            android:textColorHint="@color/gray"
+                           style="@style/headerTvNevyblueBold17"/>
 
                         <ImageView
                             android:layout_width="40dp"
@@ -113,7 +115,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            app:srcCompat="@drawable/ic_arrow_down" />
+                            app:srcCompat="@drawable/ic_arrow_down"
+                            app:tint="@color/newLightBlueBaseColor" />
 
                     </RelativeLayout>
 
@@ -134,14 +137,13 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:background="@drawable/bg_light_blue"
                         android:hint="@string/purpose"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textColor="@color/white"
                         android:textColorHint="@color/gray"
-                        android:textCursorDrawable="@null"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        android:background="@drawable/light_blue_bg"
+                        style="@style/titleEdtNevyblueRgular17"/>
 
                     <EditText
                         android:id="@+id/ed_pin_usage_limit"
@@ -151,14 +153,13 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:background="@drawable/bg_light_blue"
                         android:hint="@string/pin_usage_limit"
                         android:inputType="number"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textColor="@color/white"
                         android:textColorHint="@color/gray"
-                        android:textCursorDrawable="@null" />
+                        android:background="@drawable/light_blue_bg"
+                        style="@style/titleEdtNevyblueRgular17" />
 
                     <TextView
                         android:id="@+id/tv_limit"
@@ -169,7 +170,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="@dimen/ten_dp"
                         android:text="@string/enter_limit_0_for_unlimited_time"
-                        android:textColor="@color/white" />
+                       style="@style/headerTvNevyblueBold13" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -186,13 +187,12 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:background="@drawable/bg_light_blue"
                         android:hint="@string/event_title"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textColor="@color/white"
                         android:textColorHint="@color/gray"
-                        android:textCursorDrawable="@null" />
+                        android:background="@drawable/light_blue_bg"
+                        style="@style/titleEdtNevyblueRgular17"/>
 
                     <EditText
                         android:id="@+id/ed_event_location"
@@ -202,13 +202,12 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:layout_marginRight="@dimen/ten_dp"
-                        android:background="@drawable/bg_light_blue"
                         android:hint="@string/event_location"
                         android:padding="@dimen/ten_dp"
                         android:singleLine="true"
-                        android:textColor="@color/white"
                         android:textColorHint="@color/gray"
-                        android:textCursorDrawable="@null" />
+                        android:background="@drawable/light_blue_bg"
+                        style="@style/titleEdtNevyblueRgular17"/>
 
                     <!--       <EditText
                                android:id="@+id/ed_pinUsage_limit"
@@ -268,7 +267,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/white_border_blue_bg_with_corners"
+                android:background="@drawable/light_blue_bg"
                 android:paddingLeft="@dimen/ten_dp"
                 android:paddingTop="@dimen/twenty_dp"
                 android:paddingRight="@dimen/ten_dp"
@@ -296,23 +295,20 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_vertical"
                             android:text="@string/event_start_date"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15" />
 
                         <TextView
                             android:id="@+id/tv_start_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:background="@drawable/bg_light_blue"
+                            android:background="@drawable/dark_light_blue_bg"
                             android:gravity="center"
                             android:hint="@string/select_date"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
-                            android:textColor="@color/white"
                             android:textColorHint="@color/gray"
-                            android:textCursorDrawable="@null"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -328,23 +324,20 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_vertical"
                             android:text="@string/event_end_date"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15"/>
 
                         <TextView
                             android:id="@+id/tv_end_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:background="@drawable/bg_light_blue"
+                            android:background="@drawable/dark_light_blue_bg"
                             android:gravity="center"
                             android:hint="@string/select_date"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
-                            android:textColor="@color/white"
                             android:textColorHint="@color/gray"
-                            android:textCursorDrawable="@null"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -373,23 +366,20 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_vertical"
                             android:text="@string/start_time_"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15" />
 
                         <TextView
                             android:id="@+id/tv_start_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:background="@drawable/bg_light_blue"
+                            android:background="@drawable/dark_light_blue_bg"
                             android:gravity="center"
                             android:hint="@string/select_time"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
-                            android:textColor="@color/white"
                             android:textColorHint="@color/gray"
-                            android:textCursorDrawable="@null"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -405,23 +395,20 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_vertical"
                             android:text="@string/end_time_"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            style="@style/headerTvLightblueBold15"/>
 
                         <TextView
                             android:id="@+id/tv_end_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:background="@drawable/bg_light_blue"
+                            android:background="@drawable/dark_light_blue_bg"
                             android:gravity="center"
                             android:hint="@string/select_time"
                             android:padding="@dimen/ten_dp"
                             android:singleLine="true"
-                            android:textColor="@color/white"
                             android:textColorHint="@color/gray"
-                            android:textCursorDrawable="@null"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -443,9 +430,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="@dimen/ten_dp"
                     android:text="@string/single_visitor"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                   style="@style/titleTvNevyblueRgular17" />
 
                 <RadioButton
                     android:id="@+id/radioGroupOfVisitor"
@@ -454,9 +439,7 @@
                     android:button="@drawable/radiobtn_orange"
                     android:paddingLeft="5dp"
                     android:text="@string/groups_of_visitors"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    style="@style/titleTvNevyblueRgular17"/>
 
             </RadioGroup>
 
@@ -474,7 +457,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@drawable/bg_light_blue"
+                    android:background="@drawable/light_blue_bg"
                     android:paddingLeft="@dimen/ten"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp">
@@ -485,9 +468,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/select_visitor"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -495,7 +476,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/ic_arrow_down" />
+                        app:srcCompat="@drawable/ic_arrow_down"
+                        app:tint="@color/newLightBlueBaseColor" />
 
                 </RelativeLayout>
 
@@ -515,7 +497,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@drawable/bg_light_blue"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten">
 
@@ -524,17 +506,15 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/add_new_visitor"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_add_orange" />
+                        android:src="@drawable/add_icon_blue" />
 
                 </RelativeLayout>
 
@@ -561,7 +541,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@drawable/bg_light_blue"
+                    android:background="@drawable/light_blue_bg"
                     android:paddingLeft="@dimen/ten"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp">
@@ -572,10 +552,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:hint="@string/select_group"
-                        android:textColor="@color/white"
                         android:textColorHint="@color/gray"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -583,7 +561,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/ic_arrow_down" />
+                        app:srcCompat="@drawable/ic_arrow_down"
+                        app:tint="@color/newLightBlueBaseColor" />
 
                 </RelativeLayout>
 
@@ -594,7 +573,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten_dp"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@drawable/bg_light_blue"
+                    android:background="@drawable/light_blue_bg"
                     android:paddingLeft="@dimen/ten"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp">
@@ -604,10 +583,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/select_visitor"
-                        android:textColor="@color/gray"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:hint="@string/select_visitor"
+                        android:textColorHint="@color/gray"
+                        style="@style/headerTvNevyblueBold17" />
 
                     <ImageView
                         android:layout_width="40dp"
@@ -615,7 +593,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        app:srcCompat="@drawable/ic_arrow_down" />
+                        app:srcCompat="@drawable/ic_arrow_down"
+                        app:tint="@color/newLightBlueBaseColor" />
 
                 </RelativeLayout>
 
@@ -634,7 +613,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="@dimen/ten"
                     android:layout_marginRight="@dimen/ten_dp"
-                    android:background="@drawable/bg_light_blue"
+                    android:background="@drawable/light_blue_bg"
                     android:padding="@dimen/ten_dp"
                     android:paddingLeft="@dimen/ten">
 
@@ -643,9 +622,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/add_new_visitor"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <ImageView
                         android:id="@+id/iv_addVisitor"
@@ -654,7 +631,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_add_orange" />
+                        android:src="@drawable/add_icon_blue" />
 
                 </RelativeLayout>
 
@@ -674,7 +651,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/bg_light_blue"
+                android:background="@drawable/light_blue_bg"
                 android:padding="@dimen/ten_dp"
                 android:paddingLeft="@dimen/ten">
 
@@ -683,17 +660,16 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="@string/add_new_visitor"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    style="@style/headerTvNevyblueBold17"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_add_orange" />
+                    android:src="@drawable/add_icon_blue"
+                    />
 
             </RelativeLayout>
 
@@ -705,27 +681,23 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginEnd="@dimen/ten_dp" />
 
-            <RelativeLayout
-                android:id="@+id/rlSubmitEvent"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_below="@+id/rl_upper"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/btn_bg">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/submit"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rlSubmitEvent"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/newLightBlueBaseColor">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/submit"
+            android:textAllCaps="true"
+            style="@style/tvWhiteBoald20"/>
+    </RelativeLayout>
 </RelativeLayout>

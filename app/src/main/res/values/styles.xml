@@ -129,11 +129,22 @@
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
+    <style name="tvWhiteMedium15" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
+    </style>
     <style name="tvWhitebold17" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
+    <style name="headerTvWhiteBold25" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+    </style>
+
     <style name="headerTvLightblueBold20" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/newLightBlueBaseColor</item>
@@ -171,6 +182,13 @@
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
+
+    <style name="headerTvNevyblueBold25" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_bold</item>
+    </style>
+
     <style name="headerTvNevyblueBold15" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
@@ -178,6 +196,11 @@
     </style>
     <style name="headerTvNevyblueBold13" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+    <style name="headerTvNevyblueBold12" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
@@ -215,8 +238,16 @@
         <item name="android:textColor">@color/newNavyBuleBaseColor</item>
         <item name="fontFamily">@font/montserrat_regular</item>
     </style>
-
-
+    <style name="titleTvNevyblueRgular11" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="titleTvNevyblueBold11" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/newNavyBuleBaseColor</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
+    </style>
     <style name="tvWhiteBoald20" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>
@@ -224,6 +255,11 @@
     </style>
     <style name="tvWhiteRegular13" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+    </style>
+    <style name="tvWhiteRegular11" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat_regular</item>
     </style>

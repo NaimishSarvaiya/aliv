@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background">
+    android:background="@color/white">
 
 
     <RelativeLayout
@@ -18,7 +19,8 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:padding="@dimen/five_dp"
-            android:src="@mipmap/ic_back" />
+            android:src="@mipmap/ic_back"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
             android:id="@+id/tv_header"
@@ -28,15 +30,13 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/twenty_dp"
             android:text="@string/Video_intercom"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/twenty_dp"
-            android:textStyle="bold" />
+            style="@style/headerTvLightblueBold20"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/ic_background"
+        android:background="@color/white"
         android:layout_below="@+id/header_layout"
         android:padding="15dp"
         android:orientation="vertical">
@@ -44,20 +44,20 @@
         android:id="@+id/search_videoDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_back"
+        android:background="@drawable/light_gray_bg"
         android:hint="Search Device"
         android:maxLines="1"
         android:inputType="text"
         android:imeOptions="actionDone"
         android:padding="8dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/yoho_grey" />
+        style="@style/titleEdtNevyblueRgular17"/>
     <ListView
         android:id="@+id/list_item_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/twenty_sp"
         android:dividerHeight="8dp"
+        android:scrollbars="none"
         android:divider="@null" />
     </LinearLayout>
 

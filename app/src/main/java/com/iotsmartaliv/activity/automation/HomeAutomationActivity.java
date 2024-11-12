@@ -55,10 +55,7 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
         binding = HomeAutomationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
-        setSupportActionBar(binding.toolbar);
         apiServiceProvider = ApiServiceProvider.getInstance(this,false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         boolean isSubAdmin = false;
         for (String rolid : LOGIN_DETAIL.getRoleIDs()) {
@@ -70,6 +67,9 @@ public class HomeAutomationActivity extends AppCompatActivity implements Retrofi
         if (!LOGIN_DETAIL.getAppuserType().equalsIgnoreCase("1") && !isSubAdmin) {
             binding.floatingAddButton.hide();
         }
+        binding.imgBackAutomation.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
         binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

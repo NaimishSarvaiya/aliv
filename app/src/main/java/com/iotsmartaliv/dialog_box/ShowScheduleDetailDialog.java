@@ -36,7 +36,9 @@ public class ShowScheduleDetailDialog extends Dialog {
         setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
         Window window = getWindow();
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+
         binding.buttonOk.setOnClickListener(v -> dismiss());
         TimeSlotsMondayAdapter timeSlotsMondayAdapter = new TimeSlotsMondayAdapter(true);
         binding.recyclerViewTimeSlot.setLayoutManager(new GridLayoutManager(activity, 2)); // set LayoutManager to RecyclerView

@@ -85,6 +85,7 @@ public class ViewAssignGroupDialog extends Dialog implements View.OnClickListene
         setContentView(R.layout.dialog_view_group_layout);
         Window window = getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        window.setBackgroundDrawableResource(android.R.color.transparent);
         cancel_btn = findViewById(R.id.cancel_btn);
         title = findViewById(R.id.title);
         search_ed = findViewById(R.id.search_ed);

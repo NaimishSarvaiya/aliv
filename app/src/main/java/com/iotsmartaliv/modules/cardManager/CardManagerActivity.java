@@ -6,8 +6,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,9 +71,6 @@ ConstantsUtils.MAX_CONTAINER (maximum user capacity)
         binding = ActivityCardManagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 //        ButterKnife.bind(this);
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         communityId = getIntent().getStringExtra(Constant.COMMUNITY_ID);
         deviceId = getIntent().getStringExtra(Constant.DEVICE_ID);
@@ -95,6 +94,9 @@ ConstantsUtils.MAX_CONTAINER (maximum user capacity)
         progress = new ProgressDialog(this);
         progress.setMessage("Processing.....");
         progress.setCancelable(false);
+        binding.imgBackCardManager.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
         binding.navigation.setOnNavigationItemSelectedListener(
                 item -> {
@@ -202,9 +204,16 @@ ConstantsUtils.MAX_CONTAINER (maximum user capacity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_clear_all_card);
-        Window window = dialog.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        DisplayMetrics metrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
 
+        // Set dialog width to 80% of screen width
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int) (screenWidth * 0.9);
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(params);
         Button buttonYes = dialog.findViewById(R.id.buttonYes);
         buttonYes.setOnClickListener(v -> {
             int cleanCardRet = LibDevModel.cleanCard(CardManagerActivity.this, DeviceObject.getLibDev(selectDevice), new LibInterface.ManagerCallback() {

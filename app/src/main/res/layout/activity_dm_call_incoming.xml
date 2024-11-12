@@ -3,15 +3,14 @@
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ic_background"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/blurView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_background" />
+        android:scaleType="fitXY" />
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -23,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/white" />
+            android:text=""
+            style="@style/headerTvNevyblueBold25"/>
     </RelativeLayout>
 
 

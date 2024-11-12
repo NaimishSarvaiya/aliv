@@ -126,9 +126,9 @@ public class DevicelistAdapter extends BaseAdapter {
             viewHolder.devName.setText(data.get(position).getDeviceName());
         }
         if (data.get(position).getRssi() != -500) {
-            viewHolder.devName.setTextColor(context.getResources().getColor(R.color.Orange));
+            viewHolder.devName.setTextColor(context.getResources().getColor(R.color.newLightBlueBaseColor));
         } else {
-            viewHolder.devName.setTextColor(context.getResources().getColor(R.color.White));
+            viewHolder.devName.setTextColor(context.getResources().getColor(R.color.newNavyBuleBaseColor));
         }
         viewHolder.image_click_lay.setOnClickListener(v -> {
             selectDevice = data.get(position);

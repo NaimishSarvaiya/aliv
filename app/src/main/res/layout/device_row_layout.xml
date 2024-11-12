@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-    android:background="@drawable/edit_back"
+    android:background="@drawable/light_blue_bg"
     android:padding="3dp">
 
 
@@ -16,9 +16,7 @@
         android:layout_marginRight="8dp"
         android:paddingStart="8dp"
         android:paddingLeft="8dp"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/eighteen_sp"
-        android:textStyle="bold"
+       style="@style/headerTvNevyblueBold13"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView_remove"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +30,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_delete"
+        android:tint="@color/newLightBlueBaseColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

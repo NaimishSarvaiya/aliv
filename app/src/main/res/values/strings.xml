@@ -19,7 +19,7 @@
     <string name="notification">Notification</string>
     <string name="payment">Payment</string>
     <string name="help">Help</string>
-    <string name="about_us">About us</string>
+    <string name="about_us">About Us</string>
     <string name="Video_intercom">Video intercom</string>
     <string name="market_place">Market Place</string>
     <string name="enrollment">Enrollment</string>
@@ -298,6 +298,10 @@
     <string name="send_password">Send Password</string>
     <string name="please_enter_the_community_code_below_to_join_community">Please enter the community code below to join community.</string>
     <string name="lorem_ipsum_dolor_sit_amet_ut_distinctio_illum_aut_praesentium_quia_ut_voluptas_impedit_qui_mollitia_quae_est_molestiae_fuga">Lorem ipsum dolor sit amet. Ut distinctio illum aut praesentium quia ut voluptas impedit qui mollitia quae est molestiae fuga.</string>
+    <string name="logout">Logout</string>
+    <string name="select_country_code">Select Country Code</string>
+    <string name="search_country_code">Search Country Code</string>
+    <string name="cancel">Cancel</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

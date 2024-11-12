@@ -4,39 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_bg_img"
+    android:background="@color/white"
     tools:context=".activity.automation.EditScheduleActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:contentInsetEnd="48dp"
-        app:navigationIcon="@drawable/back"
-        app:title=" ">
+        android:layout_height="56dp"
+        android:background="@color/White"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgBackEditSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/ten_dp"
+            android:src="@drawable/back"
+            app:tint="@color/newLightBlueBaseColor" />
 
         <TextView
-            android:id="@+id/toolbar_title"
+            android:id="@+id/tv_header"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:padding="@dimen/ten_dp"
             android:text="Edit Schedule"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            android:textStyle="bold" />
-
-    </androidx.appcompat.widget.Toolbar>
+            style="@style/headerTvLightblueBold20" />
+    </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/create_schedule_btn"
-        android:layout_below="@id/toolbar">
+        android:scrollbars="none"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/header_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/ten_dp"
+           android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
             <TextView
@@ -44,15 +55,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:text="Change Date Range"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/headerTvNevyblueBold20" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/white_border_blue_bg_with_corners"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="vertical"
                 android:padding="@dimen/ten_dp">
 
@@ -79,23 +88,20 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_vertical"
                             android:text="@string/start_date_"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15" />
 
                         <TextView
                             android:id="@+id/tv_start_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:background="@drawable/bg_light_blue"
+                            android:background="@drawable/dark_light_blue_bg"
                             android:gravity="center"
                             android:hint="@string/select_date"
                             android:padding="12dp"
                             android:singleLine="true"
-                            android:textColor="@color/white"
                             android:textColorHint="@color/gray"
-                            android:textCursorDrawable="@null"
-                            android:textStyle="bold" />
+                            style="@style/headerTvNevyblueBold17" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -111,34 +117,31 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_vertical"
                             android:text="@string/end_date_"
-                            android:textColor="@color/white"
-                            android:textStyle="bold" />
+                            style="@style/titleTvNevyblueRgular15" />
 
                         <TextView
                             android:id="@+id/tv_end_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/ten_dp"
-                            android:background="@drawable/bg_light_blue"
+                            android:background="@drawable/dark_light_blue_bg"
                             android:gravity="center"
                             android:hint="@string/select_date"
                             android:padding="12dp"
                             android:singleLine="true"
-                            android:textColor="@color/white"
                             android:textColorHint="@color/gray"
-                            android:textCursorDrawable="@null"
-                            android:textStyle="bold" />
+                            style="@style/headerTvNevyblueBold17" />
                     </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
             <RelativeLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -158,9 +161,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Monday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17"  />
 
                     <TextView
                         android:id="@+id/tv_addTimeSlot"
@@ -171,7 +172,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                        android:drawableTint="@color/newLightBlueBaseColor"
+                        style="@style/headerTvLightblueBold17"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -189,9 +191,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -211,9 +212,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Tuesday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17"/>
 
 
                     <TextView
@@ -225,7 +224,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                        android:drawableTint="@color/newLightBlueBaseColor"
+                        style="@style/headerTvLightblueBold17"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -246,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -266,9 +266,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Wednesday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <TextView
                         android:id="@+id/tv_addTimeSlot_wed"
@@ -279,7 +277,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                        android:drawableTint="@color/newLightBlueBaseColor"
+                        style="@style/headerTvLightblueBold17"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -301,7 +300,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -321,9 +320,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Thursday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <TextView
                         android:id="@+id/tv_addTimeSlot_thurs"
@@ -334,7 +331,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                        android:drawableTint="@color/newLightBlueBaseColor"
+                        style="@style/headerTvLightblueBold17"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -356,7 +354,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -376,9 +374,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Friday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                       style="@style/headerTvNevyblueBold17" />
 
                     <TextView
                         android:id="@+id/tv_addTimeSlot_fri"
@@ -389,7 +385,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                      style="@style/headerTvLightblueBold17"
+                        android:drawableTint="@color/newLightBlueBaseColor"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -411,7 +408,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -431,9 +428,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Saturday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        style="@style/headerTvNevyblueBold17" />
 
                     <TextView
                         android:id="@+id/tv_addTimeSlot_sat"
@@ -444,7 +439,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                     style="@style/headerTvLightblueBold17"
+                        android:drawableTint="@color/newLightBlueBaseColor"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -466,7 +462,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:layout_marginRight="@dimen/ten_dp"
-                android:background="@drawable/edit_back"
+                android:background="@drawable/light_blue_bg"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -486,9 +482,7 @@
                         android:button="@drawable/checkbox_white"
                         android:paddingLeft="5dp"
                         android:text="Sunday"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                       style="@style/headerTvNevyblueBold17" />
 
                     <TextView
                         android:id="@+id/tv_addTimeSlot_sun"
@@ -499,7 +493,8 @@
                         android:drawableLeft="@mipmap/ic_add_orange_circle"
                         android:drawablePadding="5dp"
                         android:text="Add time slot"
-                        android:textColor="@color/orange"
+                       style="@style/headerTvLightblueBold17"
+                        android:drawableTint="@color/newLightBlueBaseColor"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -523,15 +518,11 @@
     <Button
         android:id="@+id/create_schedule_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/fifty_sp"
-        android:layout_marginRight="@dimen/fifty_sp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/btn_bg"
+        android:background="@color/newLightBlueBaseColor"
         android:padding="@dimen/ten"
         android:text="Update"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+      style="@style/tvWhiteBoald20" />
 
 </RelativeLayout>

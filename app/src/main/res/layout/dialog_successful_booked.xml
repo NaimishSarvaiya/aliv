@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_border_blue_bg">
+    android:background="@drawable/bg_light_blue_with_boarder"
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/tv_title"
@@ -10,16 +12,20 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
-        android:padding="5dp"
         android:text="Successful!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/light_blue"
-        android:textStyle="bold" />
+        style="@style/headerTvNevyblueBold20" />
+
+    <View
+        android:id="@+id/viewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/newNavyBuleBaseColor"
+        android:layout_below="@id/tv_title"/>
 
     <RelativeLayout
+        android:layout_below="@id/viewLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
         android:layout_marginBottom="25dp">
 
         <RelativeLayout
@@ -27,16 +33,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="25dp">
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:id="@+id/iv_greenCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/green_check" />
+                android:src="@mipmap/green_check"
+                app:tint="@color/newLightBlueBaseColor" />
 
             <TextView
                 android:id="@+id/tv_message"
@@ -48,14 +53,13 @@
                 android:layout_marginRight="@dimen/ten_dp"
                 android:gravity="center"
                 android:text="@string/you_have_successfully_booked_your_room"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                style="@style/titleTvNevyblueRgular17" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_ok"
-            android:layout_width="240dp"
+            android:layout_width="200dp"
             android:layout_height="45dp"
             android:layout_below="@+id/rl_mid"
             android:layout_centerHorizontal="true"
@@ -71,9 +75,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/ok"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+               style="@style/whiteBoald20" />
         </RelativeLayout>
 
 
