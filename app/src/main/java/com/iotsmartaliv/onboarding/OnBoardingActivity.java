@@ -30,6 +30,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.activity.LoginActivity;
+import com.iotsmartaliv.activity.NewMainActivity;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.utils.SharePreference;
 import com.ncorti.slidetoact.SlideToActView;
@@ -54,7 +55,7 @@ public class OnBoardingActivity extends AppCompatActivity {
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 5000; // time in milliseconds between successive task executions.
-
+String path;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -385,7 +386,10 @@ public class OnBoardingActivity extends AppCompatActivity {
 //        SharePreference.getInstance(OnBoardingActivity.this).putBoolean(Constant.HAS_ON_BOARDING_SHOWN, true);
         if (getIntent().getBooleanExtra(Constant.FROM_DRAWER, false)) {
             finish();
-        } else {
+        } else if(getIntent().getStringExtra(Constant.PATH)!=null){
+                startActivity(new Intent(OnBoardingActivity.this, NewMainActivity.class));
+                finish();
+        }else{
             Intent intent = new Intent(OnBoardingActivity.this, LoginActivity.class);
             intent.putExtra("showAlert", true);
             startActivity(intent);

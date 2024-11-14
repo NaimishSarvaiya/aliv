@@ -67,8 +67,8 @@
                 android:text="Shake Device Setting" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/shake_device"
                 app:tint="@color/newLightBlueBaseColor" />
         </LinearLayout>
@@ -93,8 +93,8 @@
                 android:text="@string/about_us" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_about_us_drawer"
                 app:tint="@color/newLightBlueBaseColor" />
         </LinearLayout>
@@ -119,8 +119,8 @@
                 android:text="@string/privacy_policy" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/add_doc_feedback"
                 app:tint="@color/newLightBlueBaseColor" />
         </LinearLayout>
@@ -145,8 +145,8 @@
                 android:text="@string/logout" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/ic_logout"
                 app:tint="@color/newLightBlueBaseColor" />
         </LinearLayout>

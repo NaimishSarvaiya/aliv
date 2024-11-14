@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.installreferrer.BuildConfig;
 import com.doormaster.vphone.config.DMErrorReturn;
 import com.doormaster.vphone.exception.DMException;
 import com.doormaster.vphone.inter.DMModelCallBack.DMCallback;
@@ -44,7 +45,6 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.gson.Gson;
-import com.iotsmartaliv.BuildConfig;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
@@ -430,11 +430,11 @@ public class MainActivity extends AppCompatActivity implements RetrofitListener<
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (fragment instanceof CommunityJoinFragment) {
-            tvHeader.setText("Communities");
-        } else if (fragment instanceof CommunitySubListFragment) {
-            tvHeader.setText("Communities");
-        }
+//        if (fragment instanceof CommunityJoinFragment) {
+//            tvHeader.setText("Communities");
+//        } else if (fragment instanceof CommunitySubListFragment) {
+//            tvHeader.setText("Communities");
+//        }
     }
 
     public void setFragment(Fragment fragment) {

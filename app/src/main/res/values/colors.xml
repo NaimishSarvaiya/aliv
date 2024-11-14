@@ -43,6 +43,8 @@
     <color name="textunAvilableDate">#80FFFFFF</color>
     <color name="avilableDate">#CDCDCD</color>
     <color name="extralightGray">#E5E5EA</color>
+    <color name="disable_button_color">#EEEEEE</color>
+    <color name="disable_text_color">#AAAAAA</color>
 
 </resources>
 

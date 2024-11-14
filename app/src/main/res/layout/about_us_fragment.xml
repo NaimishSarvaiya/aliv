@@ -2,15 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   android:background="@color/white">
+   android:background="@color/white"
+    android:layout_marginHorizontal="15dp">
 
     <ImageView
         android:id="@+id/img_app"
-        android:layout_width="270dp"
-        android:layout_height="200dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/twenty_five"
-        android:src="@mipmap/ic_login2x" />
+        android:src="@drawable/app_logo" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,8 +37,7 @@
                     android:gravity="center"
                     android:padding="@dimen/ten"
                     android:text="@string/version_name"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/headerTvNevyblueBold17" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,15 +46,15 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:padding="@dimen/ten"
+                    android:padding="15dp"
                     android:text="@string/about_us_text"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/eighteen_sp" />
+                    style="@style/titleTvNevyblueRgular17" />
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
     <TextView
+        android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -63,6 +63,5 @@
         android:gravity="center"
         android:padding="@dimen/ten"
         android:text="@string/copyright_text"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/eighteen_sp" />
+        style="@style/titleTvNevyblueRgular17" />
 </RelativeLayout>

@@ -3,7 +3,7 @@
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/newNavyBuleBaseColor"
     android:fitsSystemWindows="true">
 
     <ImageView
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            style="@style/headerTvNevyblueBold25"/>
+            style="@style/headerTvWhiteBold25"/>
     </RelativeLayout>
 
 
@@ -74,8 +74,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/dm_hang_up"
-                android:textColor="@color/white"
-                android:textSize="20sp"
+                style="@style/whiteBoald20"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -103,8 +102,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/dm_answer"
-                android:textColor="@color/white"
-                android:textSize="20sp"
+                style="@style/whiteBoald20"
                 android:visibility="gone" />
         </LinearLayout>
 

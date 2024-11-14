@@ -34,7 +34,7 @@ public class EnrollmentSuccessful extends AppCompatActivity {
      * This is for opening new activity.
      */
     public void openActivity() {
-        Intent intent = new Intent(EnrollmentSuccessful.this, MainActivity.class);
+        Intent intent = new Intent(EnrollmentSuccessful.this, NewMainActivity.class);
         startActivity(intent);
         finishAffinity();
     }

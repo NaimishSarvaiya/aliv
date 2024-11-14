@@ -144,5 +144,7 @@ public class BookingHistoryFragment extends Fragment implements RetrofitListener
         } catch (Exception e) {
             Toast.makeText(requireActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
         }
+        isRefreshing = false;
+        binding.pullToRefresh.setRefreshing(false);
     }
 }

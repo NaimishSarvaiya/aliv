@@ -4,9 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -102,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleSignInClient mGoogleSignInClient;
     private RelativeLayout rlFacebookSignUp, rlGoogleSignUp;
     String token = "";
+    RelativeLayout rlLogin;
     //    private Handler mHandler = new Handler() {
 //        @Override
 //        public void handleMessage(Message msg) {
@@ -195,6 +199,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager = CallbackManager.Factory.create();
         facebookLoginSetup();
         googleSignInSetup();
+        rlLogin.setEnabled(false);
+        rlLogin.setBackground(getResources().getDrawable(R.drawable.disable_button));
+        tvLogin.setTextColor(getResources().getColor(R.color.disable_text_color));
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkFieldsForEmptyValues();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+
+// Focus change listener to enable/disable button based on focus
+        View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (v.getId() == R.id.edt_password && hasFocus) {
+                    checkFieldsForEmptyValues();
+                }
+            }
+        };
+        username.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+        password.setOnFocusChangeListener(focusChangeListener);
+    }
+    private void checkFieldsForEmptyValues() {
+        String usernameText = username.getText().toString();
+        String passwordText = password.getText().toString();
+
+        if (!usernameText.isEmpty() && !passwordText.isEmpty()) {
+            rlLogin.setEnabled(true);
+            tvLogin.setTextColor(getResources().getColor(R.color.white));
+            rlLogin.setBackground(getResources().getDrawable(R.drawable.btn_bg));
+             // Enable color
+        } else {
+            rlLogin.setEnabled(false);
+            tvLogin.setTextColor(getResources().getColor(R.color.disable_text_color));
+            rlLogin.setBackground(getResources().getDrawable(R.drawable.disable_button)); // Disable color
+        }
     }
 
     private void onBackgroundShakeDialog1() {
@@ -258,6 +306,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initViews() {
         tvSignUp = findViewById(R.id.tv_sign_up);
         tvLogin = findViewById(R.id.tv_login);
+        rlLogin = findViewById(R.id.rlLogin);
         username = findViewById(R.id.edt_email_log_in);
         password = findViewById(R.id.edt_password);
         btnFacebook = findViewById(R.id.login_button);
@@ -280,6 +329,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         myFaceBookButton.setOnClickListener(this);
         rlFacebookSignUp.setOnClickListener(this);
         rlGoogleSignUp.setOnClickListener(this);
+        rlLogin.setOnClickListener(this);
         view_img.setOnTouchListener((v, event) -> {
 
             switch (event.getAction()) {
@@ -458,7 +508,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 finish();
                 //vdk Fix for login issue*/
                 break;
-            case R.id.tv_login:
+            case R.id.rlLogin:
            /*     DeviceBean dev = new DeviceBean();
                 dev.setDevSn("4112562222");
                 dev.setDevMac("3f:49:f5:20:b8:2e");
@@ -847,7 +897,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                     Intent intent1;
                     if (LOGIN_DETAIL.getLoginStatus().equalsIgnoreCase("1")) {
-                        intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                        intent1 = new Intent(LoginActivity.this, NewMainActivity.class);
                     } else {
                         intent1 = new Intent(LoginActivity.this, NewPasswordActivity.class);
                     }

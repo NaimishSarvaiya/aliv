@@ -84,6 +84,7 @@ public class PaymentActivity extends AppCompatActivity {
     int paymentypeFees = 0;
     int paymentypeDeposit = 0;
     int reSchedulepaymentType = 0;
+    private ActivityResultLauncher<Intent> cardActivityResultLauncher;
 
 
     @Override
@@ -102,11 +103,28 @@ public class PaymentActivity extends AppCompatActivity {
             getDefaultCard(SharePreference.getInstance(this).getString(STRIPE_CUSTOMER_ID));
         }
         binding.tvChangeCardFees.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CardActivity.class);
+            Intent intent = new Intent(this,CardActivity.class);
             intent.putExtra(Constant.ROOM_TYPE, defaultCardId);
-            startActivity(intent);
+            cardActivityResultLauncher.launch(intent);
+//            Intent intent = new Intent(this, CardActivity.class);
+//            intent.putExtra(Constant.ROOM_TYPE, defaultCardId);
+//            startActivity(intent);
 //            finish();
         });
+        binding.tvChangeCardDeposit.setOnClickListener(v -> {
+            Intent intent = new Intent(this,CardActivity.class);
+            intent.putExtra(Constant.ROOM_TYPE, defaultCardId);
+            cardActivityResultLauncher.launch(intent);
+        });
+        cardActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // The card was successfully created, refresh the card list
+                       getDefaultCard(SharePreference.getInstance(this).getString(STRIPE_CUSTOMER_ID));
+                    }
+                }
+        );
         binding.llToolbar.imgBack.setOnClickListener(v -> {
             finish();
         });

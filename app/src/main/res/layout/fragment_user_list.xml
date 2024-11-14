@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="15dp"
     tools:context=".modules.cardManager.UserListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <EditText
+        android:id="@+id/searchUser"
+        style="@style/titleEdtNevyblueRgular17"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/light_gray_bg"
+        android:hint="Search Visitor"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColorHint="@color/yoho_grey" />
+    <androidx.recyclerview.widget.RecyclerView
+      android:layout_below="@+id/searchUser"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         tools:listitem="@layout/item_user_list" />
 
-</FrameLayout>
+</RelativeLayout>

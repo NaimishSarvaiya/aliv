@@ -10,7 +10,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginLeft="8dp"
-        android:background="@drawable/logo_prof"
+        android:background="@drawable/app_logo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

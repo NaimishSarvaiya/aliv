@@ -80,7 +80,7 @@ public class SplashActivity extends AppCompatActivity {
      * This method is used for opening main activity.
      */
     private void openActivityMain() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        Intent intent = new Intent(SplashActivity.this, NewMainActivity.class);
         startActivity(intent);
         finish();
     }

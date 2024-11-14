@@ -163,19 +163,19 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.VISIBLE);
                 break;
             case R.id.rel_community:
-                drawerLayout.closeDrawer(GravityCompat.START);
-                CommunityListFragment communityListFragment = CommunityListFragment.newInstance();
-                communityListFragment.setOnFragmentInteractionListener(this);
-                ((MainActivity) getActivity()).tvHeader.setText("Communities");
-                ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(communityListFragment, true);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                CommunityListFragment communityListFragment = CommunityListFragment.newInstance();
+//                communityListFragment.setOnFragmentInteractionListener(this);
+//                ((MainActivity) getActivity()).tvHeader.setText("Communities");
+//                ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
+//                loadFragments(communityListFragment, true);
                 break;
             case R.id.rel_my_account:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.my_account));
                 ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                Fragment fragmentMyAccount = new MyAccountFragment();
-                loadFragments(fragmentMyAccount, true);
+//                Fragment fragmentMyAccount = new MyAccountFragment();
+//                loadFragments(fragmentMyAccount, true);
                 break;
             case R.id.rel_notification:
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -199,11 +199,11 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
                 loadFragments(fragmentHelp, true);
                 break;
             case R.id.rel_about_us:
-                drawerLayout.closeDrawer(GravityCompat.START);
-                Fragment fragmentAboutUs = new AboutUsFragment();
-                ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.about_us));
-                ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-                loadFragments(fragmentAboutUs, true);
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                Fragment fragmentAboutUs = new AboutUsFragment();
+//                ((MainActivity) getActivity()).tvHeader.setText(getResources().getString(R.string.about_us));
+//                ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
+//                loadFragments(fragmentAboutUs, true);
                 break;
             case R.id.rel_message:
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -346,9 +346,9 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
         drawerLayout.closeDrawer(GravityCompat.START);
         ((MainActivity) getActivity()).tvHeader.setText("Communities");
         ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-        CommunityListFragment communityListFragment = CommunityListFragment.newInstance();
-        communityListFragment.setOnFragmentInteractionListener(this);
-        loadFragments(communityListFragment, false);
+//        CommunityListFragment communityListFragment = CommunityListFragment.newInstance();
+//        communityListFragment.setOnFragmentInteractionListener(this);
+//        loadFragments(communityListFragment, false);
     }
 
     @Override
@@ -372,11 +372,11 @@ public class DrawerFragment extends Fragment implements View.OnClickListener, Co
     }
 
     public void addJoinCommunity(Boolean b) {
-        CommunityJoinFragment communityJoinFragment = CommunityJoinFragment.newInstance();
-        communityJoinFragment.OnFragmentInteractionListener(this);
-        ((MainActivity) getActivity()).setFragment(communityJoinFragment);
-        ((MainActivity) getActivity()).tvHeader.setText("Join Community");
-        ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
-        loadFragments(communityJoinFragment, b);
+//        CommunityJoinFragment communityJoinFragment = CommunityJoinFragment.newInstance();
+//        communityJoinFragment.OnFragmentInteractionListener(this);
+//        ((MainActivity) getActivity()).setFragment(communityJoinFragment);
+//        ((MainActivity) getActivity()).tvHeader.setText("Join Community");
+//        ((MainActivity) getActivity()).imgDraweHeader.setVisibility(View.GONE);
+//        loadFragments(communityJoinFragment, b);
     }
 }

@@ -5,18 +5,33 @@
     android:layout_height="match_parent"
     tools:context=".modules.cardManager.CardListFragment">
 
+    <EditText
+        android:id="@+id/search_card"
+        style="@style/titleEdtNevyblueRgular17"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="15dp"
+        android:background="@drawable/light_gray_bg"
+        android:hint="Search Visitor"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColorHint="@color/yoho_grey" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="7dp"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/syncBtn"
+        android:layout_below="@+id/search_card"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:layout_alignParentTop="true"
         tools:listitem="@layout/item_user_list" />
 
     <Button
         android:id="@+id/syncBtn"
+        style="@style/tvWhiteBoald20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,7 +45,6 @@
         android:paddingTop="8dp"
         android:paddingEnd="25dp"
         android:paddingBottom="8dp"
-        android:text="Synchronize"
-        style="@style/tvWhiteBoald20" />
+        android:text="Synchronize" />
 
 </RelativeLayout>

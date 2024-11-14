@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -98,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     ApiServiceProvider apiServiceProvider;
     RelativeLayout rel_term_of_use;
     private TextView tvSignUp, tvLogin, have_code_tv;
-    private RelativeLayout rlFacebookSignUp, rlGoogleSignUp;
+    private RelativeLayout rlFacebookSignUp, rlGoogleSignUp,rlSignup;
     private ImageView myFaceBookButton, myGooglePlusButton, arrowImg, view_img, view_img_conf;
     private Spinner spinner;
     private CheckBox checkBox;
@@ -152,6 +155,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         myFaceBookButton = findViewById(R.id.my_login_button);
         rlFacebookSignUp = findViewById(R.id.rel_sign_up_facebook);
         rlGoogleSignUp = findViewById(R.id.rel_sign_up_google);
+        rlSignup = findViewById(R.id.rel_sign_up);
         myGooglePlusButton = findViewById(R.id.my_sign_in_button);
         arrowImg = findViewById(R.id.arrowImg);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -159,9 +163,54 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         categories.add(getResources().getString(R.string.male));
         categories.add(getResources().getString(R.string.female));
         categories.add(getResources().getString(R.string.other));
+        rlSignup.setEnabled(false);
+        rlSignup.setBackground(getResources().getDrawable(R.drawable.disable_button));
+        tvSignUp.setTextColor(getResources().getColor(R.color.disable_text_color));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, categories);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                checkFieldsForEmptyValues();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+        etFullName.addTextChangedListener(textWatcher);
+        etUserName.addTextChangedListener(textWatcher);
+        etEmailId.addTextChangedListener(textWatcher);
+        etPassword.addTextChangedListener(textWatcher);
+        etConfirmPassword.addTextChangedListener(textWatcher);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkFieldsForEmptyValues();
+            }
+        });
+    }
+    private void checkFieldsForEmptyValues() {
+        String usernameText = etFullName.getText().toString();
+        String userFullnameText = etUserName.getText().toString();
+        String userMailText = etEmailId.getText().toString();
+        String passwordText = etPassword.getText().toString();
+        String confirmPasswordText = etConfirmPassword.getText().toString();
+
+        if (!usernameText.isEmpty() && !passwordText.isEmpty()&& !userFullnameText.isEmpty()&& !userMailText.isEmpty()&&!confirmPasswordText.isEmpty() && checkBox.isChecked() ) {
+            rlSignup.setEnabled(true);
+            tvSignUp.setTextColor(getResources().getColor(R.color.white));
+            rlSignup.setBackground(getResources().getDrawable(R.drawable.btn_bg));
+            // Enable color
+        } else {
+            rlSignup.setEnabled(false);
+            tvSignUp.setTextColor(getResources().getColor(R.color.disable_text_color));
+            rlSignup.setBackground(getResources().getDrawable(R.drawable.disable_button)); // Disable color
+        }
     }
 
     /**
@@ -175,6 +224,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         myFaceBookButton.setOnClickListener(this);
         rlFacebookSignUp.setOnClickListener(this);
         rlGoogleSignUp.setOnClickListener(this);
+        rlSignup.setOnClickListener(this);
+
         rel_term_of_use.setOnClickListener(this);
         mExpandLayout.setListener(new ExpandableLayoutListener() {
             @Override
@@ -419,7 +470,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_sign_up:
+            case R.id.rel_sign_up:
                 strFName = etFullName.getText().toString().trim();
                 strEmailId = etEmailId.getText().toString().trim();
                 strUserName = etUserName.getText().toString().trim();

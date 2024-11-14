@@ -115,7 +115,7 @@ public class DmCallIncomingActivity extends Activity implements View.OnClickList
         instance = this;
 //        Blurry.with(this).radius(25).sampling(2).from(BitmapFactory.decodeResource(getResources(),
 //                R.drawable.white_bg)).into(blurView);
-        Glide.with(this).asGif().load(R.raw.cancel_call).into(incoming_call_image);
+        Glide.with(this).asGif().load(R.raw.calling).into(incoming_call_image);
     }
 
     @Override

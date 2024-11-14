@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/app_logo"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
+        android:layout_width="110dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/twenty_sp"
-        android:background="@mipmap/ic_signup" />
+        android:background="@drawable/app_logo" />
 
 
     <LinearLayout

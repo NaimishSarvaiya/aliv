@@ -111,7 +111,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
         callingDeviceName.setText("Calling....\n" + getIntent().getStringExtra("DeviceName"));
 //        Blurry.with(this).radius(25).sampling(2).from(BitmapFactory.decodeResource(getResources(),
 //                R.mipmap.ic_background)).into(blurView);
-        Glide.with(this).asGif().load(R.raw.incoming_call).into(contact_picture);
+        Glide.with(this).asGif().load(R.raw.calling).into(contact_picture);
 
 
     }

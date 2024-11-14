@@ -29,5 +29,15 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         app:backgroundTint="@color/newLightBlueBaseColor" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tvNoCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/it_looks_like_you_haven_t_saved_any_payment_cards_yet_add_a_new_card_to_make_payments_easily_and_securely"
+        style="@style/headerTvNevyblueBold17"
+        android:layout_centerInParent="true"
+       android:layout_marginHorizontal="15dp"/>
 
 </RelativeLayout>

@@ -246,7 +246,7 @@
     <string name="disabled">Disabled</string>
     <string name="enabled">Enabled</string>
     <string name="aliv_app_requirement">ALiv App Requirement</string>
-    <string name="privacy_policy"><u>Privacy Policy</u></string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="by_allowing_these_permission">By allowing these permissions, we do"\n"not access your personal data of any form"\n"and is purely for technical functionality"\n"purposes.</string>
     <string name="permissions">Permissions</string>
     <string name="slide_to_continue">Slide to Continue</string>
@@ -302,7 +302,8 @@
     <string name="select_country_code">Select Country Code</string>
     <string name="search_country_code">Search Country Code</string>
     <string name="cancel">Cancel</string>
-
+    <string name="it_looks_like_you_haven_t_saved_any_payment_cards_yet_add_a_new_card_to_make_payments_easily_and_securely">It looks like you haven’t saved any payment cards yet. Add a new card to make payments easily and securely.</string>
+    <string name="online_form">Online form</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

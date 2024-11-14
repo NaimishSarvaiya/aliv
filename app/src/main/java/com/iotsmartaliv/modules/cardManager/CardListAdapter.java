@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +54,15 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
             this.cardNoTv = itemView.findViewById(R.id.card_number);
             this.status = itemView.findViewById(R.id.status_val);
         }
+    }
+
+    public void updateList( List<CardUserList> cardLists) {
+        cardUserLists = cardLists;
+        notifyDataSetChanged();
+    }
+    public void add( List<CardUserList> cardLists) {
+        cardUserLists.clear();
+        cardUserLists.addAll(cardLists);
+        notifyDataSetChanged();
     }
 }  

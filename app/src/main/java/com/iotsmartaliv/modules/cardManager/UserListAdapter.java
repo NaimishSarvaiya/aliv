@@ -50,4 +50,13 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             this.card_no__tv = itemView.findViewById(R.id.card_no__tv);
         }
     }
+    public void updateList( List<CardUserList> cardLists) {
+        cardUserLists = cardLists;
+        notifyDataSetChanged();
+    }
+    public void add( List<CardUserList> cardLists) {
+        cardUserLists.clear();
+        cardUserLists.addAll(cardLists);
+        notifyDataSetChanged();
+    }
 }  

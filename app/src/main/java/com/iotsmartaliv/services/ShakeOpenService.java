@@ -125,7 +125,7 @@ public class ShakeOpenService extends Service implements SensorEventListener {
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Aliv Shake Service is running...")
                 .setTicker("Aliv Shake Service is running...")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.app_logo)
                 .setLargeIcon(IconLg)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setVibrate(new long[]{1000})

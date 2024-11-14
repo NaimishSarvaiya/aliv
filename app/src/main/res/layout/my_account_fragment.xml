@@ -5,7 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <include
+        android:id="@+id/ll_toolbar"
+        layout="@layout/booking_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
     <ScrollView
+        android:layout_below="@+id/ll_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,39 +28,33 @@
                 android:id="@+id/rel_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/light_blue_bg">
+                android:background="@drawable/light_blue_bg"
+                android:padding="@dimen/_12dp"
+                >
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/tv_name"
+                    style="@style/titleTvNevyblueRgular17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/img_change_name"
-                    android:layout_toLeftOf="@+id/img_change_name"
-                    android:background="@null"
                     android:hint="Name"
-                    android:padding="@dimen/twelve_sp"
-                    android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    style="@style/titleTvNevyblueRgular17"/>
+                    android:singleLine="true" />
 
                 <TextView
                     android:id="@+id/img_change_name"
+                    style="@style/tvWhiteMedium15"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
                     android:layout_margin="5dp"
                     android:background="@drawable/btn_bg"
                     android:paddingStart="8dp"
                     android:paddingTop="3dp"
                     android:paddingEnd="8dp"
                     android:paddingBottom="3dp"
-                    android:text="Edit"
-                    style="@style/tvWhiteMedium15"/>
+                    android:text="Edit" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -63,39 +62,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:background="@drawable/light_blue_bg"
-               >
+                android:padding="@dimen/_12dp"
+                android:background="@drawable/light_blue_bg">
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/edt_user_name"
+                    style="@style/titleTvNevyblueRgular17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/img_change_uname"
-                    android:layout_toLeftOf="@+id/img_change_uname"
-                    android:background="@drawable/light_blue_bg"
                     android:hint="@string/user_name"
-                    android:padding="@dimen/twelve_sp"
-                    android:singleLine="true"
-                    style="@style/titleTvNevyblueRgular17"/>
+                    android:singleLine="true" />
 
                 <TextView
                     android:id="@+id/img_change_uname"
+                    style="@style/tvWhiteMedium15"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
                     android:layout_margin="5dp"
                     android:background="@drawable/btn_bg"
                     android:paddingStart="8dp"
                     android:paddingTop="3dp"
                     android:paddingEnd="8dp"
                     android:paddingBottom="3dp"
-                    android:text="Edit"
-                    style="@style/tvWhiteMedium15" />
+                    android:text="Edit" />
 
 
             </RelativeLayout>
@@ -106,20 +98,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
+                android:padding="@dimen/_12dp"
                 android:background="@drawable/light_blue_bg">
 
                 <TextView
+                    android:layout_centerVertical="true"
                     android:id="@+id/edt_email_log_in"
+                    style="@style/titleTvNevyblueRgular17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:hint="@string/email"
-                    android:padding="@dimen/twelve_sp"
                     android:singleLine="true"
-                    android:textCursorDrawable="@null"
-                    style="@style/titleTvNevyblueRgular17" />
+                    android:textCursorDrawable="@null" />
 
 
             </RelativeLayout>
@@ -129,27 +121,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
+                android:padding="@dimen/_12dp"
                 android:background="@drawable/light_blue_bg">
 
                 <TextView
+                    style="@style/titleTvNevyblueRgular17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/light_blue_bg"
-                    android:padding="@dimen/twelve_sp"
+                    android:layout_centerVertical="true"
                     android:text="@string/change_password"
                     android:textColorHint="@color/gray"
-                    android:textCursorDrawable="@null"
-                    style="@style/titleTvNevyblueRgular17" />
+                    android:textCursorDrawable="@null" />
 
                 <ImageView
-                    android:layout_marginRight="8dp"
                     android:layout_width="16dp"
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/right_arrow"
                     app:tint="@color/newLightBlueBaseColor" />
             </RelativeLayout>
@@ -160,29 +149,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
+                android:padding="@dimen/_12dp"
                 android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:id="@+id/edt_face_registration"
+                    style="@style/titleTvNevyblueRgular17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/light_blue_bg"
-                    android:padding="@dimen/twelve_sp"
+                    android:layout_centerVertical="true"
                     android:singleLine="true"
                     android:text="@string/face_registration"
-                    android:textCursorDrawable="@null"
-                    style="@style/titleTvNevyblueRgular17" />
+                    android:textCursorDrawable="@null" />
 
 
                 <ImageView
-                    android:layout_marginRight="8dp"
                     android:layout_width="16dp"
                     android:layout_height="18dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+
                     android:src="@drawable/right_arrow"
                     app:tint="@color/newLightBlueBaseColor" />
             </RelativeLayout>
@@ -192,42 +179,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
+                android:padding="@dimen/_12dp"
                 android:background="@drawable/light_blue_bg">
 
                 <TextView
                     android:id="@+id/edt_removeAccount"
+                    style="@style/titleTvNevyblueRgular17"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/light_blue_bg"
-                    android:padding="@dimen/twelve_sp"
+                    android:layout_centerVertical="true"
                     android:singleLine="true"
                     android:text="@string/delete_account"
-                    android:textCursorDrawable="@null"
-                    style="@style/titleTvNevyblueRgular17" />
+                    android:textCursorDrawable="@null" />
 
 
                 <ImageView
-                    android:layout_marginRight="8dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+
                     android:src="@drawable/ic_delete"
                     app:tint="@color/newLightBlueBaseColor" />
             </RelativeLayout>
-
-
 
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/ten"
-                android:visibility="gone"
-                android:background="@drawable/edit_back">
+                android:background="@drawable/edit_back"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_payment_help"

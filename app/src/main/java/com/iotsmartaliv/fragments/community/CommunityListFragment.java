@@ -1,6 +1,9 @@
 package com.iotsmartaliv.fragments.community;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +36,7 @@ import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
  * Use the {@link CommunityListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CommunityListFragment extends Fragment implements RetrofitListener<SuccessArrayResponse> {
+public class CommunityListFragment extends AppCompatActivity implements RetrofitListener<SuccessArrayResponse> {
     ApiServiceProvider apiServiceProvider;
     CommunityListAdapter communityListAdapter;
     private OnFragmentInteractionListener mListener;
@@ -44,44 +47,61 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment CommunityListFragment.
-     */
     public static CommunityListFragment newInstance() {
         return new CommunityListFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         // Inflate the layout for this fragment
-        binding = FragmentCommunityListBinding.inflate(inflater,container,false);
+        binding = FragmentCommunityListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 //        View view = inflater.inflate(R.layout.fragment_community_list, container, false);
 
-        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
-        communityListAdapter = new CommunityListAdapter(getContext(), mListener);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        apiServiceProvider = ApiServiceProvider.getInstance(CommunityListFragment.this,false);
+        communityListAdapter = new CommunityListAdapter(CommunityListFragment.this, mListener);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(CommunityListFragment.this);
         binding.recyclerViewCommunity.setLayoutManager(mLayoutManager);
         binding.recyclerViewCommunity.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerViewCommunity.setAdapter(communityListAdapter);
         apiServiceProvider.callForListOfCommunity(LOGIN_DETAIL.getAppuserID(), this);
         binding.floatingActionButton.setOnClickListener(v-> onViewClicked() );
-        return binding.getRoot();
+        binding.llHeader.imgBack.setOnClickListener(v->onBackPressed());
+        binding.llHeader.tvHeader.setText("Community");
+        binding.floatingActionButton.setOnClickListener(v -> {
+            startActivity(new Intent(this,CommunityJoinFragment.class));
+        });
     }
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        binding = FragmentCommunityListBinding.inflate(inflater,container,false);
+////        View view = inflater.inflate(R.layout.fragment_community_list, container, false);
+//
+//        apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
+//        communityListAdapter = new CommunityListAdapter(getContext(), mListener);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+//        binding.recyclerViewCommunity.setLayoutManager(mLayoutManager);
+//        binding.recyclerViewCommunity.setItemAnimator(new DefaultItemAnimator());
+//        binding.recyclerViewCommunity.setAdapter(communityListAdapter);
+//        apiServiceProvider.callForListOfCommunity(LOGIN_DETAIL.getAppuserID(), this);
+//        binding.floatingActionButton.setOnClickListener(v-> onViewClicked() );
+//        return binding.getRoot();
+//    }
 
     public void setOnFragmentInteractionListener(OnFragmentInteractionListener OnFragmentInteractionListener) {
         mListener = OnFragmentInteractionListener;
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        unbinder.unbind();
-    }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+////        unbinder.unbind();
+//    }
 
     @Override
     public void onResponseSuccess(SuccessArrayResponse successArrayResponse, String apiFlag) {
@@ -96,7 +116,7 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
                         }
                     }
                 } else {
-                    Toast.makeText(getContext(), successArrayResponse.getMsg(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(CommunityListFragment.this, successArrayResponse.getMsg(), Toast.LENGTH_LONG).show();
                 }
                 break;
         }
@@ -107,9 +127,9 @@ public class CommunityListFragment extends Fragment implements RetrofitListener<
         switch (apiFlag) {
             case Constant.UrlPath.COMMUNITY_LIST_API:
                 try {
-                    Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(CommunityListFragment.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CommunityListFragment.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
                 break;
         }

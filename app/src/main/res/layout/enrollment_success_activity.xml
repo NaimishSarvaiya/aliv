@@ -12,11 +12,11 @@
 
         <ImageView
             android:id="@+id/face_image"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="fitXY"
+            android:src="@drawable/app_logo" />
 
         <TextView
             android:layout_width="wrap_content"

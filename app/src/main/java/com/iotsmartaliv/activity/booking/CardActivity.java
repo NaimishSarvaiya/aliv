@@ -1,6 +1,8 @@
 package com.iotsmartaliv.activity.booking;
 
+import static com.iotsmartaliv.constants.Constant.LOGIN_DETAIL;
 import static com.iotsmartaliv.constants.Constant.STRIPE_CUSTOMER_ID;
+import static com.iotsmartaliv.constants.Constant.hideLoader;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -20,11 +22,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.iotsmartaliv.R;
+import com.iotsmartaliv.activity.NewMainActivity;
 import com.iotsmartaliv.adapter.booking.CardAdapter;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
 import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
+import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivityCardBinding;
+import com.iotsmartaliv.model.booking.CreateCustomerOnStripRequest;
+import com.iotsmartaliv.model.booking.CreateCustomerResponse;
 import com.iotsmartaliv.model.booking.CustomerCardRequestBody;
 import com.iotsmartaliv.model.booking.CustomerCardsResponse;
 import com.iotsmartaliv.model.booking.DeleteCardModel;
@@ -66,7 +72,7 @@ public class CardActivity extends AppCompatActivity implements CardAdapter.OnIte
             addCardActivityResultLauncher.launch(intent);
         });
         binding.llToolbar.imgBack.setOnClickListener(v -> {
-            finish();
+           onBackPressed();
         });
 
         getCard();
@@ -82,6 +88,16 @@ public class CardActivity extends AppCompatActivity implements CardAdapter.OnIte
         );
     }
     void getCard(){
+        if (SharePreference.getInstance(CardActivity.this).getString(STRIPE_CUSTOMER_ID) == null || SharePreference.getInstance(CardActivity.this).getString(STRIPE_CUSTOMER_ID).equalsIgnoreCase("")) {
+
+            createCustomerOnStripe();
+        } else {
+            getCardList();
+        }
+
+    }
+
+    void getCardList(){
         Util.checkInternet(this, new Util.NetworkCheckCallback() {
             @Override
             public void onNetworkCheckComplete(boolean isAvailable) {
@@ -92,13 +108,18 @@ public class CardActivity extends AppCompatActivity implements CardAdapter.OnIte
                         public void onResponseSuccess(CustomerCardsResponse sucessRespnse, String apiFlag) {
 //                            hideLoader();
                             if (sucessRespnse.getStatusCode() == 200) {
-                                if (sucessRespnse.getCards() != null) {
+                                if (sucessRespnse.getCards() != null && sucessRespnse.getCards().size()!=0) {
+                                    binding.tvNoCard.setVisibility(View.GONE);
                                     List<PaymentMethodModel> newCardList = sucessRespnse.getCards();
                                     adapter.updateData(newCardList);
                                     Log.e("ClientId", String.valueOf(sucessRespnse.getCards().size()));
 //                                    SharePreference.getInstance(CardActivity.this).putString(STRIPE_CUSTOMER_ID, sucessRespnse.getCustomerID());
 //                                    getDefaultCard(sucessRespnse.getCustomerID());
+                                }else {
+                                    binding.tvNoCard.setVisibility(View.VISIBLE);
                                 }
+                            }else {
+                                Toast.makeText(CardActivity.this,sucessRespnse.getMessage(),Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -151,6 +172,9 @@ public class CardActivity extends AppCompatActivity implements CardAdapter.OnIte
 //                            hideLoader();
                             if (sucessRespnse.getStatusCode() == 200) {
                                 adapter.deleteItem(position);
+                                getCard();
+                            }else {
+                                Toast.makeText(CardActivity.this,sucessRespnse.getMessage(),Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -291,5 +315,55 @@ public class CardActivity extends AppCompatActivity implements CardAdapter.OnIte
         dialog.show();
     }
 
+    void createCustomerOnStripe() {
+//        showLoader(PaymentActivity.this);
+        Util.checkInternet(CardActivity.this, new Util.NetworkCheckCallback() {
+            CreateCustomerOnStripRequest request = new CreateCustomerOnStripRequest(LOGIN_DETAIL.getUserEmail(), LOGIN_DETAIL.getUserFullName());
 
+            @Override
+            public void onNetworkCheckComplete(boolean isAvailable) {
+                if (isAvailable) {
+                    apiServiceProvider.createCustomerOnStripe(request, new RetrofitListener<CreateCustomerResponse>() {
+                        @Override
+                        public void onResponseSuccess(CreateCustomerResponse sucessRespnse, String apiFlag) {
+//                            hideLoader();
+                            if (sucessRespnse.getStatusCode() == 200) {
+                                if (sucessRespnse.getCustomerID() != null) {
+                                    SharePreference.getInstance(CardActivity.this).putString(STRIPE_CUSTOMER_ID, sucessRespnse.getCustomerID());
+                                    getCardList();
+                                }
+
+                            }else {
+                                Toast.makeText(CardActivity.this,sucessRespnse.getMsg(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onResponseError(ErrorObject errorObject, Throwable throwable, String apiFlag) {
+                            try {
+                                Toast.makeText(CardActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(CardActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                } else {
+                    hideLoader();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getIntent().getStringExtra(Constant.PATH )!=null){
+            startActivity(new Intent(CardActivity.this, NewMainActivity.class));
+            finish();
+        }else {
+            Intent resultIntent = new Intent();
+            setResult(RESULT_OK, resultIntent);  // Set result as successful
+            finish();
+        }
+    }
 }

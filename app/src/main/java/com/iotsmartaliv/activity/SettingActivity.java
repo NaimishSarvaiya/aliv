@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.DisplayMetrics;
@@ -24,9 +25,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.iotsmartaliv.R;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.ActivitySettingBinding;
+import com.iotsmartaliv.fragments.AboutUsFragment;
 import com.iotsmartaliv.model.booking.PaymentMethodModel;
 import com.iotsmartaliv.services.ShakeOpenService;
 import com.iotsmartaliv.utils.SharePreference;
+
+import java.util.Set;
 
 /**
  * This class is usages as activity fot app setting.
@@ -50,7 +54,7 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         binding.llAboutUs.setOnClickListener(v -> {
-
+            startActivity(new Intent(SettingActivity.this, AboutUsFragment.class));
         });
 
         binding.llPrivacyPolicy.setOnClickListener(v -> {
@@ -66,7 +70,6 @@ public class SettingActivity extends AppCompatActivity {
     public void goBack(View view) {
         onBackPressed();
     }
-
 
 
     private void logOutDialog() {
@@ -91,7 +94,10 @@ public class SettingActivity extends AppCompatActivity {
         TextView btnConfirm = dialog.findViewById(R.id.btn_confirm);
         TextView title = dialog.findViewById(R.id.title);
         TextView details = dialog.findViewById(R.id.message);
+        btnConfirm.setText("Yes");
+        btnNotNow.setText("No");
         ImageView icon = dialog.findViewById(R.id.img_icon);
+        icon.setImageDrawable(getResources().getDrawable(R.drawable.power_off));
         icon.setVisibility(View.VISIBLE);
 
         title.setText("Logout!");
@@ -119,7 +125,7 @@ public class SettingActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    void  logout(){
+    void logout() {
         LOGIN_DETAIL = null;
         DMVPhoneModel.exit();
         new AsyncTask<Void, Void, Void>() {
@@ -133,6 +139,7 @@ public class SettingActivity extends AppCompatActivity {
                 }
                 return null;
             }
+
             @Override
             protected void onPostExecute(Void result) {
                 Log.d("FCMTOKEN", "doInBackground: Done");

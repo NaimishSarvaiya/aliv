@@ -111,6 +111,7 @@ public class Constant {
     public static final String MESSAGE_FROM_ADMIN = "message_from_admin";
     public static final String STATUS_CHANGED_FOR_ADMIN = "status_changed_admin";
     public static final String STATUS_CHANGED_FOR_USER = "status_changed_user";
+    public static final String FROM_HOME = "fromHome";
     public static final String APPUSER_ID = "appuser_ID";
     public static final String ROOM_ID = "roomID";
     public static final String ROOM_START_DATE = "roomStartDate";

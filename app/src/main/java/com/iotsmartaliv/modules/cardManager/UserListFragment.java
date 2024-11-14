@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
         // Required empty public constructor
     }
     FragmentUserListBinding binding;
+    UserListAdapter adapter;
 
 
     @Override
@@ -67,9 +70,51 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
             deviceId = getArguments().getString(Constant.DEVICE_ID);
             communityId = getArguments().getString(Constant.COMMUNITY_ID);
         }
+         adapter = new UserListAdapter(cardUserLists);
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(adapter);
         apiServiceProvider = ApiServiceProvider.getInstance(getContext(),false);
         apiServiceProvider.callForCardUserList(communityId, deviceId, LOGIN_DETAIL.getAppuserID(), this);
+        binding.searchUser.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // filter your list from your input
+                filter(s.toString());
+                //you can use runnable postDelayed like 500 ms to delay search text
+            }
+        });
+
         return binding.getRoot();
+    }
+    private void filter(String text) {
+        List<CardUserList> card = new ArrayList<>();
+        for (CardUserList d : cardUserLists) {
+
+            if (!d.getUserFullName().isEmpty() || !d.getUidNumber().isEmpty() || !d.getUserEmail().isEmpty()){
+                if (d.getUserFullName().toLowerCase().contains(text.toLowerCase()) || d.getUidNumber().toLowerCase().contains(text.toLowerCase()) || d.getUserEmail().toLowerCase().contains(text.toLowerCase())) {
+                    card.add(d);
+                }
+            }else {
+//                if (d.getDeviceName().toLowerCase().contains(text.toLowerCase()) ) {
+//                    device.add(d);
+//                }
+            }
+        }
+        adapter.updateList(card);
     }
 
     @Override
@@ -85,13 +130,11 @@ public class UserListFragment extends Fragment implements RetrofitListener<CardU
                 if (sucessRespnse.getStatus().equalsIgnoreCase("OK")) {
                     if (sucessRespnse.getData().size() > 0) {
                         cardUserLists = sucessRespnse.getData();
+                        adapter.add(cardUserLists);
                     } else {
                         Toast.makeText(getContext(), "List is empty", Toast.LENGTH_SHORT).show();
                     }
-                    UserListAdapter adapter = new UserListAdapter(cardUserLists);
-                    binding.recyclerView.setHasFixedSize(true);
-                    binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    binding.recyclerView.setAdapter(adapter);
+
                 } else
                     Toast.makeText(getContext(), sucessRespnse.getMsg(), Toast.LENGTH_SHORT).show();
 

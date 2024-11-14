@@ -82,7 +82,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/ic_launcher_background"
                     android:contentDescription="Let's start"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/app_logo"
                     android:visibility="gone" />
 
             </RelativeLayout>

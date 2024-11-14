@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.intelligoo.sdk.ScanCallback;
 import com.iotsmartaliv.apiAndSocket.listeners.RetrofitListener;
 import com.iotsmartaliv.apiAndSocket.models.DeviceObject;
 import com.iotsmartaliv.apiAndSocket.models.ErrorObject;
+import com.iotsmartaliv.apiAndSocket.models.VideoDeviceData;
 import com.iotsmartaliv.apiAndSocket.retrofit.ApiServiceProvider;
 import com.iotsmartaliv.constants.Constant;
 import com.iotsmartaliv.databinding.FragmentCardListBinding;
@@ -54,6 +57,7 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
     List<String> addDataList = new ArrayList<String>();
     List<String> removeDataList = new ArrayList<String>();
     private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
+    CardListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,11 +73,53 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
             deviceId = getArguments().getString(Constant.DEVICE_ID);
             communityId = getArguments().getString(Constant.COMMUNITY_ID);
         }
+        adapter = new CardListAdapter(cardUserLists);
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(adapter);
 
         apiServiceProvider = ApiServiceProvider.getInstance(getContext(), false);
         apiServiceProvider.callForCardList(communityId, deviceId, LOGIN_DETAIL.getAppuserID(), this);
         binding.syncBtn.setOnClickListener(v -> onViewClicked());
+        binding.searchCard.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // filter your list from your input
+                filter(s.toString());
+                //you can use runnable postDelayed like 500 ms to delay search text
+            }
+        });
+
         return binding.getRoot();
+    }
+    private void filter(String text) {
+        List<CardUserList> card = new ArrayList<>();
+        for (CardUserList d : cardUserLists) {
+
+            if (!d.getUserFullName().isEmpty() || !d.getUidNumber().isEmpty()){
+                if (d.getUserFullName().toLowerCase().contains(text.toLowerCase()) || d.getUidNumber().toLowerCase().contains(text.toLowerCase())) {
+                    card.add(d);
+                }
+            }else {
+//                if (d.getDeviceName().toLowerCase().contains(text.toLowerCase()) ) {
+//                    device.add(d);
+//                }
+            }
+        }
+        adapter.updateList(card);
     }
 
     @Override
@@ -278,7 +324,8 @@ public class CardListFragment extends Fragment implements RetrofitListener<CardU
                     cardUserLists.clear();
                     if (sucessRespnse.getData().size() > 0) {
                         Log.d("onResponseSuccess", "onResponseSuccess: " + sucessRespnse.getData());
-                        cardUserLists = sucessRespnse.getData();
+                        cardUserLists.addAll( sucessRespnse.getData());
+                        adapter.add(cardUserLists);
                         Log.d("onResponseSuccess", "onResponseSuccess: " + cardUserLists);
                     } else {
 //                        Toast.makeText(getContext(), "List is empty", Toast.LENGTH_SHORT).show();

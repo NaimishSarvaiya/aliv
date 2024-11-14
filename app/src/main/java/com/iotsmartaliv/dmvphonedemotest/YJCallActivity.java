@@ -519,7 +519,7 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
         mBuilder.setContentTitle(getString(R.string.app_name))
                 .setContentText("Ongoing Intercom Call")
                 .setTicker("Call is Running...")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.app_logo)
                 .setLargeIcon(IconLg)
                 .setContentIntent(pendingIntent)
                 .setPriority(Notification.PRIORITY_HIGH)

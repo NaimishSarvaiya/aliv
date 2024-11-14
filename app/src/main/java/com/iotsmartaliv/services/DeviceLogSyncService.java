@@ -157,7 +157,7 @@ public class DeviceLogSyncService extends Service {
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Aliv Background Service")
                 .setTicker("Aliv is running in the background")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.app_logo)
                 .setLargeIcon(iconLg)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setVibrate(new long[]{1000})

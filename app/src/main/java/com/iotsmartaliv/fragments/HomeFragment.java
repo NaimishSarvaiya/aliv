@@ -846,7 +846,6 @@ public class HomeFragment extends Fragment implements GpsEnableDialog.LocationLi
             }
         });
     }
-
     public void logs(String userId, AccessLogModel accessLogModel) {
         Util.checkInternet(requireActivity(), new Util.NetworkCheckCallback() {
             @Override

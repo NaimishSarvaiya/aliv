@@ -3,13 +3,13 @@
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/newNavyBuleBaseColor">
     <ImageView
         android:id="@+id/blurView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@color/white" />
+        android:src="@color/newNavyBuleBaseColor" />
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:text="@string/dm_calling..."
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            style="@style/headerTvNevyblueBold25"/>
+            style="@style/headerTvWhiteBold25"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_prof" />
+            android:src="@drawable/app_logo" />
 
         <ImageView
             android:layout_width="200dp"
@@ -80,7 +80,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="Speaker"
-                style="@style/headerTvNevyblueBold20" />
+                style="@style/whiteBoald20" />
         </LinearLayout>
 
 
@@ -106,7 +106,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/dm_hang_up"
-                style="@style/headerTvNevyblueBold20" />
+                style="@style/whiteBoald20" />
         </LinearLayout>
 
 

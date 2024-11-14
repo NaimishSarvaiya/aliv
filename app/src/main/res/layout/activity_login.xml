@@ -11,29 +11,32 @@
         android:layout_height="match_parent"
         tools:context=".activity.LoginActivity">
 
-        <ImageView
-            android:id="@+id/logo_img"
-            android:layout_width="260dp"
-            android:layout_height="220dp"
-            android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_login2x" />
+
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/rel_btom"
-            android:layout_below="@+id/logo_img"
             android:fadeScrollbars="false"
             android:scrollbarSize="3dip"
             android:scrollbarThumbVertical="@color/colorAccent">
 
 
             <RelativeLayout
+                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-
+                <ImageView
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/logo_img"
+                    android:layout_width="110dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/app_logo" />
                 <RelativeLayout
+                    android:layout_marginTop="50dp"
+                    android:layout_below="@+id/logo_img"
                     android:id="@+id/rel_feilds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,7 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/edt_email_log_in"
-                        android:layout_marginTop="@dimen/ten"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/light_blue_bg">
 
                         <EditText
@@ -93,6 +96,7 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/rel_password"
@@ -106,7 +110,7 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/rel_sign_up"
+                    android:id="@+id/rlLogin"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_below="@+id/rel_feilds"
@@ -119,8 +123,8 @@
 
                     <TextView
                         android:id="@+id/tv_login"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:clickable="true"
                         android:gravity="center_horizontal"
@@ -133,7 +137,7 @@
                     android:id="@+id/rel_sign_in_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:layout_below="@+id/rel_sign_up"
+                    android:layout_below="@+id/rlLogin"
                     android:layout_marginLeft="45dp"
                     android:layout_marginTop="@dimen/twenty_sp"
                     android:layout_marginRight="45dp"
