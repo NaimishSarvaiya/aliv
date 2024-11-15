@@ -453,7 +453,7 @@ public class NewMainActivity extends AppCompatActivity implements RetrofitListen
                 binding.rlKey.setLayoutParams(params); // Update the layout with the new width
             }
         });
-        binding.tvProfileName.setText( LOGIN_DETAIL.getUsername());
+        binding.tvProfileName.setText(LOGIN_DETAIL.getUsername());
         //Main Activity
 
         manufacturer = Build.MANUFACTURER;
@@ -712,11 +712,7 @@ public class NewMainActivity extends AppCompatActivity implements RetrofitListen
     }
 
     private void setClick() {
-        binding.llDevice.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, DeviceListActivity.class)));
-        binding.llCommunity.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, CommunityListFragment.class)));
-        binding.llInterCome.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, VideoIntercomActivity.class)));
-        binding.llVisitorBottomMenu.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, VisitorActivity.class)));
-        binding.rlFacility.setOnClickListener(v -> {
+        binding.llBooking.setOnClickListener(v -> {
             if (appFeture.contains(Constant.BOOKING_MANAGMENT)) {
 //                startActivity(new Intent(NewMainActivity.this, BookingFacilityActivity.class));
                 startActivity(new Intent(NewMainActivity.this, BookingActivity.class));
@@ -724,7 +720,8 @@ public class NewMainActivity extends AppCompatActivity implements RetrofitListen
                 Toast.makeText(NewMainActivity.this, "Booking of Facilities is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
             }
         });
-        binding.rvNoticeBoard.setOnClickListener(v -> {
+
+        binding.llNoticeBoard.setOnClickListener(v -> {
             if (appFeture.contains(Constant.BROADCAST_MANAGMENT)) {
                 Intent intent1 = new Intent(NewMainActivity.this, BroadcastCommunityActivity.class);
                 startActivity(intent1);
@@ -732,7 +729,7 @@ public class NewMainActivity extends AppCompatActivity implements RetrofitListen
                 Toast.makeText(NewMainActivity.this, "Notice Board is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
             }
         });
-        binding.rlFeedback.setOnClickListener(v -> {
+        binding.llFeedback.setOnClickListener(v -> {
             if (appFeture.contains(Constant.FEEDBACK_MANAGMENT)) {
                 Intent feddbackintent = new Intent(NewMainActivity.this, FeedBackActivity.class);
                 startActivity(feddbackintent);
@@ -740,9 +737,9 @@ public class NewMainActivity extends AppCompatActivity implements RetrofitListen
                 Toast.makeText(NewMainActivity.this, "Feedback Management is not enabled for your community. Please contact your admin. Thanks!", Toast.LENGTH_LONG).show();
             }
         });
-        binding.rlVisitor.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, VisitorActivity.class)));
-        binding.llForm.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, DigitalFormActivity.class)));
-        binding.rlAutomation.setOnClickListener(v -> {
+        binding.llPayment.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, CardActivity.class)));
+        binding.llVisitor.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, VisitorActivity.class)));
+        binding.llAutomation.setOnClickListener(v -> {
             if (appFeture.contains(Constant.AUTOMATION_MANAGMENT)) {
 
                 // startActivity(new Intent(getActivity(), GuestActivity.class));
@@ -752,9 +749,21 @@ public class NewMainActivity extends AppCompatActivity implements RetrofitListen
 
             }
         });
-        binding.rlFaceEnrollment.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, EnrollmentActivity.class)));
-        binding.rlPayment.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, CardActivity.class)));
+// need to discuss
+        binding.llForm.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, DigitalFormActivity.class)));
+        binding.llDevice.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, DeviceListActivity.class)));
+
+
+//Bottom Menu
+        binding.llFaceEnrollmentBottomMenu.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, EnrollmentActivity.class)));
+        binding.llDeviceBottomMenu.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, DeviceListActivity.class)));
+        binding.llInterComBottomMenu.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, VideoIntercomActivity.class)));
+        binding.llCommunityBottomMenu.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, CommunityListFragment.class)));
+
+// Profile Menu
         binding.llMyAccount.setOnClickListener(v -> startActivity(new Intent(NewMainActivity.this, MyAccountFragment.class)));
+
+// Top Menu
         binding.rlInfo.setOnClickListener(v -> {
             Intent oNBordingIntent = new Intent(NewMainActivity.this, OnBoardingActivity.class);
             oNBordingIntent.putExtra(Constant.PATH, FROM_HOME);

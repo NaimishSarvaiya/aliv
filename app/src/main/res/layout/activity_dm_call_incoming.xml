@@ -3,7 +3,7 @@
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/newNavyBuleBaseColor"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <ImageView
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            style="@style/headerTvWhiteBold25"/>
+            style="@style/headerTvNevyblueBold25"/>
     </RelativeLayout>
 
 
@@ -62,8 +62,8 @@
 
             <ImageView
                 android:id="@+id/decline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:clickable="true"
                 android:contentDescription="@string/dm_content_description_decline"
                 android:src="@drawable/ic_call_cut" />
@@ -74,7 +74,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/dm_hang_up"
-                style="@style/whiteBoald20"
+                style="@style/headerTvNevyblueBold20"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -90,8 +90,8 @@
 
             <ImageView
                 android:id="@+id/accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:clickable="true"
                 android:contentDescription="@string/dm_content_description_accept"
                 android:src="@mipmap/yj_answer" />
@@ -102,7 +102,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/dm_answer"
-                style="@style/whiteBoald20"
+                style="@style/headerTvNevyblueBold20"
                 android:visibility="gone" />
         </LinearLayout>
 

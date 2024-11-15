@@ -76,7 +76,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
         speaker.setOnClickListener(this);
 
         if (!DMVPhoneModel.isSpeakerEnable()) {
-            speaker.setImageResource(R.drawable.muted_speaker);
+            speaker.setImageResource(R.drawable.speaker_off_light_blue);
         }
 
         // set this flag so this activity will stay in front of the keyguard
@@ -111,7 +111,7 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
         callingDeviceName.setText("Calling....\n" + getIntent().getStringExtra("DeviceName"));
 //        Blurry.with(this).radius(25).sampling(2).from(BitmapFactory.decodeResource(getResources(),
 //                R.mipmap.ic_background)).into(blurView);
-        Glide.with(this).asGif().load(R.raw.calling).into(contact_picture);
+        Glide.with(this).asGif().load(R.raw.incoming_call).into(contact_picture);
 
 
     }
@@ -145,9 +145,9 @@ public class DmCallOutgoingActivity extends Activity implements OnClickListener 
         if (id == R.id.speaker) {
             isSpeakerEnabled = !isSpeakerEnabled;
             if (isSpeakerEnabled) {
-                speaker.setImageResource(R.drawable.volume_speaker);
+                speaker.setImageResource(R.drawable.speaker_on_light_blue);
             } else {
-                speaker.setImageResource(R.drawable.muted_speaker);
+                speaker.setImageResource(R.drawable.speaker_off_light_blue);
             }
             DMVPhoneModel.enableSpeaker(isSpeakerEnabled);
         } else if (id == R.id.hang_up || id == R.id.ll_hang_up) {

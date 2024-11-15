@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="15dp"
     tools:context=".fragments.form.ApplyFormFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/rlSelectCommunity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/light_blue_bg">
+
+            <TextView
+                android:id="@+id/tvCommunity"
+                style="@style/titleTvNevyblueRgular17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/ten"
+                android:layout_toStartOf="@+id/arrow_down"
+                android:layout_toLeftOf="@+id/arrow_down"
+                android:text="@string/select_community" />
+
+            <ImageView
+                android:id="@+id/arrow_down"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/ic_arrow_down"
+                app:tint="@color/newLightBlueBaseColor" />
+
+        </RelativeLayout>
+        <include
+            android:id="@+id/layout_noData"
+            layout="@layout/no_booking_data" />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

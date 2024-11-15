@@ -3,13 +3,13 @@
     android:id="@+id/topLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/newNavyBuleBaseColor">
+    android:background="@color/white">
     <ImageView
         android:id="@+id/blurView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@color/newNavyBuleBaseColor" />
+        android:src="@color/white" />
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:text="@string/dm_calling..."
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            style="@style/headerTvWhiteBold25"/>
+            style="@style/headerTvNevyblueBold25"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -68,11 +68,11 @@
 
             <ImageView
                 android:id="@+id/speaker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:clickable="true"
                 android:contentDescription="@string/dm_content_description_toggle_speaker"
-                android:src="@drawable/volume_speaker" />
+                android:src="@drawable/speaker_on_light_blue" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="Speaker"
-                style="@style/whiteBoald20" />
+                style="@style/headerTvNevyblueBold20" />
         </LinearLayout>
 
 
@@ -94,8 +94,8 @@
 
             <ImageView
                 android:id="@+id/hang_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:clickable="true"
                 android:contentDescription="@string/dm_content_description_hang_up"
                 android:src="@drawable/call_cut_small" />
@@ -106,7 +106,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="@string/dm_hang_up"
-                style="@style/whiteBoald20" />
+                style="@style/headerTvNevyblueBold20" />
         </LinearLayout>
 
 

@@ -25,8 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/syncBtn"
         android:layout_below="@+id/search_card"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:layout_marginHorizontal="15dp"
         tools:listitem="@layout/item_user_list" />
 
     <Button

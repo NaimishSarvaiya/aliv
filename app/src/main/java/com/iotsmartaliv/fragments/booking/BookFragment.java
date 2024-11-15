@@ -136,6 +136,8 @@ public class BookFragment extends Fragment implements RetrofitListener<RoomModel
         } catch (Exception e) {
             Toast.makeText(requireActivity(), "Something went wrong", Toast.LENGTH_LONG).show();
         }
+        isRefreshing = false;
+        binding.pullToRefresh.setRefreshing(false);
     }
 
     @Override

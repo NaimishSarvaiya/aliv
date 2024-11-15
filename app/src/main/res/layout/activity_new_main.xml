@@ -98,7 +98,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/info" />
+                        android:src="@drawable/question" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -111,7 +111,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/add_with_round" />
+                        android:src="@drawable/info" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -178,7 +178,6 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/rlFacility"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center"
@@ -203,6 +202,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llNoticeBoard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
@@ -211,7 +211,6 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/rlNoticeBoard"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center"
@@ -233,6 +232,150 @@
                         android:layout_marginTop="4dp"
                         android:gravity="center"
                         android:text="@string/notice_board" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llFeedback"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/new_menu_bg">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:padding="5dp"
+                            android:src="@drawable/feedback_new"
+                            app:tint="@color/newLightBlueBaseColor" />
+                    </RelativeLayout>
+
+                    <TextView
+                        style="@style/headerTvNevyblueBold13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@string/feedback" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llPayment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/new_menu_bg">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:padding="5dp"
+                            android:src="@drawable/payment_card"
+                            app:tint="@color/newLightBlueBaseColor" />
+                    </RelativeLayout>
+
+                    <TextView
+                        style="@style/headerTvNevyblueBold13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@string/payment" />
+                </LinearLayout>
+                <!-- Repeat for other icons (Notice Board, Forms, etc.) -->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/header_layout"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="15dp">
+
+                <!-- Example Icon Item for Facility -->
+                <LinearLayout
+                    android:id="@+id/llVisitor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/new_menu_bg">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:padding="5dp"
+                            android:src="@drawable/visitor"
+                            app:tint="@color/newLightBlueBaseColor" />
+                    </RelativeLayout>
+
+                    <TextView
+                        style="@style/headerTvNevyblueBold13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@string/visitor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llAutomation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/new_menu_bg">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerInParent="true"
+                            android:padding="5dp"
+                            android:src="@drawable/automation"
+                            app:tint="@color/newLightBlueBaseColor" />
+                    </RelativeLayout>
+
+                    <TextView
+                        style="@style/headerTvNevyblueBold13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:text="@string/automation" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -268,6 +411,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llDevice"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -276,7 +420,6 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/rlFeedback"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center"
@@ -287,7 +430,7 @@
                             android:layout_height="50dp"
                             android:layout_centerInParent="true"
                             android:padding="5dp"
-                            android:src="@drawable/feedback_new"
+                            android:src="@drawable/door_lock"
                             app:tint="@color/newLightBlueBaseColor" />
                     </RelativeLayout>
 
@@ -297,152 +440,72 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:text="@string/feedback" />
+                        android:text="Devices" />
                 </LinearLayout>
-                <!-- Repeat for other icons (Notice Board, Forms, etc.) -->
+                <!--                <LinearLayout-->
+                <!--                    android:layout_marginLeft="10dp"-->
+                <!--                    android:id="@+id/llForm"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:orientation="vertical">-->
 
-            </LinearLayout>
+                <!--                    <RelativeLayout-->
+                <!--                        android:layout_width="70dp"-->
+                <!--                        android:layout_height="70dp"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:background="@drawable/new_menu_bg">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/header_layout"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal"
-                android:paddingHorizontal="15dp">
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="50dp"-->
+                <!--                            android:layout_height="50dp"-->
+                <!--                            android:layout_centerInParent="true"-->
+                <!--                            android:padding="5dp"-->
+                <!--                            android:src="@drawable/contact_form"-->
+                <!--                            app:tint="@color/newLightBlueBaseColor" />-->
+                <!--                    </RelativeLayout>-->
 
-                <!-- Example Icon Item for Facility -->
-                <LinearLayout
+                <!--                    <TextView-->
+                <!--                        style="@style/headerTvNevyblueBold13"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="4dp"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:text="@string/form" />-->
+                <!--                </LinearLayout>-->
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginLeft="10dp"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:orientation="vertical">-->
 
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <!--                    <RelativeLayout-->
+                <!--                        android:id="@+id/rlPayment"-->
+                <!--                        android:layout_width="70dp"-->
+                <!--                        android:layout_height="70dp"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:background="@drawable/new_menu_bg">-->
 
-                    <RelativeLayout
-                        android:id="@+id/rlVisitor"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/new_menu_bg">
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="50dp"-->
+                <!--                            android:layout_height="50dp"-->
+                <!--                            android:layout_centerInParent="true"-->
+                <!--                            android:padding="5dp"-->
+                <!--                            android:src="@drawable/payment_card"-->
+                <!--                            app:tint="@color/newLightBlueBaseColor" />-->
+                <!--                    </RelativeLayout>-->
 
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:padding="5dp"
-                            android:src="@drawable/visitor"
-                            app:tint="@color/newLightBlueBaseColor" />
-                    </RelativeLayout>
-
-                    <TextView
-                        style="@style/headerTvNevyblueBold13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        android:text="@string/visitor" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:id="@+id/rlAutomation"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/new_menu_bg">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:padding="5dp"
-                            android:src="@drawable/automation"
-                            app:tint="@color/newLightBlueBaseColor" />
-                    </RelativeLayout>
-
-                    <TextView
-                        style="@style/headerTvNevyblueBold13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        android:text="@string/automation" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:id="@+id/rlFaceEnrollment"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/new_menu_bg">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:padding="5dp"
-                            android:src="@drawable/face_enroll"
-                            app:tint="@color/newLightBlueBaseColor" />
-                    </RelativeLayout>
-
-                    <TextView
-                        style="@style/headerTvNevyblueBold13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        android:text="@string/face_enroll" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:id="@+id/rlPayment"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/new_menu_bg">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_centerInParent="true"
-                            android:padding="5dp"
-                            android:src="@drawable/payment_card"
-                            app:tint="@color/newLightBlueBaseColor" />
-                    </RelativeLayout>
-
-                    <TextView
-                        style="@style/headerTvNevyblueBold13"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center"
-                        android:text="@string/payment" />
-                </LinearLayout>
+                <!--                    <TextView-->
+                <!--                        style="@style/headerTvNevyblueBold13"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="4dp"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:text="@string/payment" />-->
+                <!--                </LinearLayout>-->
                 <!-- Repeat for other icons (Notice Board, Forms, etc.) -->
 
             </LinearLayout>
@@ -506,7 +569,31 @@
 
                 <!-- Devices Button -->
                 <LinearLayout
-                    android:id="@+id/llDevice"
+                    android:id="@+id/llFaceEnrollmentBottomMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:src="@drawable/face_enroll"
+                        app:tint="@color/newLightBlueBaseColor" />
+
+                    <TextView
+                        style="@style/titleTvNevyblueBold11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Face Enroll" />
+                </LinearLayout>
+
+                <!-- Community Button -->
+                <LinearLayout
+                    android:id="@+id/llDeviceBottomMenu"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
@@ -528,30 +615,6 @@
                         android:text="Devices" />
                 </LinearLayout>
 
-                <!-- Community Button -->
-                <LinearLayout
-                    android:id="@+id/llCommunity"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:src="@drawable/community"
-                        app:tint="@color/newLightBlueBaseColor" />
-
-                    <TextView
-                        style="@style/titleTvNevyblueBold11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Community" />
-                </LinearLayout>
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -559,7 +622,7 @@
 
                 <!-- Intercom Button -->
                 <LinearLayout
-                    android:id="@+id/llInterCome"
+                    android:id="@+id/llInterComBottomMenu"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
@@ -583,7 +646,7 @@
 
                 <!-- Visitor Button -->
                 <LinearLayout
-                    android:id="@+id/llVisitorBottomMenu"
+                    android:id="@+id/llCommunityBottomMenu"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentBottom="true"
@@ -602,7 +665,7 @@
                         style="@style/titleTvNevyblueBold11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Visitor" />
+                        android:text="Community" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -624,8 +687,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            android:src="@drawable/open_door_key"
-            />
+            android:src="@drawable/open_door_key" />
     </RelativeLayout>
 
 

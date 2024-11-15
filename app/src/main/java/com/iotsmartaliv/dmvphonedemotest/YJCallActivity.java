@@ -118,9 +118,9 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
     private void initView() {
         isSpeakerEnabled = DMVPhoneModel.isSpeakerEnable();
         if (isSpeakerEnabled) {
-            iv_speaker.setImageResource(R.drawable.volume_speaker);
+            iv_speaker.setImageResource(R.drawable.speaker_on_light_blue);
         } else {
-            iv_speaker.setImageResource(R.drawable.muted_speaker);
+            iv_speaker.setImageResource(R.drawable.speaker_off_light_blue);
         }
 
     }
@@ -438,9 +438,9 @@ public class YJCallActivity extends Activity implements View.OnClickListener, Vi
     private void switchSpeaker() {
         isSpeakerEnabled = !isSpeakerEnabled;
         if (isSpeakerEnabled) {
-            iv_speaker.setImageResource(R.drawable.volume_speaker);
+            iv_speaker.setImageResource(R.drawable.speaker_on_light_blue);
         } else {
-            iv_speaker.setImageResource(R.drawable.muted_speaker);
+            iv_speaker.setImageResource(R.drawable.speaker_off_light_blue);
         }
         DMVPhoneModel.enableSpeaker(isSpeakerEnabled);
     }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/topLayout"
-    android:background="@drawable/bg_glass"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -67,11 +68,11 @@
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/iv_speaker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:clickable="true"
                 android:contentDescription="@string/dm_content_description_toggle_speaker"
-                android:src="@drawable/volume_speaker" />
+                android:src="@drawable/speaker_on_light_blue" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,8 +80,7 @@
                 android:paddingTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="Speaker"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                style="@style/headerTvNevyblueBold17" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,8 +92,8 @@
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/iv_hungup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:clickable="true"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_call_cut" />
@@ -103,8 +103,7 @@
                 android:paddingTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                style="@style/headerTvNevyblueBold17" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -113,13 +112,19 @@
             android:gravity="center"
             android:layout_weight="1"
             android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/dot_bg_light_blue"
+                android:padding="10dp">
             <ImageView
                 android:id="@+id/iv_opendoor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:clickable="true"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_open_door_lock" />
+                android:src="@drawable/lock_white"/>
+            </RelativeLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,8 +132,7 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:text="Door Open"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                style="@style/headerTvNevyblueBold17" />
         </LinearLayout>
 
 
